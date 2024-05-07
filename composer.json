@@ -1,0 +1,29 @@
+{
+    "name": "raakkan/yali",
+    "description": "Another laravel admin panel",
+    "type": "stable",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Raakkan\\Yali\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "raakkan",
+            "email": "solakkathir@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "^11.6",
+        "illuminate/console": "^11.6"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Raakkan\\Yali\\Providers\\YaliServiceProvider"
+            ]
+        }
+    }
+}
