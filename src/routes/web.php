@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/yali', function () {
+Route::get('/admin', function () {
     return view('yali::welcome');
 });

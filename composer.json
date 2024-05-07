@@ -6,7 +6,10 @@
     "autoload": {
         "psr-4": {
             "Raakkan\\Yali\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers/plugin-helpers.php"
+        ]
     },
     "authors": [
         {
@@ -17,13 +20,19 @@
     "minimum-stability": "dev",
     "require": {
         "illuminate/support": "^11.6",
-        "illuminate/console": "^11.6"
+        "illuminate/console": "^11.6",
+        "wikimedia/composer-merge-plugin": "^2.0@dev"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Raakkan\\Yali\\Providers\\YaliServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": true
         }
     }
 }

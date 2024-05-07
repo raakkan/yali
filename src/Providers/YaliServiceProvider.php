@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Raakkan\Yali\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Raakkan\Yali\Core\PlugInManager\PlugInManager;
 
 class YaliServiceProvider extends ServiceProvider
 {
@@ -23,5 +24,14 @@ class YaliServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'yali');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+
+        $this->loadPlugIns();
+    }
+
+    public function loadPlugIns(): void
+    {
+        $manager = new PlugInManager();
+        $manager->discoverPlugins(base_path('plugins'));
+        $manager->loadPlugins();
     }
 }
