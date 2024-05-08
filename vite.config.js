@@ -14,7 +14,7 @@ export default ({ mode }) => {
             }),
         ],
         build: {
-            outDir: path.join(__dirname, "/public/build/"),
+            outDir: path.join(__dirname, "../../../public/build/"),
         },
     });
 }

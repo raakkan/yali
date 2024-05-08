@@ -21,7 +21,8 @@
     "require": {
         "illuminate/support": "^11.6",
         "illuminate/console": "^11.6",
-        "wikimedia/composer-merge-plugin": "^2.0@dev"
+        "wikimedia/composer-merge-plugin": "^2.0@dev",
+        "livewire/livewire": "dev-main"
     },
     "extra": {
         "laravel": {

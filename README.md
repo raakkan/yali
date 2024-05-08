@@ -3,6 +3,8 @@
 ## Todos
 - [ ] install composer in proggramatically
 
+#### UI design with flowbite
+
 ### Plugin Features
   - [ ] automatically add plugin composer merge plugin config
   - [ ] check Plugin.php extends BasePlugIn

@@ -22,6 +22,7 @@ abstract class BasePlugin extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadPluginRoutes();
     }
 }
 
