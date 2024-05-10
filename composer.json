@@ -27,7 +27,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Raakkan\\Yali\\Providers\\YaliServiceProvider"
+                "Raakkan\\Yali\\Providers\\YaliServiceProvider",
+                "Raakkan\\Yali\\Providers\\PluginServiceProvider"
             ]
         }
     },

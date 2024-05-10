@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\PlugInManager\Interfaces;
+namespace Raakkan\Yali\Core\Plugin\Interfaces;
 
 interface PluginInterface
 {

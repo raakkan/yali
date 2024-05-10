@@ -1,16 +1,22 @@
 <?php
 
-namespace Raakkan\Yali\Core\PlugInManager;
+namespace Raakkan\Yali\Core\Plugin;
 
 use Illuminate\Support\ServiceProvider;
-use Raakkan\Yali\Core\PlugInManager\Traits\PluginJsonTrait;
-use Raakkan\Yali\Core\PlugInManager\Interfaces\PluginInterface;
+use Raakkan\Yali\Core\Pages\Traits\HasPages;
+use Raakkan\Yali\Core\Widgets\Traits\HasWidgets;
+use Raakkan\Yali\Core\Settings\Traits\HasSettings;
 use Raakkan\Yali\Core\Resources\Traits\HasResources;
+use Raakkan\Yali\Core\Plugin\Traits\PluginJsonTrait;
+use Raakkan\Yali\Core\Plugin\Interfaces\PluginInterface;
 
 abstract class BasePlugin extends ServiceProvider implements PluginInterface
 {
     use PluginJsonTrait;
     use HasResources;
+    use HasPages;
+    use HasSettings;
+    use HasWidgets;
 
     /**
      * Register the plugin's services.
@@ -29,10 +35,6 @@ abstract class BasePlugin extends ServiceProvider implements PluginInterface
      */
     public function boot()
     {
-        $pluginJsonPath = $this->getPluginPath('plugin.json');
-        $pluginJson = json_decode(file_get_contents($pluginJsonPath), true);
-        $this->setPluginJson($pluginJson);
-        
         $this->loadRoutes();
         $this->loadViews();
         $this->loadMigrations();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\PlugInManager\Traits;
+namespace Raakkan\Yali\Core\Plugin\Traits;
 
 trait PluginJsonTrait
 {

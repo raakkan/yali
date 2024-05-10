@@ -1,20 +1,28 @@
 <?php
 
-namespace Raakkan\Yali\Core\PlugInManager;
+namespace Raakkan\Yali\Core\Plugin;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use RegexIterator;
 use RecursiveRegexIterator;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use Raakkan\Yali\Core\Plugin\BasePlugin;
+use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
 
 class PluginManager
 {
+    protected $app;
+
     /**
      * The registered plugins.
      *
      * @var array
      */
     protected $plugins = [];
+
+    public function __construct($app) {
+       $this->app = $app;
+    }
 
     /**
      * Register a plugin.
@@ -45,7 +53,8 @@ class PluginManager
     public function boot()
     {
         foreach ($this->getPlugins() as $plugin) {
-            $plugin->boot();
+            $this->app->register($plugin);
+            $this->app->make(PluginConfigHelper::class)->addPluginConfig($plugin->getName());
         }
     }
 
