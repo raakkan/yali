@@ -6,7 +6,7 @@
 #### UI design with flowbite
 
 ### Plugin Features
-  - [ ] automatically add plugin composer merge plugin config
+  - [ ] automatically add plugin composer merge plugin config app main composer.json
   - [ ] check Plugin.php extends BasePlugIn
-  - [ ] check plugin json requirements
   - [ ] plugin requirements like other plugins
+  - [ ] hooks and filters

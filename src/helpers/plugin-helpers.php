@@ -1,19 +1,30 @@
 <?php
-if (! function_exists('plugin_path')) {
-    function plugin_path($plugin_name = '')
+
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+
+if (!function_exists('plugin_path')) {
+    /**
+     * Get the path to the specified plugin.
+     *
+     * @param string $plugin
+     * @return string
+     */
+    function plugin_path($plugin = null)
     {
-        $path = base_path('plugins/'.$plugin_name);
-        if (!is_dir($path)) {
-            throw new InvalidArgumentException("Plugin path {$path} does not exist");
+        $filesystem = new Filesystem();
+        $pluginsPath = base_path('plugins');
+
+        if (is_null($plugin)) {
+            return $pluginsPath;
         }
 
-        return $path;
-    }
-}
+        $pluginPath = $pluginsPath . '/' . $plugin;
+        
+        if (!$filesystem->isDirectory($pluginPath)) {
+            throw new InvalidArgumentException("Plugin [{$plugin}] does not exist.");
+        }
 
-if (! function_exists('plugin_database_path')) {
-    function plugin_database_path($plugin_name = '')
-    {
-        return database_path('plugins/'.$plugin_name);
+        return $pluginPath;
     }
 }

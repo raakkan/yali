@@ -1,25 +1,33 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\PlugInManager\Traits;
 
 trait PluginJsonTrait
 {
+    /**
+     * The plugin's JSON configuration.
+     *
+     * @var array
+     */
     protected $pluginJson;
 
     /**
-     * Get the value of pluginJson
-     */ 
+     * Get the plugin's JSON configuration.
+     *
+     * @return array
+     */
     public function getPluginJson()
     {
         return $this->pluginJson;
     }
 
     /**
-     * Set the value of pluginJson
+     * Set the plugin's JSON configuration.
      *
-     * @return  self
-     */ 
-    public function setPluginJson($pluginJson)
+     * @param array $pluginJson
+     * @return $this
+     */
+    public function setPluginJson(array $pluginJson)
     {
         $this->pluginJson = $pluginJson;
 

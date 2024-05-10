@@ -1,37 +1,63 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\PlugInManager;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use RegexIterator;
 use RecursiveRegexIterator;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-use Raakkan\Yali\Core\PlugInManager\BasePlugin;
 
-class PlugInManager
+class PluginManager
 {
-    protected $plugIns = [];
+    /**
+     * The registered plugins.
+     *
+     * @var array
+     */
+    protected $plugins = [];
 
-    public function addPlugIn(BasePlugin $plugIn): void
+    /**
+     * Register a plugin.
+     *
+     * @param BasePlugin $plugin
+     * @return void
+     */
+    public function register(BasePlugin $plugin)
     {
-        $this->plugIns[] = $plugIn;
+        $this->plugins[] = $plugin;
     }
 
+    /**
+     * Get the registered plugins.
+     *
+     * @return array
+     */
     public function getPlugins()
     {
-        return $this->plugIns;
+        return $this->plugins;
     }
 
-    public function loadPlugins(): void
+    /**
+     * Boot the registered plugins.
+     *
+     * @return void
+     */
+    public function boot()
     {
-        foreach ($this->getPlugins() as $plugIn) {
-            app()->register($plugIn);
+        foreach ($this->getPlugins() as $plugin) {
+            $plugin->boot();
         }
     }
-   
-    public function discoverPlugins(string $baseDir): void
+
+    /**
+     * Discover plugins in the given directory.
+     *
+     * @param string $directory
+     * @return void
+     */
+    public function discoverPlugins($directory)
     {
-        $directoryIterator = new RecursiveDirectoryIterator($baseDir);
+        $directoryIterator = new RecursiveDirectoryIterator($directory);
         $iterator = new RecursiveIteratorIterator($directoryIterator);
         $regexIterator = new RegexIterator($iterator, '/^.+?Plugin.php$/i', RecursiveRegexIterator::GET_MATCH);
 
@@ -54,12 +80,10 @@ class PlugInManager
                 require_once $filePath;
             }
 
-            $pluigin = new $className(app());
-            $pluigin->setPluginJson($json);
-            
-            $this->addPlugIn($pluigin);
+            $plugin = new $className(app());
+            $plugin->setPluginJson($json);
+
+            $this->register($plugin);
         }
     }
 }
-
-

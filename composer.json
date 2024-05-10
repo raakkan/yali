@@ -17,12 +17,12 @@
             "email": "solakkathir@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "illuminate/support": "^11.6",
-        "illuminate/console": "^11.6",
-        "wikimedia/composer-merge-plugin": "^2.0@dev",
-        "livewire/livewire": "dev-main"
+        "livewire/livewire": "^3.4",
+        "wikimedia/composer-merge-plugin": "^2.1",
+        "illuminate/support": "^11.7",
+        "illuminate/console": "^11.7"
     },
     "extra": {
         "laravel": {

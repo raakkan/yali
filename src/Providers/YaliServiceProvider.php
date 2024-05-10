@@ -30,8 +30,16 @@ class YaliServiceProvider extends ServiceProvider
 
     public function loadPlugIns(): void
     {
-        $manager = new PlugInManager();
-        $manager->discoverPlugins(base_path('plugins'));
-        $manager->loadPlugins();
+        // Register the plugin manager in your service provider
+        $this->app->singleton(PluginManager::class, function ($app) {
+            return new PluginManager();
+        });
+
+        // Discover and register plugins
+        $pluginManager = $this->app->make(PluginManager::class);
+        $pluginManager->discoverPlugins(base_path('plugins'));
+
+        // Boot the registered plugins
+        $pluginManager->boot();
     }
 }
