@@ -5,15 +5,9 @@ namespace Raakkan\Yali\Core\Pages;
 use Illuminate\Support\Facades\File;
 use Raakkan\Yali\Core\Pages\BasePage;
 
-class PageLoader
+class PageManager
 {
-    protected $app;
-
     protected $pages = [];
-
-    public function __construct($app) {
-        $this->app = $app;
-    }
 
     public function loadAdminPages()
     {
@@ -45,12 +39,39 @@ class PageLoader
 
                 if (class_exists($class) && is_subclass_of($class, BasePage::class)) {
                     $pageId = $this->generatePageId($class);
-                    $this->pages[$pageId] = $class;
+                    $page = new $class();
+                    $this->pages[$pageId] = [
+                        'class' => $class,
+                        'title' => $page->getTitle(),
+                        'navigationTitle' => $page->getNavigationTitle(),
+                        'navigationGroup' => $page->getNavigationGroup(),
+                        'navigationIcon' => $page->getNavigationIcon(),
+                        'navigationOrder' => $page->getNavigationOrder(),
+                        'routeName' => $page->getRouteName(),
+                    ];
                 }
             }
         }
     }
 
+    public function loadPluginPages(array $pluginPages)
+    {
+        foreach ($pluginPages as $pluginPage) {
+            if (class_exists($pluginPage) && is_subclass_of($pluginPage, BasePage::class)) {
+                $pageId = $this->generatePageId($pluginPage);
+                $page = new $pluginPage();
+                $this->pages[$pageId] = [
+                    'class' => $pluginPage,
+                    'title' => $page->getTitle(),
+                    'navigationTitle' => $page->getNavigationTitle(),
+                    'navigationGroup' => $page->getNavigationGroup(),
+                    'navigationIcon' => $page->getNavigationIcon(),
+                    'navigationOrder' => $page->getNavigationOrder(),
+                    'routeName' => $page->getRouteName(),
+                ];
+            }
+        }
+    }
 
     protected function generatePageId($class)
     {

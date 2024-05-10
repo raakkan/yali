@@ -65,12 +65,29 @@
 
     <aside class="sidebar" id="logo-sidebar" aria-label="Sidebar">
         <div>
+            @php
+                $menus = app()
+                    ->make(Raakkan\Yali\Core\NavigationManager::class)
+                    ->getMenus();
+            @endphp
             <ul class="space-y-2 font-medium">
-                <li>
-                    <a href="#" class="sidebar-link">
-                        <span class="ms-3">Dashboard</span>
-                    </a>
-                </li>
+                @foreach ($menus as $key => $collection)
+                    @if ($key === 'default')
+                        @foreach ($collection as $item)
+                            <li>
+                                <a href="#" class="sidebar-link">
+                                    <span class="ms-3">{{ $item['title'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    @else
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <span class="ms-3">other</span>
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
         </div>
     </aside>

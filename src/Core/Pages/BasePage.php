@@ -12,6 +12,7 @@ abstract class BasePage extends Component
     protected $navigationGroup = '';
     protected $navigationIcon = '';
     protected $navigationOrder = 0;
+    protected $routeName = '';
 
     public function getTitle(): string
     {
@@ -65,6 +66,11 @@ abstract class BasePage extends Component
 
     public function getRouteName(): string
     {
-        return Str::kebab(class_basename($this));
+        return $this->routeName ? Str::slug($this->routeName) : Str::kebab(class_basename($this));
+    }
+
+    public function setRouteName($routeName): void
+    {
+        $this->routeName = $routeName;
     }
 }
