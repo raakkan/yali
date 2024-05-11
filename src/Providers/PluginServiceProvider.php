@@ -4,6 +4,8 @@ namespace Raakkan\Yali\Providers;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use Raakkan\Yali\Core\NavigationManager;
+use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Plugin\PluginManager;
 use Raakkan\Yali\Core\Plugin\Dtos\PluginSynth;
 use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
@@ -46,6 +48,15 @@ class PluginServiceProvider extends ServiceProvider
     
             // Boot the registered plugins
             $pluginManager->boot();
+
+            $pageManager = $this->app->make(PageManager::class);
+            $pageManager->loadPluginPages($pluginManager->getAvailablePages());
+            $pageManager->registerPages();
+
+            $navigationManager = $this->app->make(NavigationManager::class);
+            $navigationManager->loadPageMenus();
+
+            // dd($pageManager->getPages());
         }
     
 }

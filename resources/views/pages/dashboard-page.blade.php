@@ -1,11 +1,13 @@
 <div>
-    @php
+    {{-- @php
         $pages = app()
             ->make(Raakkan\Yali\Core\Pages\PageManager::class)
             ->getPages();
     @endphp
 
     @foreach ($pages as $pageId => $page)
-        @livewire($pageId, key($pageId))
-    @endforeach
+        @livewire('yali::pages.' . $pageId, key($pageId))
+    @endforeach --}}
+
+    dashboard
 </div>

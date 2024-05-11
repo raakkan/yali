@@ -10,7 +10,7 @@ use Raakkan\Yali\Core\Resources\Traits\HasResources;
 use Raakkan\Yali\Core\Plugin\Traits\PluginJsonTrait;
 use Raakkan\Yali\Core\Plugin\Interfaces\PluginInterface;
 
-abstract class BasePlugin extends ServiceProvider implements PluginInterface
+abstract class YaliPlugin extends ServiceProvider implements PluginInterface
 {
     use PluginJsonTrait;
     use HasResources;
@@ -58,7 +58,7 @@ abstract class BasePlugin extends ServiceProvider implements PluginInterface
      */
     public function loadViews()
     {
-        $this->loadViewsFrom($this->getPluginPath('resources/views'), $this->getName());
+        $this->loadViewsFrom($this->getPluginPath('resources/views'), strtolower($this->getName()));
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class BasePlugin extends ServiceProvider implements PluginInterface
     public function loadAssets()
     {
         $this->publishes([
-            $this->getPluginPath('resources/assets') => public_path('vendor/' . $this->getName()),
+            $this->getPluginPath('resources/assets') => public_path('vendor/' . strtolower($this->getName())),
         ], 'assets');
     }
 

@@ -3,16 +3,14 @@
 namespace Raakkan\Yali\App\Pages;
 
 use Raakkan\Yali\Core\Pages\BasePage;
+use Raakkan\Yali\Core\Pages\YaliPage;
 
-class PluginPage extends BasePage
+class PluginPage extends YaliPage
 {
     protected $title = 'Plugin Page';
-    protected $routeName = 'plugins';
+    protected $slug = 'plugins';
 
     protected $navigationOrder = 100;
 
-    public function render()
-    {
-        return view('yali::pages.plugin-page');
-    }
+    protected $view = 'yali::pages.plugin-page';
 }

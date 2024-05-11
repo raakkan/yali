@@ -2,17 +2,21 @@
 
 namespace Raakkan\Yali\Core\Pages;
 
-use Illuminate\Support\Str;
 use Livewire\Component;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
+use Raakkan\Yali\App\Pages\DashboardPage;
 
-abstract class BasePage extends Component
+#[Layout('yali::layouts.app')]
+abstract class YaliPage extends Component
 {
     protected $title = '';
     protected $navigationTitle = '';
     protected $navigationGroup = '';
     protected $navigationIcon = '';
     protected $navigationOrder = 0;
-    protected $routeName = '';
+    protected $slug = '';
+    protected $view = '';
 
     public function getTitle(): string
     {
@@ -64,13 +68,22 @@ abstract class BasePage extends Component
         $this->navigationOrder = $navigationOrder;
     }
 
-    public function getRouteName(): string
+    public function getSlug(): string
     {
-        return $this->routeName ? Str::slug($this->routeName) : Str::kebab(class_basename($this));
+        if ($this instanceof DashboardPage) {
+            return '/';
+        }
+        
+        return $this->slug ? Str::slug($this->slug) : Str::kebab(class_basename($this));
     }
 
-    public function setRouteName($routeName): void
+    public function setSlug($slug): void
     {
-        $this->routeName = $routeName;
+        $this->slug = $slug;
+    }
+
+    public function render()
+    {
+        return view($this->view)->title($this->getTitle());
     }
 }

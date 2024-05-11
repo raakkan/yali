@@ -75,7 +75,8 @@
                     @if ($key === 'default')
                         @foreach ($collection as $item)
                             <li>
-                                <a href="#" class="sidebar-link">
+                                <a href="{{ route('yali::pages.' . $item['pageId']) }}"
+                                    class="sidebar-link {{ request()->routeIs('yali::pages.' . $item['pageId']) ? 'active' : '' }}">
                                     <span class="ms-3">{{ $item['title'] }}</span>
                                 </a>
                             </li>

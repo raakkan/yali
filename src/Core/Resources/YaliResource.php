@@ -5,7 +5,7 @@ namespace Raakkan\Yali\Core\Resources;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-abstract class BaseResource
+abstract class YaliResource
 {
     /**
      * The array of fields for the resource.

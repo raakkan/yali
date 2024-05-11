@@ -6,7 +6,8 @@ use RegexIterator;
 use RecursiveRegexIterator;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use Raakkan\Yali\Core\Plugin\BasePlugin;
+use Raakkan\Yali\Core\Plugin\YaliPlugin;
+use Raakkan\Yali\Core\Pages\Traits\HasPages;
 use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
 
 class PluginManager
@@ -27,10 +28,10 @@ class PluginManager
     /**
      * Register a plugin.
      *
-     * @param BasePlugin $plugin
+     * @param YaliPlugin $plugin
      * @return void
      */
-    public function register(BasePlugin $plugin)
+    public function register(YaliPlugin $plugin)
     {
         $this->plugins[] = $plugin;
     }
@@ -94,5 +95,23 @@ class PluginManager
 
             $this->register($plugin);
         }
+    }
+
+   /**
+     * Get the available pages from the registered plugins.
+     *
+     * @return array
+     */
+    public function getAvailablePages()
+    {
+        $pages = [];
+
+        foreach ($this->getPlugins() as $plugin) {
+            if ($plugin instanceof YaliPlugin) {
+                $pages = array_merge($pages, $plugin->getPages());
+            }
+        }
+
+        return $pages;
     }
 }
