@@ -18,6 +18,9 @@ return array (
       'screenshot' => 'https://example.com/blog-plugin-screenshot.png',
       'logo' => '',
       'documentation_url' => 'https://github.com/raakkan/blog/wiki',
+      'invalidFields' => 
+      array (
+      ),
     ),
   ),
 );

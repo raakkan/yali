@@ -41,13 +41,33 @@ class PluginConfigHelper
                 $pluginConfig['namespace'] ?? null,
                 $pluginConfig['screenshot'] ?? null,
                 $pluginConfig['logo'] ?? null,
-                $pluginConfig['documentation_url'] ?? null
+                $pluginConfig['documentation_url'] ?? null,
+                $pluginConfig['invalidFields'] ?? []
             );
         }, $config['plugins']);
     }
 
     public function addConfig(PluginDto $plugin)
     {
+        $invalidFields = [];
+
+        if (empty($plugin->getName())) {
+            $invalidFields[] = 'name';
+        }
+        if (empty($plugin->getVersion())) {
+            $invalidFields[] = 'version';
+        }
+        if (empty($plugin->getAuthor())) {
+            $invalidFields[] = 'author';
+        }
+        if (empty($plugin->namespace)) {
+            $invalidFields[] = 'namespace';
+        }
+
+        if (!empty($invalidFields)) {
+            $plugin->invalidFields = $invalidFields;
+        }
+
         $config = require $this->configPath;
         
         // Check if the plugin configuration already exists
@@ -56,6 +76,8 @@ class PluginConfigHelper
         });
         
         if (!empty($existingPlugin)) {
+            // Plugin configuration already exists, you can handle this case as needed
+            // For example, you can update the existing configuration or skip adding it again
             return;
         }
         
@@ -73,6 +95,7 @@ class PluginConfigHelper
             'screenshot' => $plugin->screenshot,
             'logo' => $plugin->logo,
             'documentation_url' => $plugin->documentation_url,
+            'invalidFields' => $plugin->invalidFields
         ];
         
         $this->saveConfig($config);

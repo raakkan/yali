@@ -30,6 +30,7 @@ class PluginSynth extends Synth
             'screenshot' => $target->screenshot,
             'logo' => $target->logo,
             'documentation_url' => $target->documentation_url,
+            'invalidFields' => $target->invalidFields
         ], []];
     }
 
@@ -50,6 +51,7 @@ class PluginSynth extends Synth
         $instance->screenshot = $value['screenshot'];
         $instance->logo = $value['logo'];
         $instance->documentation_url = $value['documentation_url'];
+        $instance->invalidFields = $value['invalidFields'];
 
         return $instance;
     }

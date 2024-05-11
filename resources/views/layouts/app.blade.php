@@ -67,7 +67,7 @@
         <div>
             @php
                 $menus = app()
-                    ->make(Raakkan\Yali\Core\NavigationManager::class)
+                    ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
                     ->getMenus();
             @endphp
             <ul class="space-y-2 font-medium">

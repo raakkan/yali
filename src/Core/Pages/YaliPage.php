@@ -6,15 +6,14 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Raakkan\Yali\App\Pages\DashboardPage;
+use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
 #[Layout('yali::layouts.app')]
 abstract class YaliPage extends Component
 {
+    use HasNavigation;
+
     protected $title = '';
-    protected $navigationTitle = '';
-    protected $navigationGroup = '';
-    protected $navigationIcon = '';
-    protected $navigationOrder = 0;
     protected $slug = '';
     protected $view = '';
 
@@ -26,46 +25,6 @@ abstract class YaliPage extends Component
     public function setTitle(string $title): void
     {
         $this->title = $title;
-    }
-
-    public function getNavigationTitle(): string
-    {
-        return $this->navigationTitle ?: $this->title;
-    }
-
-    public function setNavigationTitle(string $navigationTitle): void
-    {
-        $this->navigationTitle = $navigationTitle;
-    }
-
-    public function getNavigationGroup(): string
-    {
-        return $this->navigationGroup;
-    }
-
-    public function setNavigationGroup(string $navigationGroup): void
-    {
-        $this->navigationGroup = $navigationGroup;
-    }
-
-    public function getNavigationIcon(): string
-    {
-        return $this->navigationIcon;
-    }
-
-    public function setNavigationIcon(string $navigationIcon): void
-    {
-        $this->navigationIcon = $navigationIcon;
-    }
-
-    public function getNavigationOrder(): int
-    {
-        return $this->navigationOrder;
-    }
-
-    public function setNavigationOrder(int $navigationOrder): void
-    {
-        $this->navigationOrder = $navigationOrder;
     }
 
     public function getSlug(): string
@@ -94,5 +53,4 @@ abstract class YaliPage extends Component
             }
         }
     }
-
 }

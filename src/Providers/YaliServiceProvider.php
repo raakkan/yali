@@ -7,9 +7,9 @@ namespace Raakkan\Yali\Providers;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Raakkan\Yali\App\Pages\DashboardPage;
-use Raakkan\Yali\Core\NavigationManager;
 use Raakkan\Yali\Core\Pages\PageManager;
+use Raakkan\Yali\App\Pages\DashboardPage;
+use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
 {

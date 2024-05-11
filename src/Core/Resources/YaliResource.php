@@ -2,11 +2,17 @@
 
 namespace Raakkan\Yali\Core\Resources;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
 abstract class YaliResource
 {
+    use HasNavigation;
+
+    protected $title = '';
+    protected $slug = '';
+    
     /**
      * The array of fields for the resource.
      *
@@ -97,5 +103,25 @@ abstract class YaliResource
     public function isEditing()
     {
         return $this->isEditing;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug ? Str::slug($this->slug) : Str::kebab(class_basename($this->getModel()));
+    }
+
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
     }
 }

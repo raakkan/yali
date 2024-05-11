@@ -1,6 +1,6 @@
 <?php 
 
-namespace Raakkan\Yali\Core;
+namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Raakkan\Yali\Core\Pages\PageManager;
 

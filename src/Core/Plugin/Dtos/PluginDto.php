@@ -17,6 +17,8 @@ class PluginDto
     public $screenshot;
     public $logo;
     public $documentation_url;
+
+    public $invalidFields;
     
     public function __construct(
         $id = null,
@@ -31,7 +33,8 @@ class PluginDto
         $namespace = null,
         $screenshot = null,
         $logo = null,
-        $documentation_url = null
+        $documentation_url = null,
+        $invalidFields = []
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -46,6 +49,7 @@ class PluginDto
         $this->screenshot = $screenshot;
         $this->logo = $logo;
         $this->documentation_url = $documentation_url;
+        $this->invalidFields = $invalidFields;
     }
 
     public function getId()

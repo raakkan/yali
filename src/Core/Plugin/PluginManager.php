@@ -13,6 +13,7 @@ use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
 class PluginManager
 {
     protected $app;
+    protected $pluginConfigHelper;
 
     /**
      * The registered plugins.
@@ -23,6 +24,7 @@ class PluginManager
 
     public function __construct($app) {
        $this->app = $app;
+       $this->pluginConfigHelper = $app->make(PluginConfigHelper::class);
     }
 
     /**
@@ -55,7 +57,6 @@ class PluginManager
     {
         foreach ($this->getPlugins() as $plugin) {
             $this->app->register($plugin);
-            $this->app->make(PluginConfigHelper::class)->addConfig($plugin->getPluginJson());
         }
     }
 
@@ -96,6 +97,8 @@ class PluginManager
         $json['id'] = $pluginId;
         $plugin->setPluginJson($json);
 
+        $this->pluginConfigHelper->addConfig($plugin->getPluginJson());
+        
         $this->register($plugin);
     }
 }
