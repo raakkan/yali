@@ -81,8 +81,9 @@
                                         class="sidebar-link {{ request()->routeIs('yali::pages.' . $item['pageId']) ? 'active' : '' }}">
                                         <span class="ms-3">{{ $item['title'] }}</span>
                                     </a>
-                                @else
-                                    <a href="" class="sidebar-link ">
+                                @elseif($item['type'] === 'resource')
+                                    <a href="{{ route('yali::resources.' . $item['pageId']) }}"
+                                        class="sidebar-link {{ request()->routeIs('yali::resources.' . $item['pageId']) ? 'active' : '' }}">
                                         <span class="ms-3">{{ $item['title'] }}</span>
                                     </a>
                                 @endif
@@ -100,7 +101,7 @@
         </div>
     </aside>
     <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500">
-        <div class="mt-16 md:mt-14">{{ $slot }}</div>
+        <div class="mt-16 md:mt-14">@yield('content')</div>
     </div>
     @livewireScripts
 </body>

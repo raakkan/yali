@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Raakkan\Yali\Providers;
 
 use Livewire\Livewire;
+use Raakkan\Yali\App\ResourcePage;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
@@ -56,20 +57,17 @@ class YaliServiceProvider extends ServiceProvider
         $pageManager->loadAdminPages();
         $pageManager->loadAppPages();
 
-        // // Set the main page route
-        // $mainPageClass = DashboardPage::class;
-        // Route::prefix('admin')->group(function () use ($mainPageClass) {
-        //     Route::get('/', $mainPageClass)->name('yali::pages.dashboard');
-        // });
-
         $pageManager->registerPages();
 
     }
 
     public function loadResources(): void
     {
+        Livewire::component('yali::resource-page', ResourcePage::class);
+
         $resourceManager = $this->app->make(ResourceManager::class);
         $resourceManager->loadAppResources();
+        $resourceManager->registerReources();
     }
 
     public function loadNavigation(): void

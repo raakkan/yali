@@ -8,6 +8,7 @@ use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Plugin\PluginManager;
 use Raakkan\Yali\Core\Plugin\Dtos\PluginSynth;
 use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
+use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class PluginServiceProvider extends ServiceProvider
@@ -53,10 +54,13 @@ class PluginServiceProvider extends ServiceProvider
             $pageManager->loadPluginPages($pluginManager->getAvailablePages());
             $pageManager->registerPages();
 
+            $resourceManager = $this->app->make(ResourceManager::class);
+            $resourceManager->loadPluginResources($pluginManager->getAvailableResources());
+            $resourceManager->registerReources();
+
             $navigationManager = $this->app->make(NavigationManager::class);
             $navigationManager->loadPageMenus();
-
-            // dd($pageManager->getPages());
+            $navigationManager->loadResourceMenus();
         }
     
 }

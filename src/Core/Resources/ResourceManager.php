@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Raakkan\Yali\Core\Resources\YaliResource;
 
 class ResourceManager
@@ -55,6 +56,19 @@ class ResourceManager
         ];
     }
 
+    public function registerReources(){
+        $resources = $this->getResources();
+        foreach ($resources as $resourceId => $resource) {
+            $resourceClass = $resource['class'];
+            
+            // Register the route for the page with "admin" prefix
+            $slug = (new $resourceClass)->getSlug();
+            Route::prefix('admin')->group(function () use ($slug, $resourceId, $resourceClass) {
+                Route::view($slug, 'yali::pages.page-component')->name('yali::resources.'.$resourceId);
+            });
+        }
+    }
+
     protected function generateResourceId($class)
     {
         return md5($class);
@@ -66,5 +80,16 @@ class ResourceManager
     public function getResources()
     {
         return $this->resources;
+    }
+
+     /**
+     * Get a specific resource by its ID
+     *
+     * @param string $resourceId
+     * @return array|null
+     */
+    public function getResource($resourceId)
+    {
+        return $this->resources[$resourceId] ?? null;
     }
 }

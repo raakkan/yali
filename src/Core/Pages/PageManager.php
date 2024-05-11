@@ -74,8 +74,8 @@ class PageManager
 
             // Register the route for the page with "admin" prefix
             $slug = (new $pageClass)->getSlug();
-            Route::prefix('admin')->group(function () use ($slug, $pageClass, $pageId) {
-                Route::get($slug, $pageClass)->name('yali::pages.'.$pageId);
+            Route::prefix('admin')->group(function () use ($slug, $pageId, $pageClass) {
+                Route::view($slug, 'yali::pages.page-component')->name('yali::pages.'.$pageId);
             });
         }
     }

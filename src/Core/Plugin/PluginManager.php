@@ -67,42 +67,41 @@ class PluginManager
      * @return void
      */
     public function discoverPlugins($directory)
-{
-    $directoryIterator = new RecursiveDirectoryIterator($directory);
-    $iterator = new RecursiveIteratorIterator($directoryIterator);
-    $regexIterator = new RegexIterator($iterator, '/^.+?Plugin.php$/i', RecursiveRegexIterator::GET_MATCH);
+    {
+        $directoryIterator = new RecursiveDirectoryIterator($directory);
+        $iterator = new RecursiveIteratorIterator($directoryIterator);
+        $regexIterator = new RegexIterator($iterator, '/^.+?Plugin.php$/i', RecursiveRegexIterator::GET_MATCH);
 
-    foreach ($regexIterator as $file) {
-        $filePath = $file[0];
-        $directoryPath = dirname($filePath);
-        $jsonPath = $directoryPath . DIRECTORY_SEPARATOR . 'plugin.json';
+        foreach ($regexIterator as $file) {
+            $filePath = $file[0];
+            $directoryPath = dirname($filePath);
+            $jsonPath = $directoryPath . DIRECTORY_SEPARATOR . 'plugin.json';
 
-        if (!file_exists($jsonPath)) {
-            continue;
+            if (!file_exists($jsonPath)) {
+                continue;
+            }
+
+            $json = json_decode(file_get_contents($jsonPath), true);
+            if (empty($json)) {
+                continue;
+            }
+
+            $className = $json['namespace'] . '\\' . basename($filePath, '.php');
+            if (!class_exists($className)) {
+                require_once $filePath;
+            }
+
+            $plugin = new $className(app());
+
+            $pluginId = $plugin->generatePluginId();
+            $json['id'] = $pluginId;
+            $plugin->setPluginJson($json);
+
+            $this->pluginConfigHelper->addConfig($plugin->getPluginJson());
+            
+            $this->register($plugin);
         }
-
-        $json = json_decode(file_get_contents($jsonPath), true);
-        if (empty($json)) {
-            continue;
-        }
-
-        $className = $json['namespace'] . '\\' . basename($filePath, '.php');
-        if (!class_exists($className)) {
-            require_once $filePath;
-        }
-
-        $plugin = new $className(app());
-
-        $pluginId = $plugin->generatePluginId();
-        $json['id'] = $pluginId;
-        $plugin->setPluginJson($json);
-
-        $this->pluginConfigHelper->addConfig($plugin->getPluginJson());
-        
-        $this->register($plugin);
     }
-}
-
 
    /**
      * Get the available pages from the registered plugins.
@@ -120,5 +119,18 @@ class PluginManager
         }
 
         return $pages;
+    }
+
+    public function getAvailableResources()
+    {
+        $resources = [];
+
+        foreach ($this->getPlugins() as $plugin) {
+            if ($plugin instanceof YaliPlugin) {
+                $resources = array_merge($resources, $plugin->getResources());
+            }
+        }
+
+        return $resources;
     }
 }
