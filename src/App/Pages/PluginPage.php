@@ -9,7 +9,7 @@ use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
 
 class PluginPage extends YaliPage
 {
-    protected $title = 'Plugin Page';
+    protected $title = 'Plugins';
     protected $slug = 'plugins';
 
     protected $navigationOrder = 100;

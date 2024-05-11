@@ -54,6 +54,7 @@ class PageManager
         $pageId = $this->generatePageId($class);
         $page = new $class();
         $this->pages[$pageId] = [
+            'pageId' => $pageId,
             'class' => $class,
             'title' => $page->getTitle(),
             'navigationTitle' => $page->getNavigationTitle(),

@@ -70,15 +70,22 @@
                     ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
                     ->getMenus();
             @endphp
+
             <ul class="space-y-2 font-medium">
                 @foreach ($menus as $key => $collection)
                     @if ($key === 'default')
                         @foreach ($collection as $item)
                             <li>
-                                <a href="{{ route('yali::pages.' . $item['pageId']) }}"
-                                    class="sidebar-link {{ request()->routeIs('yali::pages.' . $item['pageId']) ? 'active' : '' }}">
-                                    <span class="ms-3">{{ $item['title'] }}</span>
-                                </a>
+                                @if ($item['type'] === 'page')
+                                    <a href="{{ route('yali::pages.' . $item['pageId']) }}"
+                                        class="sidebar-link {{ request()->routeIs('yali::pages.' . $item['pageId']) ? 'active' : '' }}">
+                                        <span class="ms-3">{{ $item['title'] }}</span>
+                                    </a>
+                                @else
+                                    <a href="" class="sidebar-link ">
+                                        <span class="ms-3">{{ $item['title'] }}</span>
+                                    </a>
+                                @endif
                             </li>
                         @endforeach
                     @else

@@ -44,6 +44,7 @@ class ResourceManager
         $resourceId = $this->generateResourceId($class);
         $resource = new $class();
         $this->resources[$resourceId] = [
+            'resourceId' => $resourceId,
             'class' => $class,
             'title' => $resource->getTitle(),
             'navigationTitle' => $resource->getNavigationTitle(),

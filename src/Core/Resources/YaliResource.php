@@ -62,16 +62,6 @@ abstract class YaliResource
     }
 
     /**
-     * Generate a unique ID for the resource.
-     *
-     * @return string
-     */
-    public function getUniqueId()
-    {
-        return Str::slug(static::class);
-    }
-
-    /**
      * Set the model instance for the resource.
      *
      * @param \Illuminate\Database\Eloquent\Model $model

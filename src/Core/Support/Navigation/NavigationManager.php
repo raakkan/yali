@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Raakkan\Yali\Core\Pages\PageManager;
+use Raakkan\Yali\Core\Resources\ResourceManager;
 
 class NavigationManager
 {
@@ -22,12 +23,34 @@ class NavigationManager
         
         foreach ($pages as $pageId => $page) {
             $menuItem = [
+                'type' => 'page',
                 'title' => $page['navigationTitle'],
                 'slug' => $page['slug'],
                 'icon' => $page['navigationIcon'],
                 'order' => $page['navigationOrder'],
                 'group' => $page['navigationGroup'],
-                'pageId' => $pageId
+                'pageId' => $page['pageId'],
+            ];
+
+            $this->addMenuItem($menuItem);
+        }
+    }
+
+    public function loadResourceMenus()
+    {
+        $resourceManager = $this->app->make(ResourceManager::class);
+
+        $resources = $resourceManager->getResources();
+        
+        foreach ($resources as $resourceId => $resource) {
+            $menuItem = [
+                'type' => 'resource',
+                'title' => $resource['navigationTitle'],
+                'slug' => $resource['slug'],
+                'icon' => $resource['navigationIcon'],
+                'order' => $resource['navigationOrder'],
+                'group' => $resource['navigationGroup'],
+                'pageId' => $resource['resourceId'],
             ];
 
             $this->addMenuItem($menuItem);
@@ -37,7 +60,7 @@ class NavigationManager
     protected function addMenuItem($menuItem)
     {
         $group = $menuItem['group'] == null ? 'default' : $menuItem['group'];
-        $order = $menuItem['order'] ?? 0;
+        $order = $menuItem['order'] == null ? 100 : $menuItem['order'];
     
         if (!isset($this->menus[$group])) {
             $this->menus[$group] = [];

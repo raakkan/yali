@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\App\Pages\DashboardPage;
+use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
@@ -22,11 +23,16 @@ class YaliServiceProvider extends ServiceProvider
             return new PageManager();
         });
 
+        $this->app->singleton(ResourceManager::class, function ($app) {
+            return new ResourceManager();
+        });
+
         $this->app->singleton(NavigationManager::class, function ($app) {
             return new NavigationManager($app);
         });
 
         $this->loadPages();
+        $this->loadResources();
         $this->loadNavigation();
     }
 
@@ -60,9 +66,18 @@ class YaliServiceProvider extends ServiceProvider
 
     }
 
+    public function loadResources(): void
+    {
+        $resourceManager = $this->app->make(ResourceManager::class);
+        $resourceManager->loadAppResources();
+    }
+
     public function loadNavigation(): void
     {
         $navigationManager = $this->app->make(NavigationManager::class);
         $navigationManager->loadPageMenus();
+        $navigationManager->loadResourceMenus();
+
+        // dd($navigationManager->getMenus());
     }
 }
