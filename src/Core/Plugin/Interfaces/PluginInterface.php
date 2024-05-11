@@ -52,25 +52,4 @@ interface PluginInterface
      * @return string
      */
     public function getName();
-
-    /**
-     * Get the plugin's version.
-     *
-     * @return string
-     */
-    public function getVersion();
-
-    /**
-     * Get the plugin's description.
-     *
-     * @return string
-     */
-    public function getDescription();
-
-    /**
-     * Get the plugin's dependencies.
-     *
-     * @return array
-     */
-    public function getDependencies();
 }

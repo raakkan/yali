@@ -73,6 +73,18 @@
     .input-label-error{
         @apply block mb-2 text-sm font-medium text-red-700 dark:text-red-500;
     }
+
+    .card {
+        @apply bg-white rounded-lg shadow-md;
+    }
+
+    .card-header {
+        @apply px-6 py-4 bg-gray-100 border-b border-gray-200 font-semibold text-lg text-gray-800;
+    }
+
+    .card-body {
+        @apply p-6;
+    }
 }
 
 .sortable-ghost {

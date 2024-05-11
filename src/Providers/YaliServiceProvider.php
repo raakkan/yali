@@ -50,11 +50,11 @@ class YaliServiceProvider extends ServiceProvider
         $pageManager->loadAdminPages();
         $pageManager->loadAppPages();
 
-        // Set the main page route
-        $mainPageClass = DashboardPage::class;
-        Route::prefix('admin')->group(function () use ($mainPageClass) {
-            Route::get('/', $mainPageClass)->name('yali::pages.dashboard');
-        });
+        // // Set the main page route
+        // $mainPageClass = DashboardPage::class;
+        // Route::prefix('admin')->group(function () use ($mainPageClass) {
+        //     Route::get('/', $mainPageClass)->name('yali::pages.dashboard');
+        // });
 
         $pageManager->registerPages();
 

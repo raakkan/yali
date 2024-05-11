@@ -84,6 +84,15 @@ abstract class YaliPage extends Component
 
     public function render()
     {
-        return view($this->view)->title($this->getTitle());
+        if (view()->exists($this->view)) {
+            return view($this->view)->title($this->getTitle());
+        } else {
+            if (app()->isLocal()) {
+                throw new \Exception("View not found: {$this->view} from " . get_class($this));
+            } else {
+                return view('yali::errors.view-not-found', ['view' => $this->view, 'class' => get_class($this)])->title('View Not Found');
+            }
+        }
     }
+
 }

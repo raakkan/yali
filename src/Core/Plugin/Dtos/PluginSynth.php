@@ -2,21 +2,22 @@
 
 namespace Raakkan\Yali\Core\Plugin\Dtos;
 
-use Raakkan\Yali\Core\Plugin\Dtos\Plugin;
+use Raakkan\Yali\Core\Plugin\Dtos\PluginDto;
 use Livewire\Mechanisms\HandleComponents\Synthesizers\Synth;
 
 class PluginSynth extends Synth
 {
-    public static $key = 'plugin';
+    public static $key = 'plugin-dto';
 
     public static function match($target)
     {
-        return $target instanceof Plugin;
+        return $target instanceof PluginDto;
     }
 
     public function dehydrate($target)
     {
         return [[
+            'id' => $target->id,
             'name' => $target->name,
             'version' => $target->version,
             'description' => $target->description,
@@ -34,8 +35,9 @@ class PluginSynth extends Synth
 
     public function hydrate($value)
     {
-        $instance = new Plugin();
+        $instance = new PluginDto();
 
+        $instance->id = $value['id'];
         $instance->name = $value['name'];
         $instance->version = $value['version'];
         $instance->description = $value['description'];

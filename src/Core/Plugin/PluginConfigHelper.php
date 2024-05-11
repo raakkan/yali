@@ -2,9 +2,7 @@
 
 namespace Raakkan\Yali\Core\Plugin;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Artisan;
+use Raakkan\Yali\Core\Plugin\Dtos\PluginDto;
 
 class PluginConfigHelper
 {
@@ -12,103 +10,116 @@ class PluginConfigHelper
 
     public function __construct()
     {
-        $this->configPath = __DIR__ . '/../../../plugins.php'; // Centralized path to the config file
-        $this->ensureConfigExists();
-    }
-
-    /**
-     * Ensure the plugin configuration file exists.
-     */
-    protected function ensureConfigExists()
-    {
+        $this->configPath = __DIR__ . '/../../../plugins.php';
+        
         if (!file_exists($this->configPath)) {
-            $this->savePluginsConfig([]); // Initialize with an empty array if the file does not exist
+            $this->generatePluginsFile();
         }
     }
 
-    /**
-     * Get all active plugins from the configuration.
-     */
-    public function getActivePlugins()
+    protected function generatePluginsFile()
     {
-        $plugins = $this->getAllPlugins();
-        return array_filter($plugins, function ($details) {
-            return Arr::get($details, 'active', false);
-        });
+        $content = "<?php\n\nreturn [\n    'plugins' => [],\n];";
+        file_put_contents($this->configPath, $content);
     }
 
-    /**
-     * Get all plugins from the configuration.
-     */
     public function getAllPlugins()
     {
-        return include($this->configPath);
+        $config = require $this->configPath;
+        
+        return array_map(function ($pluginConfig) {
+            return new PluginDto(
+                $pluginConfig['id'] ?? null,
+                $pluginConfig['name'] ?? null,
+                $pluginConfig['version'] ?? null,
+                $pluginConfig['description'] ?? null,
+                $pluginConfig['author'] ?? null,
+                $pluginConfig['active'] ?? null,
+                $pluginConfig['path'] ?? null,
+                $pluginConfig['url'] ?? null,
+                $pluginConfig['license'] ?? null,
+                $pluginConfig['namespace'] ?? null,
+                $pluginConfig['screenshot'] ?? null,
+                $pluginConfig['logo'] ?? null,
+                $pluginConfig['documentation_url'] ?? null
+            );
+        }, $config['plugins']);
     }
 
-    /**
-     * Activate a plugin by key.
-     */
-    public function activatePlugin($key)
+    public function addConfig(PluginDto $plugin)
     {
-        $plugins = $this->getAllPlugins();
-        if (isset($plugins[$key])) {
-            $plugins[$key]['active'] = true;
-            $this->savePluginsConfig($plugins);
-        }
-    }
-
-    /**
-     * Deactivate a plugin by key.
-     */
-    public function deactivatePlugin($key)
-    {
-        $plugins = $this->getAllPlugins();
-        if (isset($plugins[$key])) {
-            $plugins[$key]['active'] = false;
-            $this->savePluginsConfig($plugins);
-        }
-    }
-
-    /**
-     * Save the updated plugins configuration.
-     */
-    protected function savePluginsConfig($config)
-    {
-        $configExport = '<?php return ' . var_export($config, true) . ';';
-        file_put_contents($this->configPath, $configExport);
-    }
-
-    /**
-     * Add a new plugin configuration using only the plugin key.
-     *
-     * @param string $key The plugin key.
-     */
-    public function addPluginConfig($key)
-    {
-        $config = $this->getAllPlugins();
-    
+        $config = require $this->configPath;
+        
         // Check if the plugin configuration already exists
-        if (!isset($config[$key])) {
-            // Default configuration for a new plugin
-            $defaultConfig = [
-                'active' => false, // Default to inactive
-                'settings' => []  // Maintain settings structure even if not used
-            ];
-    
-            // Update the plugins array with the new plugin config
-            $config[$key] = $defaultConfig;
-    
-            // Save the updated configuration
-            $this->savePluginsConfig($config);
-        } else {
-            // If the plugin already exists, you might want to update the active state or other properties
-            // For example, to reactivate an inactive plugin, you could set:
-            // $config[$key]['active'] = true;
-            // Save the updated configuration if any changes are made
-            $this->savePluginsConfig($config);
+        $existingPlugin = array_filter($config['plugins'], function ($pluginConfig) use ($plugin) {
+            return $pluginConfig['id'] === $plugin->getId();
+        });
+        
+        if (!empty($existingPlugin)) {
+            return;
         }
-    
-        return $config;
+        
+        $config['plugins'][] = [
+            'id' => $plugin->getId(),
+            'name' => $plugin->getName(),
+            'description' => $plugin->getDescription(),
+            'version' => $plugin->getVersion(),
+            'author' => $plugin->getAuthor(),
+            'active' => $plugin->isActive(),
+            'path' => $plugin->path,
+            'url' => $plugin->url,
+            'license' => $plugin->license,
+            'namespace' => $plugin->namespace,
+            'screenshot' => $plugin->screenshot,
+            'logo' => $plugin->logo,
+            'documentation_url' => $plugin->documentation_url,
+        ];
+        
+        $this->saveConfig($config);
     }
-    
+
+    public function activatePlugin($pluginId)
+    {
+        $config = require $this->configPath;
+        
+        foreach ($config['plugins'] as &$pluginConfig) {
+            if ($pluginConfig['id'] === $pluginId) {
+                $pluginConfig['active'] = true;
+                break;
+            }
+        }
+        
+        $this->saveConfig($config);
+    }
+
+    public function deactivatePlugin($pluginId)
+    {
+        $config = require $this->configPath;
+        
+        foreach ($config['plugins'] as &$pluginConfig) {
+            if ($pluginConfig['id'] === $pluginId) {
+                $pluginConfig['active'] = false;
+                break;
+            }
+        }
+        
+        $this->saveConfig($config);
+    }
+
+    public function removePlugin($pluginId)
+    {
+        $config = require $this->configPath;
+        
+        $config['plugins'] = array_filter($config['plugins'], function ($pluginConfig) use ($pluginId) {
+            return $pluginConfig['id'] !== $pluginId;
+        });
+        
+        $this->saveConfig($config);
+    }
+
+    protected function saveConfig(array $config)
+    {
+        $content = "<?php\n\nreturn " . var_export($config, true) . ";";
+        file_put_contents($this->configPath, $content);
+    }
 }

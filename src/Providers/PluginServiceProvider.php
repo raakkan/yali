@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\NavigationManager;
 use Raakkan\Yali\Core\Pages\PageManager;
+use Raakkan\Yali\Core\Plugin\PluginStore;
 use Raakkan\Yali\Core\Plugin\PluginManager;
 use Raakkan\Yali\Core\Plugin\Dtos\PluginSynth;
 use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
@@ -28,6 +29,10 @@ class PluginServiceProvider extends ServiceProvider
             });
 
             $this->loadPlugIns();
+
+            $this->app->singleton(PluginStore::class, function ($app) {
+                return new PluginStore($app->make(PluginConfigHelper::class));
+            });
         }
     
         /**

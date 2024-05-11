@@ -45,16 +45,7 @@ class NavigationManager
     
         // Check for duplicate menu item within the same group
         foreach ($this->menus[$group] as $existingMenuItem) {
-            if ($existingMenuItem['slug'] === $menuItem['slug']) {
-                // Duplicate menu item found
-                // You can choose to update the existing menu item or skip adding the duplicate
-                // For example, to update the existing menu item:
-                // $existingMenuItem['title'] = $menuItem['title'];
-                // $existingMenuItem['icon'] = $menuItem['icon'];
-                // $existingMenuItem['order'] = $menuItem['order'];
-                // $existingMenuItem['pageId'] = $menuItem['pageId'];
-                
-                // Or, to skip adding the duplicate, simply return
+            if ($existingMenuItem['pageId'] === $menuItem['pageId']) {
                 return;
             }
         }

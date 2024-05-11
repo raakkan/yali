@@ -90,37 +90,7 @@ abstract class YaliPlugin extends ServiceProvider implements PluginInterface
      */
     public function getName()
     {
-        return $this->getPluginJson()['name'];
-    }
-
-    /**
-     * Get the plugin's version.
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->getPluginJson()['version'];
-    }
-
-    /**
-     * Get the plugin's description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getPluginJson()['description'];
-    }
-
-    /**
-     * Get the plugin's dependencies.
-     *
-     * @return array
-     */
-    public function getDependencies()
-    {
-        return $this->getPluginJson()['dependencies'] ?? [];
+        return $this->getPluginJson()->name;
     }
 
     /**
@@ -133,6 +103,12 @@ abstract class YaliPlugin extends ServiceProvider implements PluginInterface
     {
         return plugin_path(strtolower($this->getName())) . DIRECTORY_SEPARATOR . $path;
     }
+
+    public function generatePluginId()
+    {
+        return md5(static::class);
+    }
+
 }
 
 // $migrationFiles = glob(database_path('migrations/*.php'));

@@ -68,6 +68,7 @@ class PageManager
         $pages = $this->getPages();
         foreach ($pages as $pageId => $page) {
             $pageClass = $page['class'];
+
             Livewire::component('yali::pages.'.$pageId, $pageClass);
 
             // Register the route for the page with "admin" prefix
