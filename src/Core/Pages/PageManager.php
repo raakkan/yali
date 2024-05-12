@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Pages;
 
 use Livewire\Livewire;
+use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Raakkan\Yali\Core\Pages\YaliPage;
@@ -75,7 +76,7 @@ class PageManager
             // Register the route for the page with "admin" prefix
             $slug = (new $pageClass)->getSlug();
             Route::prefix('admin')->group(function () use ($slug, $pageId, $pageClass) {
-                Route::view($slug, 'yali::pages.page-component')->name('yali::pages.'.$pageId);
+                Route::get($slug, PageComponent::class)->name('yali::pages.'.$pageId);
             });
         }
     }

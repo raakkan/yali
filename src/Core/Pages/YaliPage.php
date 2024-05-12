@@ -4,11 +4,9 @@ namespace Raakkan\Yali\Core\Pages;
 
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Layout;
 use Raakkan\Yali\App\Pages\DashboardPage;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
-#[Layout('yali::layouts.app')]
 abstract class YaliPage extends Component
 {
     use HasNavigation;
@@ -44,7 +42,7 @@ abstract class YaliPage extends Component
     public function render()
     {
         if (view()->exists($this->view)) {
-            return view($this->view)->title($this->getTitle());
+            return view($this->view)->layout('yali::layouts.app', ['title' => $this->title]);
         } else {
             if (app()->isLocal()) {
                 throw new \Exception("View not found: {$this->view} from " . get_class($this));

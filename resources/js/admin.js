@@ -1,3 +1,13 @@
 import 'flowbite';
 
-console.log('Hello World');
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+import Clipboard from '@ryangjchandler/alpine-clipboard'
+
+Alpine.plugin(Clipboard)
+
+Livewire.start()
+
+
+document.addEventListener('livewire:initialized', () => {
+    console.log('Hello World');
+})

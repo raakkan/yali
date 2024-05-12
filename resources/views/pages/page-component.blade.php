@@ -1,6 +1,4 @@
-@extends('yali::layouts.app')
-
-@section('content')
+<div>
     @php
         $menus = app()
             ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
@@ -19,4 +17,4 @@
     @endif
 @endforeach
 @endforeach
-@endsection
+</div>

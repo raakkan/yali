@@ -277,6 +277,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.17.2.tgz#5a2d08b81e8064b34242d5cc9973ef8dd1e60503"
   integrity sha512-TGGO7v7qOq4CYmSBVEYpI1Y5xDuCEnbVC5Vth8mOsW0gDSzxNrVERPc790IGHsrT2dQSimgMr9Ub3Y1Jci5/8w==
 
+"@ryangjchandler/alpine-clipboard@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@ryangjchandler/alpine-clipboard/-/alpine-clipboard-2.3.0.tgz#44d7a9e8c4446fd24ece2d6be0d23fac7dd59b20"
+  integrity sha512-r1YL/LL851vSemjgcca+M6Yz9SNtA9ATul8nJ0n0sAS1W3V1GUWvH0Od2XdQF1r36YJF+/4sUc0eHF/Zexw7dA==
+
 "@types/estree@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"

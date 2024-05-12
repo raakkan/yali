@@ -35,13 +35,6 @@ abstract class YaliResource
     protected $model;
 
     /**
-     * Indicates if the model is being edited.
-     *
-     * @var bool
-     */
-    protected $isEditing = false;
-
-    /**
      * Get the fields for the resource.
      *
      * @return array
@@ -70,8 +63,6 @@ abstract class YaliResource
     public function setModel(Model $model)
     {
         $this->model = $model;
-        $this->isEditing = $model->exists;
-
         return $this;
     }
 
@@ -83,16 +74,6 @@ abstract class YaliResource
     public function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * Determine if the model is being edited.
-     *
-     * @return bool
-     */
-    public function isEditing()
-    {
-        return $this->isEditing;
     }
 
     public function getTitle(): string
@@ -107,7 +88,7 @@ abstract class YaliResource
 
     public function getSlug(): string
     {
-        return $this->slug ? Str::slug($this->slug) : Str::kebab(class_basename($this->getModel()));
+        return $this->slug ? Str::slug($this->slug) : Str::plural(Str::kebab(class_basename($this->getModel())));
     }
 
     public function setSlug($slug): void

@@ -8,6 +8,7 @@
     @foreach ($pages as $pageId => $page)
         @livewire('yali::pages.' . $pageId, key($pageId))
     @endforeach --}}
-
-    dashboard
+    @csrf
+    <input type="text" wire:model="name">
+    <button wire:click="save">Save</button>
 </div>

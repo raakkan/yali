@@ -13,4 +13,11 @@ class DashboardPage extends YaliPage
     protected $navigationOrder = 1;
 
     protected $view = 'yali::pages.dashboard-page';
+
+    public $name;
+
+    public function save()
+    {
+        
+    }
 }

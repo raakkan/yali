@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
+use App\Models\Page;
 use Livewire\Livewire;
 use Raakkan\Yali\App\ResourcePage;
+use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
@@ -52,6 +54,11 @@ class YaliServiceProvider extends ServiceProvider
 
     public function loadPages(): void
     {
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/yali/livewire/update', $handle);
+        });
+        Livewire::component('yali::page-component', PageComponent::class);
+
         // Discover and register pages
         $pageManager = $this->app->make(PageManager::class);
         $pageManager->loadAdminPages();

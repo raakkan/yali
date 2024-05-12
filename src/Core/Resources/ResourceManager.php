@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Resources;
 
+use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Raakkan\Yali\Core\Resources\YaliResource;
@@ -64,7 +65,7 @@ class ResourceManager
             // Register the route for the page with "admin" prefix
             $slug = (new $resourceClass)->getSlug();
             Route::prefix('admin')->group(function () use ($slug, $resourceId, $resourceClass) {
-                Route::view($slug, 'yali::pages.page-component')->name('yali::resources.'.$resourceId);
+                Route::get($slug, PageComponent::class)->name('yali::resources.'.$resourceId);
             });
         }
     }
