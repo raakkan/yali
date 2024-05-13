@@ -80,8 +80,8 @@
                                         <span class="ms-3">{{ $item['title'] }}</span>
                                     </a>
                                 @elseif($item['type'] === 'resource')
-                                    <a href="{{ route('yali::resources.' . $item['pageId']) }}"
-                                        class="sidebar-link {{ request()->routeIs('yali::resources.' . $item['pageId']) ? 'active' : '' }}">
+                                    <a href="{{ route('yali::resources.' . $item['resourceId']) }}"
+                                        class="sidebar-link {{ request()->routeIs('yali::resources.' . $item['resourceId']) ? 'active' : '' }}">
                                         <span class="ms-3">{{ $item['title'] }}</span>
                                     </a>
                                 @endif

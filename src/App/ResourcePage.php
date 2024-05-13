@@ -4,6 +4,7 @@ namespace Raakkan\Yali\App;
 
 use Livewire\Component;
 use Raakkan\Yali\Core\Pages\YaliPage;
+use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 
 class ResourcePage extends YaliPage
@@ -16,16 +17,20 @@ class ResourcePage extends YaliPage
     public $fields;
     public $dynamicProperties = [];
 
-    public function mount($model, $fields)
+    public function mount($resourceId)
     {
-        $this->model = $model;
-        $this->fields = $fields;
-        $this->modelInstance = new $this->model;
+        $resource = app(ResourceManager::class)->getResource($resourceId);
 
-        // Initialize the dynamic properties with the model instance values
-        foreach ($this->fields as $field) {
-            $this->dynamicProperties[$field['name']] = $this->modelInstance->{$field['name']};
-        }
+        // dd($resource->getFields());
+
+        // $this->model = $model;
+        // $this->fields = $fields;
+        // $this->modelInstance = new $this->model;
+
+        // // Initialize the dynamic properties with the model instance values
+        // foreach ($this->fields as $field) {
+        //     $this->dynamicProperties[$field['name']] = $this->modelInstance->{$field['name']};
+        // }
     }
 
     public function create()

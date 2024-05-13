@@ -50,7 +50,7 @@ class NavigationManager
                 'icon' => $resource['navigationIcon'],
                 'order' => $resource['navigationOrder'],
                 'group' => $resource['navigationGroup'],
-                'pageId' => $resource['resourceId'],
+                'resourceId' => $resource['resourceId'],
             ];
 
             $this->addMenuItem($menuItem);
@@ -66,9 +66,12 @@ class NavigationManager
             $this->menus[$group] = [];
         }
     
-        // Check for duplicate menu item within the same group
+         // Check for duplicate menu item within the same group
         foreach ($this->menus[$group] as $existingMenuItem) {
-            if ($existingMenuItem['pageId'] === $menuItem['pageId']) {
+            if (
+                (isset($menuItem['pageId']) && isset($existingMenuItem['pageId']) && $menuItem['pageId'] === $existingMenuItem['pageId'])
+                || (isset($menuItem['resourceId']) && isset($existingMenuItem['resourceId']) && $menuItem['resourceId'] === $existingMenuItem['resourceId'])
+            ) {
                 return;
             }
         }

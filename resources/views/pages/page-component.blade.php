@@ -39,16 +39,16 @@
                 @livewire('yali::pages.' . $item['pageId'], ['pageId' => $item['pageId']], key($item['pageId']))
             @break
         @endif
-        @if ($item['type'] === 'resource' && request()->routeIs('yali::resources.' . $item['pageId']))
-            @livewire(
+        @if ($item['type'] === 'resource' && request()->routeIs('yali::resources.' . $item['resourceId']))
+            {{-- @livewire(
                 'yali::resource-page',
                 [
                     'model' => $data['model'],
                     'fields' => $data['fields'],
                 ],
                 key($item['pageId'])
-            )
-            {{-- @livewire('yali::resource-page', ['resourceId' => $item['pageId']], key($item['pageId'])) --}}
+            ) --}}
+            @livewire('yali::resource-page', ['resourceId' => $item['resourceId']], key($item['resourceId']))
         @break
     @endif
 @endforeach

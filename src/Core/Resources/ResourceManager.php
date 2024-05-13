@@ -70,27 +70,55 @@ class ResourceManager
         }
     }
 
-    protected function generateResourceId($class)
+    /**
+     * Generate a unique ID for a resource class.
+     *
+     * @param class-string<YaliResource> $class The class name of the resource.
+     *
+     * @return string The unique ID for the resource class.
+     */
+    protected function generateResourceId(string $class): string
     {
         return md5($class);
     }
 
+
     /**
-     * Get the value of resources
+     * Get the resources.
+     *
+     * @return array<string, array<string, string>> Array of resources, where the key is the resource ID and the value is an array with the resource details.
      */
-    public function getResources()
+    public function getResources(): array
     {
         return $this->resources;
     }
 
-     /**
-     * Get a specific resource by its ID
-     *
+    /**
      * @param string $resourceId
-     * @return array|null
+     * @return YaliResource
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
-    public function getResource($resourceId)
+    public function getResource(string $resourceId): YaliResource
     {
-        return $this->resources[$resourceId] ?? null;
+        if (!array_key_exists($resourceId, $this->resources)) {
+            throw new \InvalidArgumentException("Resource with ID '{$resourceId}' not found.");
+        }
+
+        $resourceClass = $this->resources[$resourceId]['class'];
+
+        if (!class_exists($resourceClass)) {
+            throw new \RuntimeException("Resource class '{$resourceClass}' does not exist.");
+        }
+
+        if (!is_a($resourceClass, YaliResource::class, true)) {
+            throw new \RuntimeException("Resource class '{$resourceClass}' does not extend the YaliResource class.");
+        }
+
+        /** @var YaliResource $resource */
+        $resource = new $resourceClass();
+        return $resource;
     }
+
+
 }
