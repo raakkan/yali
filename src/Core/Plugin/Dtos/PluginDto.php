@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Plugin\Dtos;
 
+//TODO: remove all set methods 
 class PluginDto
 {
     public $id;

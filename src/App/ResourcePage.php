@@ -10,18 +10,15 @@ use Raakkan\Yali\Core\Resources\ResourceManager;
 class ResourcePage extends YaliPage
 {
     public $resourceId;
-    public $modelData;
     protected $view = 'yali::pages.resource-page';
     public $model;
-    public $modelInstance;
     public $fields;
-    public $dynamicProperties = [];
 
     public function mount($resourceId)
     {
         $resource = app(ResourceManager::class)->getResource($resourceId);
 
-        // dd($resource->getFields());
+        $this->fields = $resource->getFields();
 
         // $this->model = $model;
         // $this->fields = $fields;

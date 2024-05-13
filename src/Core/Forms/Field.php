@@ -3,9 +3,11 @@
 namespace Raakkan\Yali\Core\Forms;
 
 use Illuminate\Contracts\Validation\Rule;
+use Raakkan\Yali\Core\Forms\Traits\HasValidation;
 
 abstract class Field
 {
+    use HasValidation;
     /**
      * The name of the field.
      *
@@ -20,74 +22,42 @@ abstract class Field
      */
     public $label;
 
-    /**
-     * The validation rules for the field.
-     *
-     * @var array
-     */
-    public $rules = [];
-
-    /**
-     * The default value for the field.
-     *
-     * @var mixed
-     */
     public $default;
 
-    /**
-     * The help text for the field.
-     *
-     * @var string|null
-     */
-    public $help;
-
-    /**
-     * Create a new field instance.
-     *
-     * @param  string  $name
-     * @param  string  $label
-     * @param  array  $rules
-     * @param  mixed  $default
-     * @param  string|null  $help
-     * @return static
-     */
-    public static function make($name, $label, $rules = [], $default = null, $help = null)
+    public static function make($name)
     {
-        return new static($name, $label, $rules, $default, $help);
+        return new static($name);
     }
 
-    /**
-     * Create a new field instance.
-     *
-     * @param  string  $name
-     * @param  string  $label
-     * @param  array  $rules
-     * @param  mixed  $default
-     * @param  string|null  $help
-     */
-    public function __construct($name, $label, $rules = [], $default = null, $help = null)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->label = $label;
-        $this->rules = $this->parseRules($rules);
-        $this->default = $default;
-        $this->help = $help;
     }
 
-    /**
-     * Parse the validation rules.
-     *
-     * @param  array  $rules
-     * @return array
-     */
-    protected function parseRules($rules)
+    public function label($label)
     {
-        return array_map(function ($rule) {
-            if ($rule instanceof Rule) {
-                return $rule;
-            }
+        $this->label = $label;
+        return $this;
+    }
 
-            return $rule;
-        }, $rules);
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function default($default)
+    {
+        $this->default = $default;
+        return $this;
+    }
+
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -2,8 +2,8 @@
     <h2>Management</h2>
 
     <!-- Create Form -->
-    <form wire:submit.prevent="create">
-        {{-- @foreach ($fields as $field)
+    {{-- <form wire:submit.prevent="create"> --}}
+    {{-- @foreach ($fields as $field)
             <div>
                 <label>{{ $field['label'] }}</label>
                 @if ($field['type'] === 'text')
@@ -28,8 +28,8 @@
         <button type="submit">Create</button>
     </form> --}}
 
-        <!-- Data Table -->
-        {{-- <table>
+    <!-- Data Table -->
+    {{-- <table>
         <thead>
             <tr>
                 @foreach ($fields as $field)

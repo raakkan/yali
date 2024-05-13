@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+@php
+    $menus = app()
+        ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
+        ->getMenus();
+@endphp
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
 
     {{ Vite::useHotFile(storage_path('vite.hot'))->useBuildDirectory('build')->withEntryPoints(['resources/css/admin.css', 'resources/js/admin.js']) }}
@@ -63,12 +70,6 @@
 
     <aside class="sidebar" id="logo-sidebar" aria-label="Sidebar">
         <div>
-            @php
-                $menus = app()
-                    ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
-                    ->getMenus();
-            @endphp
-
             <ul class="space-y-2 font-medium">
                 @foreach ($menus as $key => $collection)
                     @if ($key === 'default')
