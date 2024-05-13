@@ -10,4 +10,11 @@ class PageComponent extends YaliPage
 {
     protected $title = 'Page Component';
     protected $view = 'yali::pages.page-component';
+
+    public $name;
+
+    public function save()
+    {
+        dd($this->name);
+    }
 }

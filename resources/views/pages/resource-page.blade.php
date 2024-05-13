@@ -1,24 +1,55 @@
 <div>
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    @foreach ($modelData->first()->toArray() as $key => $value)
-                        <th scope="col" class="px-6 py-3">{{ $key }}</th>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($modelData as $item)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        @foreach ($item->toArray() as $key => $value)
-                            <td class="px-6 py-4">{{ is_array($value) ? $value['en'] ?? '' : $value }}</td>
-                        @endforeach
+    <h2>{{ class_basename($model) }} Management</h2>
 
-                    </tr>
+    <!-- Create Form -->
+    <form wire:submit.prevent="create">
+        @foreach ($fields as $field)
+            <div>
+                <label>{{ $field['label'] }}</label>
+                @if ($field['type'] === 'text')
+                    <input type="text" wire:model.lazy="dynamicProperties.{{ $field['name'] }}" />
+                    @error('dynamicProperties.' . $field['name'])
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                @elseif($field['type'] === 'email')
+                    <input type="email" wire:model.lazy="dynamicProperties.{{ $field['name'] }}" />
+                    @error('dynamicProperties.' . $field['name'])
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                @elseif($field['type'] === 'password')
+                    <input type="password" wire:model.lazy="dynamicProperties.{{ $field['name'] }}" />
+                    @error('dynamicProperties.' . $field['name'])
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                @endif
+            </div>
+        @endforeach
+
+        <button type="submit">Create</button>
+    </form>
+
+    <!-- Data Table -->
+    <table>
+        <thead>
+            <tr>
+                @foreach ($fields as $field)
+                    <th>{{ $field['label'] }}</th>
                 @endforeach
-            </tbody>
-        </table>
-    </div>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($this->read() as $item)
+                <tr>
+                    @foreach ($fields as $field)
+                        <td>{{ $item->{$field['name']} }}</td>
+                    @endforeach
+                    <td>
+                        <button wire:click="edit({{ $item->id }})">Edit</button>
+                        <button wire:click="delete({{ $item->id }})">Delete</button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>

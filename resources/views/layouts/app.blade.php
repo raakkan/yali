@@ -7,8 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
 
-    @livewireStyles
-
     {{ Vite::useHotFile(storage_path('vite.hot'))->useBuildDirectory('build')->withEntryPoints(['resources/css/admin.css', 'resources/js/admin.js']) }}
 </head>
 
@@ -103,7 +101,6 @@
     <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500">
         <div class="mt-16 md:mt-14">{{ $slot }}</div>
     </div>
-    @livewireScriptConfig
 </body>
 
 </html>

@@ -1,5 +1,33 @@
 <div>
     @php
+        $data = [
+            'model' => App\Models\User::class,
+            'fields' => [
+                'name' => [
+                    'name' => 'name',
+                    'type' => 'text',
+                    'label' => 'Name',
+                    'rules' => 'required|max:255',
+                ],
+                'email' => [
+                    'name' => 'email',
+                    'type' => 'email',
+                    'label' => 'Email',
+                    'rules' => 'required|email|unique:users,email',
+                ],
+                'password' => [
+                    'name' => 'password',
+                    'type' => 'password',
+                    'label' => 'Password',
+                    'rules' => 'required|min:8',
+                ],
+                // Add more fields as needed
+            ],
+            // Define more models and their fields as needed
+        ];
+
+    @endphp
+    @php
         $menus = app()
             ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
             ->getMenus();
@@ -12,9 +40,18 @@
             @break
         @endif
         @if ($item['type'] === 'resource' && request()->routeIs('yali::resources.' . $item['pageId']))
-            @livewire('yali::resource-page', ['resourceId' => $item['pageId']], key($item['pageId']))
+            @livewire(
+                'yali::resource-page',
+                [
+                    'model' => $data['model'],
+                    'fields' => $data['fields'],
+                ],
+                key($item['pageId'])
+            )
+            {{-- @livewire('yali::resource-page', ['resourceId' => $item['pageId']], key($item['pageId'])) --}}
         @break
     @endif
 @endforeach
 @endforeach
+
 </div>

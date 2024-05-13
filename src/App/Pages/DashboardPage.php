@@ -18,6 +18,6 @@ class DashboardPage extends YaliPage
 
     public function save()
     {
-        
+        dd($this->name);
     }
 }

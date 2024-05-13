@@ -1,11 +1,11 @@
 import 'flowbite';
 
-import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
-import Clipboard from '@ryangjchandler/alpine-clipboard'
+// import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+// import Clipboard from '@ryangjchandler/alpine-clipboard'
 
-Alpine.plugin(Clipboard)
+// Alpine.plugin(Clipboard)
 
-Livewire.start()
+// Livewire.start()
 
 
 document.addEventListener('livewire:initialized', () => {

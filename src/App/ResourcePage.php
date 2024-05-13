@@ -11,18 +11,41 @@ class ResourcePage extends YaliPage
     public $resourceId;
     public $modelData;
     protected $view = 'yali::pages.resource-page';
+    public $model;
+    public $modelInstance;
+    public $fields;
+    public $dynamicProperties = [];
 
-    public function mount($resourceId)
+    public function mount($model, $fields)
     {
-        $resourceData = app(ResourceManager::class)->getResource($resourceId);
+        $this->model = $model;
+        $this->fields = $fields;
+        $this->modelInstance = new $this->model;
 
-        if (!$resourceData) {
-            abort(404, sprintf('Resource with id %s not found', $resourceId));
+        // Initialize the dynamic properties with the model instance values
+        foreach ($this->fields as $field) {
+            $this->dynamicProperties[$field['name']] = $this->modelInstance->{$field['name']};
         }
+    }
 
-        $resource = new $resourceData['class']();
-        $model = $resource->getModel();
-        
-        $this->modelData = $model::all();
+    public function create()
+    {
+        $validatedData = $this->validate($this->getValidationRules());
+        $this->model::create($validatedData);
+        $this->resetDynamicProperties();
+    }
+
+    public function read()
+    {
+        return $this->model::all();
+    }
+
+    protected function getValidationRules()
+    {
+        $rules = [];
+        foreach ($this->fields as $field) {
+            $rules['dynamicProperties.'.$field['name']] = $field['rules'] ?? 'nullable';
+        }
+        return $rules;
     }
 }
