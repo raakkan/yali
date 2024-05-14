@@ -7,18 +7,17 @@ use Raakkan\Yali\Core\Pages\YaliPage;
 use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 
-class ResourcePage extends YaliPage
+class ResourcePage extends Component
 {
     public $resourceId;
     protected $view = 'yali::pages.resource-page';
     public $model;
-    public $fields;
 
     public function mount($resourceId)
     {
-        $resource = app(ResourceManager::class)->getResource($resourceId);
+        $this->resourceId = $resourceId;
 
-        $this->fields = $resource->getFields();
+        // dd($resource->getFields());
 
         // $this->model = $model;
         // $this->fields = $fields;
@@ -49,5 +48,14 @@ class ResourcePage extends YaliPage
             $rules['dynamicProperties.'.$field['name']] = $field['rules'] ?? 'nullable';
         }
         return $rules;
+    }
+
+    public function render()
+    {
+        $resource = app(ResourceManager::class)->getResource($this->resourceId);
+        
+        return view($this->view, [
+            'fields' => $resource->getFields()
+        ]);
     }
 }

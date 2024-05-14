@@ -24,6 +24,8 @@ abstract class Field
 
     public $default;
 
+    public $placeholder;
+
     public static function make($name)
     {
         return new static($name);
@@ -60,4 +62,30 @@ abstract class Field
     {
         return $this->name;
     }
+
+    public function placeholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    public function getPlaceholder()
+    {
+        $placeholder = $this->placeholder;
+
+        if (empty($placeholder)) {
+            $placeholder = $this->label;
+        }
+
+        if (empty($placeholder)) {
+            $placeholder = $this->name;
+        }
+
+        if (empty($placeholder)) {
+            $placeholder = '';
+        }
+
+        return $placeholder;
+    }
+
 }
