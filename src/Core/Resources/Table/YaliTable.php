@@ -63,4 +63,43 @@ class YaliTable
     {
         return $this->pagination;
     }
+
+    public function getSearchableColumns()
+    {
+        return collect($this->columns)->filter(function ($column) {
+            return $column->searchable;
+        })->map(function ($column) {
+            return $column->getName();
+        })->toArray();
+    }
+
+    public function getSortedQuery($query)
+    {
+        foreach ($this->columns as $column) {
+            if ($column->sortable && $column->sortDirection) {
+                $query->orderBy($column->getName(), $column->sortDirection);
+            }
+        }
+
+        return $query;
+    }
+
+    public function getDefaultSortableColumn()
+    {
+        $sortableColumns = array_filter(
+            array_map(function ($column) {
+                if ($column instanceof TableColumn && $column->isSortable()) {
+                    return $column;
+                }
+                return null;
+            }, $this->columns)
+        );
+
+        if (!empty($sortableColumns)) {
+            return array_values($sortableColumns)[0];
+        }
+
+        return null;
+    }
+
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Resources\Table;
 
@@ -9,6 +9,12 @@ class TableColumn
     public $name;
 
     public $label;
+
+    public $searchable = false;
+
+    public $sortable = false;
+
+    public $sortDirection = null;
 
     public static function make($name)
     {
@@ -34,5 +40,33 @@ class TableColumn
     public function getName()
     {
         return $this->name;
+    }
+
+    public function searchable($searchable = true)
+    {
+        $this->searchable = $searchable;
+        return $this;
+    }
+
+    public function sortable($direction = 'asc')
+    {
+        $this->sortDirection = $direction;
+        $this->sortable = true;
+        return $this;
+    }
+
+    public function isSortable()
+    {
+        return $this->sortable;
+    }
+
+    public function isSearchable()
+    {
+        return $this->searchable;
+    }
+
+    public function getSortDirection()
+    {
+        return $this->sortDirection;
     }
 }
