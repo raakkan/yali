@@ -64,4 +64,9 @@ abstract class YaliResource
     {
         return class_basename($this);
     }
+
+    public function getModelName(): string
+    {
+        return class_basename($this->getModel());
+    }
 }

@@ -52,6 +52,7 @@ class ResourceManager
             'navigationTitle' => $resource->getNavigationTitle(),
             'navigationGroup' => $resource->getNavigationGroup(),
             'navigationIcon' => $resource->getNavigationIcon(),
+            // TODO: order 1 by default?
             'navigationOrder' => $resource->getNavigationOrder(),
             'slug' => $resource->getSlug(),
         ];
@@ -62,7 +63,7 @@ class ResourceManager
         foreach ($resources as $resourceId => $resource) {
             $resourceClass = $resource['class'];
             
-            // Register the route for the page with "admin" prefix
+            // TODO: if this is actually needed
             $slug = (new $resourceClass)->getSlug();
             Route::prefix('admin')->group(function () use ($slug, $resourceId, $resourceClass) {
                 Route::get($slug, PageComponent::class)->name('yali::resources.'.$resourceId);

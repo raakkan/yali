@@ -12,6 +12,8 @@ class YaliTable
 
     protected $pagination = 10;
 
+    public $includeDeleted = false;
+
     public function __construct(YaliResource $resource)
     {
         $this->resource = $resource;
@@ -100,6 +102,31 @@ class YaliTable
         }
 
         return null;
+    }
+
+    public function isAnyColumnSearchable()
+    {
+        return collect($this->columns)->contains(function ($column) {
+            return $column->isSearchable();
+        });
+    }
+
+    public function enableSoftDeletes()
+    {
+        $model = $this->getResourceModel();
+
+        if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive($model))) {
+            $this->includeDeleted = true;
+        } else {
+            throw new \Exception("The model {$this->resource->getModelName()} does not use the SoftDeletes trait.");
+        }
+
+        return $this;
+    }
+
+    public function isSoftDeletesEnabled(): bool
+    {
+        return $this->includeDeleted;
     }
 
 }

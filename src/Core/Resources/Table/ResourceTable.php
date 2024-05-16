@@ -62,6 +62,10 @@ class ResourceTable extends Component
             $query->orderBy($this->sortColumn, $this->sortDirection);
         }
 
+        if ($this->getTable()->isSoftDeletesEnabled()) {
+            $query->withTrashed();
+        }
+
         return $query->paginate($this->getTable()->getPagination());
     }
 
@@ -77,6 +81,13 @@ class ResourceTable extends Component
 
         $this->sortColumn = $column;
         $sortColumn->sortDirection = $this->sortDirection;
+        $this->resetPage();
+    }
+
+    public function delete($id)
+    {
+        $model = $this->getModel();
+        $model->find($id)->delete();
         $this->resetPage();
     }
 
