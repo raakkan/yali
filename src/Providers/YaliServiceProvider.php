@@ -7,12 +7,14 @@ namespace Raakkan\Yali\Providers;
 use App\Models\Page;
 use App\Models\User;
 use Livewire\Livewire;
+use BladeUI\Icons\Factory;
 use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\App\Pages\DashboardPage;
+use Illuminate\Contracts\Container\Container;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
@@ -34,6 +36,10 @@ class YaliServiceProvider extends ServiceProvider
 
         $this->app->singleton(NavigationManager::class, function ($app) {
             return new NavigationManager($app);
+        });
+
+        $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
+            $factory->add('yali-icon', array_merge(['path' => __DIR__.'/../../resources/icons'], ['prefix' => 'yali::icon']));
         });
     }
 
