@@ -55,7 +55,6 @@ class ResourcePage extends Component
         $resource = app(ResourceManager::class)->getResource($this->resourceId);
         
         return view($this->view, [
-            'fields' => $resource->getFields()
         ]);
     }
 }

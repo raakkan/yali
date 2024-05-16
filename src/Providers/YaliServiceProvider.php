@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Raakkan\Yali\Providers;
 
 use App\Models\Page;
+use App\Models\User;
 use Livewire\Livewire;
 use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\PageComponent;
@@ -13,6 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\App\Pages\DashboardPage;
 use Raakkan\Yali\Core\Resources\ResourceManager;
+use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
@@ -33,10 +35,6 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->singleton(NavigationManager::class, function ($app) {
             return new NavigationManager($app);
         });
-
-        $this->loadPages();
-        $this->loadResources();
-        $this->loadNavigation();
     }
 
     /**
@@ -47,9 +45,9 @@ class YaliServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
-        // $this->mergeConfigFrom(
-        //     __DIR__.'/../../config/plugins.php', 'yali'
-        // );
+        $this->loadPages();
+        $this->loadResources();
+        $this->loadNavigation();
     }
 
     public function loadPages(): void
@@ -71,6 +69,7 @@ class YaliServiceProvider extends ServiceProvider
     public function loadResources(): void
     {
         Livewire::component('yali::resource-page', ResourcePage::class);
+        Livewire::component('yali::resource-table', ResourceTable::class);
 
         $resourceManager = $this->app->make(ResourceManager::class);
         $resourceManager->loadAppResources();
