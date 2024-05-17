@@ -27,8 +27,6 @@ class PluginServiceProvider extends ServiceProvider
             $this->app->singleton(PluginManager::class, function ($app) {
                 return new PluginManager($app);
             });
-
-            $this->loadPlugIns();
         }
     
         /**
@@ -39,6 +37,8 @@ class PluginServiceProvider extends ServiceProvider
         public function boot()
         {
             Livewire::propertySynthesizer(PluginSynth::class);
+
+            $this->loadPlugIns();
         }
 
         public function loadPlugIns(): void
