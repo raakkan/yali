@@ -25,42 +25,11 @@
             @endif
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    @foreach ($columns as $column)
-                        <th scope="col" class="px-6 py-3 @if ($column->isSortable()) cursor-pointer @endif"
-                            @if ($column->isSortable()) wire:click="sortBy('{{ $column->getName() }}')" @endif>
-                            <div class="flex items-center">
-                                {{ $column->getLabel() }}
-                                @if ($column->isSortable())
-                                    @if ($sortColumn === $column->getName())
-                                        @if ($sortDirection === 'asc')
-                                            <x-yali::icon-sort-ascending class="w-4 h-4 ms-1" />
-                                        @else
-                                            <x-yali::icon-sort-descending class="w-4 h-4 ms-1" />
-                                        @endif
-                                    @else
-                                        <x-yali::icon-sort class="w-4 h-4 ms-1 text-gray-400" />
-                                    @endif
-                                @endif
-                            </div>
-                        </th>
-                    @endforeach
-                </tr>
-            </thead>
+            <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" />
             <tbody>
                 @foreach ($modelData as $data)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
-                        @foreach ($columns as $column)
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $data[$column->getName()] }}
-                            </th>
-                        @endforeach
-
-                        <td class="px-6 py-4">
+                    <x-yali::table.row :data="$data" :columns="$columns">
+                        <x-slot name="actions">
                             <x-yali::ui.button label="Delete"
                                 class="bg-transparent text-red-500 p-0 m-0 ml-2 hover:bg-transparent shadow-none"
                                 spinner confirm confirmTitle="Delete Record"
@@ -68,11 +37,12 @@
                                 wire:click="delete('{{ $data['id'] }}')" />
                             <a href="#"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
+                        </x-slot>
+                    </x-yali::table.row>
                 @endforeach
             </tbody>
         </table>
+
     </div>
     {{ $modelData->links('yali::pagination') }}
 </div>

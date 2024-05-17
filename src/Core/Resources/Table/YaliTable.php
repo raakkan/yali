@@ -10,7 +10,7 @@ class YaliTable
     public $resource;
     public $columns = [];
 
-    protected $pagination = 10;
+    protected $perPage = 10;
 
     public $includeDeleted = false;
 
@@ -55,15 +55,15 @@ class YaliTable
         return $this->resource->getTitle();
     }
 
-    public function pagination($pagination)
+    public function perPage($perPage)
     {
-        $this->pagination = $pagination;
+        $this->perPage = $perPage;
         return $this;
     }
 
-    public function getPagination()
+    public function getPerPage()
     {
-        return $this->pagination;
+        return $this->perPage;
     }
 
     public function getSearchableColumns()

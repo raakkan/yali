@@ -66,7 +66,7 @@ class ResourceTable extends Component
             $query->withTrashed();
         }
 
-        return $query->paginate($this->getTable()->getPagination());
+        return $query->paginate($this->getTable()->getPerPage());
     }
 
     public function sortBy($column)
