@@ -23,7 +23,6 @@
                     </div>
                 </div>
             @endif
-
             <div class="flex items-center mt-4">
                 @foreach ($filters as $filter)
                     {{ $filter->render() }}

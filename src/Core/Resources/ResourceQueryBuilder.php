@@ -79,10 +79,22 @@ class ResourceQueryBuilder
         return $this->query;
     }
 
-    public function applyFilters($filters)
+    public function applyFilters($filters, $livewireData = [])
     {
-        $this->query->where(function ($query) use ($filters) {
+        $this->query->where(function ($query) use ($filters, $livewireData) {
             foreach ($filters as $filter) {
+                if (!empty($livewireData)) {
+                    foreach ($livewireData as $name => $value) {
+                        if ($filter->getName() === $name) {
+                            $filter->setValue($value);
+                        }
+                    }
+                }
+
+                if($filter->skip) {
+                    continue;
+                }
+
                 $query = $filter->handle($query, function ($query) {
                     return $query;
                 });

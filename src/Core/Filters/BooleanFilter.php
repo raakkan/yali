@@ -38,7 +38,6 @@ class BooleanFilter extends Filter
         return view('yali::filters.boolean', [
             'name' => $this->getName(),
             'label' => $this->getLabel(),
-            'defaultValue' => $this->getValue(),
             'trueLabel' => $this->trueLabel,
             'falseLabel' => $this->falseLabel,
             'options' => $this->options(),
@@ -51,5 +50,21 @@ class BooleanFilter extends Filter
             1 => $this->trueLabel,
             0 => $this->falseLabel,
         ];
+    }
+
+    public function setValue($value)
+    {
+        if ($value === '*') {
+            $this->skip = true;
+        } else {
+            $this->value = $value === '1' ? true : false;
+        }
+        
+        return $this;
+    }
+
+    public function getValue()
+    {
+        return $this->value === true ? 1 : 0;
     }
 }

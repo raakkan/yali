@@ -21,6 +21,8 @@ class ResourceTable extends Component
     public function mount($resourceId)
     {
         $this->resourceId = $resourceId;
+
+        $this->setFilterInputs();
     }
 
     public function getResource()
@@ -53,7 +55,7 @@ class ResourceTable extends Component
         $queryBuilder->search($this->search)
                     ->sort($this->sortColumn, $this->sortDirection)
                     ->withTrashed()
-                    ->applyFilters($table->getFilters());
+                    ->applyFilters($table->getFilters(), $this->filterInputs);
 
         return $queryBuilder->paginate($table->getPerPage());
     }
@@ -86,12 +88,16 @@ class ResourceTable extends Component
         $this->resetPage();
     }
 
-    public function updatedFilterInputs($value, $filterName)
+    public function updatedFilterInputs()
     {
-        $filter = collect($this->getTable()->getFilters())->firstWhere('name', $filterName);
-        $filter->value($value === 1 ? true : false);
         $this->resetPage();
-        dd($filter);
+    }
+
+    public function setFilterInputs()
+    {
+        $this->filterInputs = collect($this->getTable()->getFilters())->mapWithKeys(function ($filter) {
+            return [$filter->getName() => $filter->getValue()];
+        })->toArray();
     }
 
     public function render()

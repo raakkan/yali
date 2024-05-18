@@ -14,6 +14,8 @@ abstract class Filter
     protected $label;
     protected $value;
 
+    public $skip = false;
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -49,6 +51,7 @@ abstract class Filter
     abstract public function apply(Builder $builder, $value);
 
     abstract public function render();
+    abstract public function setValue($value);
 
     public function handle(Builder $builder, Closure $next)
     {
