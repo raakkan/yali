@@ -50,6 +50,7 @@ class YaliServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
         $this->loadPages();
         $this->loadResources();
