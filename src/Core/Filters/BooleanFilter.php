@@ -54,10 +54,10 @@ class BooleanFilter extends Filter
 
     public function setValue($value)
     {
-        if ($value === '*') {
+        if ($value === '') {
             $this->skip = true;
         } else {
-            $this->value = $value === '1' ? true : false;
+            $this->value = ($value === '1' || $value === true || $value === 1 || $value === 'true') ? true : false;
         }
         
         return $this;
@@ -65,6 +65,10 @@ class BooleanFilter extends Filter
 
     public function getValue()
     {
-        return $this->value === true ? 1 : 0;
+        if (isset($this->value)) {
+            return $this->value === true ? 1 : 0;
+        }else{
+            return '';
+        }
     }
 }
