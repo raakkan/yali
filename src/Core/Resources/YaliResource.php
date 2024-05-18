@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Resources;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
 use Raakkan\Yali\Core\Resources\Table\YaliTable;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
@@ -68,5 +69,10 @@ abstract class YaliResource
     public function getModelName(): string
     {
         return class_basename($this->getModel());
+    }
+
+    public function getQueryBuilder()
+    {
+        return new ResourceQueryBuilder($this->getModelInstance()->newQuery(), $this->table());
     }
 }

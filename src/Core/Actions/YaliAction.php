@@ -72,5 +72,6 @@ abstract class YaliAction
         return $user->can($this->permission);
     }
 
+    abstract public function handle($model);
     abstract public function render($data): string;
 }

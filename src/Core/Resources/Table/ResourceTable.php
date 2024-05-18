@@ -16,6 +16,8 @@ class ResourceTable extends Component
     public $sortColumn;
     public $sortDirection;
 
+    public $filterInputs = [];
+
     public function mount($resourceId)
     {
         $this->resourceId = $resourceId;
@@ -31,42 +33,29 @@ class ResourceTable extends Component
         return $this->getResource()->table();
     }
 
-    public function getModel()
+    public function getQueryBuilder()
     {
-        return $this->getTable()->getResourceModel();
+        return $this->getResource()->getQueryBuilder();
     }
 
     public function getModelData()
     {
-        $query = $this->getModel()->query();
+        $table = $this->getTable();
+        $queryBuilder = $this->getQueryBuilder();
 
-        $defaultSortColumn = $this->getTable()->getDefaultSortableColumn();
+        $defaultSortColumn = $table->getDefaultSortableColumn();
 
         if (!empty($defaultSortColumn) && empty($this->sortColumn)) {
             $this->sortColumn = $this->sortColumn ?? $defaultSortColumn->getName();
             $this->sortDirection = $this->sortDirection ?? $defaultSortColumn->getSortDirection();
         }
 
-        if ($this->search) {
-            $columns = $this->getTable()->getSearchableColumns();
-            if (!empty($columns)) {
-                $query->where(function ($q) use ($columns) {
-                    foreach ($columns as $column) {
-                        $q->orWhere($column, 'like', '%' . $this->search . '%');
-                    }
-                });
-            }
-        }
+        $queryBuilder->search($this->search)
+                    ->sort($this->sortColumn, $this->sortDirection)
+                    ->withTrashed()
+                    ->applyFilters($table->getFilters());
 
-        if ($this->sortColumn) {
-            $query->orderBy($this->sortColumn, $this->sortDirection);
-        }
-
-        if ($this->getTable()->isSoftDeletesEnabled()) {
-            $query->withTrashed();
-        }
-
-        return $query->paginate($this->getTable()->getPerPage());
+        return $queryBuilder->paginate($table->getPerPage());
     }
 
     public function sortBy($column)
@@ -97,12 +86,21 @@ class ResourceTable extends Component
         $this->resetPage();
     }
 
+    public function updatedFilterInputs($value, $filterName)
+    {
+        $filter = collect($this->getTable()->getFilters())->firstWhere('name', $filterName);
+        $filter->value($value === 1 ? true : false);
+        $this->resetPage();
+        dd($filter);
+    }
+
     public function render()
     {
         $columns = $this->getTable()->getColumns();
         return view('yali::table.resource-table', [
             'columns' => $columns,
             'modelData' => $this->getModelData(),
+            'filters' => $this->getTable()->getFilters(),
         ]);
     }
 }

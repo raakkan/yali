@@ -14,6 +14,10 @@ class YaliTable
 
     public $includeDeleted = false;
 
+    public $filters = [];
+
+    public $actions = [];
+
     public function __construct(YaliResource $resource)
     {
         $this->resource = $resource;
@@ -28,31 +32,6 @@ class YaliTable
     public function getColumns()
     {
         return $this->columns;
-    }
-
-    public function getResourceModel(): Model
-    {
-        return $this->resource->getModelInstance();
-    }
-
-    public function getResourceModelData()
-    {
-        return $this->getResourceModel()->all();
-    }
-
-    public function getResourceModelQuery()
-    {
-        return $this->getResourceModel()->query();
-    }
-
-    public function getResourceName(): string
-    {
-        return $this->resource->getName();
-    }
-
-    public function getResourceTitle(): string
-    {
-        return $this->resource->getTitle();
     }
 
     public function perPage($perPage)
@@ -73,17 +52,6 @@ class YaliTable
         })->map(function ($column) {
             return $column->getName();
         })->toArray();
-    }
-
-    public function getSortedQuery($query)
-    {
-        foreach ($this->columns as $column) {
-            if ($column->sortable && $column->sortDirection) {
-                $query->orderBy($column->getName(), $column->sortDirection);
-            }
-        }
-
-        return $query;
     }
 
     public function getDefaultSortableColumn()
@@ -113,7 +81,7 @@ class YaliTable
 
     public function enableSoftDeletes()
     {
-        $model = $this->getResourceModel();
+        $model = $this->resource->getModelInstance();
 
         if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive($model))) {
             $this->includeDeleted = true;
@@ -127,6 +95,28 @@ class YaliTable
     public function isSoftDeletesEnabled(): bool
     {
         return $this->includeDeleted;
+    }
+
+    public function filters($filters)
+    {
+        $this->filters = $filters;
+        return $this;
+    }
+
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    public function actions($actions)
+    {
+        $this->actions = $actions;
+        return $this;
+    }
+
+    public function getActions()
+    {
+        return $this->actions;
     }
 
 }

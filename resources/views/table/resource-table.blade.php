@@ -23,6 +23,12 @@
                     </div>
                 </div>
             @endif
+
+            <div class="flex items-center mt-4">
+                @foreach ($filters as $filter)
+                    {{ $filter->render() }}
+                @endforeach
+            </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" />
