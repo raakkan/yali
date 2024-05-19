@@ -56,7 +56,7 @@ class PluginServiceProvider extends ServiceProvider
 
             $resourceManager = $this->app->make(ResourceManager::class);
             $resourceManager->loadPluginResources($pluginManager->getAvailableResources());
-            $resourceManager->registerReources();
+            $resourceManager->registerResources();
 
             $navigationManager = $this->app->make(NavigationManager::class);
             $navigationManager->loadPageMenus();

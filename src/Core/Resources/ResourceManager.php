@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Resources;
 use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Raakkan\Yali\Core\Resources\Resource;
 use Raakkan\Yali\Core\Resources\YaliResource;
 
 class ResourceManager
@@ -43,32 +44,72 @@ class ResourceManager
 
     protected function registerResource($class)
     {
+        if (!class_exists($class) || !is_subclass_of($class, YaliResource::class)) {
+            throw new \InvalidArgumentException("Invalid resource class: {$class}");
+        }
+
         $resourceId = $this->generateResourceId($class);
         $resource = new $class();
-        $this->resources[$resourceId] = [
-            'resourceId' => $resourceId,
-            'class' => $class,
-            'title' => $resource->getTitle(),
-            'navigationTitle' => $resource->getNavigationTitle(),
-            'navigationGroup' => $resource->getNavigationGroup(),
-            'navigationIcon' => $resource->getNavigationIcon(),
-            // TODO: order 1 by default?
-            'navigationOrder' => $resource->getNavigationOrder(),
-            'slug' => $resource->getSlug(),
-        ];
+        $this->resources[$resourceId] = new Resource($resourceId, $class, $resource);
     }
 
-    public function registerReources(){
+    public function registerResources(){
         $resources = $this->getResources();
         foreach ($resources as $resourceId => $resource) {
-            $resourceClass = $resource['class'];
+            $resourceClass = $resource->class;
             
-            // TODO: if this is actually needed
             $slug = (new $resourceClass)->getSlug();
-            Route::prefix('admin')->group(function () use ($slug, $resourceId, $resourceClass) {
-                Route::get($slug, PageComponent::class)->name('yali::resources.'.$resourceId);
-            });
+            $uniqueSlug = $this->generateUniqueSlug($slug);
+    
+            $routeName = 'yali::resources.'.$resourceId;
+            $routeUri = 'admin/'.$uniqueSlug;
+    
+            if (!$this->routeExists($routeUri, $routeName)) {
+                Route::prefix('admin')->group(function () use ($uniqueSlug, $routeName) {
+                    Route::get($uniqueSlug, PageComponent::class)->name($routeName);
+                });
+            }
         }
+    }
+    
+    protected function routeExists($uri, $name)
+    {
+        $routes = Route::getRoutes();
+        
+        foreach ($routes as $route) {
+            if ($route->uri === $uri || $route->getName() === $name) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+
+    protected function generateUniqueSlug($slug)
+    {
+        $originalSlug = $slug;
+        $counter = 1;
+        
+        while ($this->routeWithSlugExists($slug)) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+        
+        return $slug;
+    }
+
+    protected function routeWithSlugExists($slug)
+    {
+        $routes = Route::getRoutes();
+        
+        foreach ($routes as $route) {
+            if ($route->uri === 'admin/'.$slug) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -106,7 +147,7 @@ class ResourceManager
             throw new \InvalidArgumentException("Resource with ID '{$resourceId}' not found.");
         }
 
-        $resourceClass = $this->resources[$resourceId]['class'];
+        $resourceClass = $this->resources[$resourceId]->class;
 
         if (!class_exists($resourceClass)) {
             throw new \RuntimeException("Resource class '{$resourceClass}' does not exist.");

@@ -40,14 +40,6 @@
             @break
         @endif
         @if ($item['type'] === 'resource' && request()->routeIs('yali::resources.' . $item['resourceId']))
-            {{-- @livewire(
-                'yali::resource-page',
-                [
-                    'model' => $data['model'],
-                    'fields' => $data['fields'],
-                ],
-                key($item['pageId'])
-            ) --}}
             @livewire('yali::resource-page', ['resourceId' => $item['resourceId']], key($item['resourceId']))
         @break
     @endif

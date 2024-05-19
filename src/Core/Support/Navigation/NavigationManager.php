@@ -45,12 +45,12 @@ class NavigationManager
         foreach ($resources as $resourceId => $resource) {
             $menuItem = [
                 'type' => 'resource',
-                'title' => $resource['navigationTitle'],
-                'slug' => $resource['slug'],
-                'icon' => $resource['navigationIcon'],
-                'order' => $resource['navigationOrder'],
-                'group' => $resource['navigationGroup'],
-                'resourceId' => $resource['resourceId'],
+                'title' => $resource->getNavigationTitle(),
+                'slug' => $resource->getSlug(),
+                'icon' => $resource->getNavigationIcon(),
+                'order' => $resource->getNavigationOrder(),
+                'group' => $resource->getNavigationGroup(),
+                'resourceId' => $resource->getResourceId(),
             ];
 
             $this->addMenuItem($menuItem);

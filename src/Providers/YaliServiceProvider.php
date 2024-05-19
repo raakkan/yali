@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
-use App\Models\Page;
-use App\Models\User;
 use Livewire\Livewire;
 use BladeUI\Icons\Factory;
 use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\PageComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Raakkan\Yali\Core\Pages\Manager\PageFactory;
 use Raakkan\Yali\Core\Pages\PageManager;
-use Raakkan\Yali\App\Pages\DashboardPage;
 use Illuminate\Contracts\Container\Container;
+use Raakkan\Yali\Core\Pages\Manager\PageService;
 use Raakkan\Yali\Core\Resources\ResourceManager;
+use Raakkan\Yali\Core\Pages\Manager\PageRepository;
 use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
@@ -26,8 +26,20 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(PageManager::class, function ($app) {
-            return new PageManager();
+        $this->app->singleton(PageFactory::class, function () {
+            return new PageFactory();
+        });
+
+        $this->app->singleton(PageRepository::class, function () {
+            return new PageRepository();
+        });
+
+        $this->app->singleton(PageService::class, function ($app) {
+            return new PageService($app->make(PageRepository::class), $app->make(PageFactory::class));
+        });
+
+        $this->app->singleton('pagemanager', function ($app) {
+            return new PageManager($app->make(PageService::class));
         });
 
         $this->app->singleton(ResourceManager::class, function ($app) {
@@ -80,7 +92,7 @@ class YaliServiceProvider extends ServiceProvider
 
         $resourceManager = $this->app->make(ResourceManager::class);
         $resourceManager->loadAppResources();
-        $resourceManager->registerReources();
+        $resourceManager->registerResources();
     }
 
     public function loadNavigation(): void
