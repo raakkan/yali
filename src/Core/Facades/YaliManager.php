@@ -4,10 +4,10 @@ namespace Raakkan\Yali\Core\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class PageManager extends Facade
+class YaliManager extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'pagemanager';
+        return 'yali-manager';
     }
 }

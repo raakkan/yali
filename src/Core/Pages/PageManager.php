@@ -1,114 +1,78 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Pages;
 
-use Raakkan\Yali\Core\Pages\Manager\PageService;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
+use Raakkan\Yali\Core\Exceptions\PageRegistrationException;
 
 class PageManager
 {
-    protected $pageService;
+    protected $pages = [];
 
-    public function __construct(PageService $pageService)
+    public function loadPages(): void
     {
-        $this->pageService = $pageService;
+        try {
+            $this->loadPagesFromDirectory('Raakkan\\Yali\\App\\Pages\\', __DIR__ . '/../../App/Pages', 'yali');
+            $this->loadPagesFromDirectory('App\\Yali\\Pages\\', base_path('app/Yali/Pages'), 'app');
+        } catch (\Exception $e) {
+            throw new PageRegistrationException('Failed to load pages: ' . $e->getMessage(), 0, $e);
+        }
     }
 
-    public function loadPages($pagesConfig)
+    protected function loadPagesFromDirectory(string $pagesNamespace, string $pagesDirectory, string $source): void
     {
-        $this->pageService->createPages($pagesConfig);
+        if (!File::isDirectory($pagesDirectory)) {
+            return;
+        }
+
+        foreach (File::allFiles($pagesDirectory) as $file) {
+            $class = $pagesNamespace . str_replace(['/', '.php'], ['\\', ''], $file->getRelativePathname());
+
+            if (class_exists($class) && is_subclass_of($class, YaliPage::class)) {
+                $this->registerPage($class, $source);
+            }
+        }
     }
 
-    public function getPages()
+    public function loadPluginPages(array $pluginPages): void
     {
-        return $this->pageService->getPages();
+        foreach ($pluginPages as $pluginPage) {
+            if (is_string($pluginPage) && class_exists($pluginPage) && is_subclass_of($pluginPage, YaliPage::class)) {
+                $this->registerPage($pluginPage, 'plugin');
+            }
+        }
     }
 
-    public function getPageBySlug($slug)
+    protected function registerPage(string $class, string $source): void
     {
-        return $this->pageService->getPageBySlug($slug);
+        if (!in_array($class, $this->pages)) {
+            $this->pages[] = [
+                'class' => $class,
+                'source' => $source,
+            ];
+        }
     }
-    
-    // protected $pages = [];
 
-    // public function loadAdminPages()
-    // {
-    //     $pagesNamespace = 'Raakkan\\Yali\\App\\Pages\\';
-    //     $pagesDirectory = __DIR__. '/../../App/Pages';
+    public function registerPages(): void
+    {
+        foreach ($this->getPages() as $page) {
+            $this->registerRoute($page['class']);
+        }
+    }
 
-    //     $this->loadPagesFromDirectory($pagesNamespace, $pagesDirectory);
-    // }
+    protected function registerRoute(string $page): void
+    {
+        $slug = $page::getSlug();
 
-    // public function loadAppPages()
-    // {
-    //     $pagesNamespace = 'App\\Yali\\Pages\\';
-    //     $pagesDirectory = base_path('app/Yali/Pages');
+        Route::prefix('admin')->group(function () use ($slug, $page) {
+            Route::get($slug, $page)->name('yali::pages.' . $page);
+        });
+    }
 
-    //     $this->loadPagesFromDirectory($pagesNamespace, $pagesDirectory);
-    // }
-
-    // protected function loadPagesFromDirectory($pagesNamespace, $pagesDirectory)
-    // {
-    //     if (File::isDirectory($pagesDirectory)) {
-    //         foreach (File::allFiles($pagesDirectory) as $file) {
-    //             $class = $pagesNamespace . str_replace(['/', '.php'], ['\\', ''], $file->getRelativePathname());
-
-    //             if (class_exists($class) && is_subclass_of($class, YaliPage::class)) {
-    //                 $this->registerPage($class);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // public function loadPluginPages(array $pluginPages)
-    // {
-    //     foreach ($pluginPages as $pluginPage) {
-    //         if (is_string($pluginPage) && class_exists($pluginPage) && is_subclass_of($pluginPage, YaliPage::class)) {
-    //             $this->registerPage($pluginPage);
-    //         }
-    //     }
-    // }
-
-    // protected function registerPage($class)
-    // {
-    //     $pageId = $this->generatePageId($class);
-    //     $page = new $class();
-    //     $this->pages[$pageId] = [
-    //         'pageId' => $pageId,
-    //         'class' => $class,
-    //         'title' => $page->getTitle(),
-    //         'navigationTitle' => $page->getNavigationTitle(),
-    //         'navigationGroup' => $page->getNavigationGroup(),
-    //         'navigationIcon' => $page->getNavigationIcon(),
-    //         'navigationOrder' => $page->getNavigationOrder(),
-    //         'slug' => $page->getSlug(),
-    //     ];
-    // }
-
-    // public function registerPages(){
-    //     $pages = $this->getPages();
-    //     foreach ($pages as $pageId => $page) {
-    //         $pageClass = $page['class'];
-
-    //         Livewire::component('yali::pages.'.$pageId, $pageClass);
-
-    //         // Register the route for the page with "admin" prefix
-    //         $slug = (new $pageClass)->getSlug();
-    //         Route::prefix('admin')->group(function () use ($slug, $pageId, $pageClass) {
-    //             Route::get($slug, PageComponent::class)->name('yali::pages.'.$pageId);
-    //         });
-    //     }
-    // }
-
-    // protected function generatePageId($class)
-    // {
-    //     return md5($class);
-    // }
-
-    // /**
-    //  * Get the value of pages
-    //  */ 
-    // public function getPages()
-    // {
-    //     return $this->pages;
-    // }
+    public function getPages(): array
+    {
+        return $this->pages;
+    }
 }

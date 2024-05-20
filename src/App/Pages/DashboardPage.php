@@ -7,12 +7,11 @@ use Raakkan\Yali\Core\Pages\YaliPage;
 
 class DashboardPage extends YaliPage
 {
-    protected $title = 'Dashboard';
-    protected $routeName = '/';
+    protected static $title = 'Dashboard';
 
-    protected $navigationOrder = 1;
+    protected static $navigationOrder = 1;
 
-    protected $view = 'yali::pages.dashboard-page';
+    protected static $view = 'yali::pages.dashboard-page';
 
     public $name;
 

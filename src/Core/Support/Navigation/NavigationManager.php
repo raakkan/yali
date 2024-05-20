@@ -2,95 +2,36 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
-use Raakkan\Yali\Core\Pages\PageManager;
-use Raakkan\Yali\Core\Resources\ResourceManager;
-
 class NavigationManager
 {
-    protected $app;
-    protected $menus = [];
+    protected $groups = [];
 
-    public function __construct($app)
+    public function buildNavigation($pages, $resources)
     {
-        $this->app = $app;
-    }
-
-    public function loadPageMenus()
-    {
-        $pageManager = $this->app->make(PageManager::class);
-
-        $pages = $pageManager->getPages();
-        
-        foreach ($pages as $pageId => $page) {
-            $menuItem = [
-                'type' => 'page',
-                'title' => $page['navigationTitle'],
-                'slug' => $page['slug'],
-                'icon' => $page['navigationIcon'],
-                'order' => $page['navigationOrder'],
-                'group' => $page['navigationGroup'],
-                'pageId' => $page['pageId'],
-            ];
-
-            $this->addMenuItem($menuItem);
+        $this->addGroup('default', '');
+        foreach ($pages as $page) {
         }
     }
 
-    public function loadResourceMenus()
+    public function addGroup($name, $label)
     {
-        $resourceManager = $this->app->make(ResourceManager::class);
+        $this->groups[$name] = new NavigationGroup($name, $label);
+    }
 
-        $resources = $resourceManager->getResources();
-        
-        foreach ($resources as $resourceId => $resource) {
-            $menuItem = [
-                'type' => 'resource',
-                'title' => $resource->getNavigationTitle(),
-                'slug' => $resource->getSlug(),
-                'icon' => $resource->getNavigationIcon(),
-                'order' => $resource->getNavigationOrder(),
-                'group' => $resource->getNavigationGroup(),
-                'resourceId' => $resource->getResourceId(),
-            ];
+    public function getGroup($name)
+    {
+        return $this->groups[$name] ?? null;
+    }
 
-            $this->addMenuItem($menuItem);
+    public function addItemToGroup($groupName, NavigationItem $item)
+    {
+        if ($group = $this->getGroup($groupName)) {
+            $group->addItem($item);
         }
     }
 
-    protected function addMenuItem($menuItem)
+    public function getGroups()
     {
-        $group = $menuItem['group'] == null ? 'default' : $menuItem['group'];
-        $order = $menuItem['order'] == null ? 100 : $menuItem['order'];
-    
-        if (!isset($this->menus[$group])) {
-            $this->menus[$group] = [];
-        }
-    
-         // Check for duplicate menu item within the same group
-        foreach ($this->menus[$group] as $existingMenuItem) {
-            if (
-                (isset($menuItem['pageId']) && isset($existingMenuItem['pageId']) && $menuItem['pageId'] === $existingMenuItem['pageId'])
-                || (isset($menuItem['resourceId']) && isset($existingMenuItem['resourceId']) && $menuItem['resourceId'] === $existingMenuItem['resourceId'])
-            ) {
-                return;
-            }
-        }
-    
-        // Find the next available order number
-        while (isset($this->menus[$group][$order])) {
-            $order++;
-        }
-    
-        $this->menus[$group][$order] = $menuItem;
+        return $this->groups;
     }
-
-    public function getMenus()
-    {
-        foreach ($this->menus as &$group) {
-            ksort($group);
-        }
-        
-        return $this->menus;
-    }
-
 }

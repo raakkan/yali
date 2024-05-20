@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@php
+{{-- @php
     $menus = app()
         ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
         ->getMenus();
-@endphp
+@endphp --}}
 
 <head>
     <meta charset="utf-8">
@@ -71,7 +71,7 @@
     <aside class="sidebar" id="logo-sidebar" aria-label="Sidebar">
         <div>
             <ul class="space-y-2 font-medium">
-                @foreach ($menus as $key => $collection)
+                {{-- @foreach ($menus as $key => $collection)
                     @if ($key === 'default')
                         @foreach ($collection as $item)
                             <li>
@@ -95,7 +95,7 @@
                             </a>
                         </li>
                     @endif
-                @endforeach
+                @endforeach --}}
             </ul>
         </div>
     </aside>

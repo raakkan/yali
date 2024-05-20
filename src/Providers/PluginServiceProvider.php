@@ -50,17 +50,9 @@ class PluginServiceProvider extends ServiceProvider
             // Boot the registered plugins
             $pluginManager->boot();
 
-            $pageManager = $this->app->make(PageManager::class);
-            $pageManager->loadPluginPages($pluginManager->getAvailablePages());
-            $pageManager->registerPages();
-
-            $resourceManager = $this->app->make(ResourceManager::class);
-            $resourceManager->loadPluginResources($pluginManager->getAvailableResources());
-            $resourceManager->registerResources();
-
-            $navigationManager = $this->app->make(NavigationManager::class);
-            $navigationManager->loadPageMenus();
-            $navigationManager->loadResourceMenus();
+            // $pageManager = $this->app->make(PageManager::class);
+            // $pageManager->loadPluginPages($pluginManager->getAvailablePages());
+            // $pageManager->registerPages();
         }
     
 }

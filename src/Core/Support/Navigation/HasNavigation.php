@@ -4,48 +4,61 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 trait HasNavigation
 {
-    protected $navigationTitle = '';
-    protected $navigationGroup = '';
-    protected $navigationIcon = '';
-    protected $navigationOrder = 0;
+    protected static $slug = '';
+    protected static $navigationLabel = '';
+    protected static $navigationGroup = '';
+    protected static $navigationIcon = '';
+    protected static $navigationOrder = 0;
 
-    public function getNavigationTitle(): string
+    public static function getNavigationLabel(): string
     {
-        return $this->navigationTitle ?: $this->title;
+        return static::$navigationLabel ?: static::getTitle();
     }
 
-    public function setNavigationTitle(string $navigationTitle): void
+    public static function setNavigationLabel(string $navigationLabel): void
     {
-        $this->navigationTitle = $navigationTitle;
+        static::$navigationLabel = $navigationLabel;
     }
 
-    public function getNavigationGroup(): string
+    public static function getNavigationGroup(): string
     {
-        return $this->navigationGroup;
+        return static::$navigationGroup;
     }
 
-    public function setNavigationGroup(string $navigationGroup): void
+    public static function setNavigationGroup(string $navigationGroup): void
     {
-        $this->navigationGroup = $navigationGroup;
+        static::$navigationGroup = $navigationGroup;
     }
 
-    public function getNavigationIcon(): string
+    public static function getNavigationIcon(): string
     {
-        return $this->navigationIcon;
+        return static::$navigationIcon;
     }
 
-    public function setNavigationIcon(string $navigationIcon): void
+    public static function setNavigationIcon(string $navigationIcon): void
     {
-        $this->navigationIcon = $navigationIcon;
+        static::$navigationIcon = $navigationIcon;
     }
 
-    public function getNavigationOrder(): int
+    public static function getNavigationOrder(): int
     {
-        return $this->navigationOrder;
+        return static::$navigationOrder;
     }
 
-    public function setNavigationOrder(int $navigationOrder): void
+    public static function setNavigationOrder(int $navigationOrder): void
     {
-        $this->navigationOrder = $navigationOrder;
+        static::$navigationOrder = $navigationOrder;
+    }
+ 
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

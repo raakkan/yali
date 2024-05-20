@@ -13,15 +13,9 @@ abstract class YaliResource
 {
     use HasNavigation;
 
-    protected $title = '';
-    protected $slug = '';
+    protected static $title = '';
 
-    /**
-     * The model instance.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
+    protected static $model;
 
     protected $form;
 
@@ -58,7 +52,7 @@ abstract class YaliResource
 
     public function getSlug(): string
     {
-        return $this->slug ? Str::slug($this->slug) : Str::plural(Str::kebab(class_basename($this->getModel())));
+        return static::$slug ?: Str::plural(Str::kebab(class_basename(static::getModel())));
     }
 
     public function getName(): string

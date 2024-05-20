@@ -11,43 +11,23 @@ abstract class YaliPage extends Component
 {
     use HasNavigation;
 
-    protected $title = '';
-    protected $slug = '';
-    protected $view = '';
+    protected static $title = '';
+    protected static $view = '';
 
-    public function getTitle(): string
+    public static function getSlug(): string
     {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getSlug(): string
-    {
-        if ($this instanceof DashboardPage) {
-            return '/';
-        }
-        
-        return $this->slug ? Str::slug($this->slug) : Str::kebab(class_basename($this));
-    }
-
-    public function setSlug($slug): void
-    {
-        $this->slug = $slug;
+        return static::$slug ?: Str::plural(Str::kebab(class_basename(static::class)));
     }
 
     public function render()
     {
-        if (view()->exists($this->view)) {
-            return view($this->view)->layout('yali::layouts.app', ['title' => $this->title]);
+        if (view()->exists(static::$view)) {
+            return view(static::$view)->layout('yali::layouts.app', ['title' => static::$title]);
         } else {
             if (app()->isLocal()) {
                 throw new \Exception("View not found: {$this->view} from " . get_class($this));
             } else {
-                return view('yali::errors.view-not-found', ['view' => $this->view, 'class' => get_class($this)])->title('View Not Found');
+                return view('yali::errors.view-not-found', ['view' =>  static::$view, 'class' => get_class($this)])->title('View Not Found');
             }
         }
     }

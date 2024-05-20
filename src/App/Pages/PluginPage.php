@@ -9,12 +9,12 @@ use Raakkan\Yali\Core\Plugin\PluginConfigHelper;
 
 class PluginPage extends YaliPage
 {
-    protected $title = 'Plugins';
-    protected $slug = 'plugins';
+    protected static $title = 'Plugins';
+    protected static $slug = 'plugins';
 
-    protected $navigationOrder = 100;
+    protected static $navigationOrder = 100;
 
-    protected $view = 'yali::pages.plugin-page';
+    protected static $view = 'yali::pages.plugin-page';
 
     public $plugins = [];
 
