@@ -1,8 +1,22 @@
 <?php 
 
-namespace Yali\Core\Support\Icon;
+namespace Raakkan\Yali\Core\Support\Icon;
 
-final class IconManager
+use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
+
+class IconManager
 {
-    
+    protected $icons = [];
+
+    protected $iconLoader;
+
+    public function __construct()
+    {
+        $this->iconLoader = new IconLoader();
+    }
+
+    public function loadIcons()
+    {
+        dd($this->iconLoader->getIcons());
+    }
 }

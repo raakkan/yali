@@ -53,22 +53,6 @@ class PageManager
         ];
     }
 
-    public function registerPages(): void
-    {
-        foreach ($this->getPages() as $page) {
-            $this->registerRoute($page['class']);
-        }
-    }
-
-    protected function registerRoute(string $page): void
-    {
-        $slug = $page::getSlug();
-
-        Route::prefix('admin')->group(function () use ($slug, $page) {
-            Route::get($slug, $page)->name('yali::pages.' . $page);
-        });
-    }
-
     public function getPages(): array
     {
         return $this->pages;

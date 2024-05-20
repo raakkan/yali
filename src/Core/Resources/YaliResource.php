@@ -30,13 +30,13 @@ abstract class YaliResource
     abstract public function table(): YaliTable;
     abstract public function form(): YaliForm;
 
-    public function getModel()
+    public static function getModel()
     {
-        if (!class_exists($this->model)) {
-            throw new \InvalidArgumentException("Model class '{$this->model}' does not exist.");
+        if (!class_exists(static::$model)) {
+            throw new \InvalidArgumentException("Model class '" . static::$model . "' does not exist.");
         }
 
-        return $this->model;
+        return static::$model;
     }
 
     public function getModelInstance(): Model
@@ -45,24 +45,29 @@ abstract class YaliResource
         return new $modelClass();
     }
 
-    public function getTitle(): string
+    public static function getTitle(): string
     {
-        return $this->title;
+        return static::$title;
     }
 
-    public function getSlug(): string
+    public static function getSlug(): string
     {
         return static::$slug ?: Str::plural(Str::kebab(class_basename(static::getModel())));
     }
 
-    public function getName(): string
+    public static function getName(): string
     {
-        return class_basename($this);
+        return class_basename(static::class);
     }
 
     public function getModelName(): string
     {
         return class_basename($this->getModel());
+    }
+
+    public static function getType(): string
+    {
+        return 'resource';
     }
 
     public function getQueryBuilder()

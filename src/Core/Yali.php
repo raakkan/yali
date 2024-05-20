@@ -6,13 +6,11 @@ use Livewire\Livewire;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
+use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class Yali
 {
-    protected $beforeBootCallbacks = [];
-    protected $afterBootCallbacks = [];
-
     protected $app;
     protected $pageManager;
     protected $pluginManager;
@@ -26,23 +24,19 @@ class Yali
         $this->pageManager = $this->app->make(PageManager::class);
         $this->navigationManager = $this->app->make(NavigationManager::class);
 
+        $this->resourceManager = $this->app->make(ResourceManager::class);
+
         $this->componentRegistry = $this->app->make(ComponentRegistry::class);
     }
 
     public function boot() {
-        foreach ($this->beforeBootCallbacks as $callback) {
-            $callback($this);
-        }
 
         $this->pageManager->loadPages();
+        $this->resourceManager->loadResources();
 
         $this->registerLivewireComponents();
 
-        $this->navigationManager->build($this->getPages());
-
-        foreach ($this->afterBootCallbacks as $callback) {
-            $callback($this);
-        }
+        $this->navigationManager->build(array_merge($this->pageManager->getPages(), $this->resourceManager->getResources()));
     }
 
     public function registerLivewireComponents() {
@@ -53,18 +47,22 @@ class Yali
         return $this->pageManager->getPages();
     }
 
+    public function getResources() {
+        return $this->resourceManager->getResources();
+    }
+
     public function getNavigation() {
         return $this->navigationManager->getNavigation();
     }
 
-    public function beforeBoot(callable $callback): void
+    public function resolveResource($resource)
     {
-        $this->beforeBootCallbacks[] = $callback;
-    }
-
-    public function afterBoot(callable $callback): void
-    {
-        $this->afterBootCallbacks[] = $callback;
-    }
-
+        $resources = $this->getResources();
+    
+        if (isset($resources[$resource])) {
+            return $resources[$resource];
+        }
+    
+        throw new \InvalidArgumentException("Resource '{$resource}' not found.");
+    }    
 }

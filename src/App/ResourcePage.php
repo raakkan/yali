@@ -3,7 +3,9 @@
 namespace Raakkan\Yali\App;
 
 use Livewire\Component;
+use Illuminate\Http\Request;
 use Raakkan\Yali\Core\Pages\YaliPage;
+use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 
@@ -13,9 +15,9 @@ class ResourcePage extends Component
     protected $view = 'yali::pages.resource-page';
     public $model;
 
-    public function mount($resourceId)
+    public function mount(Request $request)
     {
-        $this->resourceId = $resourceId;
+        dd(YaliManager::resolveResource($request->route('resource')));;
 
         // dd($resource->getFields());
 

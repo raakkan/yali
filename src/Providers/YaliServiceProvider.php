@@ -14,6 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Facades\YaliManager;
 use Illuminate\Contracts\Container\Container;
+use Raakkan\Yali\Core\Support\Icon\IconManager;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
@@ -28,17 +29,21 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->singleton(PageManager::class, function () {
             return new PageManager();
         });
+
+        $this->app->singleton(ResourceManager::class, function ($app) {
+            return new ResourceManager();
+        });
         
         $this->app->singleton(NavigationManager::class, function ($app) {
             return new NavigationManager();
         });
 
-        $this->app->singleton('yali-manager', function ($app) {
-            return new Yali($app);
+        $this->app->singleton(IconManager::class, function ($app) {
+            return new IconManager();
         });
 
-        $this->app->singleton(ResourceManager::class, function ($app) {
-            return new ResourceManager();
+        $this->app->singleton('yali-manager', function ($app) {
+            return new Yali($app);
         });
 
         // $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
@@ -56,6 +61,8 @@ class YaliServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
+        $this->app->make(IconManager::class)->loadIcons();
 
         Livewire::setUpdateRoute(function ($handle) {
             return Route::post('/yali/livewire/update', $handle);

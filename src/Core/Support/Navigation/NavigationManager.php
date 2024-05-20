@@ -22,8 +22,9 @@ class NavigationManager
                 '/',
                 'yali::pages.dashboard',
                 DashboardPage::class,
+                'page',
                 'dashboard',
-                1
+                0
             )
         );
 
@@ -60,6 +61,7 @@ class NavigationManager
             $uniqueSlug,
             Str::kebab(Str::plural($data['class']::getType()) . str_replace('\\', '', $data['class'])),
             $data['class'],
+            $data['class']::getType(),
             $data['class']::getNavigationIcon(),
             $data['class']::getNavigationOrder(),
         );

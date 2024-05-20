@@ -1,5 +1,5 @@
 <nav>
-    <ul class="space-y-2 font-medium">
+    <ul class="space-y-1 font-medium">
         @foreach ($items as $item)
             @if ($item instanceof \Raakkan\Yali\Core\Support\Navigation\NavigationItem)
                 <li>
