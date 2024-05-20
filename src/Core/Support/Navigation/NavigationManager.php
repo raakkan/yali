@@ -2,6 +2,9 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
+use Illuminate\Support\Str;
+use Raakkan\Yali\App\DashboardPage;
+
 class NavigationManager
 {
     protected $navigation;
@@ -13,6 +16,17 @@ class NavigationManager
 
     public function build($pages)
     {
+        $this->navigation->add(
+            new NavigationItem(
+                'Dashboard',
+                '/',
+                'yali::pages.dashboard',
+                DashboardPage::class,
+                'dashboard',
+                1
+            )
+        );
+
         foreach ($pages as $key => $value) {
             $group = $value['class']::getNavigationGroup();
 
@@ -44,6 +58,8 @@ class NavigationManager
         return new NavigationItem(
             $data['class']::getNavigationLabel(),
             $uniqueSlug,
+            Str::kebab(Str::plural($data['class']::getType()) . str_replace('\\', '', $data['class'])),
+            $data['class'],
             $data['class']::getNavigationIcon(),
             $data['class']::getNavigationOrder(),
         );

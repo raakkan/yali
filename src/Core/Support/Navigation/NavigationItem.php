@@ -6,14 +6,18 @@ class NavigationItem
 {
     public $label;
     public $slug;
+    public $routeName;
     public $icon;
     public $order;
     public $children;
+    public $class;
 
-    public function __construct($label, $slug, $icon = null, $order = 0)
+    public function __construct($label, $slug, $routeName, $class, $icon = null, $order = 0)
     {
         $this->label = $label;
         $this->slug = $slug;
+        $this->routeName = $routeName;
+        $this->class = $class;
         $this->icon = $icon;
         $this->order = $order;
     }
@@ -39,5 +43,25 @@ class NavigationItem
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function getRouteName()
+    {
+        return $this->routeName;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

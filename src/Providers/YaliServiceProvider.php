@@ -41,9 +41,9 @@ class YaliServiceProvider extends ServiceProvider
             return new ResourceManager();
         });
 
-        $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
-            $factory->add('yali-icon', array_merge(['path' => __DIR__.'/../../resources/icons'], ['prefix' => 'yali::icon']));
-        });
+        // $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
+        //     $factory->add('yali-icon', array_merge(['path' => __DIR__.'/../../resources/icons'], ['prefix' => 'yali::icon']));
+        // });
     }
 
     /**

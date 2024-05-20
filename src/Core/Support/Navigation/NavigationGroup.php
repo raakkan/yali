@@ -30,4 +30,10 @@ class NavigationGroup
     {
         return $this->items;
     }
+
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
 }

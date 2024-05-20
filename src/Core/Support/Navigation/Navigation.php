@@ -43,13 +43,36 @@ class Navigation implements Renderable
 
     public function getItems()
     {
-        return $this->items;
+        $items = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof NavigationGroup) {
+                $groupItems = $item->getItems();
+                $groupItems = $this->sortItems($groupItems);
+                $item->setItems($groupItems);
+                $items[] = $item;
+            } else {
+                $items[] = $item;
+            }
+        }
+
+        $items = $this->sortItems($items);
+
+        return $items;
+    }
+
+    public function sortItems($items)
+    {
+        usort($items, function ($a, $b) {
+            return $a->order - $b->order;
+        });
+        return $items;
     }
 
     public function render()
     {
         return view('yali::navigation.navigation', [
-            'items' => $this->getItems(),
+            'items' => $this->getItems()
         ]);
     }
 
