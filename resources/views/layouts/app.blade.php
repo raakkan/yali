@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-{{-- @php
-    $menus = app()
-        ->make(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)
-        ->getMenus();
-@endphp --}}
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -69,35 +63,9 @@
     </nav>
 
     <aside class="sidebar" id="logo-sidebar" aria-label="Sidebar">
-        <div>
-            <ul class="space-y-2 font-medium">
-                {{-- @foreach ($menus as $key => $collection)
-                    @if ($key === 'default')
-                        @foreach ($collection as $item)
-                            <li>
-                                @if ($item['type'] === 'page')
-                                    <a href="{{ route('yali::pages.' . $item['pageId']) }}"
-                                        class="sidebar-link {{ request()->routeIs('yali::pages.' . $item['pageId']) ? 'active' : '' }}">
-                                        <span class="ms-3">{{ $item['title'] }}</span>
-                                    </a>
-                                @elseif($item['type'] === 'resource')
-                                    <a href="{{ route('yali::resources.' . $item['resourceId']) }}"
-                                        class="sidebar-link {{ request()->routeIs('yali::resources.' . $item['resourceId']) ? 'active' : '' }}">
-                                        <span class="ms-3">{{ $item['title'] }}</span>
-                                    </a>
-                                @endif
-                            </li>
-                        @endforeach
-                    @else
-                        <li>
-                            <a href="#" class="sidebar-link">
-                                <span class="ms-3">other</span>
-                            </a>
-                        </li>
-                    @endif
-                @endforeach --}}
-            </ul>
-        </div>
+
+        {{ app(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)->getNavigation()->render() }}
+
     </aside>
     <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500">
         <div class="mt-16 md:mt-14">{{ $slot }}</div>

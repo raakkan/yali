@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use BladeUI\Icons\Factory;
 use Raakkan\Yali\Core\Yali;
 use Raakkan\Yali\App\ResourcePage;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
@@ -51,14 +52,14 @@ class YaliServiceProvider extends ServiceProvider
     public function boot(): void
     {
         YaliManager::boot();
-
+        
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        // Livewire::setUpdateRoute(function ($handle) {
-        //     return Route::post('/yali/livewire/update', $handle);
-        // });
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/yali/livewire/update', $handle);
+        });
     }
 
     public function loadResources(): void

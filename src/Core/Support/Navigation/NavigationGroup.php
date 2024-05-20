@@ -8,10 +8,9 @@ class NavigationGroup
     public $label;
     public $items = [];
 
-    public function __construct($name, $label)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->label = $label;
     }
 
     public function addItem(NavigationItem $item)
@@ -20,5 +19,15 @@ class NavigationGroup
         usort($this->items, function ($a, $b) {
             return $a->order - $b->order;
         });
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getItems()
+    {
+        return $this->items;
     }
 }

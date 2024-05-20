@@ -1,6 +1,6 @@
 <?php 
 
-namespace Raakkan\Yali\App\Pages;
+namespace Raakkan\Yali\App;
 
 use Livewire\Component;
 use Raakkan\Yali\Core\Pages\YaliPage;

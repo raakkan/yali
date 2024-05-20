@@ -19,6 +19,16 @@ abstract class YaliPage extends Component
         return static::$slug ?: Str::plural(Str::kebab(class_basename(static::class)));
     }
 
+    public static function getTitle(): string
+    {
+        return static::$title ?: Str::title(class_basename(static::class));
+    }
+
+    public static function getType(): string
+    {
+        return 'page';
+    }
+
     public function render()
     {
         if (view()->exists(static::$view)) {

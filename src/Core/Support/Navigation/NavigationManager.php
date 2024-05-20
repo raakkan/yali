@@ -1,37 +1,70 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
 class NavigationManager
 {
-    protected $groups = [];
+    protected $navigation;
 
-    public function buildNavigation($pages, $resources)
+    public function __construct()
     {
-        $this->addGroup('default', '');
-        foreach ($pages as $page) {
+        $this->navigation = new Navigation();
+    }
+
+    public function build($pages)
+    {
+        foreach ($pages as $key => $value) {
+            $group = $value['class']::getNavigationGroup();
+
+            if ($group) {
+                $groupItem = $this->findOrCreateGroup($group);
+                $groupItem->addItem($this->createNavigationItem($value));
+            } else {
+                $this->navigation->add($this->createNavigationItem($value));
+            }
         }
     }
 
-    public function addGroup($name, $label)
+    protected function findOrCreateGroup($group)
     {
-        $this->groups[$name] = new NavigationGroup($name, $label);
-    }
+        $groupItem = $this->navigation->findGroup($group) ?: new NavigationGroup($group);
 
-    public function getGroup($name)
-    {
-        return $this->groups[$name] ?? null;
-    }
-
-    public function addItemToGroup($groupName, NavigationItem $item)
-    {
-        if ($group = $this->getGroup($groupName)) {
-            $group->addItem($item);
+        if (!$groupItem) {
+            $this->navigation->add($groupItem);
         }
+
+        return $groupItem;
     }
 
-    public function getGroups()
+    public function createNavigationItem($data)
     {
-        return $this->groups;
+        $slug = $data['class']::getSlug();
+        $uniqueSlug = $this->generateUniqueSlug($slug);
+
+        return new NavigationItem(
+            $data['class']::getNavigationLabel(),
+            $uniqueSlug,
+            $data['class']::getNavigationIcon(),
+            $data['class']::getNavigationOrder(),
+        );
     }
+
+    protected function generateUniqueSlug($slug)
+    {
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while ($this->navigation->hasSlug($slug)) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    public function getNavigation()
+    {
+        return $this->navigation;
+    }
+
 }

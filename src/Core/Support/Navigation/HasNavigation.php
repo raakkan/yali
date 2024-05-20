@@ -50,15 +50,13 @@ trait HasNavigation
         static::$navigationOrder = $navigationOrder;
     }
  
-    public function getSlug()
+    public static function getSlug()
     {
-        return $this->slug;
+        return static::$slug;
     }
 
-    public function setSlug($slug)
+    public static function setSlug($slug)
     {
-        $this->slug = $slug;
-
-        return $this;
+        static::$slug = $slug;
     }
 }
