@@ -85,6 +85,7 @@ class ResourceTable extends Component
 
     public function delete($id)
     {
+        dd($id);
         $model = $this->getModel();
         $model->find($id)->delete();
         $this->resetPage();

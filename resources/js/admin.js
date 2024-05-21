@@ -12,9 +12,10 @@ import 'flowbite';
 
 // })
 
-Livewire.directive('yali-confirm', ({ el, directive, component, cleanup }) => {
+Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
     let content = eval(`(${directive.expression})`);
-    console.log(content.id);
+    let wireClickFunction = el.getAttribute('wire:click').replace(/\([^)]+\)/g, "");
+
     let onClick = e => {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -22,8 +23,10 @@ Livewire.directive('yali-confirm', ({ el, directive, component, cleanup }) => {
         // Dispatch a custom event to open the confirmation modal
         window.dispatchEvent(new CustomEvent('confirm-open', {
             detail: {
-                message: content,
-                id: component.id
+                id: component.id,
+                title: content.title,
+                message: content.message,
+                payload: content.payload,
             }
         }));
 
@@ -31,12 +34,17 @@ Livewire.directive('yali-confirm', ({ el, directive, component, cleanup }) => {
         const confirmListener = event => {
             if (event.detail.id === component.id) {
                 if (event.type === 'confirm-confirmed') {
+                    console.log(content.payload, event.detail.payload);
                     // User clicked "Yes, I'm sure"
-                    el.removeEventListener('click', onClick);
-                    el.click();
+                    if (content.payload && event.detail.payload === content.payload) {
+                        Livewire.find(component.id).call(wireClickFunction, content.payload)
+                    } else {
+                        Livewire.find(component.id).call(wireClickFunction)
+                    }
                 } else if (event.type === 'confirm-cancelled') {
                     // User clicked "Cancel"
                     // Do nothing, the action is cancelled
+                    console.log('Cancelled');
                 }
                 window.removeEventListener('confirm-confirmed', confirmListener);
                 window.removeEventListener('confirm-cancelled', confirmListener);
@@ -53,20 +61,3 @@ Livewire.directive('yali-confirm', ({ el, directive, component, cleanup }) => {
         el.removeEventListener('click', onClick);
     });
 });
-
-
-// <div x-data="{ open: false, message: '', id: '' }"
-//      x-on:confirm-open.window="open = true; message = $event.detail.message; id = $event.detail.id"
-//      x-show="open"
-//      x-cloak>
-//     <!-- Modal content -->
-//     <div>
-//         <h3 x-text="message"></h3>
-//         <button x-on:click="$dispatch('confirm-confirmed', { id: id }); open = false">
-//             Yes, I'm sure
-//         </button>
-//         <button x-on:click="$dispatch('confirm-cancelled', { id: id }); open = false">
-//             Cancel
-//         </button>
-//     </div>
-// </div>

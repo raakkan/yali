@@ -70,6 +70,8 @@
     <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500">
         <div class="mt-16 md:mt-14">{{ $slot }}</div>
     </div>
+
+    <x-yali::modal />
 </body>
 
 </html>

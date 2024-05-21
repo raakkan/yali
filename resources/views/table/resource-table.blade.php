@@ -37,7 +37,7 @@
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" :actions="$actions" />
-            <tbody x-data="{ message: 'hello' }">
+            <tbody>
                 @foreach ($modelData as $data)
                     <x-yali::table.row :data="$data" :columns="$columns">
                         <x-slot name="actions">
@@ -46,8 +46,8 @@
                             @endforeach
                             <x-yali::ui.button label="Delete"
                                 class="bg-transparent text-red-500 p-0 m-0 ml-2 hover:bg-transparent shadow-none"
-                                wire:yali-confirm="{title: 'Delete {{ $this->getResource()->getTitle() }}', message: 'Are you sure you want to delete this {{ $this->getResource()->getTitle() }}?', id: '{{ $data['id'] }}'}"
-                                wire:click="delete('{{ $data['id'] }}')" />
+                                wire:yali-confirm="{title: 'Delete {{ $this->getResource()->getTitle() }}', message: 'Are you sure you want to delete this {{ $this->getResource()->getTitle() }}?', payload: '{{ $data['id'] }}'}"
+                                wire:click="delete" />
                         </x-slot>
                     </x-yali::table.row>
                 @endforeach
