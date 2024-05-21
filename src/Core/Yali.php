@@ -7,6 +7,7 @@ use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\Core\Resources\ResourceManager;
+use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class Yali
@@ -16,7 +17,7 @@ class Yali
     protected $pluginManager;
     protected $resourceManager;
     protected $navigationManager;
-
+    protected $iconLoader;
     protected $componentRegistry;
 
     public function __construct($app) {
@@ -27,6 +28,8 @@ class Yali
         $this->resourceManager = $this->app->make(ResourceManager::class);
 
         $this->componentRegistry = $this->app->make(ComponentRegistry::class);
+
+        $this->iconLoader = new IconLoader();
     }
 
     public function boot() {
@@ -65,4 +68,9 @@ class Yali
     
         throw new \InvalidArgumentException("Resource '{$resource}' not found.");
     }    
+
+    public function getIconLoader()
+    {
+        return $this->iconLoader;
+    }
 }

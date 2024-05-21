@@ -3,9 +3,10 @@
         @foreach ($items as $item)
             @if ($item instanceof \Raakkan\Yali\Core\Support\Navigation\NavigationItem)
                 <li>
-                    <a href="{{ route($item->getRouteName()) }}" class="sidebar-link">
-                        {{-- <x-yali::icon-heroicon.c-chevron-right class="w-4 h-4 ms-1" /> --}}
-                        {{ $item->getLabel() }}
+                    <a href="{{ route($item->getRouteName()) }}"
+                        class="sidebar-link text-gray-500 {{ $item->isActive() ? 'active' : '' }}">
+                        <x-yali::icon name="{{ $item->getIcon() }}" class="w-6 h-6 mr-3" />
+                        <span>{{ $item->getLabel() }}</span>
                     </a>
                 </li>
             @elseif ($item instanceof \Raakkan\Yali\Core\Support\Navigation\NavigationGroup)

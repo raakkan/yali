@@ -39,7 +39,7 @@ class NavigationItem
 
     public function isActive()
     {
-        return true;
+        return request()->routeIs($this->routeName);
     }
 
     public function getLabel()

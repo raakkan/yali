@@ -33,22 +33,19 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->singleton(ResourceManager::class, function ($app) {
             return new ResourceManager();
         });
-        
+
         $this->app->singleton(NavigationManager::class, function ($app) {
             return new NavigationManager();
-        });
-
-        $this->app->singleton(IconManager::class, function ($app) {
-            return new IconManager();
         });
 
         $this->app->singleton('yali-manager', function ($app) {
             return new Yali($app);
         });
 
-        // $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
-        //     $factory->add('yali-icon', array_merge(['path' => __DIR__.'/../../resources/icons'], ['prefix' => 'yali::icon']));
-        // });
+        $this->app->singleton('yali-icon', function ($app) {
+            $iconLoader = $app->make('yali-manager')->getIconLoader();
+            return new IconManager($iconLoader);
+        });
     }
 
     /**
@@ -62,29 +59,10 @@ class YaliServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        $this->app->make(IconManager::class)->loadIcons();
+        $this->app['yali-icon']->loadIcons();
 
         Livewire::setUpdateRoute(function ($handle) {
             return Route::post('/yali/livewire/update', $handle);
         });
-    }
-
-    public function loadResources(): void
-    {
-        Livewire::component('yali::resource-page', ResourcePage::class);
-        Livewire::component('yali::resource-table', ResourceTable::class);
-
-        $resourceManager = $this->app->make(ResourceManager::class);
-        $resourceManager->loadAppResources();
-        $resourceManager->registerResources();
-    }
-
-    public function loadNavigation(): void
-    {
-        $navigationManager = $this->app->make(NavigationManager::class);
-        $navigationManager->loadPageMenus();
-        $navigationManager->loadResourceMenus();
-
-        // dd($navigationManager->getMenus());
     }
 }
