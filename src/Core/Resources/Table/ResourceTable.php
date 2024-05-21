@@ -110,6 +110,7 @@ class ResourceTable extends Component
             'columns' => $columns,
             'modelData' => $this->getModelData(),
             'filters' => $this->getTable()->getFilters(),
+            'actions' => $this->getTable()->getActions(),
         ]);
     }
 }

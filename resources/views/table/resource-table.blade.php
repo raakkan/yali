@@ -36,18 +36,18 @@
     </div>
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" :actions="['global']" />
-            <tbody>
+            <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" :actions="$actions" />
+            <tbody x-data="{ message: 'hello' }">
                 @foreach ($modelData as $data)
                     <x-yali::table.row :data="$data" :columns="$columns">
                         <x-slot name="actions">
+                            @foreach ($actions as $action)
+                                {{ $action->render($data) }}
+                            @endforeach
                             <x-yali::ui.button label="Delete"
                                 class="bg-transparent text-red-500 p-0 m-0 ml-2 hover:bg-transparent shadow-none"
-                                spinner confirm confirmTitle="Delete Record"
-                                confirmText="Are you sure you want to delete this record?" spinnerTarget="deleteRecord"
+                                wire:yali-confirm="{title: 'Delete {{ $this->getResource()->getTitle() }}', message: 'Are you sure you want to delete this {{ $this->getResource()->getTitle() }}?', id: '{{ $data['id'] }}'}"
                                 wire:click="delete('{{ $data['id'] }}')" />
-                            <a href="#"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                         </x-slot>
                     </x-yali::table.row>
                 @endforeach

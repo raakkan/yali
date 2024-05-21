@@ -1,31 +1,19 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+use Raakkan\Yali\Core\Traits\Makable;
+use Raakkan\Yali\Core\View\YaliComponent;
 
-abstract class YaliAction
+abstract class YaliAction extends YaliComponent
 {
+    use Makable;
+
     protected string $label;
     protected string $class;
     protected string $icon;
     protected bool $visible;
     protected string $confirmationMessage;
     protected string $permission;
-
-    public function __construct(
-        string $label,
-        string $class = '',
-        string $icon = '',
-        bool $visible = true,
-        string $confirmationMessage = '',
-        string $permission = ''
-    ) {
-        $this->label = $label;
-        $this->class = $class;
-        $this->icon = $icon;
-        $this->visible = $visible;
-        $this->confirmationMessage = $confirmationMessage;
-        $this->permission = $permission;
-    }
 
     public function getLabel(): string
     {
@@ -73,5 +61,5 @@ abstract class YaliAction
     }
 
     abstract public function handle($model);
-    abstract public function render($data): string;
+    abstract public function render($data);
 }
