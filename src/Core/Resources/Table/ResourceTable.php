@@ -7,6 +7,7 @@ use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
+// TODO: pagination page/2 in url bar refresh if filter activated no data
 class ResourceTable extends Component
 {
     use WithPagination;
@@ -85,6 +86,7 @@ class ResourceTable extends Component
 
     public function delete($id)
     {
+        sleep(5);
         dd($id);
         $model = $this->getModel();
         $model->find($id)->delete();
