@@ -3,13 +3,14 @@
 namespace Raakkan\Yali\Core\Resources\Table;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
 class ResourceTable extends Component
 {
     use WithPagination;
-    public $resourceId;
+    public $resource;
 
     public $search = '';
 
@@ -18,16 +19,17 @@ class ResourceTable extends Component
 
     public $filterInputs = [];
 
-    public function mount($resourceId)
+    public function mount($resource)
     {
-        $this->resourceId = $resourceId;
+        $this->resource = YaliManager::resolveResource($resource);
 
         $this->setFilterInputs();
     }
 
     public function getResource()
     {
-        return app(ResourceManager::class)->getResource($this->resourceId);
+        $resource = $this->resource['class'];
+        return new $resource();
     }
 
     public function getTable()
@@ -103,6 +105,7 @@ class ResourceTable extends Component
     public function render()
     {
         $columns = $this->getTable()->getColumns();
+        
         return view('yali::table.resource-table', [
             'columns' => $columns,
             'modelData' => $this->getModelData(),

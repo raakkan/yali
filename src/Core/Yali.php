@@ -7,6 +7,7 @@ use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\Core\Resources\ResourceManager;
+use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
@@ -44,6 +45,7 @@ class Yali
 
     public function registerLivewireComponents() {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
+        Livewire::component('yali::resource-table', ResourceTable::class);
     }
 
     public function getPages() {

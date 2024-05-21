@@ -90,7 +90,7 @@ abstract class TableColumn
         if ($this->hasCustomRender()) {
             return call_user_func($this->renderCallback, $data);
         }
-
+        
         return $data[$this->getName()];
     }
 

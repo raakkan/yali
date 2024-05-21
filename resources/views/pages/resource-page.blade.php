@@ -9,5 +9,5 @@
         @endif
     @endforeach --}}
 
-    @livewire('yali::resource-table', ['resourceId' => $resourceId], key('resource-table-' . $resourceId))
+    @livewire('yali::resource-table', ['resource' => $resource], key('resource-table-' . $resource))
 </div>

@@ -47,7 +47,7 @@ abstract class YaliResource
 
     public static function getTitle(): string
     {
-        return static::$title;
+        return static::$title ?: Str::title(class_basename(static::getModel()));
     }
 
     public static function getSlug(): string

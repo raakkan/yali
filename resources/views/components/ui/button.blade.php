@@ -20,7 +20,7 @@
             @if ($spinner) wire:target="{{ $spinnerTarget }}"
                 wire:loading.attr="disabled" @endif>
             @if ($icon)
-                {{ svg($icon, 'w-5 h-5 mr-2') }}
+                <x-yali::icon name="{{ $icon }}" class="h-6 w-6 text-red-600" />
             @endif
             @if ($label)
                 {{ $label }}
@@ -51,7 +51,7 @@
                     role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                     <div>
                         <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                            <x-yali::icon-exclamation class="h-6 w-6 text-red-600" />
+                            <x-yali::icon name="exclamation" class="h-6 w-6 text-red-600" />
                         </div>
                         <div class="mt-3 text-center sm:mt-5">
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
@@ -101,7 +101,7 @@
                         fill="currentColor" />
                 </svg>
                 @if ($icon)
-                    {{ svg($icon, 'w-5 h-5 mr-2') }}
+                    <x-yali::icon name="{{ $icon }}" class="h-6 w-6 text-red-600" />
                 @endif
                 @if ($label)
                     {{ $label }}

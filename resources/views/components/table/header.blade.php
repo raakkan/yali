@@ -1,4 +1,4 @@
-@props(['columns', 'sortColumn', 'sortDirection'])
+@props(['columns', 'sortColumn', 'sortDirection', 'actions'])
 
 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
@@ -10,12 +10,12 @@
                     @if ($column->isSortable())
                         @if ($sortColumn === $column->getName())
                             @if ($sortDirection === 'asc')
-                                <x-yali::icon-sort-ascending class="w-4 h-4 ms-1" />
+                                <x-yali::icon name="sort-ascending" class="w-4 h-4 ms-1" />
                             @else
-                                <x-yali::icon-sort-descending class="w-4 h-4 ms-1" />
+                                <x-yali::icon name="sort-descending" class="w-4 h-4 ms-1" />
                             @endif
                         @else
-                            <x-yali::icon-sort class="w-4 h-4 ms-1 text-gray-400" />
+                            <x-yali::icon name="sort" class="w-4 h-4 ms-1 text-gray-400" />
                         @endif
                     @endif
                 </div>
