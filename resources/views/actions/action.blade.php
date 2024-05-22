@@ -1,19 +1,13 @@
-<div>
-    @php
-        $model = $class->getModel();
-        $resource = $class->getResource();
-    @endphp
-
-
-    @if ($class->isLink())
-    <a href="{{ $class->getRoute() }}" @else <button @endif
-            class="button-primary inline-flex justify-center">
-
-            {{ $class->getLabel() }}
-
-            @if ($class->isLink())
-        </a>
-    @else
-        </button>
-    @endif
-</div>
+@if ($class->isLink())
+    <a href="{{ $class->getRoute() }}" class="{{ $class->getClasses() == '' ? 'btn-link' : ' ' . $class->getClasses() }}"
+        @if ($class->getStyles() !== null) style="{{ $class->getStyles() }}" @endif
+        wire:key="action-link-{{ $class->getUniqueKey() }}">
+        {{ $class->getLabel() }}
+    </a>
+@else
+    <button class="{{ $class->getClasses() == '' ? 'btn btn-primary' : ' ' . $class->getClasses() }}"
+        @if ($class->getStyles() !== null) style="{{ $class->getStyles() }}" @endif
+        wire:key="action-button-{{ $class->getUniqueKey() }}">
+        {{ $class->getLabel() }}
+    </button>
+@endif

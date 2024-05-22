@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Resources\Actions;
 
+use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
 use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\Core\Actions\YaliAction;
 
@@ -12,6 +13,13 @@ class CreateAction extends YaliAction
     protected bool $isLink = true;
 
     protected string $label = 'Create';
+
+    public function __construct() {
+        $this->classes([
+            ButtonClass::BTN,
+            ButtonClass::PRIMARY
+        ]);
+    }
 
     public function getRoute()
     {

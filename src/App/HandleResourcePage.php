@@ -12,11 +12,16 @@ class HandleResourcePage extends Component
     protected $view = 'yali::pages.handle-resource-page';
     public $model;
 
-    public function mount(Request $request, $modelKey)
+    public function mount(Request $request, $modelKey = null)
     {
         $this->resource = YaliManager::resolveResource($request->route('resource'));
 
-        $this->model = $this->getModel()->find($modelKey);
+        if ($modelKey) {
+            $this->model = $this->getModel()->find($modelKey);
+        } else {
+            $this->model = $this->getModel();
+        }
+        
     }
 
     public function getResource()
