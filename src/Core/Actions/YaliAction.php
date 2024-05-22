@@ -1,65 +1,76 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+use Illuminate\Support\Facades\Log;
+use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Traits\Makable;
+use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
 abstract class YaliAction extends YaliComponent
 {
     use Makable;
 
     protected string $label;
-    protected string $class;
-    protected string $icon;
-    protected bool $visible;
-    protected string $confirmationMessage;
-    protected string $permission;
+    protected bool $isLink = false;
+    protected string $route;
+    protected Model $model;
 
-    public function getLabel(): string
+    protected YaliResource $resource;
+
+    public function label($label)
     {
-        return $this->label;
+        $this->label = $label;
+
+        return $this;
+    }
+    
+    public function getLabel()
+    {
+        return $this->label ?? 'Action';
     }
 
-    public function getClass(): string
+    public function getModel()
     {
-        return $this->class;
+        return $this->model;
     }
 
-    public function getIcon(): string
+    public function setModel(Model $model)
     {
-        return $this->icon;
+        $this->model = $model;
+
+        return $this;
     }
 
-    public function isVisible(): bool
+    public function getResource()
     {
-        return $this->visible;
+        return $this->resource;
     }
 
-    public function setVisible(bool $visible): void
+    public function setResource(YaliResource $resource)
     {
-        $this->visible = $visible;
+        $this->resource = $resource;
+
+        return $this;
     }
 
-    public function getConfirmationMessage(): string
+    public function link($route)
     {
-        return $this->confirmationMessage;
+        $this->route = $route;
+
+        $this->isLink = true;
+
+        return $this;
     }
 
-    public function setConfirmationMessage(string $message): void
+    public function isLink()
     {
-        $this->confirmationMessage = $message;
+        return $this->isLink;
     }
 
-    public function getPermission(): string
+    public function getRoute()
     {
-        return $this->permission;
+        return $this->route;
     }
-
-    public function hasPermission($user): bool
-    {
-        return $user->can($this->permission);
-    }
-
-    abstract public function handle($model);
-    abstract public function render($data);
 }

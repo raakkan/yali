@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
+use Raakkan\Yali\Core\Utils\RouteUtils;
 
 class NavigationManager
 {
@@ -59,7 +60,7 @@ class NavigationManager
         return new NavigationItem(
             $data['class']::getNavigationLabel(),
             $uniqueSlug,
-            Str::kebab(Str::plural($data['class']::getType()) . str_replace('\\', '', $data['class'])),
+            RouteUtils::getRouteNameByClass($data['class']),
             $data['class'],
             $data['class']::getType(),
             $data['class']::getNavigationIcon(),

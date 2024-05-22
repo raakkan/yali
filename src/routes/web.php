@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Raakkan\Yali\App\DashboardPage;
+use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\Core\Facades\YaliManager;
 
@@ -17,6 +18,12 @@ Route::prefix('admin')->group(function () {
 
         if ($page->getType() === 'resource') {
             Route::get('/'.$page->getSlug(), ResourcePage::class)->name($page->getRouteName())
+            ->defaults('resource', $page->getClass());
+
+            Route::get('/'.$page->getSlug() . '/create', HandleResourcePage::class)->name($page->getRouteName().'.create')
+            ->defaults('resource', $page->getClass());
+
+            Route::get('/'.$page->getSlug() . '/{modelKey}/edit', HandleResourcePage::class)->name($page->getRouteName().'.edit')
             ->defaults('resource', $page->getClass());
         }
     }

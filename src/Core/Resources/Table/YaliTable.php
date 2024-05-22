@@ -2,8 +2,10 @@
 
 namespace Raakkan\Yali\Core\Resources\Table;
 
-use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Resources\YaliResource;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Resources\Actions\CreateAction;
+use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 
 class YaliTable
 {
@@ -18,9 +20,18 @@ class YaliTable
 
     public $actions = [];
 
+    public $headerActions = [];
+
     public function __construct(YaliResource $resource)
     {
         $this->resource = $resource;
+
+        $this->headerActions[] = CreateAction::make();
+
+        $this->actions[] = [
+            EditAction::make(),
+            DeleteAction::make(),
+        ];
     }
 
     public function columns($columns)
@@ -117,6 +128,17 @@ class YaliTable
     public function getActions()
     {
         return $this->actions;
+    }
+
+    public function headerActions($actions)
+    {
+        $this->headerActions = $actions;
+        return $this;
+    }
+
+    public function getHeaderActions()
+    {
+        return $this->headerActions;
     }
 
 }

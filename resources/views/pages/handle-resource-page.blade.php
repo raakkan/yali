@@ -1,0 +1,3 @@
+<div>
+    {{ $model->name }}
+</div>

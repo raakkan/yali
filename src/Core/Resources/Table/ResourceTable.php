@@ -11,6 +11,7 @@ use Raakkan\Yali\Core\Resources\Table\YaliTable;
 class ResourceTable extends Component
 {
     use WithPagination;
+
     public $resource;
 
     public $search = '';
@@ -36,6 +37,11 @@ class ResourceTable extends Component
     public function getTable()
     {
         return $this->getResource()->table();
+    }
+
+    public function getModel()
+    {
+        return $this->getResource()->getModelInstance();
     }
 
     public function getQueryBuilder()
@@ -86,7 +92,6 @@ class ResourceTable extends Component
 
     public function delete($id)
     {
-        sleep(5);
         dd($id);
         $model = $this->getModel();
         $model->find($id)->delete();
@@ -114,6 +119,7 @@ class ResourceTable extends Component
             'modelData' => $this->getModelData(),
             'filters' => $this->getTable()->getFilters(),
             'actions' => $this->getTable()->getActions(),
+            'headerActions' => $this->getTable()->getHeaderActions(),
         ]);
     }
 }
