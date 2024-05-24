@@ -16,7 +16,7 @@
 @if ($link)
 <a href="{!! $link !!}" @else <button @endif
         wire:key="hello-{{ md5(serialize(rand())) }}"
-        {{ $attributes->merge(['class' => 'button-primary inline-flex justify-center']) }}
+        {{ $attributes->merge(['class' => 'btn btn-primary']) }}
         @if ($spinner) wire:target="{{ $spinnerTarget }}"
     wire:loading.attr="disabled" @endif
         @if ($disabled) disabled @endif>
@@ -27,7 +27,7 @@
         @endif
 
         @if ($icon)
-            <x-yali::icon name="{{ $icon }}" class="h-6 w-6 text-red-600" />
+            <x-yali::icon name="{{ $icon }}" />
         @endif
 
         @if ($label)

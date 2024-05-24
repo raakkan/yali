@@ -11,9 +11,11 @@ class NavigationItem
     public $type;
     public $icon;
     public $order;
-    public $children;
+    public $path;
+    public $childrens;
+    public $parent;
 
-    public function __construct($label, $slug, $routeName, $class, $type, $icon = null, $order = 0)
+    public function __construct($label, $slug, $routeName, $class, $type, $icon = null, $order = 0, $path = null, $parent = null)
     {
         $this->label = $label;
         $this->slug = $slug;
@@ -22,15 +24,40 @@ class NavigationItem
         $this->type = $type;
         $this->icon = $icon;
         $this->order = $order;
+        $this->path = $path;
+        $this->parent = $parent;
     }
 
-    // public function addChild(NavigationItem $menuItem)
-    // {
-    //     $this->children[] = $menuItem;
-    //     usort($this->children, function ($a, $b) {
-    //         return $a->order - $b->order;
-    //     });
-    // }
+    public function addChild(NavigationItem $menuItem)
+    {
+        $this->childrens[] = $menuItem;
+        $menuItem->setParent($this);
+    }
+
+    public function setParent(NavigationItem $parent)
+    {
+        $this->parent = $parent;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function hasParent()
+    {
+        return $this->parent !== null;
+    }
+
+    public function getChildrens()
+    {
+        return $this->childrens;
+    }
+
+    public function hasChildrens()
+    {
+        return $this->childrens !== null;
+    }
 
     public function getSlug()
     {

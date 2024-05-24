@@ -25,7 +25,8 @@ class NavigationManager
                 DashboardPage::class,
                 'page',
                 'dashboard',
-                0
+                0,
+                '/admin'
             )
         );
 
@@ -65,6 +66,7 @@ class NavigationManager
             $data['class']::getType(),
             $data['class']::getNavigationIcon(),
             $data['class']::getNavigationOrder(),
+            '/admin/'.$uniqueSlug
         );
     }
 
@@ -84,6 +86,16 @@ class NavigationManager
     public function getNavigation()
     {
         return $this->navigation;
+    }
+
+    public function findBySlug($slug)
+    {
+        if ($slug === 'admin') {
+            return $this->navigation->findBySlug('/');
+        } else {
+            return $this->navigation->findBySlug($slug);
+        }
+        
     }
 
 }

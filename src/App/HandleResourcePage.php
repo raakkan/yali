@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Utils\RouteUtils;
 
 class HandleResourcePage extends Component
 {
@@ -69,12 +70,17 @@ class HandleResourcePage extends Component
         $validatedData = $this->validatedInputs();
 
         if (is_null($this->model->id)) {
-            $this->model->create($validatedData);
-            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been created.');
+            $this->model = $this->model->create($validatedData);
+            return redirect()->route($this->getResoureceRoute() . '.edit', ['modelKey' => $this->model->id]);
         } else {
             $this->model->update($validatedData);
             $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been updated.');
         }
+    }
+
+    public function getResoureceRoute()
+    {
+        return RouteUtils::getRouteNameByClass(get_class($this->getResource()));
     }
 
     public function validatedInputs()

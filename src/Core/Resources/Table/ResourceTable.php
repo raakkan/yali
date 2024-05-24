@@ -65,7 +65,6 @@ class ResourceTable extends Component
                     ->sort($this->sortColumn, $this->sortDirection)
                     ->withTrashed()
                     ->applyFilters($table->getFilters(), $this->filterInputs);
-
         return $queryBuilder->paginate($table->getPerPage());
     }
 

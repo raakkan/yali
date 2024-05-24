@@ -57,6 +57,7 @@ class BooleanFilter extends Filter
         if ($value === '') {
             $this->skip = true;
         } else {
+            $this->skip = false;
             $this->value = ($value === '1' || $value === true || $value === 1 || $value === 'true') ? true : false;
         }
         

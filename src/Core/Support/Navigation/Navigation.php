@@ -76,4 +76,19 @@ class Navigation implements Renderable
         ]);
     }
 
+    public function findBySlug($slug)
+    {
+        foreach ($this->items as $item) {
+            if ($item instanceof NavigationItem && $item->getSlug() === $slug) {
+                return $item;
+            } elseif ($item instanceof NavigationGroup) {
+                foreach ($item->getItems() as $groupItem) {
+                    if ($groupItem->getSlug() === $slug) {
+                        return $groupItem;
+                    }
+                }
+            }
+        }
+    }
+
 }

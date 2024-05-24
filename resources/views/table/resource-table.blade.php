@@ -36,7 +36,7 @@
     </div>
 
     <div class="p-4 bg-white dark:bg-gray-900">
-        <div class="flex items-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($filters as $filter)
                 {{ $filter->render() }}
             @endforeach
@@ -60,6 +60,7 @@
             </tbody>
         </table>
     </div>
+
     @if ($modelData->hasPages())
         <div class="px-3 pb-3">
             {{ $modelData->links('yali::pagination') }}

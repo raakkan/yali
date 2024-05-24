@@ -84,4 +84,9 @@ class Yali
     {
         return $this->iconLoader;
     }
+
+    public function getNavigationManager()
+    {
+        return $this->navigationManager;
+    }
 }
