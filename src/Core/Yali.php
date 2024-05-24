@@ -3,7 +3,9 @@
 namespace Raakkan\Yali\Core;
 
 use Livewire\Livewire;
+use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\DashboardPage;
+use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\Core\Resources\ResourceManager;
@@ -46,6 +48,13 @@ class Yali
     public function registerLivewireComponents() {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
         Livewire::component('yali::resource-table', ResourceTable::class);
+
+        Livewire::component('yali::resource-page', ResourcePage::class);
+        Livewire::component('yali::resource-handle-page', HandleResourcePage::class);
+
+        foreach ($this->getPages() as $page) {
+            Livewire::component($this->componentRegistry->getName($page['class']), $page['class']);
+        }
     }
 
     public function getPages() {

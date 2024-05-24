@@ -34,7 +34,7 @@ Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup })
         const confirmListener = event => {
             if (event.detail.id === component.id) {
                 if (event.type === 'confirm-confirmed') {
-                    console.log(content.payload, event.detail.payload);
+                    // console.log(Livewire.find(component.id).delete(3));
                     // User clicked "Yes, I'm sure"
                     if (content.payload && event.detail.payload === content.payload) {
                         Livewire.find(component.id).call(wireClickFunction, content.payload)

@@ -1,27 +1,23 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
-use Livewire\Livewire;
-use Illuminate\Support\Facades\Log;
+use Raakkan\Yali\Core\Actions\Traits\Modalable;
 use Raakkan\Yali\Core\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Actions\Traits\Stylable;
-use Raakkan\Yali\Core\Resources\Table\YaliTable;
-use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 
 abstract class YaliAction extends YaliComponent
 {
     use Makable;
     use Stylable;
+    use Modalable;
 
     protected string $label;
     protected bool $isLink = false;
     protected string $route;
     protected Model $model;
-
-    protected ResourceTable $livewire;
 
     protected YaliResource $resource;
 
@@ -85,14 +81,9 @@ abstract class YaliAction extends YaliComponent
         return md5(get_class($this) . '_' . uniqid());
     }
 
-    public function getLivewire()
+    public function getPayload()
     {
-        return $this->livewire;
-    }
-
-    public function setLivewire(ResourceTable $livewire)
-    {
-        $this->livewire = $livewire;
+        return $this->getModel()->id;
     }
 
 }

@@ -2,29 +2,23 @@
 
 namespace Raakkan\Yali\Core\Forms;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\Forms\Traits\HasValidation;
 
 abstract class Field
 {
     use HasValidation;
-    /**
-     * The name of the field.
-     *
-     * @var string
-     */
+
     public $name;
 
-    /**
-     * The label of the field.
-     *
-     * @var string
-     */
     public $label;
 
     public $default;
 
     public $placeholder;
+
+    protected $type = '';
 
     public static function make($name)
     {
@@ -44,7 +38,7 @@ abstract class Field
 
     public function getLabel()
     {
-        return $this->label;
+        return $this->label ?? Str::of($this->name)->replace('_', ' ')->title();
     }
 
     public function default($default)
@@ -74,11 +68,11 @@ abstract class Field
         $placeholder = $this->placeholder;
 
         if (empty($placeholder)) {
-            $placeholder = $this->label;
+            $placeholder = isset($this->label) ?? 'Enter ' . Str::of($this->label)->replace('_', ' ')->title();
         }
 
         if (empty($placeholder)) {
-            $placeholder = $this->name;
+            $placeholder = 'Enter ' . Str::of($this->name)->replace('_', ' ')->title();
         }
 
         if (empty($placeholder)) {
@@ -88,4 +82,15 @@ abstract class Field
         return $placeholder;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 }

@@ -92,10 +92,14 @@ class ResourceTable extends Component
 
     public function delete($id)
     {
-        dd($id);
         $model = $this->getModel();
-        $model->find($id)->delete();
-        $this->resetPage();
+        $record = $model->find($id);
+
+        if ($record) {
+            $record->delete();
+            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been deleted.');
+            $this->resetPage();
+        }
     }
 
     public function updatedFilterInputs()
@@ -112,10 +116,8 @@ class ResourceTable extends Component
 
     public function render()
     {
-        $columns = $this->getTable()->getColumns();
-        
         return view('yali::table.resource-table', [
-            'columns' => $columns,
+            'columns' => $this->getTable()->getColumns(),
             'modelData' => $this->getModelData(),
             'filters' => $this->getTable()->getFilters(),
             'actions' => $this->getTable()->getActions(),

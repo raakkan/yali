@@ -16,4 +16,15 @@ class YaliForm
     {
         return $this->fields;
     }
+
+    public function getValidationRules()
+    {
+        $validationRules = [];
+
+        foreach ($this->fields as $field) {
+            $validationRules[$field->getName()] = $field->getValidationRules();
+        }
+
+        return $validationRules;
+    }
 }

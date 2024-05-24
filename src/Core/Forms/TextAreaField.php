@@ -4,7 +4,6 @@ namespace Raakkan\Yali\Core\Forms;
 
 class TextAreaField extends Field
 {
-    public $type = 'textarea';
     public $rows = 5;
     public $cols = 50;
     public $autoresize = false;

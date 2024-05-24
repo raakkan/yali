@@ -11,10 +11,15 @@ class DeleteAction extends YaliAction
 
     protected string $label = 'delete';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->classes([
             ButtonClass::LINK,
             'text-red-500'
         ]);
+
+        $this->confirmation();
+        // $this->confirmationTitle('Delete ' . $this->getResource()->getTitle());
+        // $this->confirmationMessage('Are you sure you want to delete this ' . $this->getResource()->getTitle() . '?');
     }
 }

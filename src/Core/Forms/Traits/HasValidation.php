@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\Core\Forms\Traits;
 
+use Illuminate\Validation\Rules\Password;
+
 trait HasValidation
 {
     /**
@@ -19,16 +21,6 @@ trait HasValidation
     public function required()
     {
         return $this->addValidationRule('required');
-    }
-
-    /**
-     * Add the "email" validation rule.
-     *
-     * @return $this
-     */
-    public function email()
-    {
-        return $this->addValidationRule('email');
     }
 
     /**
@@ -190,7 +182,7 @@ trait HasValidation
      * @param string $rule
      * @return $this
      */
-    public function addValidationRule(string $rule)
+    public function addValidationRule(string | Password $rule)
     {
         $this->validationRules[] = $rule;
 
@@ -218,4 +210,5 @@ trait HasValidation
 
         return $this;
     }
+
 }

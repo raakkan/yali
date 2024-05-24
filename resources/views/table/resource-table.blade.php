@@ -6,7 +6,7 @@
     <div class="p-4 bg-white dark:bg-gray-900 flex items-center justify-between">
         <div>
             @foreach ($headerActions as $action)
-                {{ $action->setLivewire($this)->setResource($this->getResource())->setModel($this->getModel())->render() }}
+                {{ $action->setResource($this->getResource())->setModel($this->getModel())->render() }}
             @endforeach
         </div>
         @if ($this->getTable()->isAnyColumnSearchable())

@@ -72,6 +72,7 @@
     </div>
 
     <x-yali::modal />
+    <x-yali::toast />
 </body>
 
 </html>
