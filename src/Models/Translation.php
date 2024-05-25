@@ -21,4 +21,9 @@ class Translation extends Model
     {
         return $this->belongsTo(Language::class);
     }
+
+    public function translationCategory()
+    {
+        return $this->belongsTo(TranslationCategory::class);
+    }
 }

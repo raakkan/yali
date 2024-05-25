@@ -15,16 +15,23 @@ Route::prefix('admin')->group(function () {
         if ($page->getRouteName() !== 'yali::pages.dashboard' && $page->getType() === 'page') {
             Route::get($page->getSlug(), $page->getClass())->name($page->getRouteName());
         }
-
+    
         if ($page->getType() === 'resource') {
             Route::get('/'.$page->getSlug(), ResourcePage::class)->name($page->getRouteName())
             ->defaults('resource', $page->getClass());
-
-            Route::get('/'.$page->getSlug() . '/create', HandleResourcePage::class)->name($page->getRouteName().'.create')
-            ->defaults('resource', $page->getClass());
-
-            Route::get('/'.$page->getSlug() . '/{modelKey}/edit', HandleResourcePage::class)->name($page->getRouteName().'.edit')
-            ->defaults('resource', $page->getClass());
+    
+            foreach ($page->getChildrens() as $childItem) {
+                if ($childItem->getRouteName() === $page->getRouteName() . '.create') {
+                    Route::get($childItem->getSlug(), HandleResourcePage::class)->name($childItem->getRouteName())
+                    ->defaults('resource', $page->getClass());
+                }
+    
+                if ($childItem->getRouteName() === $page->getRouteName() . '.edit') {
+                    Route::get($childItem->getSlug(), HandleResourcePage::class)->name($childItem->getRouteName())
+                    ->defaults('resource', $page->getClass());
+                }
+            }
         }
     }
+    
 });

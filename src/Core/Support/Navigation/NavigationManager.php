@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\Core\Utils\RouteUtils;
+use Raakkan\Yali\App\HandleResourcePage;
 
 class NavigationManager
 {
@@ -70,7 +71,7 @@ class NavigationManager
         $slug = $data['class']::getSlug();
         $uniqueSlug = $this->generateUniqueSlug($slug);
 
-        return new NavigationItem(
+        $navigationItem = new NavigationItem(
             $data['class']::getNavigationLabel(),
             $uniqueSlug,
             RouteUtils::getRouteNameByClass($data['class']),
@@ -80,6 +81,32 @@ class NavigationManager
             $data['class']::getNavigationOrder(),
             '/admin/'.$uniqueSlug
         );
+
+        if ($data['class']::getType() === 'resource') {
+            $navigationItem->addChild(new NavigationItem(
+                'Create',
+                $uniqueSlug . '/create',
+                RouteUtils::getRouteNameByClass($data['class']) . '.create',
+                HandleResourcePage::class,
+                'page',
+                'plus',
+                0,
+                '/admin/' . $uniqueSlug . '/create'
+            ));
+
+            $navigationItem->addChild(new NavigationItem(
+                'Edit',
+                $uniqueSlug . '/{modelKey}/edit',
+                RouteUtils::getRouteNameByClass($data['class']) . '.edit',
+                HandleResourcePage::class,
+                'page',
+                'edit',
+                0,
+                '/admin/' . $uniqueSlug . '/{modelKey}/edit'
+            ));
+        }
+
+        return $navigationItem;
     }
 
     protected function generateUniqueSlug($slug)

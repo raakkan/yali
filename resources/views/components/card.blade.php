@@ -5,7 +5,7 @@
         <h2 class="text-2xl font-semibold">{{ $title }}</h2>
         {{-- <p class="mt-1 text-gray-600 dark:text-gray-400">{{ $description }}</p> --}}
     </div>
-    <div class="p-4">
+    <div class="">
         {{ $slot }}
     </div>
 </div>

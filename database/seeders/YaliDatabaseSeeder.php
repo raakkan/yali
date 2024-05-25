@@ -27,5 +27,13 @@ class YaliDatabaseSeeder extends Seeder
             'is_default' => true,
         ]);
 
+        Language::create([
+            'name' => 'Arabic',
+            'code' => 'ar',
+            'rtl' => true,
+            'is_active' => true,
+            'is_default' => false,
+        ]);
+
     }
 }

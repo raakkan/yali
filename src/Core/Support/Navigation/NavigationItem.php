@@ -66,7 +66,37 @@ class NavigationItem
 
     public function isActive()
     {
-        return request()->routeIs($this->routeName);
+        $currentUrl = request()->url();
+        $itemUrl = url($this->path);
+
+        if ($currentUrl === $itemUrl) {
+            return true;
+        }
+        
+        if ($this->hasChildrens()) {
+            foreach ($this->childrens as $child) {
+                if ($child->isActive()) {
+                    return true;
+                }
+
+                // Check if the child item path matches the current URL pattern
+                $childPath = $child->path;
+                $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $childPath);
+                $pattern = str_replace('/', '\/', $pattern);
+                
+                if (preg_match('/^' . $pattern . '$/', parse_url($currentUrl, PHP_URL_PATH), $matches)) {
+                    // Extract the model key from the URL
+                    $modelKey = $matches[1] ?? null;
+
+                    // Check if the model key exists in the current URL
+                    if ($modelKey && strpos($currentUrl, $modelKey) !== false) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public function getLabel()
