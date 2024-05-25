@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Resources\Table;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
 use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\YaliTable;
@@ -15,9 +16,6 @@ class ResourceTable extends Component
     public $resource;
 
     public $search = '';
-
-    public $sortColumn;
-    public $sortDirection;
 
     public $filterInputs = [];
 
@@ -64,17 +62,32 @@ class ResourceTable extends Component
 
     public function sortBy($column)
     {
-        $sortColumn = collect($this->getTable()->getColumns())->firstWhere('name', $column);
+        $filter = $this->getTable()->getFilterByName($column);
 
-        if ($this->sortColumn === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortDirection = 'asc';
+        if ($filter && array_key_exists($column, $this->filterInputs)) {
+            if ($this->filterInputs[$column]) {
+                $this->filterInputs[$column] = $this->filterInputs[$column] === 'asc' ? 'desc' : 'asc';
+            }else{
+                $this->filterInputs[$column] = 'asc';
+            }
+        }
+        
+        $this->resetPage();
+    }
+
+    #[Computed]
+    public function getSort()
+    {
+        $filters = $this->getTable()->getFilters();
+
+        $data = [];
+        foreach ($filters as $filter) {
+            if (method_exists($filter, 'ascLabel')) {
+                $data[$filter->getName()] = $this->filterInputs[$filter->getName()];
+            }
         }
 
-        $this->sortColumn = $column;
-        $sortColumn->sortDirection = $this->sortDirection;
-        $this->resetPage();
+        return $data;
     }
 
     public function clearSearch()
@@ -105,6 +118,23 @@ class ResourceTable extends Component
         $this->filterInputs = collect($this->getTable()->getFilters())->mapWithKeys(function ($filter) {
             return [$filter->getName() => $filter->getValue()];
         })->toArray();
+    }
+
+    #[Computed]
+    public function hasFilters()
+    {
+        foreach ($this->filterInputs as $value) {
+            if (!empty($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function clearAllFilters()
+    {
+        $this->setFilterInputs();
+        $this->resetPage();
     }
 
     public function render()

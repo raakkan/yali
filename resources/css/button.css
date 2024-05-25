@@ -1,9 +1,25 @@
 .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm;
+    @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
 }
 
 .btn svg {
     @apply w-5 h-5 mr-2;
+}
+
+.btn-xs {
+    @apply px-2.5 py-1.5 text-xs;
+}
+
+.btn-sm {
+    @apply px-3 py-2 text-sm;
+}
+
+.btn-lg {
+    @apply px-5 py-3 text-lg;
+}
+
+.btn-xl {
+    @apply px-6 py-4 text-xl;
 }
 
 .btn-primary {
@@ -60,4 +76,8 @@
 
 .btn-full-width {
     @apply w-full;
+}
+
+.btn-ghost {
+    @apply bg-transparent text-gray-800 border border-gray-300 hover:bg-gray-100 focus:ring-gray-200 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700;
 }

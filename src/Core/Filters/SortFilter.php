@@ -35,15 +35,13 @@ class SortFilter extends Filter
 
     public function render()
     {
-        if (!$this->isHidden()) {
-            return view('yali::filters.sort', [
-                'name' => $this->getName(),
-                'label' => $this->getLabel(),
-                'ascLabel' => $this->ascLabel,
-                'descLabel' => $this->descLabel,
-                'options' => $this->options(),
-            ]);
-        }
+        return view('yali::filters.sort', [
+            'name' => $this->getName(),
+            'label' => $this->getLabel(),
+            'ascLabel' => $this->ascLabel,
+            'descLabel' => $this->descLabel,
+            'options' => $this->options(),
+        ]);
     }
 
     public function options()

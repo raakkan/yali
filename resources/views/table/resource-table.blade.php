@@ -35,18 +35,31 @@
         @endif
     </div>
 
-    <div class="p-4 bg-white dark:bg-gray-900">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ($filters as $filter)
-                {{ $filter->render() }}
-            @endforeach
+    @if (count($filters) > 0)
+        <div class="p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">Filters</h3>
+                <button wire:click="clearAllFilters"
+                    class="btn btn-xs {{ $this->hasFilters() ? 'btn-primary' : 'btn-ghost cursor-not-allowed' }}"
+                    type="button" {{ $this->hasFilters() ? '' : 'disabled' }}>
+                    Clear Filters
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($filters as $filter)
+                    @if (!$filter->isHidden())
+                        <div class="bg-gray-100 dark:bg-gray-900 rounded-md p-4">
+                            {{ $filter->render() }}
+                        </div>
+                    @endif
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
 
-    {{-- TODO: no data found message --}}
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" :actions="$actions" />
+            <x-yali::table.header :columns="$columns" :actions="$actions" />
             <tbody>
                 @forelse ($modelData as $data)
                     <x-yali::table.row :data="$data" :columns="$columns">

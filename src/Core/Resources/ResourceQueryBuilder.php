@@ -74,10 +74,10 @@ class ResourceQueryBuilder
                 if (!empty($livewireData)) {
                     foreach ($livewireData as $name => $value) {
                         
-                        // if ($filter instanceof SortFilter && method_exists($filter, 'ascLabel') && $value && $filter->getName() === $name) {
-                        //     $this->sort($filter->getName(), $value);
-                        //     continue;
-                        // }
+                        if ($filter instanceof SortFilter && method_exists($filter, 'ascLabel') && $value && $filter->getName() === $name) {
+                            $this->sort($filter->getName(), $value);
+                            continue;
+                        }
 
                         if ($filter->getName() === $name) {
                             $filter->setValue($value);
