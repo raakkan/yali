@@ -64,5 +64,17 @@ class YaliServiceProvider extends ServiceProvider
         Livewire::setUpdateRoute(function ($handle) {
             return Route::post('/yali/livewire/update', $handle);
         });
+
+        // $this->loadSeeders();
     }
+
+    protected function loadSeeders()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../../database/seeders' => database_path('seeders'),
+            ], 'yali-seeders');
+        }
+    }
+
 }

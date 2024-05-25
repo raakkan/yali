@@ -5,11 +5,19 @@
     "license": "mit",
     "autoload": {
         "psr-4": {
-            "Raakkan\\Yali\\": "src/"
+            "Raakkan\\Yali\\": "src/",
+            "Raakkan\\Yali\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
             "src/helpers/plugin-helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Raakkan\\Yali\\Database\\Factories\\": "database/factories/",
+            "Raakkan\\Yali\\Database\\Seeders\\": "database/seeders/"
+        }
     },
     "authors": [
         {

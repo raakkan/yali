@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('model_translations', function (Blueprint $table) {
+        Schema::create('yali_model_translations', function (Blueprint $table) {
             $table->id();
             $table->morphs('translatable');
             $table->string('key');
@@ -23,6 +23,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('model_translations');
+        Schema::dropIfExists('yali_model_translations');
     }
 };
