@@ -16,6 +16,8 @@ abstract class Filter
 
     public $skip = false;
 
+    public $hidden = false;
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -48,6 +50,17 @@ abstract class Filter
         return $this;
     }
 
+    public function hidden($hidden = true)
+    {
+        $this->hidden = $hidden;
+        return $this;
+    }
+
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
     abstract public function apply(Builder $builder, $value);
 
     abstract public function render();
@@ -56,7 +69,7 @@ abstract class Filter
     public function handle(Builder $builder, Closure $next)
     {
         if (!is_null($this->value)) {
-            $this->apply($builder, $this->value);
+            return $this->apply($builder, $this->value);
         }
 
         return $next($builder);

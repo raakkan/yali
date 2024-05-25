@@ -2,9 +2,18 @@
 
 namespace Raakkan\Yali\Core\Forms;
 
+use Raakkan\Yali\Core\Resources\YaliResource;
+
 class YaliForm
 {
     protected $fields = [];
+
+    protected $resource;
+
+    public function __construct(YaliResource $resource)
+    {
+        $this->resource = $resource;
+    }
 
     public function fields($fields)
     {

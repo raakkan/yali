@@ -16,7 +16,7 @@ class DateFilter extends Filter
 
     public function apply(Builder $builder, $value)
     {
-        $builder->whereDate($this->name, $this->operator, $value);
+        return $builder->whereDate($this->name, $this->operator, $value);
     }
 
     public function render()

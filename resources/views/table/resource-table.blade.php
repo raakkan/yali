@@ -48,7 +48,7 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <x-yali::table.header :columns="$columns" :sortColumn="$sortColumn" :sortDirection="$sortDirection" :actions="$actions" />
             <tbody>
-                @foreach ($modelData as $data)
+                @forelse ($modelData as $data)
                     <x-yali::table.row :data="$data" :columns="$columns">
                         <x-slot name="actions">
                             @foreach ($actions as $action)
@@ -56,7 +56,13 @@
                             @endforeach
                         </x-slot>
                     </x-yali::table.row>
-                @endforeach
+                @empty
+                    <tr>
+                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400" colspan="{{ count($columns) }}">
+                            <p class="text-gray-500 dark:text-gray-400">No data found.</p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

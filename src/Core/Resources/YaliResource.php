@@ -21,14 +21,8 @@ abstract class YaliResource
 
     protected $table;
 
-    public function __construct()
-    {
-        $this->form = new YaliForm();
-        $this->table = new YaliTable($this);
-    }
-
-    abstract public function table(): YaliTable;
-    abstract public function form(): YaliForm;
+    abstract public function table(YaliTable $table): YaliTable;
+    abstract public function form(YaliForm $form): YaliForm;
 
     public static function getModel()
     {
@@ -72,6 +66,22 @@ abstract class YaliResource
 
     public function getQueryBuilder()
     {
-        return new ResourceQueryBuilder($this->getModelInstance()->newQuery(), $this->table());
+        return new ResourceQueryBuilder($this->getModelInstance()->newQuery(), $this->table($this->getTable()));
+    }
+
+    public function getTable()
+    {
+        if(!$this->table) {
+            $this->table = new YaliTable($this);
+        }
+        return $this->table;
+    }
+
+    public function getForm()
+    {
+        if(!$this->form) {
+            $this->form = new YaliForm($this);
+        }
+        return $this->form;
     }
 }

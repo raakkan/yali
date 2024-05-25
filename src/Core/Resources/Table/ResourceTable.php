@@ -36,7 +36,7 @@ class ResourceTable extends Component
 
     public function getTable()
     {
-        return $this->getResource()->table();
+        return $this->getResource()->table($this->getResource()->getTable());
     }
 
     public function getModel()
@@ -52,19 +52,13 @@ class ResourceTable extends Component
     public function getModelData()
     {
         $table = $this->getTable();
+
         $queryBuilder = $this->getQueryBuilder();
 
-        $defaultSortColumn = $table->getDefaultSortableColumn();
-
-        if (!empty($defaultSortColumn) && empty($this->sortColumn)) {
-            $this->sortColumn = $this->sortColumn ?? $defaultSortColumn->getName();
-            $this->sortDirection = $this->sortDirection ?? $defaultSortColumn->getSortDirection();
-        }
-
         $queryBuilder->search($this->search)
-                    ->sort($this->sortColumn, $this->sortDirection)
                     ->withTrashed()
                     ->applyFilters($table->getFilters(), $this->filterInputs);
+
         return $queryBuilder->paginate($table->getPerPage());
     }
 

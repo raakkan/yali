@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Resources\Table;
 
+use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
@@ -28,10 +29,17 @@ class YaliTable
 
         $this->headerActions[] = CreateAction::make();
 
-        $this->actions[] = [
+        $this->actions = [
             EditAction::make(),
             DeleteAction::make(),
         ];
+    }
+
+    public function getSortableColumns()
+    {
+        return collect($this->columns)->filter(function ($column) {
+            return $column->sortable;
+        })->toArray();
     }
 
     public function columns($columns)
@@ -116,6 +124,11 @@ class YaliTable
 
     public function getFilters()
     {
+        $sortableColumns = $this->getSortableColumns();
+        
+        // foreach ($sortableColumns as $column) {
+        //     $this->filters = array_merge($this->filters, [SortFilter::make($column->getName())->setValue($column->getSortDirection())]);
+        // }
         return $this->filters;
     }
 

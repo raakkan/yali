@@ -30,18 +30,20 @@ class SortFilter extends Filter
 
     public function apply(Builder $builder, $value)
     {
-        return $builder->orderBy('name', 'desc');
+        return $builder->orderBy($this->name, $value);
     }
 
     public function render()
     {
-        return view('yali::filters.sort', [
-            'name' => $this->getName(),
-            'label' => $this->getLabel(),
-            'ascLabel' => $this->ascLabel,
-            'descLabel' => $this->descLabel,
-            'options' => $this->options(),
-        ]);
+        if (!$this->isHidden()) {
+            return view('yali::filters.sort', [
+                'name' => $this->getName(),
+                'label' => $this->getLabel(),
+                'ascLabel' => $this->ascLabel,
+                'descLabel' => $this->descLabel,
+                'options' => $this->options(),
+            ]);
+        }
     }
 
     public function options()

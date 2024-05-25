@@ -30,7 +30,7 @@ class BooleanFilter extends Filter
 
     public function apply(Builder $builder, $value)
     {
-        return $builder->where($this->name, $value);
+        return $builder->where($this->name, '=', $value);
     }
 
     public function render()

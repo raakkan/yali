@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
+use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
 class ResourceQueryBuilder
@@ -51,20 +52,7 @@ class ResourceQueryBuilder
         return $this;
     }
 
-    public function filter($filters)
-    {
-        foreach ($filters as $filter => $value) {
-            if (method_exists($this, $filter)) {
-                $this->$filter($value);
-            } elseif ($this->table->getColumns()->contains($filter)) {
-                $this->query->where($filter, $value);
-            }
-        }
-
-        return $this;
-    }
-
-    public function paginate($perPage)
+    public function paginate($perPage = 10)
     {
         return $this->query->paginate($perPage);
     }
@@ -81,17 +69,23 @@ class ResourceQueryBuilder
 
     public function applyFilters($filters, $livewireData = [])
     {
-        $this->query->where(function ($query) use ($filters, $livewireData) {
+        $this->query->where(function ($query) use ($filters, $livewireData, &$sortFilter) {
             foreach ($filters as $filter) {
                 if (!empty($livewireData)) {
                     foreach ($livewireData as $name => $value) {
+                        
+                        // if ($filter instanceof SortFilter && method_exists($filter, 'ascLabel') && $value && $filter->getName() === $name) {
+                        //     $this->sort($filter->getName(), $value);
+                        //     continue;
+                        // }
+
                         if ($filter->getName() === $name) {
                             $filter->setValue($value);
                         }
                     }
                 }
 
-                if($filter->skip) {
+                if ($filter->skip) {
                     continue;
                 }
 
@@ -99,8 +93,9 @@ class ResourceQueryBuilder
                     return $query;
                 });
             }
+            return $query;
         });
-    
+
         return $this;
     }
     

@@ -62,7 +62,7 @@ class HandleResourcePage extends Component
 
     public function getForm()
     {
-        return $this->getResource()->form();
+        return $this->getResource()->form($this->getResource()->getForm());
     }
 
     public function submit()

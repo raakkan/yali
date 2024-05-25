@@ -51,7 +51,7 @@ abstract class TableColumn
         return $this;
     }
 
-    public function sortable($direction = 'asc')
+    public function sortable($direction = '')
     {
         $this->sortDirection = $direction;
         $this->sortable = true;
