@@ -102,10 +102,7 @@ class HandleResourcePage extends Component
                             }
                         }
 
-                        // If the field is a confirmation field, remove it from the rules array.
-                        if ($field->isConfirm()) {
-                            unset($rules[$field->getName()]);
-                        }
+                        unset($rules[$field->getName()]);
                     }
                 }
             }

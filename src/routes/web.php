@@ -11,7 +11,7 @@ Route::prefix('admin')->group(function () {
 
     $navigation = YaliManager::getNavigation();
     
-    foreach ($navigation->getItems() as $page) {
+    foreach ($navigation->getAllItems() as $page) {
         if ($page->getRouteName() !== 'yali::pages.dashboard' && $page->getType() === 'page') {
             Route::get($page->getSlug(), $page->getClass())->name($page->getRouteName());
         }

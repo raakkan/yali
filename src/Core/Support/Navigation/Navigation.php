@@ -61,6 +61,23 @@ class Navigation implements Renderable
         return $items;
     }
 
+    public function getAllItems()
+    {
+        $items = collect($this->items);
+    
+        $groupItems = $items->filter(function ($item) {
+            return $item instanceof NavigationGroup;
+        })->flatMap(function ($group) {
+            return $group->getItems();
+        });
+    
+        $navigationItems = $items->filter(function ($item) {
+            return $item instanceof NavigationItem;
+        });
+    
+        return $navigationItems->merge($groupItems);
+    }
+
     public function sortItems($items)
     {
         usort($items, function ($a, $b) {

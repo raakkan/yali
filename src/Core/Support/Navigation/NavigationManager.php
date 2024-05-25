@@ -34,7 +34,7 @@ class NavigationManager
             $group = $value['class']::getNavigationGroup();
 
             if ($group) {
-                $groupItem = $this->findOrCreateGroup($group);
+                $groupItem = $this->findOrCreateGroup($group, $value['class']::getNavigationGroupIcon());
                 $groupItem->addItem($this->createNavigationItem($value));
             } else {
                 $this->navigation->add($this->createNavigationItem($value));
@@ -42,13 +42,25 @@ class NavigationManager
         }
     }
 
-    protected function findOrCreateGroup($group)
+    protected function findOrCreateGroup($group, $icon = null)
     {
-        $groupItem = $this->navigation->findGroup($group) ?: new NavigationGroup($group);
+        $groupItem = $this->navigation->findGroup($group);
 
-        if (!$groupItem) {
-            $this->navigation->add($groupItem);
+        if ($groupItem) {
+            if ($icon) {
+                $groupItem->setIcon($icon);
+            }
+            
+            return $groupItem;
         }
+
+        $groupItem = new NavigationGroup($group);
+
+        if ($icon) {
+            $groupItem->setIcon($icon);
+        }
+
+        $this->navigation->add($groupItem);
 
         return $groupItem;
     }

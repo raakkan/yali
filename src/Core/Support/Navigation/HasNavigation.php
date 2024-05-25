@@ -7,6 +7,7 @@ trait HasNavigation
     protected static $slug = '';
     protected static $navigationLabel = '';
     protected static $navigationGroup = '';
+    protected static $navigationGroupIcon = '';
     protected static $navigationIcon = '';
     protected static $navigationOrder = 0;
 
@@ -58,5 +59,17 @@ trait HasNavigation
     public static function setSlug($slug)
     {
         static::$slug = $slug;
+    }
+
+    public static function getNavigationGroupIcon()
+    {
+        return static::$navigationGroupIcon;
+    }
+
+    public function setNavigationGroupIcon($navigationGroupIcon)
+    {
+        $this->navigationGroupIcon = $navigationGroupIcon;
+
+        return $this;
     }
 }
