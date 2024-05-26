@@ -4,7 +4,7 @@ namespace Raakkan\Yali\Core\Forms;
 
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\Rule;
-use Raakkan\Yali\Core\Forms\Traits\HasValidation;
+use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 
 abstract class Field
 {

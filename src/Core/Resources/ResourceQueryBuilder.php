@@ -3,9 +3,9 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Arr;
+use Raakkan\Yali\Core\Table\YaliTable;
 use Illuminate\Database\Eloquent\Builder;
 use Raakkan\Yali\Core\Filters\SortFilter;
-use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
 class ResourceQueryBuilder
 {

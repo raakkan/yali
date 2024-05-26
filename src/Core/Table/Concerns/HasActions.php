@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Resources\Table\Traits;
+namespace Raakkan\Yali\Core\Table\Concerns;
 
 trait HasActions
 {

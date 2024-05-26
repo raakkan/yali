@@ -1,12 +1,11 @@
 <?php 
 
-namespace Raakkan\Yali\Core\Resources\Table;
+namespace Raakkan\Yali\Core\Resources;
+
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Raakkan\Yali\Core\Facades\YaliManager;
-use Raakkan\Yali\Core\Resources\ResourceManager;
-use Raakkan\Yali\Core\Resources\Table\YaliTable;
 
 // TODO: pagination page/2 in url bar refresh if filter activated no data
 class ResourceTable extends Component

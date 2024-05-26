@@ -3,10 +3,10 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Table\YaliTable;
+use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
-use Raakkan\Yali\Core\Resources\Table\YaliTable;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
 abstract class YaliResource
@@ -72,7 +72,7 @@ abstract class YaliResource
     public function getTable()
     {
         if(!$this->table) {
-            $this->table = new YaliTable($this);
+            $this->table = new YaliTable();
         }
         return $this->table;
     }
@@ -80,7 +80,7 @@ abstract class YaliResource
     public function getForm()
     {
         if(!$this->form) {
-            $this->form = new YaliForm($this);
+            $this->form = new YaliForm();
         }
         return $this->form;
     }

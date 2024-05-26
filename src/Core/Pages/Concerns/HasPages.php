@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Pages\Traits;
+namespace Raakkan\Yali\Core\Pages\Concerns;
 
 trait HasPages
 {

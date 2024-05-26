@@ -1,4 +1,7 @@
 <x-yali::card title="Languages" description="Handle Resource Page" class="w-full">
+    <x-slot name="headerSlot">
+        <button class="btn btn-primary btn-outline btn-sm">Create Language</button>
+    </x-slot>
     <div class="divide-y divide-gray-200">
         @foreach ($languages as $language)
             <div class="py-4 px-4 flex flex-col md:flex-row md:items-center md:justify-between">

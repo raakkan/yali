@@ -1,12 +1,12 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
-use Raakkan\Yali\Core\Actions\Traits\Modalable;
-use Raakkan\Yali\Core\Traits\Makable;
+use Raakkan\Yali\Core\Actions\Concerns\Modalable;
+use Raakkan\Yali\Core\Concerns\Makable;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Resources\YaliResource;
-use Raakkan\Yali\Core\Actions\Traits\Stylable;
+use Raakkan\Yali\Core\Actions\Concerns\Stylable;
 
 abstract class YaliAction extends YaliComponent
 {

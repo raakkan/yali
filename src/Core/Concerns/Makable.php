@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Traits;
+namespace Raakkan\Yali\Core\Concerns;
 
 trait Makable
 {

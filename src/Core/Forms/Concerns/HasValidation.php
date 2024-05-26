@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Forms\Traits;
+namespace Raakkan\Yali\Core\Forms\Concerns;
 
 use Illuminate\Validation\Rules\Password;
 

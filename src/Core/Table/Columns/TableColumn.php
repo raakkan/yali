@@ -1,9 +1,9 @@
 <?php
 
-namespace Raakkan\Yali\Core\Resources\Table;
+namespace Raakkan\Yali\Core\Table\Columns;
 
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Traits\Makable;
+use Raakkan\Yali\Core\Concerns\Makable;
 
 abstract class TableColumn
 {

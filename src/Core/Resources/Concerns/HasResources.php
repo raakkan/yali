@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Resources\Traits;
+namespace Raakkan\Yali\Core\Resources\Concerns;
 
 trait HasResources
 {

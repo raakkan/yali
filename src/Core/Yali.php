@@ -8,8 +8,8 @@ use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
+use Raakkan\Yali\Core\Resources\ResourceTable;
 use Raakkan\Yali\Core\Resources\ResourceManager;
-use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 

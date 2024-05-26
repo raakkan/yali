@@ -1,8 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Resources\Table\Traits;
-
-use Raakkan\Yali\Core\Resources\Table\TableColumn;
+namespace Raakkan\Yali\Core\Table\Concerns;
 
 trait HasColumns
 {

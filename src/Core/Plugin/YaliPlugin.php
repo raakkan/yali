@@ -3,11 +3,11 @@
 namespace Raakkan\Yali\Core\Plugin;
 
 use Illuminate\Support\ServiceProvider;
-use Raakkan\Yali\Core\Pages\Traits\HasPages;
+use Raakkan\Yali\Core\Pages\Concerns\HasPages;
 use Raakkan\Yali\Core\Widgets\Traits\HasWidgets;
 use Raakkan\Yali\Core\Settings\Traits\HasSettings;
-use Raakkan\Yali\Core\Resources\Traits\HasResources;
 use Raakkan\Yali\Core\Plugin\Traits\PluginJsonTrait;
+use Raakkan\Yali\Core\Resources\Concerns\HasResources;
 use Raakkan\Yali\Core\Plugin\Interfaces\PluginInterface;
 
 abstract class YaliPlugin extends ServiceProvider implements PluginInterface

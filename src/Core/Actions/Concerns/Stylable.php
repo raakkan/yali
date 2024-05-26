@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Actions\Traits;
+namespace Raakkan\Yali\Core\Actions\Concerns;
 
 
 trait Stylable

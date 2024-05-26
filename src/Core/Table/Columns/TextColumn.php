@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Resources\Table;
+namespace Raakkan\Yali\Core\Table\Columns;
 
 use Illuminate\Support\Str;
 
