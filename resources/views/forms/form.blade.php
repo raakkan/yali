@@ -2,7 +2,8 @@
     $fields = $class->getFields();
 @endphp
 
-<form wire:submit.prevent="submit" class="grid grid-flow-row md:grid-cols-2 gap-4 {{ $class->getClasses() }}">
+<form wire:submit.prevent="submit" class="grid grid-flow-row md:grid-cols-2 gap-4 {{ $class->getClasses() }}"
+    style="{{ $class->getStyles() }}">
     @foreach ($fields as $field)
         @if ($field instanceof \Raakkan\Yali\Core\Forms\TextField)
             <div class="col-span-1">

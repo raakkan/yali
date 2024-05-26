@@ -6,13 +6,20 @@
     </a>
 @else
     @if ($class->isModal())
+        @php
+            $button = \Raakkan\Yali\Core\View\Button::make();
+            $button->classes($class->getClassesArray());
+            $button->styles($class->getStylesArray());
+            $button->setLabel($class->getLabel());
+        @endphp
+
         @livewire(
             'yali::modal-component',
             [
                 'data' => [
                     'form' => $class->getForm(),
                     'source_key' => $class->getUniqueKey(),
-                    'button' => '<span class="' . ($class->getClasses() == '' ? 'btn btn-primary' : $class->getClasses()) . '"' . ($class->getStyles() !== null ? ' style="' . $class->getStyles() . '"' : '') . '>' . $class->getLabel() . '</span>',
+                    'button' => $button,
                     'model' => $class->getModel(),
                 ],
             ],

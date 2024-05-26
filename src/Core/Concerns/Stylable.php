@@ -13,6 +13,25 @@ trait Stylable
         return $this->styles ?? '';
     }
 
+    public function getStylesArray()
+    {
+        if (empty($this->styles)) {
+            return [];
+        }
+
+        $stylesArray = [];
+        $styles = explode(';', $this->styles);
+        foreach ($styles as $style) {
+            $style = trim($style);
+            if (!empty($style)) {
+                [$property, $value] = explode(':', $style);
+                $stylesArray[trim($property)] = trim($value);
+            }
+        }
+
+        return $stylesArray;
+    }
+
     public function styles($styles)
     {
         $style = '';
@@ -27,6 +46,15 @@ trait Stylable
     public function getClasses()
     {
         return $this->classes ?? '';
+    }
+
+    public function getClassesArray()
+    {
+        if (empty($this->classes)) {
+            return [];
+        }
+
+        return explode(' ', $this->classes);
     }
 
     public function classes($classes)

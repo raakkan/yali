@@ -1,29 +1,21 @@
 <?php
 
 namespace Raakkan\Yali\Core\View;
+use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\Concerns\Stylable;
 
 class Button
 {
-    private $class;
+    use Makable;
+    use Stylable;
+    
     private $label;
     private $icon;
     private $link;
     private $disabled;
-
-    public function __construct($class = null, $label = null, $icon = null, $link = null, $disabled = false)
-    {
-        $this->class = $class;
-        $this->label = $label;
-        $this->icon = $icon;
-        $this->link = $link;
-        $this->disabled = $disabled;
-    }
-
-    public function setClass($class)
-    {
-        $this->class = $class;
-        return $this;
-    }
+    private $tag = 'button';
+    private $type = 'button';
+    private $attributes = [];
 
     public function setLabel($label)
     {
@@ -49,14 +41,37 @@ class Button
         return $this;
     }
 
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+        return $this;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
     public function render()
     {
-        $classString = ($this->class !== null && $this->class->getClasses() !== '') ? $this->class->getClasses() : 'btn btn-primary';
+        $classString = $this->getClasses() !== '' ? $this->getClasses() : 'btn btn-primary';
+        $styleString = $this->getStyles() !== '' ? 'style="' . $this->getStyles() . '"' : '';
         
-        $html = '<button class="' . $classString . '"';
+        $html = '<' . $this->tag . ' type="' . $this->type . '" class="' . $classString . '" ' . $styleString;
         
         if ($this->disabled) {
             $html .= ' disabled';
+        }
+        
+        foreach ($this->attributes as $attribute => $value) {
+            $html .= ' ' . $attribute . '="' . $value . '"';
         }
         
         $html .= '>';
@@ -69,7 +84,7 @@ class Button
             $html .= $this->label;
         }
         
-        $html .= '</button>';
+        $html .= '</' . $this->tag . '>';
         
         return $html;
     }

@@ -1,8 +1,12 @@
 <div class="inline-block" x-data="{ open: false }">
+    @php
+        $button = $this->getModalData()['button'];
+        $button->setAttributes([
+            'x-on:click' => 'open = true',
+        ]);
+    @endphp
     @if ($button)
-        <button class="p-0 m-0" x-on:click="open = true, console.log('open')">
-            {!! $button !!}
-        </button>
+        {!! $button->render() !!}
     @endif
 
     <div x-show="open" x-cloak>
