@@ -36,6 +36,7 @@
     </div>
 
     @if (count($filters) > 0)
+        {{-- TODO: no filters from resource but showing if any column has filter and implament cache --}}
         <div class="p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold">Filters</h3>

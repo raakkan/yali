@@ -17,4 +17,10 @@ trait HasForm
         }
         return $this->form;
     }
+
+    public function setForm(YaliForm $form)
+    {
+        $this->form = $form;
+        return $this;
+    }
 }

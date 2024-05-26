@@ -12,4 +12,5 @@ enum ButtonClass: string
     case WARNING = 'btn-warning';
     case INFO = 'btn-info';
     case LINK = 'btn-link';
+    case SMALL = 'btn-sm';
 }

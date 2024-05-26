@@ -1,25 +1,35 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
-use Raakkan\Yali\Core\Actions\Concerns\Modalable;
-use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\Forms\YaliForm;
 use Illuminate\Database\Eloquent\Model;
+use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\Concerns\Stylable;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Resources\YaliResource;
-use Raakkan\Yali\Core\Actions\Concerns\Stylable;
+use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 
 abstract class YaliAction extends YaliComponent
 {
     use Makable;
     use Stylable;
     use Modalable;
+    use HasForm;
 
     protected string $label;
     protected bool $isLink = false;
+    protected bool $isModal = false;
+
     protected string $route;
     protected Model $model;
 
     protected YaliResource $resource;
+
+    public function form(YaliForm $form): YaliForm
+    {
+        return $form;
+    }
 
     public function label($label)
     {
@@ -71,6 +81,12 @@ abstract class YaliAction extends YaliComponent
         return $this->isLink;
     }
 
+    public function setLink($link = true)
+    {
+        $this->isLink = $link;
+        return $this;
+    }
+
     public function getRoute()
     {
         return $this->route;
@@ -84,6 +100,17 @@ abstract class YaliAction extends YaliComponent
     public function getPayload()
     {
         return $this->getModel()->id;
+    }
+
+    public function modalable()
+    {
+        $this->isModal = true;
+        return $this;
+    }
+
+    public function isModal()
+    {
+        return $this->isModal;
     }
 
 }

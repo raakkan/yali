@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\HandleResourcePage;
+use Raakkan\Yali\Core\Actions\ModalComponent;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\Core\Resources\ResourceTable;
@@ -51,6 +52,8 @@ class Yali
 
         Livewire::component('yali::resource-page', ResourcePage::class);
         Livewire::component('yali::resource-handle-page', HandleResourcePage::class);
+
+        Livewire::component('yali::modal-component', ModalComponent::class);
 
         foreach ($this->getPages() as $page) {
             Livewire::component($this->componentRegistry->getName($page['class']), $page['class']);

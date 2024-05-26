@@ -1,7 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Actions\Concerns;
-
+namespace Raakkan\Yali\Core\Concerns;
 
 trait Stylable
 {
@@ -11,7 +10,7 @@ trait Stylable
 
     public function getStyles()
     {
-        return $this->styles;
+        return $this->styles ?? '';
     }
 
     public function styles($styles)
@@ -27,7 +26,7 @@ trait Stylable
 
     public function getClasses()
     {
-        return $this->classes;
+        return $this->classes ?? '';
     }
 
     public function classes($classes)

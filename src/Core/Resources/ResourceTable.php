@@ -138,6 +138,7 @@ class ResourceTable extends Component
 
     public function render()
     {
+        // dd($this->getTable()->getHeaderActions());
         return view('yali::table.resource-table', [
             'columns' => $this->getTable()->getColumns(),
             'modelData' => $this->getModelData(),
