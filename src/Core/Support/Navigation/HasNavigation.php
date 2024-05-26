@@ -33,12 +33,12 @@ trait HasNavigation
         static::$navigationGroup = $navigationGroup;
     }
 
-    public static function getNavigationIcon(): string
+    public static function getNavigationIcon()
     {
         return static::$navigationIcon;
     }
 
-    public static function setNavigationIcon(string $navigationIcon): void
+    public static function setNavigationIcon($navigationIcon): void
     {
         static::$navigationIcon = $navigationIcon;
     }

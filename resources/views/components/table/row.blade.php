@@ -7,7 +7,7 @@
         </td>
     @endforeach
     @if (isset($actions))
-        <td class="px-6 py-4">
+        <td class="px-6 py-4 space-x-1">
             {{ $actions }}
         </td>
     @endif

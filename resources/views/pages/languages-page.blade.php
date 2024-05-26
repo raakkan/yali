@@ -27,10 +27,12 @@
                     </label>
                 </div>
                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-                    <a href="#" class="btn btn-primary btn-sm">
+                    <a href="{{ route($this->getRouteName() . '.manage-language', ['language' => $language->id]) }}"
+                        class="btn btn-primary btn-sm">
                         Edit
                     </a>
-                    <a href="#" class="btn btn-primary btn-sm">
+                    <a href="{{ route($this->getRouteName() . '.manage-translation', ['language' => $language->id]) }}"
+                        class="btn btn-primary btn-sm">
                         Manage Translations
                     </a>
                 </div>
