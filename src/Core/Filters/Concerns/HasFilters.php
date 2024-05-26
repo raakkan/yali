@@ -1,8 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Table\Concerns;
-
-use Raakkan\Yali\Core\Filters\SortFilter;
+namespace Raakkan\Yali\Core\Filters\Concerns;
 
 trait HasFilters
 {
@@ -16,11 +14,6 @@ trait HasFilters
 
     public function getFilters()
     {
-        $sortableColumns = $this->getSortableColumns();
-        
-        foreach ($sortableColumns as $column) {
-            $this->filters = array_merge($this->filters, [SortFilter::make($column->getName())->setValue($column->getSortDirection())->hidden()]);
-        }
         return $this->filters;
     }
 

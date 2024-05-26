@@ -4,29 +4,19 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 class NavigationItem
 {
-    public $label;
-    public $slug;
-    public $routeName;
-    public $class;
-    public $type;
-    public $icon;
-    public $order;
-    public $path;
-    public $childrens;
-    public $parent;
-
-    public function __construct($label, $slug, $routeName, $class, $type, $icon = null, $order = 0, $path = null, $parent = null)
-    {
-        $this->label = $label;
-        $this->slug = $slug;
-        $this->routeName = $routeName;
-        $this->class = $class;
-        $this->type = $type;
-        $this->icon = $icon;
-        $this->order = $order;
-        $this->path = $path;
-        $this->parent = $parent;
-    }
+    public function __construct(
+        public $label,
+        public $slug,
+        public $routeName,
+        public $class,
+        public $type,
+        public $icon = null,
+        public $order = 0,
+        public $path = null,
+        public $childrens = [],
+        public $parent = null,
+        public $hidden = false,
+    ) {}
 
     public function addChild(NavigationItem $menuItem)
     {
@@ -61,13 +51,18 @@ class NavigationItem
 
     public function getSlug()
     {
+        if ($this->hasParent()) {
+            return $this->parent->getSlug(). '/'. $this->slug;
+        }
+
         return $this->slug;
     }
 
     public function isActive()
     {
         $currentUrl = request()->url();
-        $itemUrl = url($this->path);
+        
+        $itemUrl = url($this->getPath());
 
         if ($currentUrl === $itemUrl) {
             return true;
@@ -80,7 +75,7 @@ class NavigationItem
                 }
 
                 // Check if the child item path matches the current URL pattern
-                $childPath = $child->path;
+                $childPath = $child->getPath();
                 $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $childPath);
                 $pattern = str_replace('/', '\/', $pattern);
                 
@@ -127,5 +122,14 @@ class NavigationItem
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getPath()
+    {
+        if ($this->hasParent()) {
+            return $this->parent->getPath(). '/'. $this->path ?? $this->slug;
+        }
+
+        return $this->path ?? $this->slug;
     }
 }

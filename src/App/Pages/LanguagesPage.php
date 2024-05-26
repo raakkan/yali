@@ -7,11 +7,11 @@ use Raakkan\Yali\Core\Pages\YaliPage;
 
 class LanguagesPage extends YaliPage
 {
-    protected static $title = 'Languages';
-    protected static $slug = 'languages';
+    protected static $title = 'Translations';
+    protected static $slug = 'translations';
 
-    protected static $navigationOrder = 100;
-    protected static $navigationGroup = 'Translations';
+    protected static $navigationOrder = 99;
+    protected static $navigationIcon = 'language';
 
     protected static $view = 'yali::pages.languages-page';
 

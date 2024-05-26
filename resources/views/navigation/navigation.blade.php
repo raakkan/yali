@@ -21,7 +21,7 @@
                         <x-yali::icon x-show="dropdownOpen" name="chevron-up" class="w-5 h-5" x-cloak />
                         <x-yali::icon x-show="!dropdownOpen" name="chevron-down" class="w-5 h-5" x-cloak />
                     </button>
-                    <ul class="sidebar-link-dropdown-list" x-show="dropdownOpen" x-cloak>
+                    <ul class="sidebar-link-dropdown-list" x-show="dropdownOpen">
                         @foreach ($item->getItems() as $groupItem)
                             <li>
                                 <a href="{{ route($groupItem->getRouteName()) }}"

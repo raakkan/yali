@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
+use Raakkan\Yali\Core\Utils\RouteUtils;
+
 trait HasNavigation
 {
     protected static $slug = '';
@@ -72,4 +74,50 @@ trait HasNavigation
 
         return $this;
     }
+
+    public static function getRouteName(): string
+    {
+        return RouteUtils::getRouteNameByClass(static::class);
+    }
+
+    public static function getPath(): string
+    {
+        return '/admin/' . static::getSlug();
+    }
+
+    public static function createNavigationItem(): NavigationItem
+    {
+        $navigationItem = new NavigationItem(
+            label: static::getNavigationLabel(),
+            slug: static::getSlug(),
+            routeName: static::getRouteName(),
+            class: static::class,
+            type: static::getType(),
+            icon: static::getNavigationIcon(),
+            order: static::getNavigationOrder(),
+            path: static::getPath(),
+        );
+
+        if (method_exists(static::class, 'getChildNavigationItems')) {
+            $childItems = static::getChildNavigationItems();
+
+            foreach ($childItems as $childItem) {
+                $childNavigationItem = new NavigationItem(
+                    label: $childItem['label'],
+                    slug: $childItem['slug'],
+                    routeName: $childItem['route'],
+                    class: $childItem['class'],
+                    type: $childItem['type'],
+                    icon: $childItem['icon'],
+                    order: $childItem['order'],
+                    path: $childItem['path'],
+                    hidden: $childItem['isHidden'] ?? false
+                );
+
+                $navigationItem->addChild($childNavigationItem);
+            }
+        }
+        return $navigationItem;
+    }
+
 }

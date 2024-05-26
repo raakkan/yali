@@ -11,12 +11,21 @@ class DashboardPage extends YaliPage
 
     protected static $navigationOrder = 0;
 
+    protected static $navigationIcon = 'dashboard';
+
     protected static $view = 'yali::pages.dashboard-page';
+
+    protected static $slug = '/';
 
     public $name;
 
     public function save()
     {
         dd($this->name);
+    }
+    
+    public static function getRouteName(): string
+    {
+        return 'yali::pages.dashboard';
     }
 }

@@ -6,23 +6,25 @@ use Illuminate\Support\Str;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Table\YaliTable;
 use Illuminate\Database\Eloquent\Model;
+use Raakkan\Yali\Core\Utils\RouteUtils;
+use Raakkan\Yali\App\HandleResourcePage;
+use Raakkan\Yali\Core\Forms\Concerns\HasForm;
+use Raakkan\Yali\Core\Table\Concerns\HasTable;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Resources\Actions\CreateAction;
+use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
 abstract class YaliResource
 {
     use HasNavigation;
+    use HasTable;
+    use HasForm;
 
     protected static $title = '';
 
     protected static $model;
-
-    protected $form;
-
-    protected $table;
-
-    abstract public function table(YaliTable $table): YaliTable;
-    abstract public function form(YaliForm $form): YaliForm;
 
     public static function getModel()
     {
@@ -64,24 +66,51 @@ abstract class YaliResource
         return 'resource';
     }
 
+    public function getTable()
+    {
+        if(!$this->table) {
+            $this->table = new YaliTable();
+
+            $this->table->headerActions = [CreateAction::make()];
+
+            $this->table->actions = [
+                EditAction::make(),
+                DeleteAction::make(),
+            ];
+        }
+        return $this->table;
+    }
+
     public function getQueryBuilder()
     {
         return new ResourceQueryBuilder($this->getModelInstance()->newQuery(), $this->table($this->getTable()));
     }
 
-    public function getTable()
+    public static function getChildNavigationItems(): array
     {
-        if(!$this->table) {
-            $this->table = new YaliTable();
-        }
-        return $this->table;
-    }
-
-    public function getForm()
-    {
-        if(!$this->form) {
-            $this->form = new YaliForm();
-        }
-        return $this->form;
+        return [
+            [
+                'label' => 'Create',
+                'slug' => 'create',
+                'route' => RouteUtils::getRouteNameByClass(static::class).'.create',
+                'class' => HandleResourcePage::class,
+                'type' => static::getType(),
+                'icon' => 'child-icon-1',
+                'order' => 1,
+                'path' => 'create',
+                'isHidden' => true,
+            ],
+            [
+                'label' => 'Edit',
+                'slug' => '{modelKey}/edit',
+                'route' => RouteUtils::getRouteNameByClass(static::class).'.edit',
+                'class' => HandleResourcePage::class,
+                'type' => static::getType(),
+                'icon' => 'child-icon-2',
+                'order' => 2,
+                'path' => '{modelKey}/edit',
+                'isHidden' => true,
+            ],
+        ];
     }
 }

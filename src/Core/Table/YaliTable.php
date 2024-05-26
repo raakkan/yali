@@ -2,12 +2,10 @@
 
 namespace Raakkan\Yali\Core\Table;
 
-use Raakkan\Yali\Core\Table\Concerns\HasActions;
+use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\Table\Concerns\HasColumns;
-use Raakkan\Yali\Core\Table\Concerns\HasFilters;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
-use Raakkan\Yali\Core\Resources\Actions\CreateAction;
-use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
+use Raakkan\Yali\Core\Actions\Concerns\HasActions;
+use Raakkan\Yali\Core\Filters\Concerns\HasFilters;
 
 class YaliTable
 {
@@ -18,16 +16,6 @@ class YaliTable
     protected $perPage = 10;
 
     public $includeDeleted = false;
-
-    public function __construct()
-    {
-        $this->headerActions[] = CreateAction::make();
-
-        $this->actions = [
-            EditAction::make(),
-            DeleteAction::make(),
-        ];
-    }
 
     public function perPage($perPage)
     {
@@ -56,6 +44,16 @@ class YaliTable
     public function isSoftDeletesEnabled(): bool
     {
         return $this->includeDeleted;
+    }
+
+    public function getFilters()
+    {
+        $sortableColumns = $this->getSortableColumns();
+        
+        foreach ($sortableColumns as $column) {
+            $this->filters = array_merge($this->filters, [SortFilter::make($column->getName())->setValue($column->getSortDirection())->hidden()]);
+        }
+        return $this->filters;
     }
 
 }
