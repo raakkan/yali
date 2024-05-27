@@ -3,12 +3,15 @@
 namespace Raakkan\Yali\Core\Forms;
 
 use Illuminate\Support\Str;
+use Raakkan\Yali\Core\Concerns\Stylable;
 use Illuminate\Contracts\Validation\Rule;
+use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 
-abstract class Field
+abstract class Field extends YaliComponent
 {
     use HasValidation;
+    use Stylable;
 
     public $name;
 

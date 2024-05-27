@@ -43,6 +43,25 @@ trait Stylable
         return $this;
     }
 
+    public function addStyle($property, $value)
+    {
+        $existingStyles = $this->getStylesArray();
+        $existingStyles[$property] = $value;
+        
+        return $this->styles($existingStyles);
+    }
+
+    public function updateStyle($property, $value)
+    {
+        $existingStyles = $this->getStylesArray();
+        
+        if (array_key_exists($property, $existingStyles)) {
+            $existingStyles[$property] = $value;
+        }
+        
+        return $this->styles($existingStyles);
+    }
+
     public function getClasses()
     {
         return $this->classes ?? '';
@@ -72,5 +91,60 @@ trait Stylable
         $this->classes = trim($class);
         return $this;
     }
-    
+
+    public function hasClass($class)
+    {
+        $existingClasses = $this->getClassesArray();
+        
+        return in_array($class, $existingClasses);
+    }
+
+    public function addClass($class)
+    {
+        if (!$this->hasClass($class)) {
+            $existingClasses = $this->getClassesArray();
+            $existingClasses[] = $class;
+            
+            return $this->classes($existingClasses);
+        }
+        
+        return $this;
+    }
+
+    public function updateClass($oldClass, $newClass)
+    {
+        $existingClasses = $this->getClassesArray();
+        
+        if (($key = array_search($oldClass, $existingClasses)) !== false) {
+            $existingClasses[$key] = $newClass;
+            
+            return $this->classes($existingClasses);
+        }
+        
+        return $this;
+    }
+
+    public function removeClass($class)
+    {
+        $existingClasses = $this->getClassesArray();
+        
+        if (($key = array_search($class, $existingClasses)) !== false) {
+            unset($existingClasses[$key]);
+            
+            return $this->classes($existingClasses);
+        }
+        
+        return $this;
+    }
+
+    public function removeStyle($property)
+    {
+        $existingStyles = $this->getStylesArray();
+        
+        if (array_key_exists($property, $existingStyles)) {
+            unset($existingStyles[$property]);
+        }
+        
+        return $this->styles($existingStyles);
+    }
 }

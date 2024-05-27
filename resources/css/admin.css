@@ -1,5 +1,6 @@
 @import './button.css';
 @import './navigation.css';
+@import './grid-layout.css';
 
 @tailwind base;
 @tailwind components;

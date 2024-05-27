@@ -11,7 +11,7 @@
 
     <div x-show="open" x-cloak>
         <x-yali::modals.modal class="flex items-center justify-center">
-            <div class="bg-white rounded-lg w-full m-4 relative">
+            <div class="bg-white rounded-lg w-full md:max-w-lg m-4 relative">
                 <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         {{ $title ?? 'Modal Title' }}

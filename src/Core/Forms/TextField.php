@@ -7,6 +7,7 @@ use Illuminate\Validation\Rules\Password;
 
 class TextField extends Field
 {
+    protected $view = 'yali::forms.fields.text-field';
     protected $type = 'text';
 
     protected $isConfirm = false;

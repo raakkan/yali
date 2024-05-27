@@ -1,0 +1,103 @@
+.grid-layout {
+    @apply grid grid-flow-row;
+}
+
+.grid-layout[data-cols="1"] {
+    @apply md:grid-cols-1;
+}
+
+.grid-layout[data-cols="2"] {
+    @apply md:grid-cols-2;
+}
+
+.grid-layout[data-cols="3"] {
+    @apply md:grid-cols-3;
+}
+
+.grid-layout[data-cols="4"] {
+    @apply md:grid-cols-4;
+}
+
+.grid-layout[data-cols="5"] {
+    @apply md:grid-cols-5;
+}
+
+.grid-layout[data-cols="6"] {
+    @apply md:grid-cols-6;
+}
+
+.grid-layout[data-cols="7"] {
+    @apply md:grid-cols-7;
+}
+
+.grid-layout[data-cols="8"] {
+    @apply md:grid-cols-8;
+}
+
+.grid-layout[data-cols="9"] {
+    @apply md:grid-cols-9;
+}
+
+.grid-layout[data-cols="10"] {
+    @apply md:grid-cols-10;
+}
+
+.grid-layout[data-cols="11"] {
+    @apply md:grid-cols-11;
+}
+
+.grid-layout[data-cols="12"] {
+    @apply md:grid-cols-12;
+}
+
+.grid-layout[data-gap="0"] {
+    @apply gap-0;
+}
+
+.grid-layout[data-gap="1"] {
+    @apply gap-1;
+}
+
+.grid-layout[data-gap="2"] {
+    @apply gap-2;
+}
+
+.grid-layout[data-gap="3"] {
+    @apply gap-3;
+}
+
+.grid-layout[data-gap="4"] {
+    @apply gap-4;
+}
+
+.grid-layout[data-gap="5"] {
+    @apply gap-5;
+}
+
+.grid-layout[data-gap="6"] {
+    @apply gap-6;
+}
+
+.grid-layout[data-gap="7"] {
+    @apply gap-7;
+}
+
+.grid-layout[data-gap="8"] {
+    @apply gap-8;
+}
+
+.grid-layout[data-gap="9"] {
+    @apply gap-9;
+}
+
+.grid-layout[data-gap="10"] {
+    @apply gap-10;
+}
+
+.grid-layout[data-gap="11"] {
+    @apply gap-11;
+}
+
+.grid-layout[data-gap="12"] {
+    @apply gap-12;
+}

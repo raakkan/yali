@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Actions;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
 
 class ModalComponent extends Component
 {
@@ -16,7 +17,7 @@ class ModalComponent extends Component
 
     public function setModalData($data)
     {
-        $this->dataSourceKey = $data['source_key'];
+        $this->dataSourceKey = $this->__id  . '-' . $data['source_key'];
         app(ModalComponentDataHolder::class)->add($this->dataSourceKey, $data);
     }
 
@@ -32,7 +33,7 @@ class ModalComponent extends Component
 
     public function render()
     {
-        // dd($this->getForm());
+        // Log::info($this->__id);
 
         return view('yali::actions.modal-component');
     }

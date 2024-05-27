@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\View;
+use Illuminate\Support\Facades\Blade;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\Concerns\Stylable;
 
@@ -77,7 +78,7 @@ class Button
         $html .= '>';
         
         if ($this->icon !== null) {
-            $html .= '<x-yali::icon name="' . $this->icon . '" />';
+            $html .= Blade::render('<x-yali::icon name="' . $this->icon . '" />');
         }
         
         if ($this->label !== null) {
