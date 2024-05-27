@@ -81,4 +81,9 @@ abstract class YaliComponent
             'class' => $this
         ]);
     }
+
+    public function getUniqueKey()
+    {
+        return md5(get_class($this) . '_' . uniqid());
+    }
 }

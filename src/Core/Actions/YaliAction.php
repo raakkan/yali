@@ -92,11 +92,6 @@ abstract class YaliAction extends YaliComponent
         return $this->route;
     }
 
-    public function getUniqueKey()
-    {
-        return md5(get_class($this) . '_' . uniqid());
-    }
-
     public function getPayload()
     {
         return $this->getModel()->id;

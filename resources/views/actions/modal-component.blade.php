@@ -1,6 +1,6 @@
 <div class="inline-block" x-data="{ open: false }">
     @php
-        $button = $this->getModalData()['button'];
+        $button = $this->getButton();
         $button->setAttributes([
             'x-on:click' => 'open = true',
         ]);
@@ -21,7 +21,7 @@
                     </button>
                 </div>
                 <div class="p-4">
-                    {{ $this->getForm()->render() }}
+                    {{-- {{ $this->getForm()->render() }} --}}
                 </div>
             </div>
         </x-yali::modals.modal>

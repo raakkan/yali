@@ -8,7 +8,8 @@
     <div class="relative">
         <input x-ref="{{ $class->getName() }}"
             type="{{ $class->getType() === 'password' ? 'password' : $class->getType() }}" id="{{ $class->getName() }}"
-            class="{{ $hasError ? 'input-error' : 'input' }} pr-10" placeholder="{{ $class->getPlaceholder() }}">
+            class="{{ $hasError ? 'input-error' : 'input' }} pr-10" placeholder="{{ $class->getPlaceholder() }}"
+            wire:model="inputs.{{ $class->getName() }}">
         @if ($class->getType() === 'password')
             @include('yali::forms.fields.utils.password-toggle-button', ['refId' => $class->getName()])
         @endif
