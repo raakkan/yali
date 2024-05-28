@@ -75,7 +75,7 @@ abstract class YaliResource
         if(!$this->table) {
             $this->table = new YaliTable();
 
-            $this->table->headerActions = [CreateAction::make()->modal(slideUp: true)];
+            $this->table->headerActions = [CreateAction::make()->modal(slideLeft: true)];
 
             $this->table->actions = [
                 EditAction::make()->setLink(),
@@ -127,7 +127,7 @@ abstract class YaliResource
         return static::class;
     }
 
-    public function getActionButton($action)
+    public function getAction($action)
     {
         if (is_string($action) && is_subclass_of($action, YaliAction::class)) {
             $actionClass = $action;
@@ -138,13 +138,11 @@ abstract class YaliResource
         }
         
         if (array_key_exists($actionClass, $this->getTable()->getHeaderActions())) {
-            $action = $this->getTable()->getHeaderActions()[$actionClass];
-            return $action->setResource($this)->getButton();
+            return $this->getTable()->getHeaderActions()[$actionClass];
         }
         
         if (array_key_exists($actionClass, $this->getTable()->getActions())) {
-            $action = $this->getTable()->getActions()[$actionClass];
-            return $action->setResource($this)->getButton();
+            return $this->getTable()->getActions()[$actionClass];
         }
         
         return null;

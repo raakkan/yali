@@ -1,7 +1,7 @@
 <div class="inline-block" x-data="{ open: false }">
 
     @php
-        $button = $this->getButton();
+        $button = $this->getTriggerButton();
         $button->setAttributes([
             'x-on:click' => 'open = true',
         ]);

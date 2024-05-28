@@ -35,17 +35,12 @@ class ModalComponent extends Component implements HasForms
     public function getForm()
     {
         $form = $this->getResource()->form($this->getResource()->getForm());
-        $action = $this->action;
-        $actionInstance = new $action();
-dd($actionInstance->getModalData());
-        return $form->modal(...$actionInstance->getModalData());
+        return $form->modal(...$this->getAction()->getModalData());
     }
 
     public function getModalPosition()
     {
-        $action = $this->action;
-        $actionInstance = new $action();
-        return $actionInstance->getModalPosition();
+        return $this->getAction()->getModalPosition();
     }
 
     public function getModel()
@@ -53,9 +48,14 @@ dd($actionInstance->getModalData());
         return $this->model;
     }
 
-    public function getButton()
+    public function getAction()
     {
-        return $this->getResource()->getActionButton($this->action);
+        return $this->getResource()->getAction($this->action)->setResource($this->getResource());
+    }
+
+    public function getTriggerButton()
+    {
+        return $this->getAction()->getButton();
     }
 
     public function submit()
