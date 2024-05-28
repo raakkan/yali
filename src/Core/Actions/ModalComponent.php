@@ -12,32 +12,40 @@ class ModalComponent extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $form;
+    public $resource;
 
-    protected $button; 
-
-    public $dataSourceKey = null;
+    public $action;
     
     public function mount($data)
     {
-        $this->form = YaliForm::class;
-
-        if (is_array($data) && array_key_exists('form', $data) && array_key_exists('source_key', $data)) {
-            // $this->setForm($data['form']);
+        if (is_array($data) && array_key_exists('model', $data) && array_key_exists('resource', $data) && array_key_exists('action', $data)) {
+            $this->resource = $data['resource'];
             $this->model = $data['model'];
-            $this->button = $data['button'];
-            // $this->fillForm();
+            $this->action = $data['action'];
+            $this->fillForm();
         }
     }
 
-    public function setForm(YaliForm $form)
+    public function getResource()
     {
-        $this->forms[] = $form;
+        $resource = $this->resource;
+        return new $resource();
     }
 
     public function getForm()
     {
-        return $this->form;
+        $form = $this->getResource()->form($this->getResource()->getForm());
+        $action = $this->action;
+        $actionInstance = new $action();
+dd($actionInstance->getModalData());
+        return $form->modal(...$actionInstance->getModalData());
+    }
+
+    public function getModalPosition()
+    {
+        $action = $this->action;
+        $actionInstance = new $action();
+        return $actionInstance->getModalPosition();
     }
 
     public function getModel()
@@ -47,7 +55,7 @@ class ModalComponent extends Component implements HasForms
 
     public function getButton()
     {
-        return $this->button;
+        return $this->getResource()->getActionButton($this->action);
     }
 
     public function submit()

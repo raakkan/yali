@@ -6,21 +6,13 @@
     </a>
 @else
     @if ($class->isModal())
-        @php
-            $button = \Raakkan\Yali\Core\View\Button::make();
-            $button->classes($class->getClassesArray());
-            $button->styles($class->getStylesArray());
-            $button->setLabel($class->getLabel());
-        @endphp
-
         @livewire(
             'yali::modal-component',
             [
                 'data' => [
-                    'form' => $class->getForm(),
-                    'source_key' => $class->getUniqueKey(),
-                    'button' => $button,
+                    'resource' => $class->getResource()->getClass(),
                     'model' => $class->getModel(),
+                    'action' => get_class($class),
                 ],
             ],
             key('action-modal-' . $class->getUniqueKey())

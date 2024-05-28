@@ -15,7 +15,12 @@ trait Layoutable
 
     public function maxWidth($value)
     {
-        $this->maxWidth = $value;
+        if ($value instanceof \BackedEnum) {
+            $this->maxWidth = $value->value;
+        }else {
+            $this->maxWidth = $value;
+        }
+        
         return $this;
     }
 

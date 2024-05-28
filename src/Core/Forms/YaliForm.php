@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Forms;
 
+use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 use Raakkan\Yali\Core\Concerns\Layoutable;
 use Raakkan\Yali\Core\Concerns\Stylable;
 use Raakkan\Yali\Core\View\YaliComponent;
@@ -10,6 +11,7 @@ class YaliForm extends YaliComponent
 {
     use Stylable;
     use Layoutable;
+    use Modalable;
 
     protected $view = 'yali::forms.form';
     protected $fields = [];

@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\Core\Actions\Concerns;
 
+use Raakkan\Yali\Core\Actions\YaliAction;
+
 trait HasActions
 {
     public $actions = [];
@@ -16,7 +18,13 @@ trait HasActions
 
     public function getActions()
     {
-        return $this->actions;
+        $actions = [];
+        foreach ($this->actions as $action) {
+            if (is_subclass_of($action, YaliAction::class)) {
+                $actions[get_class($action)] = $action;
+            }
+        }
+        return $actions;
     }
 
     public function headerActions($actions)
@@ -27,6 +35,12 @@ trait HasActions
 
     public function getHeaderActions()
     {
-        return $this->headerActions;
+        $actions = [];
+        foreach ($this->headerActions as $action) {
+            if (is_subclass_of($action, YaliAction::class)) {
+                $actions[get_class($action)] = $action;
+            }
+        }
+        return $actions;
     }
 }

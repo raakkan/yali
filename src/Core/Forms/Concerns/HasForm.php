@@ -15,6 +15,7 @@ trait HasForm
         if(!$this->form) {
             $this->form = new YaliForm();
         }
+
         return $this->form;
     }
 

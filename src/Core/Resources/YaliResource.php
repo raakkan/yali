@@ -3,11 +3,13 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Table\YaliTable;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\App\HandleResourcePage;
+use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
@@ -73,21 +75,12 @@ abstract class YaliResource
         if(!$this->table) {
             $this->table = new YaliTable();
 
-            if (static::$createAndEditByModal) {
-                $this->table->headerActions = [CreateAction::make()->setForm($this->form($this->getForm()))->modalable()];
+            $this->table->headerActions = [CreateAction::make()->modal(slideUp: true)];
 
-                $this->table->actions = [
-                    EditAction::make()->setForm($this->form($this->getForm()))->modalable(),
-                    DeleteAction::make(),
-                ];
-            }else {
-                $this->table->headerActions = [CreateAction::make()->setLink()];
-
-                $this->table->actions = [
-                    EditAction::make()->setLink(),
-                    DeleteAction::make(),
-                ];
-            }
+            $this->table->actions = [
+                EditAction::make()->setLink(),
+                DeleteAction::make(),
+            ];
         }
         return $this->table;
     }
@@ -127,5 +120,33 @@ abstract class YaliResource
         }else {
             return [];
         }
+    }
+
+    public static function getClass()
+    {
+        return static::class;
+    }
+
+    public function getActionButton($action)
+    {
+        if (is_string($action) && is_subclass_of($action, YaliAction::class)) {
+            $actionClass = $action;
+        } elseif ($action instanceof YaliAction) {
+            $actionClass = get_class($action);
+        } else {
+            return null;
+        }
+        
+        if (array_key_exists($actionClass, $this->getTable()->getHeaderActions())) {
+            $action = $this->getTable()->getHeaderActions()[$actionClass];
+            return $action->setResource($this)->getButton();
+        }
+        
+        if (array_key_exists($actionClass, $this->getTable()->getActions())) {
+            $action = $this->getTable()->getActions()[$actionClass];
+            return $action->setResource($this)->getButton();
+        }
+        
+        return null;
     }
 }

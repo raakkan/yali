@@ -48,6 +48,10 @@ class ResourceManager
             throw new PageRegistrationException("Resource Class {$class} is not a subclass of YaliResource");
         }
 
+        if (isset($this->resources[$class])) {
+            throw new PageRegistrationException("Resource Class {$class} already registered");
+        }    
+
         $this->resources[$class] = [
             'class' => $class,
             'source' => $source

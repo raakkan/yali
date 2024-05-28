@@ -1,8 +1,8 @@
 <?php
 
-namespace Raakkan\Yali\Core\Forms;
+namespace Raakkan\Yali\Core\Forms\Fields;
 
-class SwitchField extends Field
+class ToggleField extends Field
 {
     protected $view = 'yali::forms.fields.switch-field';
     protected $type = 'switch';

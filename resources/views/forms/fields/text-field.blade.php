@@ -3,8 +3,11 @@
         $hasError = $errors->has($class->getName());
     @endphp
 
-    <label class="{{ $hasError ? 'input-label-error' : 'input-label' }}"
-        for="{{ $class->getName() }}">{{ $class->getLabel() }}</label>
+    @include('yali::forms.fields.utils.input-label', [
+        'for' => $class->getName(),
+        'hasError' => $hasError,
+        'label' => $class->getLabel(),
+    ])
     <div class="relative">
         <input x-ref="{{ $class->getName() }}"
             type="{{ $class->getType() === 'password' ? 'password' : $class->getType() }}" id="{{ $class->getName() }}"

@@ -89,4 +89,9 @@ class Button
         
         return $html;
     }
+
+    public function __toString()
+    {
+        return $this->render();
+    }
 }

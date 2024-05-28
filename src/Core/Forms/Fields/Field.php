@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Forms;
+namespace Raakkan\Yali\Core\Forms\Fields;
 
 use Illuminate\Support\Str;
 use Raakkan\Yali\Core\Concerns\Stylable;

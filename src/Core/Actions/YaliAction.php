@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+use Raakkan\Yali\Core\View\Button;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Concerns\Makable;
@@ -19,8 +20,6 @@ abstract class YaliAction extends YaliComponent
 
     protected string $label;
     protected bool $isLink = false;
-    protected bool $isModal = false;
-
     protected string $route;
     protected Model $model;
 
@@ -97,15 +96,13 @@ abstract class YaliAction extends YaliComponent
         return $this->getModel()->id;
     }
 
-    public function modalable()
+    public function getButton()
     {
-        $this->isModal = true;
-        return $this;
-    }
-
-    public function isModal()
-    {
-        return $this->isModal;
+        $button = Button::make();
+        $button->classes($this->getClassesArray());
+        $button->styles($this->getStylesArray());
+        $button->setLabel($this->getLabel());
+        return $button;
     }
 
 }

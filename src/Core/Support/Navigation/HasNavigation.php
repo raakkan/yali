@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Raakkan\Yali\Core\Utils\RouteUtils;
+use Str;
 
 trait HasNavigation
 {
@@ -15,7 +16,7 @@ trait HasNavigation
 
     public static function getNavigationLabel(): string
     {
-        return static::$navigationLabel ?: static::getTitle();
+        return static::$navigationLabel ?: Str::plural((static::getTitle()));
     }
 
     public static function setNavigationLabel(string $navigationLabel): void

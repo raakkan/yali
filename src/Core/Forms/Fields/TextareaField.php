@@ -1,8 +1,8 @@
 <?php
 
-namespace Raakkan\Yali\Core\Forms;
+namespace Raakkan\Yali\Core\Forms\Fields;
 
-class TextAreaField extends Field
+class TextareaField extends Field
 {
     protected $view = 'yali::forms.fields.textarea-field';
     public $rows = 5;
