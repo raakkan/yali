@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns;
+namespace Raakkan\Yali\Core\Concerns\UI;
 
 trait Layoutable
 {
@@ -10,7 +10,7 @@ trait Layoutable
 
     public function getMaxWidth()
     {
-        return $this->maxWidth;
+        return $this->maxWidth ?: 'max-w-md';
     }
 
     public function maxWidth($value)
@@ -31,7 +31,12 @@ trait Layoutable
 
     public function gridColumns($value)
     {
-        $this->gridColumns = $value;
+        if ($value instanceof \BackedEnum) {
+            $this->gridColumns = $value->value;
+        }else {
+            $this->gridColumns = $value;
+        }
+
         return $this;
     }
 
@@ -42,7 +47,12 @@ trait Layoutable
 
     public function gap($value)
     {
-        $this->gap = $value;
+        if ($value instanceof \BackedEnum) {
+            $this->gap = $value->value;
+        }else {
+            $this->gap = $value;
+        }
+        
         return $this;
     }
 }

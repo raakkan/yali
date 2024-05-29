@@ -5,8 +5,8 @@ use Raakkan\Yali\Core\View\Button;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Concerns\Makable;
-use Raakkan\Yali\Core\Concerns\Stylable;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Resources\YaliResource;
 use Raakkan\Yali\Core\Actions\Concerns\Modalable;
@@ -40,6 +40,11 @@ abstract class YaliAction extends YaliComponent
     public function getLabel()
     {
         return $this->label ?? 'Action';
+    }
+
+    public function getModalTitle()
+    {
+        return $this->getLabel();
     }
 
     public function getModel()

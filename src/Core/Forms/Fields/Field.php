@@ -3,9 +3,9 @@
 namespace Raakkan\Yali\Core\Forms\Fields;
 
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Concerns\Stylable;
 use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 
 abstract class Field extends YaliComponent

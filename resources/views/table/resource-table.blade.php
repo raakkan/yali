@@ -1,6 +1,6 @@
 <div class="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg">
     <div class="px-4 py-6 border-b dark:border-gray-600">
-        <h2 class="text-2xl font-semibold">{{ $this->getResource()->getTitle() }}</h2>
+        <h2 class="text-2xl font-semibold">{{ $this->getResource()->getPluralTitle() }}</h2>
         <p class="mt-1 text-gray-600 dark:text-gray-400">Manage and configure .</p>
     </div>
     <div class="p-4 bg-white dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between">

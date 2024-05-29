@@ -17,7 +17,6 @@ use Illuminate\Contracts\Container\Container;
 use Raakkan\Yali\Core\Support\Icon\IconManager;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Resources\Table\ResourceTable;
-use Raakkan\Yali\Core\Actions\ModalComponentDataHolder;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
@@ -41,10 +40,6 @@ class YaliServiceProvider extends ServiceProvider
 
         $this->app->singleton('yali-manager', function ($app) {
             return new Yali($app);
-        });
-
-        $this->app->singleton(ModalComponentDataHolder::class, function ($app) {
-            return new ModalComponentDataHolder();
         });
 
         $this->app->singleton('yali-icon', function ($app) {

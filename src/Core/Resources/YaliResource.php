@@ -25,10 +25,11 @@ abstract class YaliResource
     use HasForm;
 
     protected static $title = '';
+    protected static $addTitle = '';
+    protected static $editTitle = '';
 
     protected static $model;
-
-    protected static $createAndEditByModal = false;
+    protected static $primaryKey = 'id';
 
     public static function getModel()
     {
@@ -45,14 +46,34 @@ abstract class YaliResource
         return new $modelClass();
     }
 
+    public static function getPrimaryKey(): string
+    {
+        return static::$primaryKey;
+    }
+
     public static function getTitle(): string
     {
-        return static::$title ?: Str::title(class_basename(static::getModel()));
+        return static::$title ?: Str::title(static::getModelName());
+    }
+
+    public static function getAddTitle(): string
+    {
+        return static::$addTitle ?: 'Add ' . static::getTitle();
+    }
+
+    public static function getEditTitle(): string
+    {
+        return static::$editTitle ?: 'Edit ' . static::getTitle();
+    }
+
+    public static function getPluralTitle(): string
+    {
+        return Str::plural(static::getTitle());
     }
 
     public static function getSlug(): string
     {
-        return static::$slug ?: Str::plural(Str::kebab(class_basename(static::getModel())));
+        return static::$slug ?: Str::plural(Str::kebab(static::getModelName()));
     }
 
     public static function getName(): string
@@ -78,7 +99,7 @@ abstract class YaliResource
             $this->table->headerActions = [CreateAction::make()->modal(slideLeft: true)];
 
             $this->table->actions = [
-                EditAction::make()->setLink(),
+                EditAction::make()->modal(slideUp: true),
                 DeleteAction::make(),
             ];
         }
@@ -92,34 +113,31 @@ abstract class YaliResource
 
     public static function getChildNavigationItems(): array
     {
-        if (!static::$createAndEditByModal) {
-            return [
-                [
-                    'label' => 'Create',
-                    'slug' => 'create',
-                    'route' => RouteUtils::getRouteNameByClass(static::class).'.create',
-                    'class' => HandleResourcePage::class,
-                    'type' => static::getType(),
-                    'icon' => 'child-icon-1',
-                    'order' => 1,
-                    'path' => 'create',
-                    'isHidden' => true,
-                ],
-                [
-                    'label' => 'Edit',
-                    'slug' => '{modelKey}/edit',
-                    'route' => RouteUtils::getRouteNameByClass(static::class).'.edit',
-                    'class' => HandleResourcePage::class,
-                    'type' => static::getType(),
-                    'icon' => 'child-icon-2',
-                    'order' => 2,
-                    'path' => '{modelKey}/edit',
-                    'isHidden' => true,
-                ],
-            ];
-        }else {
-            return [];
-        }
+        // TODO: dont register any action is modal
+        return [
+            [
+                'label' => 'Create',
+                'slug' => 'create',
+                'route' => RouteUtils::getRouteNameByClass(static::class).'.create',
+                'class' => HandleResourcePage::class,
+                'type' => static::getType(),
+                'icon' => 'child-icon-1',
+                'order' => 1,
+                'path' => 'create',
+                'isHidden' => true,
+            ],
+            [
+                'label' => 'Edit',
+                'slug' => '{modelKey}/edit',
+                'route' => RouteUtils::getRouteNameByClass(static::class).'.edit',
+                'class' => HandleResourcePage::class,
+                'type' => static::getType(),
+                'icon' => 'child-icon-2',
+                'order' => 2,
+                'path' => '{modelKey}/edit',
+                'isHidden' => true,
+            ],
+        ];
     }
 
     public static function getClass()

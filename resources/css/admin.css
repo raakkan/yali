@@ -2,6 +2,7 @@
 @import './navigation.css';
 @import './grid-layout.css';
 @import './max-width.css';
+@import './border.css';
 
 @tailwind base;
 @tailwind components;

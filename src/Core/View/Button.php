@@ -3,7 +3,7 @@
 namespace Raakkan\Yali\Core\View;
 use Illuminate\Support\Facades\Blade;
 use Raakkan\Yali\Core\Concerns\Makable;
-use Raakkan\Yali\Core\Concerns\Stylable;
+use Raakkan\Yali\Core\Concerns\UI\Stylable;
 
 class Button
 {

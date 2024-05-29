@@ -13,6 +13,8 @@
                     'resource' => $class->getResource()->getClass(),
                     'model' => $class->getModel(),
                     'action' => get_class($class),
+                    'type' => 'resource_form_action',
+                    'mode' => $class->getModel()->{$class->getResource()->getPrimaryKey()} ? 'update' : 'create',
                 ],
             ],
             key('action-modal-' . $class->getUniqueKey())

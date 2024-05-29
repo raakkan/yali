@@ -20,7 +20,20 @@ class CreateAction extends YaliAction
 
     public function getLabel()
     {
-        return $this->label ?? 'Create '. $this->resource->getModelName();
+        if ($this->resource) {
+            return $this->resource->getAddTitle();
+        }
+
+        return $this->label ?? 'Create';
+    }
+
+    public function getModalTitle()
+    {
+        if ($this->resource) {
+            return $this->resource->getAddTitle();
+        }
+
+        return $this->label ?? 'Create';
     }
 
     public function getRoute()
