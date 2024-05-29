@@ -13,6 +13,7 @@
         $rounded = $this->getForm()->getRounded();
 
         $title = $this->getAction()->getModalTitle();
+        $subTitle = $this->getResource()->getSubTitle() ?? '';
 
         $isCloseOnOutsideClick = $this->getForm()->isCloseOnOutsideClick();
         $isCloseOnEsc = $this->getForm()->isCloseOnEscape();
@@ -25,7 +26,7 @@
         <x-yali::modals.modal x-show="open" x-on:click="open = false"
             @click.outside="{{ $isCloseOnOutsideClick ? 'open = false' : '' }}"
             @keyup.escape.window="{{ $isCloseOnEsc ? 'open = false' : '' }}" :position="$modalPosition" :maxWidth="$modalMaxWidth"
-            :bgColor="$bgColor" :margin="$margin" :rounded="$rounded" :title="$title">
+            :bgColor="$bgColor" :margin="$margin" :rounded="$rounded" :title="$title" :subtitle="$subTitle">
 
             {{ $this->getForm()->render() }}
 

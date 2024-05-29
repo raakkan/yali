@@ -2,7 +2,7 @@
     x-on:confirm-open.window="open = true; id = $event.detail.id; title = $event.detail.title; message = $event.detail.message; payload = $event.detail.payload"
     x-show="open" x-cloak>
 
-    <x-yali::modals.modal :headerAndFooter="false" x-show="open">
+    <x-yali::modals.modal :header="false" x-show="open">
         <div class="flex items-center justify-center">
             <div class="bg-white rounded-lg p-4 w-full max-w-md m-4">
                 <div>

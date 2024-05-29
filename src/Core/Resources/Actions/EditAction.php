@@ -24,7 +24,7 @@ class EditAction extends YaliAction
     public function getModalTitle()
     {
         if ($this->resource) {
-            return $this->resource->getEditTitle();
+            return $this->resource->getUpdatePageTitle();
         }
 
         return $this->label ?? 'Edit';

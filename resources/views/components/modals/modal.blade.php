@@ -5,7 +5,11 @@
     'rounded' => 'rounded-lg',
     'margin' => 'm-4',
     'title' => 'Modal Title',
-    'headerAndFooter' => true,
+    'subtitle' => null,
+    'alertMessage' => null,
+    'alertType' => null,
+    'header' => true,
+    'hideCloseButton' => false,
 ])
 
 <div class="fixed inset-0 z-50">
@@ -29,7 +33,7 @@
                 x-transition:leave-end="opacity-0 {{ $position === 'left' ? '-translate-x-full' : ($position === 'right' ? 'translate-x-full' : ($position === 'top' ? '-translate-y-full' : ($position === 'bottom' ? 'translate-y-full' : 'scale-90'))) }}"
                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
-                @if ($headerAndFooter)
+                @if ($header)
                     <div
                         class="{{ $position === 'center'
                             ? 'flex justify-center items-center'
@@ -45,14 +49,29 @@
                             {{ $attributes->whereStartsWith('@click.outside') }}
                             {{ $attributes->whereStartsWith('@keyup.escape.window') }}>
                             <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    {{ $title }}
-                                </h3>
-                                <button type="button" class="btn btn-transparent btn-sm btn-icon "
-                                    {{ $attributes->whereStartsWith('x-on:click') }}>
-                                    <x-yali::icon name="x" class="h-5 w-5" />
-                                </button>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        {{ $title }}
+                                    </h3>
+                                    @if (isset($subtitle))
+                                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                            {{ $subtitle }}
+                                        </p>
+                                    @endif
+                                </div>
+                                @if (!$hideCloseButton)
+                                    <button type="button" class="btn btn-transparent btn-sm btn-icon "
+                                        {{ $attributes->whereStartsWith('x-on:click') }}>
+                                        <x-yali::icon name="x" class="h-5 w-5" />
+                                    </button>
+                                @endif
                             </div>
+
+                            @if (isset($alertMessage))
+                                <div class="p-4">
+                                    <x-yali::ui.alert type="success" message="Operation completed successfully!" />
+                                </div>
+                            @endif
 
                             <div class="flex-1 overflow-y-auto">
                                 {{ $slot }}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns;
+namespace Raakkan\Yali\Core\Concerns\Database;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;

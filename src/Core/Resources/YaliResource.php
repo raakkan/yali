@@ -12,64 +12,21 @@ use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
+use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
+use Raakkan\Yali\Core\Resources\Concerns\HasTitlesAndMessages;
 
 abstract class YaliResource
 {
     use HasNavigation;
     use HasTable;
     use HasForm;
-
-    protected static $title = '';
-    protected static $addTitle = '';
-    protected static $editTitle = '';
-
-    protected static $model;
-    protected static $primaryKey = 'id';
-
-    public static function getModel()
-    {
-        if (!class_exists(static::$model)) {
-            throw new \InvalidArgumentException("Model class '" . static::$model . "' does not exist.");
-        }
-
-        return static::$model;
-    }
-
-    public function getModelInstance(): Model
-    {
-        $modelClass = $this->getModel();
-        return new $modelClass();
-    }
-
-    public static function getPrimaryKey(): string
-    {
-        return static::$primaryKey;
-    }
-
-    public static function getTitle(): string
-    {
-        return static::$title ?: Str::title(static::getModelName());
-    }
-
-    public static function getAddTitle(): string
-    {
-        return static::$addTitle ?: 'Create ' . static::getTitle();
-    }
-
-    public static function getEditTitle(): string
-    {
-        return static::$editTitle ?: 'Update ' . static::getTitle();
-    }
-
-    public static function getPluralTitle(): string
-    {
-        return Str::plural(static::getTitle());
-    }
+    use HasModel;
+    use HasTitlesAndMessages;
 
     public static function getSlug(): string
     {
@@ -79,11 +36,6 @@ abstract class YaliResource
     public static function getName(): string
     {
         return class_basename(static::class);
-    }
-
-    public static function getModelName(): string
-    {
-        return class_basename(static::getModel());
     }
 
     public static function getType(): string

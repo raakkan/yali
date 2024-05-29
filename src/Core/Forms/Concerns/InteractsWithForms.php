@@ -24,6 +24,7 @@ trait InteractsWithForms
     public function validatedInputs()
     {
         $rules = $this->getValidationRules();
+        // change to primary key
         if ($this->model->id) {
             foreach ($this->getForm()->getFields() as $field) {
                 if ($field->getType() === 'password') {

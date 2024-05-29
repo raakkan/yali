@@ -21,7 +21,7 @@ class CreateAction extends YaliAction
     public function getLabel()
     {
         if ($this->resource) {
-            return $this->resource->getAddTitle();
+            return $this->resource->getCreatePageTitle();
         }
 
         return $this->label ?? 'Create';
@@ -30,7 +30,7 @@ class CreateAction extends YaliAction
     public function getModalTitle()
     {
         if ($this->resource) {
-            return $this->resource->getAddTitle();
+            return $this->resource->getCreatePageTitle();
         }
 
         return $this->label ?? 'Create';
