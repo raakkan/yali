@@ -11,15 +11,21 @@
         $bgColor = $this->getForm()->getBackgroundColor();
         $margin = $this->getForm()->getMargin();
         $rounded = $this->getForm()->getRounded();
+
         $title = $this->getAction()->getModalTitle();
+
+        $isCloseOnOutsideClick = $this->getForm()->isCloseOnOutsideClick();
+        $isCloseOnEsc = $this->getForm()->isCloseOnEscape();
     @endphp
     @if ($button)
         {!! $button->render() !!}
     @endif
 
     <div x-show="open" x-cloak>
-        <x-yali::modals.modal :position="$modalPosition" :maxWidth="$modalMaxWidth" :bgColor="$bgColor" :margin="$margin" :rounded="$rounded"
-            :title="$title">
+        <x-yali::modals.modal x-show="open" x-on:click="open = false"
+            @click.outside="{{ $isCloseOnOutsideClick ? 'open = false' : '' }}"
+            @keyup.escape.window="{{ $isCloseOnEsc ? 'open = false' : '' }}" :position="$modalPosition" :maxWidth="$modalMaxWidth"
+            :bgColor="$bgColor" :margin="$margin" :rounded="$rounded" :title="$title">
 
             {{ $this->getForm()->render() }}
 

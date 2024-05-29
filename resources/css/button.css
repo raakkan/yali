@@ -1,5 +1,9 @@
 .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+    @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+}
+
+.btn-shadow {
+    @apply shadow-sm;
 }
 
 .btn svg {
@@ -83,5 +87,9 @@
 }
 
 .btn-transparent {
-    @apply bg-transparent text-gray-800 hover:bg-gray-100 focus:ring-gray-200 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700;
+    @apply bg-transparent text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white shadow-none;
+}
+
+.btn-transparent.btn-sm {
+    @apply text-sm px-1.5 py-1 ml-auto rounded-lg;
 }

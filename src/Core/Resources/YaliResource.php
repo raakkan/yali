@@ -58,12 +58,12 @@ abstract class YaliResource
 
     public static function getAddTitle(): string
     {
-        return static::$addTitle ?: 'Add ' . static::getTitle();
+        return static::$addTitle ?: 'Create ' . static::getTitle();
     }
 
     public static function getEditTitle(): string
     {
-        return static::$editTitle ?: 'Edit ' . static::getTitle();
+        return static::$editTitle ?: 'Update ' . static::getTitle();
     }
 
     public static function getPluralTitle(): string

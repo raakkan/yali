@@ -11,9 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@ryangjchandler/alpine-clipboard": "^2.3.0",
     "autoprefixer": "^10.4.19",
-    "flowbite": "^2.3.0",
     "laravel-vite-plugin": "^1.0.2",
     "path": "^0.12.7",
     "postcss": "^8.4.38",
