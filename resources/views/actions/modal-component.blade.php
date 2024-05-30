@@ -6,18 +6,33 @@
             'x-on:click' => 'open = true',
         ]);
 
+        $submitButton = $this->getForm()->getSubmitButton();
+        $submitButton->setLabel($this->getAction()->getSubmitButtonLabel());
+
         $modalPosition = $this->getForm()->getModalPosition();
         $modalMaxWidth = $this->getForm()->getMaxWidth();
         $bgColor = $this->getForm()->getBackgroundColor();
         $margin = $this->getForm()->getMargin();
         $rounded = $this->getForm()->getRounded();
 
-        $title = $this->getAction()->getModalTitle();
-        $subTitle = $this->getResource()->getSubTitle() ?? '';
+        $title = $this->getResource()->getTitle();
+        $subTitle = $this->getResource()->getSubTitle();
+
+        $alertMessage = $this->getAction()->getAlertMessage();
+        $alertType = $this->getAction()->getAlertType();
 
         $isCloseOnOutsideClick = $this->getForm()->isCloseOnOutsideClick();
         $isCloseOnEsc = $this->getForm()->isCloseOnEscape();
+
+        $extraActionButton = Raakkan\Yali\Core\View\Button::make();
+        $extraActionButton->classes(['btn', 'btn-ghost', 'btn-sm']);
+        $extraActionButton->setLabel('Cancel');
+        $extraActionButton->setAttributes([
+            'x-on:click' => 'open = false',
+            'wire:click' => 'cancel',
+        ]);
     @endphp
+
     @if ($button)
         {!! $button->render() !!}
     @endif
@@ -26,9 +41,10 @@
         <x-yali::modals.modal x-show="open" x-on:click="open = false"
             @click.outside="{{ $isCloseOnOutsideClick ? 'open = false' : '' }}"
             @keyup.escape.window="{{ $isCloseOnEsc ? 'open = false' : '' }}" :position="$modalPosition" :maxWidth="$modalMaxWidth"
-            :bgColor="$bgColor" :margin="$margin" :rounded="$rounded" :title="$title" :subtitle="$subTitle">
+            :bgColor="$bgColor" :margin="$margin" :rounded="$rounded" :title="$title" :subtitle="$subTitle" :alertMessage="$alertMessage"
+            :alertType="$alertType">
 
-            {{ $this->getForm()->render() }}
+            {{ $this->getForm()->setSubmitButton($submitButton)->extraActionButtons($extraActionButton)->render() }}
 
         </x-yali::modals.modal>
 

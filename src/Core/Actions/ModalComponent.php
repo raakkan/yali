@@ -36,7 +36,7 @@ class ModalComponent extends Component implements HasForms
     public function getForm()
     {
         $form = $this->getResource()->form($this->getResource()->getForm());
-        return $form->modal(...$this->getAction()->getModalData());
+        return $form->setResource($this->getResource())->modal(...$this->getAction()->getModalData());
     }
 
     public function getModel()
@@ -52,6 +52,11 @@ class ModalComponent extends Component implements HasForms
     public function submit()
     {
         $validatedData = $this->validatedInputs();
+    }
+
+    public function cancel()
+    {
+        // this is automatically reseted validation errors
     }
 
     public function render()

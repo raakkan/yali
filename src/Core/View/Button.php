@@ -54,6 +54,12 @@ class Button
         return $this;
     }
 
+    public function submit()
+    {
+        $this->type = 'submit';
+        return $this;
+    }
+
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;

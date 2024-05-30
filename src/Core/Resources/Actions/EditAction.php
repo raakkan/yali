@@ -30,6 +30,33 @@ class EditAction extends YaliAction
         return $this->label ?? 'Edit';
     }
 
+    public function getAlertMessage()
+    {
+        if ($this->resource) {
+            return $this->resource->getUpdatePageMessage();
+        }
+
+        return '';
+    }
+
+    public function getAlertType()
+    {
+        if ($this->resource) {
+            return $this->resource->getUpdatePageMessageType();
+        }
+
+        return '';
+    }
+
+    public function getSubmitButtonLabel()
+    {
+        if ($this->resource) {
+            return $this->resource->getUpdateSubmitButtonLabel();
+        }
+
+        return 'Submit';
+    }
+
     public function getRoute()
     {
         return route(RouteUtils::getRouteNameByClass(get_class($this->resource)) . '.edit', ['modelKey' => $this->getModel()->id]);

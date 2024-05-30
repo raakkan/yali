@@ -13,9 +13,13 @@ trait HasTitlesAndMessages
     protected static $tablePageMessage = '';
     protected static $updatePageMessage = '';
     protected static $createPageMessage = '';
+    protected static $allPageMessage = '';
     protected static $tablePageMessageType = 'info';
     protected static $updatePageMessageType = 'info';
     protected static $createPageMessageType = 'info';
+    protected static $allPageMessageType = 'info';
+    protected static $createSubmitButtonLabel = '';
+    protected static $updateSubmitButtonLabel = '';
 
     public static function title(): string
     {
@@ -49,31 +53,60 @@ trait HasTitlesAndMessages
 
     public static function getTablePageMessage(): string
     {
-        return static::$tablePageMessage;
+        return static::$tablePageMessage ?: (static::getAllPageMessage() ?: '');
     }
 
     public static function getUpdatePageMessage(): string
     {
-        return static::$updatePageMessage;
+        return static::$updatePageMessage ?: (static::getAllPageMessage() ?: '');
     }
 
     public static function getCreatePageMessage(): string
     {
-        return static::$createPageMessage;
+        return static::$createPageMessage ?: (static::getAllPageMessage() ?: '');
+    }
+
+    public static function getAllPageMessage(): string
+    {
+        return static::$allPageMessage ?: '';
     }
 
     public static function getTablePageMessageType(): string
     {
-        return static::$tablePageMessageType;
+        if (static::getTablePageMessage() === static::getAllPageMessage()) {
+            return static::getAllPageMessageType() ?: 'info';
+        }
+        return static::$tablePageMessageType ?: 'info';
     }
 
     public static function getUpdatePageMessageType(): string
     {
-        return static::$updatePageMessageType;
+        if (static::getUpdatePageMessage() === static::getAllPageMessage()) {
+            return static::getAllPageMessageType() ?: 'info';
+        }
+        return static::$updatePageMessageType ?: 'info';
     }
 
     public static function getCreatePageMessageType(): string
     {
-        return static::$createPageMessageType;
+        if (static::getCreatePageMessage() === static::getAllPageMessage()) {
+            return static::getAllPageMessageType() ?: 'info';
+        }
+        return static::$createPageMessageType ?: 'info';
+    }
+
+    public static function getAllPageMessageType(): string
+    {
+        return static::$allPageMessageType ?: 'info';
+    }
+
+    public static function getCreateSubmitButtonLabel(): string
+    {
+        return static::$createSubmitButtonLabel ?: 'Create';
+    }
+
+    public static function getUpdateSubmitButtonLabel(): string
+    {
+        return static::$updateSubmitButtonLabel ?: 'Update';
     }
 }

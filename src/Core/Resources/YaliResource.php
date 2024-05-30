@@ -51,7 +51,7 @@ abstract class YaliResource
             $this->table->headerActions = [CreateAction::make()->modal(slideLeft: true)];
 
             $this->table->actions = [
-                EditAction::make()->modal(slideUp: true),
+                EditAction::make()->modal(slideUp: true, closeOnOutsideClick: true),
                 DeleteAction::make(),
             ];
         }

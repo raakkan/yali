@@ -36,6 +36,33 @@ class CreateAction extends YaliAction
         return $this->label ?? 'Create';
     }
 
+    public function getAlertMessage()
+    {
+        if ($this->resource) {
+            return $this->resource->getCreatePageMessage();
+        }
+
+        return '';
+    }
+
+    public function getAlertType()
+    {
+        if ($this->resource) {
+            return $this->resource->getCreatePageMessageType();
+        }
+
+        return '';
+    }
+
+    public function getSubmitButtonLabel()
+    {
+        if ($this->resource) {
+            return $this->resource->getCreateSubmitButtonLabel();
+        }
+
+        return 'Submit';
+    }
+
     public function getRoute()
     {
         return route(RouteUtils::getRouteNameByClass(get_class($this->resource)) . '.create');

@@ -42,9 +42,14 @@ abstract class YaliAction extends YaliComponent
         return $this->label ?? 'Action';
     }
 
-    public function getModalTitle()
+    public function getAlertMessage()
     {
-        return $this->getLabel();
+        return '';
+    }
+
+    public function getAlertType()
+    {
+        return '';
     }
 
     public function getModel()

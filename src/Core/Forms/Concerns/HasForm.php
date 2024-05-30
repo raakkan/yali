@@ -7,6 +7,8 @@ use Raakkan\Yali\Core\Forms\YaliForm;
 trait HasForm
 {
     protected $form;
+
+    protected static $submitLabel;
    
     abstract public function form(YaliForm $form): YaliForm;
 
@@ -14,6 +16,9 @@ trait HasForm
     {
         if(!$this->form) {
             $this->form = new YaliForm();
+            if(static::getSubmitLabel()) {
+                $this->form->setSubmitButtonLabel(static::getSubmitLabel());
+            }
         }
 
         return $this->form;
@@ -23,5 +28,10 @@ trait HasForm
     {
         $this->form = $form;
         return $this;
+    }
+
+    public function getSubmitLabel()
+    {
+        return static::$submitLabel;
     }
 }

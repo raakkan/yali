@@ -67,9 +67,9 @@
                                 @endif
                             </div>
 
-                            @if (isset($alertMessage))
+                            @if (isset($alertMessage) && isset($alertType) && $alertMessage && $alertType)
                                 <div class="p-4">
-                                    <x-yali::ui.alert type="success" message="Operation completed successfully!" />
+                                    <x-yali::ui.alert type="{{ $alertType }}" message="{{ $alertMessage }}" />
                                 </div>
                             @endif
 
