@@ -6,31 +6,14 @@
     </a>
 @else
     @if ($class->isModal())
-        @php
-            $type = $class->getActionType();
-
-            $data = [];
-            if ($type === 'resource_form_action') {
-                $data = [
-                    'resource' => $class->getResource()->getClass(),
-                    'model' => $class->getModel(),
-                    'action' => get_class($class),
-                    'type' => 'resource_form_action',
-                    'mode' => $class->getModel()->{$class->getResource()->getPrimaryKey()} ? 'update' : 'create',
-                ];
-            } elseif ($type === 'form_action') {
-                $data = [
-                    'model' => $class->getModel(),
-                    'action' => get_class($class),
-                    'type' => 'form_action',
-                    'mode' => $class->getModel()->{$class->getResource()->getPrimaryKey()} ? 'update' : 'create',
-                ];
-            }
-        @endphp
         @livewire(
             'yali::modal-component',
             [
-                'data' => $data,
+                'data' => [
+                    'source' => $class->getSourceClass(),
+                    'model' => $class->getModel(),
+                    'action' => get_class($class),
+                ],
             ],
             key('action-modal-' . $class->getUniqueKey())
         )

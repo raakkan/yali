@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\App\Pages;
 
+use Livewire\Attributes\On;
+use Livewire\WithPagination;
 use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Pages\YaliPage;
@@ -9,11 +11,13 @@ use Raakkan\Yali\App\ManageLanguagePage;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
+use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 
 class LanguagesPage extends YaliPage
 {
     use HasForm;
+    use WithPagination;
     
     protected static $title = 'Translations';
     protected static $slug = 'translations';
@@ -27,13 +31,23 @@ class LanguagesPage extends YaliPage
 
     public function mount()
     {
-        $this->languages = Language::all();
+        $this->languages = Language::paginate(10);
+    }
+
+    #[On('refresh-page')] 
+    public function dcxz()
+    {
+        $this->resetPage();
     }
 
     public function form(YaliForm $form): YaliForm
     {
         return $form->fields([
             TextField::make('name')->required(),
+            TextField::make('code')->required(),
+            ToggleField::make('is_default')->default(false),
+            ToggleField::make('is_active')->default(true),
+            ToggleField::make('rtl')->default(false),
         ]);
     }
 
@@ -65,8 +79,8 @@ class LanguagesPage extends YaliPage
         ];
     }
 
-    public function getManageAction()
+    public function getAction()
     {
-        return CreateAction::make();
+        return CreateAction::make()->setSource($this)->modal()->setModel(new Language())->setLabel('Create Language');
     }
 }

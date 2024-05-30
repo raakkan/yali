@@ -25,6 +25,8 @@ abstract class YaliAction extends YaliComponent
 
     protected YaliResource $resource;
 
+    protected  $source;
+
     public function form(YaliForm $form): YaliForm
     {
         return $form;
@@ -40,6 +42,12 @@ abstract class YaliAction extends YaliComponent
     public function getLabel()
     {
         return $this->label ?? 'Action';
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
     }
 
     public function getAlertMessage()
@@ -115,15 +123,27 @@ abstract class YaliAction extends YaliComponent
         return $button;
     }
 
-    public function getActionType()
+    public function getSourceClass()
     {
-        if ($this->resource) {
-            return 'resource_form_action';
+        if (isset($this->resource) && $this->resource) {
+            return $this->getResource()->getClass();
         }
 
-        if ($this->form) {
-            return 'form_action';
+        if ($this->source) {
+            return get_class($this->getSource());
         }
+    }
+
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    public function getSource()
+    {
+        $source = $this->source;
+        return new $source();
     }
 
 }

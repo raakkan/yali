@@ -1,6 +1,9 @@
 <x-yali::card title="Languages" description="Handle Resource Page" class="w-full">
     <x-slot name="headerSlot">
-        <button class="btn btn-primary btn-outline btn-sm">Create Language</button>
+        @php
+            $action = $this->getAction();
+        @endphp
+        {!! $action->render() !!}
     </x-slot>
     <div class="divide-y divide-gray-200">
         @foreach ($languages as $language)

@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Log;
 use Raakkan\Yali\Core\Forms\Concerns\InteractsWithForms;
 use Raakkan\Yali\Core\Forms\Contracts\HasForms;
 use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Resources\YaliResource;
 
 class ModalComponent extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $resource;
+    public $source;
 
     public $action;
 
@@ -20,32 +21,29 @@ class ModalComponent extends Component implements HasForms
     
     public function mount($data)
     {
-        if (is_array($data) && array_key_exists('model', $data) && array_key_exists('type', $data) && array_key_exists('action', $data)) {
-            if ($data['type'] == 'resource_form_action') {
-                $this->resource = $data['resource'];
-            }
+        if (is_array($data) && array_key_exists('model', $data) && array_key_exists('source', $data) && array_key_exists('action', $data)) {
+            $this->source = $data['source'];
             $this->model = $data['model'];
             $this->action = $data['action'];
-            $this->modalType = $data['type'];
             $this->fillForm();
         }
     }
 
-    public function getResource()
+    public function getSource()
     {
-        $resource = $this->resource;
-        return new $resource();
+        $source = $this->source;
+        return new $source();
     }
 
     public function getForm()
     {
-        if ($this->modalType == 'resource_form_action') {
-            $form = $this->getResource()->form($this->getResource()->getForm());
-            $form->setResource($this->getResource())->modal(...$this->getAction()->getModalData());
-        }
-
-        if ($this->modalType == 'form_action') {
-            $form = $this->getResource()->form($this->getResource()->getForm());
+        $source = $this->getSource();
+        
+        if ($source instanceof YaliResource) {
+            $form = $this->getSource()->form($this->getSource()->getForm());
+            $form->setResource($this->getSource())->modal(...$this->getAction()->getModalData());
+        }else {
+            $form = $this->getSource()->form($this->getSource()->getForm());
         }
         
         return $form;
@@ -58,7 +56,14 @@ class ModalComponent extends Component implements HasForms
 
     public function getAction()
     {
-        return $this->getResource()->getAction($this->action)->setResource($this->getResource());
+        $source = $this->getSource();
+        if ($source instanceof YaliResource) {
+            $action = $this->getSource()->getAction($this->action)->setResource($this->getSource());
+        }else {
+            $action = $this->getSource()->getAction();
+        }
+
+        return $action;
     }
 
     public function submit()
@@ -68,14 +73,24 @@ class ModalComponent extends Component implements HasForms
         if (is_null($this->model->id)) {
             $this->model = $this->model->create($validatedData);
             $this->dispatch('modal-close');
-            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been created.');
+            $this->dispatch('toast', type: 'success', message: $this->getSourceName() . ' has been created.');
             $this->dispatch('refresh-page');
         } else {
             $this->model->update($validatedData);
             $this->dispatch('modal-close');
-            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been updated.');
+            $this->dispatch('toast', type: 'success', message: $this->getSourceName() . ' has been updated.');
             $this->dispatch('refresh-page');
         }
+    }
+
+    public function getSourceName()
+    {
+        if($this->getSource() instanceof YaliResource) {
+            return $this->getSource()->getModelName();
+        }
+
+        // TODO: get source name
+        return class_basename(get_class($this->model));
     }
 
     public function cancel()
