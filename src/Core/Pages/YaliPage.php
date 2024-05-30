@@ -32,7 +32,7 @@ abstract class YaliPage extends Component
     public function render()
     {
         if (view()->exists(static::$view)) {
-            return view(static::$view)->layout('yali::layouts.app', ['title' => static::$title]);
+            return view(static::$view, array_merge(['title' => static::$title], $this->getViewData()))->layout('yali::layouts.app');
         } else {
             if (app()->isLocal()) {
                 throw new \Exception("View not found: {$this->view} from " . get_class($this));
@@ -42,8 +42,18 @@ abstract class YaliPage extends Component
         }
     }
 
+    public function getViewData()
+    {
+        return [];
+    }
+
     public static function getRouteName()
     {
         return Str::kebab(Str::plural(static::getType()) . str_replace('\\', '', static::class));
+    }
+
+    public static function getClass()
+    {
+        return static::class;
     }
 }

@@ -21,6 +21,7 @@ trait InteractsWithForms
         }
     }
 
+    // TODO: display unchanged message
     public function validatedInputs()
     {
         $rules = $this->getValidationRules();

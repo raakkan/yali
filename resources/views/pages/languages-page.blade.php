@@ -5,6 +5,7 @@
         @endphp
         {!! $action->render() !!}
     </x-slot>
+
     <div class="divide-y divide-gray-200">
         @foreach ($languages as $language)
             <div class="py-4 px-4 flex flex-col md:flex-row md:items-center md:justify-between">
@@ -30,6 +31,9 @@
                     </label>
                 </div>
                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+                    <button class="btn btn-danger btn-sm" wire:click="deleteLanguage({{ $language->id }})">
+                        Delete
+                    </button>
                     <a href="{{ route($this->getRouteName() . '.manage-language', ['language' => $language->id]) }}"
                         class="btn btn-primary btn-sm">
                         Edit
@@ -42,4 +46,11 @@
             </div>
         @endforeach
     </div>
+
+    @if ($languages->hasPages())
+        <div class="px-3 pb-3">
+            {{-- TODO: pagination cache --}}
+            {{ $languages->links('yali::pagination') }}
+        </div>
+    @endif
 </x-yali::card>

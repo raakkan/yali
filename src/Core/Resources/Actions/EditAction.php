@@ -22,8 +22,8 @@ class EditAction extends YaliAction
 
     public function getModalTitle()
     {
-        if ($this->resource) {
-            return $this->resource->getUpdatePageTitle();
+        if ($this->source) {
+            return $this->source->getUpdatePageTitle();
         }
 
         return $this->label ?? 'Edit';
@@ -31,17 +31,17 @@ class EditAction extends YaliAction
 
     public function getModalSubTitle()
     {
-        if ($this->resource) {
-            return $this->resource->getSubTitle();
+        if ($this->source) {
+            return $this->source->getUpdatePageSubTitle();
         }
 
-        return $this->label ?? 'Create';
+        return $this->label ?? '';
     }
 
     public function getAlertMessage()
     {
-        if ($this->resource) {
-            return $this->resource->getUpdatePageMessage();
+        if ($this->source) {
+            return $this->source->getUpdatePageMessage();
         }
 
         return '';
@@ -49,8 +49,8 @@ class EditAction extends YaliAction
 
     public function getAlertType()
     {
-        if ($this->resource) {
-            return $this->resource->getUpdatePageMessageType();
+        if ($this->source) {
+            return $this->source->getUpdatePageMessageType();
         }
 
         return '';
@@ -58,8 +58,8 @@ class EditAction extends YaliAction
 
     public function getSubmitButtonLabel()
     {
-        if ($this->resource) {
-            return $this->resource->getUpdateSubmitButtonLabel();
+        if ($this->source) {
+            return $this->source->getUpdateSubmitButtonLabel();
         }
 
         return 'Submit';
@@ -67,8 +67,8 @@ class EditAction extends YaliAction
 
     public function getRoute()
     {
-        if ($this->resource) {
-            return route($this->resource->getUpdateRouteName(), ['modelKey' => $this->getModel()->id]);
+        if ($this->source) {
+            return route($this->source->getUpdateRouteName(), ['modelKey' => $this->getModel()->id]);
         }
 
         return '';

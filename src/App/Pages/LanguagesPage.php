@@ -8,18 +8,25 @@ use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Pages\YaliPage;
 use Raakkan\Yali\App\ManageLanguagePage;
+use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\App\ManageTranslationPage;
+use Raakkan\Yali\Core\Concerns\HasMessages;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
+use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
+use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
+use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 
-class LanguagesPage extends YaliPage
+class LanguagesPage extends YaliPage implements HasTitlesInterface
 {
     use HasForm;
     use WithPagination;
-    
-    protected static $title = 'Translations';
+    use HasTitles;
+    use HasMessages;
+    use HasButtonLabels;
+
     protected static $slug = 'translations';
 
     protected static $navigationOrder = 99;
@@ -27,11 +34,15 @@ class LanguagesPage extends YaliPage
 
     protected static $view = 'yali::pages.languages-page';
 
-    public $languages = [];
-
     public function mount()
     {
-        $this->languages = Language::paginate(10);
+    }
+
+    public function getViewData()
+    {
+        return [
+            'languages' => Language::paginate(3)
+        ];
     }
 
     #[On('refresh-page')] 
@@ -82,5 +93,19 @@ class LanguagesPage extends YaliPage
     public function getAction()
     {
         return CreateAction::make()->setSource($this)->modal()->setModel(new Language())->setLabel('Create Language');
+    }
+
+    public function deleteLanguage($id)
+    {
+        $language = Language::find($id);
+
+        $language->delete();
+
+        $this->dispatch('toast', type: 'success', message: 'Language has been deleted.');
+    }
+
+    public static function getDefaultTitle(): string
+    {
+        return 'Language';
     }
 }

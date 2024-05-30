@@ -58,7 +58,7 @@ class ModalComponent extends Component implements HasForms
     {
         $source = $this->getSource();
         if ($source instanceof YaliResource) {
-            $action = $this->getSource()->getAction($this->action)->setResource($this->getSource());
+            $action = $this->getSource()->getAction($this->action)->setSource($this->getSource());
         }else {
             $action = $this->getSource()->getAction();
         }

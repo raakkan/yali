@@ -9,23 +9,28 @@ use Raakkan\Yali\Core\Table\YaliTable;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
+use Raakkan\Yali\Core\Concerns\HasTitles;
+use Raakkan\Yali\Core\Concerns\HasMessages;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
+use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
 use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
-use Raakkan\Yali\Core\Resources\Concerns\HasTitlesAndMessages;
 
-abstract class YaliResource
+abstract class YaliResource implements HasTitlesInterface
 {
     use HasNavigation;
     use HasTable;
     use HasForm;
     use HasModel;
-    use HasTitlesAndMessages;
+    use HasTitles;
+    use HasMessages;
+    use HasButtonLabels;
 
     public static function getSlug(): string
     {
@@ -130,5 +135,10 @@ abstract class YaliResource
     public static function getUpdateRouteName()
     {
         return static::getRouteName() . '.edit';
+    }
+
+    public static function getDefaultTitle(): string
+    {
+        return static::getModelName();
     }
 }

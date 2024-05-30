@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Actions;
 use Raakkan\Yali\Core\View\Button;
 use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Pages\YaliPage;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
@@ -16,21 +17,13 @@ abstract class YaliAction extends YaliComponent
     use Makable;
     use Stylable;
     use Modalable;
-    use HasForm;
 
     protected string $label;
     protected bool $isLink = false;
     protected string $route;
     protected Model $model;
 
-    protected YaliResource $resource;
-
-    protected  $source;
-
-    public function form(YaliForm $form): YaliForm
-    {
-        return $form;
-    }
+    protected YaliResource | YaliPage $source;
 
     public function label($label)
     {
@@ -72,14 +65,14 @@ abstract class YaliAction extends YaliComponent
         return $this;
     }
 
-    public function getResource()
+    public function getSource()
     {
-        return $this->resource;
+        return $this->source;
     }
 
-    public function setResource(YaliResource $resource)
+    public function setSource(YaliResource | YaliPage $source)
     {
-        $this->resource = $resource;
+        $this->source = $source;
 
         return $this;
     }
@@ -125,25 +118,7 @@ abstract class YaliAction extends YaliComponent
 
     public function getSourceClass()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->getResource()->getClass();
-        }
-
-        if ($this->source) {
-            return get_class($this->getSource());
-        }
-    }
-
-    public function setSource($source)
-    {
-        $this->source = $source;
-        return $this;
-    }
-
-    public function getSource()
-    {
-        $source = $this->source;
-        return new $source();
+        return $this->getSource()->getClass();
     }
 
 }

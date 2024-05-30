@@ -6,7 +6,7 @@
     <div class="p-4 bg-white dark:bg-gray-900 flex flex-col md:flex-row items-center justify-between">
         <div>
             @foreach ($headerActions as $action)
-                {{ $action->setResource($this->getResource())->setModel($this->getModel())->render() }}
+                {{ $action->setSource($this->getResource())->setModel($this->getModel())->render() }}
             @endforeach
         </div>
         @if ($this->getTable()->isAnyColumnSearchable())
@@ -71,7 +71,7 @@
                     <x-yali::table.row :data="$data" :columns="$columns">
                         <x-slot name="actions">
                             @foreach ($actions as $action)
-                                {{ $action->setResource($this->getResource())->setModel($data)->render() }}
+                                {{ $action->setSource($this->getResource())->setModel($data)->render() }}
                             @endforeach
                         </x-slot>
                     </x-yali::table.row>

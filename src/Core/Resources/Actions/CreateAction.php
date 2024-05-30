@@ -19,8 +19,8 @@ class CreateAction extends YaliAction
 
     public function getLabel()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getCreatePageTitle();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreatePageTitle();
         }
 
         return $this->label ?? 'Create';
@@ -28,8 +28,8 @@ class CreateAction extends YaliAction
 
     public function getModalTitle()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getCreatePageTitle();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreatePageTitle();
         }
 
         return $this->label ?? 'Create';
@@ -37,8 +37,8 @@ class CreateAction extends YaliAction
 
     public function getModalSubTitle()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getSubTitle();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreatePageSubTitle();
         }
 
         return '';
@@ -46,8 +46,8 @@ class CreateAction extends YaliAction
 
     public function getAlertMessage()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getCreatePageMessage();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreatePageMessage();
         }
 
         return '';
@@ -55,8 +55,8 @@ class CreateAction extends YaliAction
 
     public function getAlertType()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getCreatePageMessageType();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreatePageMessageType();
         }
 
         return '';
@@ -64,8 +64,8 @@ class CreateAction extends YaliAction
 
     public function getSubmitButtonLabel()
     {
-        if (isset($this->resource) && $this->resource) {
-            return $this->resource->getCreateSubmitButtonLabel();
+        if (isset($this->source) && $this->source) {
+            return $this->source->getCreateSubmitButtonLabel();
         }
 
         return 'Submit';
@@ -73,8 +73,8 @@ class CreateAction extends YaliAction
 
     public function getRoute()
     {
-        if (isset($this->resource) && $this->resource) {
-            return route($this->resource->getCreateRouteName());
+        if (isset($this->source) && $this->source) {
+            return route($this->source->getCreateRouteName());
         }
 
         return '';
