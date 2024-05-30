@@ -2,14 +2,19 @@
 
 namespace Raakkan\Yali\App\Pages;
 
+use Raakkan\Yali\Models\Language;
+use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Pages\YaliPage;
 use Raakkan\Yali\App\ManageLanguagePage;
 use Raakkan\Yali\App\ManageTranslationPage;
-use Raakkan\Yali\Models\Language;
-use Raakkan\Yali\Core\Pages\YaliPage;
-use Raakkan\Yali\Core\Utils\RouteUtils;
+use Raakkan\Yali\Core\Forms\Concerns\HasForm;
+use Raakkan\Yali\Core\Forms\Fields\TextField;
+use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 
 class LanguagesPage extends YaliPage
 {
+    use HasForm;
+    
     protected static $title = 'Translations';
     protected static $slug = 'translations';
 
@@ -25,13 +30,20 @@ class LanguagesPage extends YaliPage
         $this->languages = Language::all();
     }
 
+    public function form(YaliForm $form): YaliForm
+    {
+        return $form->fields([
+            TextField::make('name')->required(),
+        ]);
+    }
+
     public static function getChildNavigationItems(): array
     {
         return [
             [
                 'label' => 'Manage Language',
                 'slug' => '{language}/manage',
-                'route' => RouteUtils::getRouteNameByClass(static::class).'.manage-language',
+                'route' => static::getRouteName(). '.manage-language',
                 'class' => ManageLanguagePage::class,
                 'type' => static::getType(),
                 'icon' => 'child-icon-1',
@@ -42,7 +54,7 @@ class LanguagesPage extends YaliPage
             [
                 'label' => 'Manage Translation',
                 'slug' => '{language}/translations',
-                'route' => RouteUtils::getRouteNameByClass(static::class).'.manage-translation',
+                'route' => static::getRouteName(). '.manage-translation',
                 'class' => ManageTranslationPage::class,
                 'type' => static::getType(),
                 'icon' => 'child-icon-2',
@@ -51,5 +63,10 @@ class LanguagesPage extends YaliPage
                 'isHidden' => true,
             ],
         ];
+    }
+
+    public function getManageAction()
+    {
+        return CreateAction::make();
     }
 }

@@ -3,7 +3,6 @@
 namespace Raakkan\Yali\Core\Resources\Actions;
 
 use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
-use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\Core\Actions\YaliAction;
 
 class CreateAction extends YaliAction
@@ -31,6 +30,15 @@ class CreateAction extends YaliAction
     {
         if ($this->resource) {
             return $this->resource->getCreatePageTitle();
+        }
+
+        return $this->label ?? 'Create';
+    }
+
+    public function getModalSubTitle()
+    {
+        if ($this->resource) {
+            return $this->resource->getSubTitle();
         }
 
         return $this->label ?? 'Create';
@@ -65,6 +73,10 @@ class CreateAction extends YaliAction
 
     public function getRoute()
     {
-        return route(RouteUtils::getRouteNameByClass(get_class($this->resource)) . '.create');
+        if ($this->resource) {
+            return route($this->resource->getCreateRouteName());
+        }
+
+        return '';
     }
 }

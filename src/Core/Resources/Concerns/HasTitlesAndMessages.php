@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 trait HasTitlesAndMessages
 {
+    // TODO: add create page subtitle and update page subtitle
+    // and create success message and update success message
     protected static $title = '';
     protected static $subtitle = '';
     protected static $createPageTitle = '';
@@ -43,12 +45,12 @@ trait HasTitlesAndMessages
 
     public static function getCreatePageTitle(): string
     {
-        return static::$createPageTitle ?: 'Create ' . static::title();
+        return static::$createPageTitle ?: 'Create ' . static::getTitle();
     }
 
     public static function getUpdatePageTitle(): string
     {
-        return static::$updatePageTitle ?: 'Update ' . static::title();
+        return static::$updatePageTitle ?: 'Update ' . static::getTitle();
     }
 
     public static function getTablePageMessage(): string
@@ -108,5 +110,57 @@ trait HasTitlesAndMessages
     public static function getUpdateSubmitButtonLabel(): string
     {
         return static::$updateSubmitButtonLabel ?: 'Update';
+    }
+
+    public static function setTitlesAndMessages(
+        string $title = '',
+        string $subtitle = '',
+        string $createPageTitle = '',
+        string $updatePageTitle = '',
+        string $tablePageMessage = '',
+        string $updatePageMessage = '',
+        string $createPageMessage = '',
+        string $allPageMessage = '',
+        string $tablePageMessageType = 'info',
+        string $updatePageMessageType = 'info',
+        string $createPageMessageType = 'info',
+        string $allPageMessageType = 'info',
+        string $createSubmitButtonLabel = '',
+        string $updateSubmitButtonLabel = ''
+    ): void {
+        static::$title = $title;
+        static::$subtitle = $subtitle;
+        static::$createPageTitle = $createPageTitle;
+        static::$updatePageTitle = $updatePageTitle;
+        static::$tablePageMessage = $tablePageMessage;
+        static::$updatePageMessage = $updatePageMessage;
+        static::$createPageMessage = $createPageMessage;
+        static::$allPageMessage = $allPageMessage;
+        static::$tablePageMessageType = $tablePageMessageType;
+        static::$updatePageMessageType = $updatePageMessageType;
+        static::$createPageMessageType = $createPageMessageType;
+        static::$allPageMessageType = $allPageMessageType;
+        static::$createSubmitButtonLabel = $createSubmitButtonLabel;
+        static::$updateSubmitButtonLabel = $updateSubmitButtonLabel;
+    }
+
+    public static function getTitlesAndMessages(): array
+    {
+        return [
+            'title' => static::$title ?: Str::title(static::getModelName()),
+            'subtitle' => static::$subtitle,
+            'createPageTitle' => static::$createPageTitle ?: 'Create ' . (static::$title ?: Str::title(static::getModelName())),
+            'updatePageTitle' => static::$updatePageTitle ?: 'Update ' . (static::$title ?: Str::title(static::getModelName())),
+            'tablePageMessage' => static::$tablePageMessage ?: (static::$allPageMessage ?: ''),
+            'updatePageMessage' => static::$updatePageMessage ?: (static::$allPageMessage ?: ''),
+            'createPageMessage' => static::$createPageMessage ?: (static::$allPageMessage ?: ''),
+            'allPageMessage' => static::$allPageMessage ?: '',
+            'tablePageMessageType' => static::$tablePageMessage === static::$allPageMessage ? (static::$allPageMessageType ?: 'info') : (static::$tablePageMessageType ?: 'info'),
+            'updatePageMessageType' => static::$updatePageMessage === static::$allPageMessage ? (static::$allPageMessageType ?: 'info') : (static::$updatePageMessageType ?: 'info'),
+            'createPageMessageType' => static::$createPageMessage === static::$allPageMessage ? (static::$allPageMessageType ?: 'info') : (static::$createPageMessageType ?: 'info'),
+            'allPageMessageType' => static::$allPageMessageType ?: 'info',
+            'createSubmitButtonLabel' => static::$createSubmitButtonLabel ?: 'Create',
+            'updateSubmitButtonLabel' => static::$updateSubmitButtonLabel ?: 'Update',
+        ];
     }
 }

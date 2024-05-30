@@ -88,6 +88,7 @@
 
     @if ($modelData->hasPages())
         <div class="px-3 pb-3">
+            {{-- TODO: pagination cache --}}
             {{ $modelData->links('yali::pagination') }}
         </div>
     @endif

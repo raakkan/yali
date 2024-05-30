@@ -41,4 +41,9 @@ abstract class YaliPage extends Component
             }
         }
     }
+
+    public static function getRouteName()
+    {
+        return Str::kebab(Str::plural(static::getType()) . str_replace('\\', '', static::class));
+    }
 }

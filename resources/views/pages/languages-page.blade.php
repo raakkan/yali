@@ -17,12 +17,12 @@
                     class="flex flex-row items-center justify-between md:justify-normal md:items-start md:flex-col md:space-y-4 mb-6 mt-2 md:mb-0 md:mt-0">
                     <label class="flex items-center">
                         <input type="checkbox" class="form-checkbox h-5 w-5 text-indigo-600 rounded-full"
-                            {{ $language->is_default ? 'checked' : '' }}>
+                            {{ $language->is_default ? 'checked' : '' }} disabled>
                         <span class="ml-2 text-gray-700">Default</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" class="form-checkbox h-5 w-5 text-indigo-600 rounded-full"
-                            {{ $language->is_active ? 'checked' : '' }}>
+                            {{ $language->is_active ? 'checked' : '' }} disabled>
                         <span class="ml-2 text-gray-700">Active</span>
                     </label>
                 </div>

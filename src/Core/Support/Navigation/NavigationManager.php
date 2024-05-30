@@ -4,7 +4,6 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
-use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\App\HandleResourcePage;
 
 class NavigationManager

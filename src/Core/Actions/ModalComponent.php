@@ -15,14 +15,18 @@ class ModalComponent extends Component implements HasForms
     public $resource;
 
     public $action;
+
+    public $modalType = '';
     
     public function mount($data)
     {
-        // dd($data);
-        if (is_array($data) && array_key_exists('model', $data) && array_key_exists('resource', $data) && array_key_exists('action', $data)) {
-            $this->resource = $data['resource'];
+        if (is_array($data) && array_key_exists('model', $data) && array_key_exists('type', $data) && array_key_exists('action', $data)) {
+            if ($data['type'] == 'resource_form_action') {
+                $this->resource = $data['resource'];
+            }
             $this->model = $data['model'];
             $this->action = $data['action'];
+            $this->modalType = $data['type'];
             $this->fillForm();
         }
     }
@@ -35,8 +39,16 @@ class ModalComponent extends Component implements HasForms
 
     public function getForm()
     {
-        $form = $this->getResource()->form($this->getResource()->getForm());
-        return $form->setResource($this->getResource())->modal(...$this->getAction()->getModalData());
+        if ($this->modalType == 'resource_form_action') {
+            $form = $this->getResource()->form($this->getResource()->getForm());
+            $form->setResource($this->getResource())->modal(...$this->getAction()->getModalData());
+        }
+
+        if ($this->modalType == 'form_action') {
+            $form = $this->getResource()->form($this->getResource()->getForm());
+        }
+        
+        return $form;
     }
 
     public function getModel()
@@ -52,6 +64,18 @@ class ModalComponent extends Component implements HasForms
     public function submit()
     {
         $validatedData = $this->validatedInputs();
+        
+        if (is_null($this->model->id)) {
+            $this->model = $this->model->create($validatedData);
+            $this->dispatch('modal-close');
+            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been created.');
+            $this->dispatch('refresh-page');
+        } else {
+            $this->model->update($validatedData);
+            $this->dispatch('modal-close');
+            $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been updated.');
+            $this->dispatch('refresh-page');
+        }
     }
 
     public function cancel()
@@ -61,8 +85,6 @@ class ModalComponent extends Component implements HasForms
 
     public function render()
     {
-        // Log::info($this->__id);
-
-        return view('yali::actions.modal-component');
+        return view('yali::actions.modal-component')->layout('yali::layouts.app');
     }
 }

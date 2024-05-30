@@ -3,20 +3,24 @@
 namespace Raakkan\Yali\App;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Raakkan\Yali\Core\Utils\RouteUtils;
 use Illuminate\Support\Facades\Validator;
 use Raakkan\Yali\Core\Facades\YaliManager;
-use Raakkan\Yali\Core\Utils\RouteUtils;
+use Raakkan\Yali\Core\Forms\Contracts\HasForms;
+use Raakkan\Yali\Core\Forms\Concerns\InteractsWithForms;
 
-class HandleResourcePage extends Component
+class HandleResourcePage extends Component implements HasForms
 {
+    use InteractsWithForms;
+
     public $resource;
     protected $view = 'yali::pages.handle-resource-page';
-    public $model;
 
-    public $data = [];
+    public $isEditing = false;
 
     public function mount(Request $request, $modelKey = null)
     {
@@ -24,20 +28,13 @@ class HandleResourcePage extends Component
 
         if ($modelKey) {
             $this->model = $this->getModel()->find($modelKey);
+            $this->isEditing = true;
         } else {
             $this->model = $this->getModel();
+            $this->isEditing = false;
         }
 
         $this->fillForm();
-    }
-    
-    public function fillForm()
-    {
-        foreach ($this->getForm()->getFields() as $field) {
-            if ($field->getType() !== 'password') {
-                $this->data[$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
-            }
-        }
     }
 
     public function getResource()
@@ -51,15 +48,6 @@ class HandleResourcePage extends Component
         return $this->getResource()->getModelInstance();
     }
 
-    public function getTitle()
-    {
-        if (is_null($this->model->id)) {
-            return 'Create '. $this->getResource()->getTitle();
-        } else {
-            return 'Edit '. $this->getResource()->getTitle();
-        }
-    }
-
     public function getForm()
     {
         return $this->getResource()->form($this->getResource()->getForm());
@@ -69,6 +57,7 @@ class HandleResourcePage extends Component
     {
         $validatedData = $this->validatedInputs();
 
+        // change to form 
         if (is_null($this->model->id)) {
             $this->model = $this->model->create($validatedData);
             return redirect()->route($this->getResoureceRoute() . '.edit', ['modelKey' => $this->model->id]);
@@ -80,45 +69,7 @@ class HandleResourcePage extends Component
 
     public function getResoureceRoute()
     {
-        return RouteUtils::getRouteNameByClass(get_class($this->getResource()));
-    }
-
-    public function validatedInputs()
-    {
-        $rules = $this->getValidationRules();
-        if ($this->model->id) {
-            foreach ($this->getForm()->getFields() as $field) {
-                if ($field->getType() === 'password') {
-                    if (empty($this->data[$field->getName()])) {
-
-                        // If the field is a password field and the input is empty,
-                        // remove the confirmation field rule and the confirmation field itself from the rules array.
-                        if (array_key_exists($field->getName(), $rules)) {
-                            foreach ($rules[$field->getName()] as $key => $rule) {
-                                if (is_string($rule) && Str::contains($rule, 'confirmed')) {
-                                    $confirmationFieldName = explode(':', $rule)[1];
-                                    unset($rules[$confirmationFieldName]);
-                                }
-                            }
-                        }
-
-                        unset($rules[$field->getName()]);
-                    }
-                }
-            }
-        }
-        
-        $validated = Validator::make(
-            $this->data,
-            $rules,
-         )->validate();
-
-        return $validated;
-    }
-
-    public function getValidationRules()
-    {
-        return $this->getForm()->getValidationRules();
+        return $this->getResource()->getRouteName();
     }
 
     public function render()

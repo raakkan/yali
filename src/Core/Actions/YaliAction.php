@@ -115,4 +115,15 @@ abstract class YaliAction extends YaliComponent
         return $button;
     }
 
+    public function getActionType()
+    {
+        if ($this->resource) {
+            return 'resource_form_action';
+        }
+
+        if ($this->form) {
+            return 'form_action';
+        }
+    }
+
 }

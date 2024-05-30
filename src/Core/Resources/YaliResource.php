@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Table\YaliTable;
 use Illuminate\Database\Eloquent\Model;
-use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
@@ -48,10 +47,10 @@ abstract class YaliResource
         if(!$this->table) {
             $this->table = new YaliTable();
 
-            $this->table->headerActions = [CreateAction::make()->modal(slideLeft: true)];
+            $this->table->headerActions = [CreateAction::make()->modal()];
 
             $this->table->actions = [
-                EditAction::make()->modal(slideUp: true, closeOnOutsideClick: true),
+                EditAction::make()->modal(),
                 DeleteAction::make(),
             ];
         }
@@ -70,7 +69,7 @@ abstract class YaliResource
             [
                 'label' => 'Create',
                 'slug' => 'create',
-                'route' => RouteUtils::getRouteNameByClass(static::class).'.create',
+                'route' => static::getCreateRouteName(),
                 'class' => HandleResourcePage::class,
                 'type' => static::getType(),
                 'icon' => 'child-icon-1',
@@ -81,7 +80,7 @@ abstract class YaliResource
             [
                 'label' => 'Edit',
                 'slug' => '{modelKey}/edit',
-                'route' => RouteUtils::getRouteNameByClass(static::class).'.edit',
+                'route' => static::getUpdateRouteName(),
                 'class' => HandleResourcePage::class,
                 'type' => static::getType(),
                 'icon' => 'child-icon-2',
@@ -116,5 +115,20 @@ abstract class YaliResource
         }
         
         return null;
+    }
+
+    public static function getRouteName()
+    {
+        return Str::kebab(Str::plural(static::getType()) . str_replace('\\', '', static::class));
+    }
+
+    public static function getCreateRouteName()
+    {
+        return static::getRouteName() . '.create';
+    }
+
+    public static function getUpdateRouteName()
+    {
+        return static::getRouteName() . '.edit';
     }
 }

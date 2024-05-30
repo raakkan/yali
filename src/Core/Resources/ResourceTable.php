@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Raakkan\Yali\Core\Facades\YaliManager;
@@ -23,6 +24,12 @@ class ResourceTable extends Component
         $this->resource = YaliManager::resolveResource($resource);
 
         $this->setFilterInputs();
+    }
+
+    #[On('refresh-page')] 
+    public function dcxz()
+    {
+        $this->resetPage();
     }
 
     public function getResource()

@@ -7,6 +7,8 @@ class ToggleField extends Field
     protected $view = 'yali::forms.fields.switch-field';
     protected $type = 'switch';
 
+    public $default = false;
+
     public function checked($checked = true)
     {
         $this->default = $checked;

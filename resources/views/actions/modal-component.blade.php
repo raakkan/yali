@@ -1,4 +1,4 @@
-<div class="inline-block" x-data="{ open: false }">
+<div class="inline-block" x-data="{ open: false }" wire:id="modal-{{ $this->__id }}">
 
     @php
         $button = $this->getAction()->getButton();
@@ -8,6 +8,7 @@
 
         $submitButton = $this->getForm()->getSubmitButton();
         $submitButton->setLabel($this->getAction()->getSubmitButtonLabel());
+        $submitButton->setSpinner(true, 'submit');
 
         $modalPosition = $this->getForm()->getModalPosition();
         $modalMaxWidth = $this->getForm()->getMaxWidth();
@@ -15,8 +16,8 @@
         $margin = $this->getForm()->getMargin();
         $rounded = $this->getForm()->getRounded();
 
-        $title = $this->getResource()->getTitle();
-        $subTitle = $this->getResource()->getSubTitle();
+        $title = $this->getAction()->getModalTitle();
+        $subTitle = $this->getAction()->getModalSubTitle();
 
         $alertMessage = $this->getAction()->getAlertMessage();
         $alertType = $this->getAction()->getAlertType();
@@ -37,7 +38,7 @@
         {!! $button->render() !!}
     @endif
 
-    <div x-show="open" x-cloak>
+    <div x-show="open" x-cloak x-on:modal-close.window="open = false">
         <x-yali::modals.modal x-show="open" x-on:click="open = false"
             @click.outside="{{ $isCloseOnOutsideClick ? 'open = false' : '' }}"
             @keyup.escape.window="{{ $isCloseOnEsc ? 'open = false' : '' }}" :position="$modalPosition" :maxWidth="$modalMaxWidth"

@@ -18,6 +18,10 @@ class Button
     private $type = 'button';
     private $attributes = [];
 
+    private $spinner = false;
+    private $spinnerTarget = null;
+
+
     public function setLabel($label)
     {
         $this->label = $label;
@@ -66,6 +70,13 @@ class Button
         return $this;
     }
 
+    public function setSpinner($spinner = true, $target = null)
+    {
+        $this->spinner = $spinner;
+        $this->spinnerTarget = $target;
+        return $this;
+    }
+
     public function render()
     {
         $classString = $this->getClasses() !== '' ? $this->getClasses() : 'btn btn-primary';
@@ -80,8 +91,17 @@ class Button
         foreach ($this->attributes as $attribute => $value) {
             $html .= ' ' . $attribute . '="' . $value . '"';
         }
+
+        if ($this->spinner) {
+            $html .= ' wire:loading.attr="disabled" wire:target="' . $this->spinnerTarget .'"';
+        }
         
-        $html .= '>';
+        $html .= ' >';
+
+        if ($this->spinner)
+        {
+            $html .= Blade::render('<x-yali::icon name="spinner" wire:loading wire:target="' . $this->spinnerTarget .'" class="inline w-4 h-4 me-3 animate-spin" />');
+        }
         
         if ($this->icon !== null) {
             $html .= Blade::render('<x-yali::icon name="' . $this->icon . '" />');

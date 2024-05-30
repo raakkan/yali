@@ -8,9 +8,9 @@ import 'flowbite';
 // Livewire.start()
 
 
-// document.addEventListener('livewire:initialized', () => {
-
-// })
+document.addEventListener('refresh-page', () => {
+    console.log('Page Refreshed');
+})
 
 Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
     let content = eval(`(${directive.expression})`);

@@ -2,7 +2,6 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
-use Raakkan\Yali\Core\Utils\RouteUtils;
 use Str;
 
 trait HasNavigation
@@ -74,11 +73,6 @@ trait HasNavigation
         $this->navigationGroupIcon = $navigationGroupIcon;
 
         return $this;
-    }
-
-    public static function getRouteName(): string
-    {
-        return RouteUtils::getRouteNameByClass(static::class);
     }
 
     public static function getPath(): string

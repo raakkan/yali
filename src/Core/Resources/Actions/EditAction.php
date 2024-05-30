@@ -2,7 +2,6 @@
 
 namespace Raakkan\Yali\Core\Resources\Actions;
 
-use Raakkan\Yali\Core\Utils\RouteUtils;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
 
@@ -28,6 +27,15 @@ class EditAction extends YaliAction
         }
 
         return $this->label ?? 'Edit';
+    }
+
+    public function getModalSubTitle()
+    {
+        if ($this->resource) {
+            return $this->resource->getSubTitle();
+        }
+
+        return $this->label ?? 'Create';
     }
 
     public function getAlertMessage()
@@ -59,6 +67,10 @@ class EditAction extends YaliAction
 
     public function getRoute()
     {
-        return route(RouteUtils::getRouteNameByClass(get_class($this->resource)) . '.edit', ['modelKey' => $this->getModel()->id]);
+        if ($this->resource) {
+            return route($this->resource->getUpdateRouteName(), ['modelKey' => $this->getModel()->id]);
+        }
+
+        return '';
     }
 }
