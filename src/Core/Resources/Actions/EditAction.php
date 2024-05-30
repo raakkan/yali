@@ -73,4 +73,9 @@ class EditAction extends YaliAction
 
         return '';
     }
+
+    public function getUpdatedSuccessMessage()
+    {
+        return $this->source->getUpdatedSuccessMessage();
+    }
 }

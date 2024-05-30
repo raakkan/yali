@@ -57,12 +57,11 @@ class HandleResourcePage extends Component implements HasForms
     {
         $validatedData = $this->validatedInputs();
 
-        // change to form 
         if (is_null($this->model->id)) {
-            $this->model = $this->model->create($validatedData);
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             return redirect()->route($this->getResoureceRoute() . '.edit', ['modelKey' => $this->model->id]);
         } else {
-            $this->model->update($validatedData);
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been updated.');
         }
     }

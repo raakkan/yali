@@ -7,7 +7,7 @@
 @else
     @if ($class->isModal())
         @livewire(
-            'yali::modal-component',
+            'yali::action-modal-component',
             [
                 'data' => [
                     'source' => $class->getSourceClass(),

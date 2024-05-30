@@ -79,4 +79,9 @@ class CreateAction extends YaliAction
 
         return '';
     }
+
+    public function getCreatedSuccessMessage()
+    {
+        return $this->source->getCreatedSuccessMessage();
+    }
 }

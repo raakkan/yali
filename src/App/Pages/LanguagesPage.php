@@ -41,7 +41,7 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     public function getViewData()
     {
         return [
-            'languages' => Language::paginate(3)
+            'languages' => Language::withTrashed()->paginate(3)
         ];
     }
 
@@ -55,11 +55,14 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     {
         return $form->fields([
             TextField::make('name')->required(),
+            // TODO: code validation
             TextField::make('code')->required(),
             ToggleField::make('is_default')->default(false),
             ToggleField::make('is_active')->default(true),
             ToggleField::make('rtl')->default(false),
-        ]);
+        ])->beforeFormSubmit(function ($data, $model) {
+            // dd($data, $model);
+        });
     }
 
     public static function getChildNavigationItems(): array
@@ -98,6 +101,16 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     public function deleteLanguage($id)
     {
         $language = Language::find($id);
+
+        if ($language->is_default) {
+            $this->dispatch('toast', type: 'error', message: 'Default language cannot be deleted.');
+            return;
+        }
+
+        if ($language->code === 'en') {
+            $this->dispatch('toast', type: 'error', message: 'English language cannot be deleted.');
+            return;
+        }
 
         $language->delete();
 

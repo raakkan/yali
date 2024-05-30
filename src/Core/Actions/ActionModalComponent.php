@@ -9,7 +9,7 @@ use Raakkan\Yali\Core\Forms\Contracts\HasForms;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Resources\YaliResource;
 
-class ModalComponent extends Component implements HasForms
+class ActionModalComponent extends Component implements HasForms
 {
     use InteractsWithForms;
 
@@ -37,14 +37,8 @@ class ModalComponent extends Component implements HasForms
 
     public function getForm()
     {
-        $source = $this->getSource();
-        
-        if ($source instanceof YaliResource) {
-            $form = $this->getSource()->form($this->getSource()->getForm());
-            $form->setResource($this->getSource())->modal(...$this->getAction()->getModalData());
-        }else {
-            $form = $this->getSource()->form($this->getSource()->getForm());
-        }
+        $form = $this->getSource()->form($this->getSource()->getForm());
+        $form->setSource($this->getSource())->modal(...$this->getAction()->getModalData());
         
         return $form;
     }
@@ -56,14 +50,7 @@ class ModalComponent extends Component implements HasForms
 
     public function getAction()
     {
-        $source = $this->getSource();
-        if ($source instanceof YaliResource) {
-            $action = $this->getSource()->getAction($this->action)->setSource($this->getSource());
-        }else {
-            $action = $this->getSource()->getAction();
-        }
-
-        return $action;
+        return $this->getSource()->getAction($this->action)->setSource($this->getSource());
     }
 
     public function submit()
@@ -71,26 +58,16 @@ class ModalComponent extends Component implements HasForms
         $validatedData = $this->validatedInputs();
         
         if (is_null($this->model->id)) {
-            $this->model = $this->model->create($validatedData);
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             $this->dispatch('modal-close');
-            $this->dispatch('toast', type: 'success', message: $this->getSourceName() . ' has been created.');
+            $this->dispatch('toast', type: 'success', message: $this->getAction()->getCreatedSuccessMessage());
             $this->dispatch('refresh-page');
         } else {
-            $this->model->update($validatedData);
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             $this->dispatch('modal-close');
-            $this->dispatch('toast', type: 'success', message: $this->getSourceName() . ' has been updated.');
+            $this->dispatch('toast', type: 'success', message: $this->getAction()->getUpdatedSuccessMessage());
             $this->dispatch('refresh-page');
         }
-    }
-
-    public function getSourceName()
-    {
-        if($this->getSource() instanceof YaliResource) {
-            return $this->getSource()->getModelName();
-        }
-
-        // TODO: get source name
-        return class_basename(get_class($this->model));
     }
 
     public function cancel()

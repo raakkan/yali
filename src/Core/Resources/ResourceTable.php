@@ -22,7 +22,7 @@ class ResourceTable extends Component
     public function mount($resource)
     {
         $this->resource = YaliManager::resolveResource($resource);
-
+        
         $this->setFilterInputs();
     }
 
