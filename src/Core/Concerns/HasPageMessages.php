@@ -2,7 +2,7 @@
 
 namespace Raakkan\Yali\Core\Concerns;
 
-trait ActionMessages
+trait HasPageMessages
 {
     protected static $tablePageMessage = '';
     protected static $updatePageMessage = '';

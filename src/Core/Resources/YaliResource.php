@@ -11,9 +11,9 @@ use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
-use Raakkan\Yali\Core\Concerns\ActionMessages;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
 use Raakkan\Yali\Core\Concerns\HasButtonLabels;
+use Raakkan\Yali\Core\Concerns\HasPageMessages;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
 use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
@@ -32,7 +32,7 @@ abstract class YaliResource implements HasTitlesInterface
     use HasModel;
     use HasTitles;
     use HasButtonLabels;
-    use ActionMessages;
+    use HasPageMessages;
     use HasDeleteMessages;
     use HasSuccessMessages;
 

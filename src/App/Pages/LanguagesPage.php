@@ -13,8 +13,8 @@ use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
-use Raakkan\Yali\Core\Concerns\ActionMessages;
 use Raakkan\Yali\Core\Concerns\HasButtonLabels;
+use Raakkan\Yali\Core\Concerns\HasPageMessages;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
 use Raakkan\Yali\Core\Actions\Concerns\HasActions;
@@ -30,7 +30,7 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     use WithPagination;
     use HasTitles;
     use HasButtonLabels;
-    use ActionMessages;
+    use HasPageMessages;
     use HasDeleteMessages;
     use HasSuccessMessages;
 
