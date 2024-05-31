@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unsignedBigInteger('translation_category_id')->nullable();
-        $table->foreign('translation_category_id')->references('id')->on('yali_translation_categories')->onDelete('set null');
+            $table->foreign('translation_category_id')->references('id')->on('yali_translation_categories')->onDelete('set null');
         
             $table->foreign('language_id')->references('id')->on('yali_languages')->onDelete('cascade');
             $table->unique(['group', 'key', 'language_code']);

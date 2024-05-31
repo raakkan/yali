@@ -15,6 +15,7 @@ class Translation extends Model
         'note',
         'language_code',
         'language_id',
+        'translation_category_id',
     ];
 
     public function language()

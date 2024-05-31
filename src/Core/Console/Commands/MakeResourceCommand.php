@@ -8,7 +8,7 @@ use Illuminate\Console\GeneratorCommand;
 
 class MakeResourceCommand extends GeneratorCommand
 {
-    protected $signature = 'yali:resource {model : The name of the model class}';
+    protected $signature = 'yali:make-resource {model : The name of the model class}';
 
     protected $description = 'Create a new Yali resource class';
 

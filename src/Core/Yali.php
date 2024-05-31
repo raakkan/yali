@@ -8,6 +8,7 @@ use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
+use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Resources\ResourceTable;
 use Raakkan\Yali\Core\Resources\ResourceManager;
 use Raakkan\Yali\Core\Actions\ActionModalComponent;
@@ -54,6 +55,8 @@ class Yali
         Livewire::component('yali::resource-handle-page', HandleResourcePage::class);
 
         Livewire::component('yali::action-modal-component', ActionModalComponent::class);
+
+        Livewire::component('yali::manage-translation', ManageTranslationPage::class);
 
         foreach ($this->getPages() as $page) {
             Livewire::component($this->componentRegistry->getName($page['class']), $page['class']);

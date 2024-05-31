@@ -35,6 +35,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "Raakkan\\Yali\\Providers\\TranslationServiceProvider",
                 "Raakkan\\Yali\\Providers\\YaliServiceProvider"
             ]
         }

@@ -26,6 +26,7 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        
         $this->app->singleton(PageManager::class, function () {
             return new PageManager();
         });
@@ -82,7 +83,9 @@ class YaliServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->commands([
-            \Raakkan\Yali\Core\Console\Commands\MakeResourceCommand::class,
+            \Raakkan\Yali\Core\Console\Commands\YaliCommands::class,
+            \Raakkan\Yali\Core\Console\Commands\LoadTranslationsCommand::class,
+            \Raakkan\Yali\Core\Console\Commands\MakeResourceCommand::class
         ]);
     }
 
