@@ -56,10 +56,10 @@ abstract class YaliResource implements HasTitlesInterface
         if(!$this->table) {
             $this->table = new YaliTable();
 
-            $this->table->headerActions = [CreateAction::make()->modal()];
+            $this->table->headerActions = [CreateAction::make()->setLink()];
 
             $this->table->actions = [
-                EditAction::make()->modal(),
+                EditAction::make()->setLink(),
                 DeleteAction::make(),
             ];
         }

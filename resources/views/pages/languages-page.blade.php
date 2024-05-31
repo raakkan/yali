@@ -32,19 +32,30 @@
                         <span class="ml-2 text-gray-700">Active</span>
                     </label>
                 </div>
-                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+                <div class="flex">
                     @php
                         $actions = $this->getActions();
                     @endphp
 
                     @foreach ($actions as $action)
-                        {!! $action->setModel($language)->render() !!}
+                        @if ($action instanceof \Raakkan\Yali\Core\Resources\Actions\DeleteAction)
+                            @if ($language->trashed())
+                                {!! $action->setModel($language)->setLabel('Permanently Delete')->render() !!}
+                            @else
+                                {!! $action->setModel($language)->render() !!}
+                                <div>
+                                    <a href="{{ route($this->getRouteName() . '.manage-translation', ['language' => $language->id]) }}"
+                                        class="btn btn-ghost btn-sm">
+                                        Manage Translations
+                                    </a>
+                                </div>
+                            @endif
+                        @else
+                            {!! $action->setModel($language)->render() !!}
+                        @endif
                     @endforeach
 
-                    <a href="{{ route($this->getRouteName() . '.manage-translation', ['language' => $language->id]) }}"
-                        class="btn btn-primary btn-sm">
-                        Manage Translations
-                    </a>
+
                 </div>
             </div>
         @endforeach

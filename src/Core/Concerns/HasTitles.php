@@ -13,11 +13,6 @@ trait HasTitles
     protected static $createPageSubtitle = '';
     protected static $updatePageSubtitle = '';
 
-    public static function title(): string
-    {
-        return static::$title ?: Str::title(static::getDefaultTitle());
-    }
-
     public static function getTitle(): string
     {
         return static::$title ?: Str::title(static::getDefaultTitle());

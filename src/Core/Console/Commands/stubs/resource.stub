@@ -1,0 +1,29 @@
+<?php
+
+namespace {{ namespace }};
+
+use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Table\YaliTable;
+use Raakkan\Yali\Core\Resources\YaliResource;
+use {{ modelNamespace }};
+
+class {{ class }} extends YaliResource
+{
+    protected static $model = {{ model }}::class;
+
+    public function table(YaliTable $table): YaliTable
+    {
+        return $table->columns([
+            // Define your table columns here
+        ])->filters([
+            // Define your table filters here
+        ]);
+    }
+
+    public function form(YaliForm $form): YaliForm
+    {
+        return $form->fields([
+            // Define your form fields here
+        ]);
+    }
+}

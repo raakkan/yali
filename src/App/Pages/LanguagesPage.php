@@ -34,7 +34,7 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     use HasDeleteMessages;
     use HasSuccessMessages;
 
-    protected static $slug = 'translations';
+    protected static $slug = 'languages';
 
     protected static $navigationOrder = 99;
     protected static $navigationIcon = 'language';

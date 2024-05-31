@@ -46,6 +46,8 @@ class YaliServiceProvider extends ServiceProvider
             $iconLoader = $app->make('yali-manager')->getIconLoader();
             return new IconManager($iconLoader);
         });
+
+        $this->registerCommands();
     }
 
     /**
@@ -75,6 +77,13 @@ class YaliServiceProvider extends ServiceProvider
                 __DIR__ . '/../../database/seeders' => database_path('seeders'),
             ], 'yali-seeders');
         }
+    }
+
+    protected function registerCommands()
+    {
+        $this->commands([
+            \Raakkan\Yali\Core\Console\Commands\MakeResourceCommand::class,
+        ]);
     }
 
 }

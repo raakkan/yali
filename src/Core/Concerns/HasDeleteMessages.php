@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 trait HasDeleteMessages
 {
+    // protected static $deleteLabel = '';
+    // protected static $hardDeleteLabel = '';
     protected static $deleteTitle = '';
     protected static $deleteMessage = '';
     protected static $hardDeleteTitle = '';

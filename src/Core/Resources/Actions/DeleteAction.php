@@ -9,7 +9,7 @@ class DeleteAction extends YaliAction
 {
     protected $view = 'yali::actions.action';
 
-    protected string $label = 'delete';
+    protected string $label = 'Delete';
 
     public function __construct()
     {
