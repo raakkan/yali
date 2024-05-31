@@ -4,8 +4,8 @@ namespace Raakkan\Yali\Core\Actions\Concerns;
 
 trait Modalable
 {
+    use ModalConfirmation;
     protected bool $isModal = false;
-    public $confirmation = false;
 
     protected $modalData = [
         'slideLeft' => false,
@@ -15,17 +15,6 @@ trait Modalable
         'closeOnOutsideClick' => false,
         'closeOnEscape' => false
     ];
-
-    public function confirmation($confirmation = true)
-    {
-        $this->confirmation = $confirmation;
-        return $this;
-    }
-    
-    public function getConfirmation()
-    {
-        return $this->confirmation;
-    }
 
     public function isModal()
     {

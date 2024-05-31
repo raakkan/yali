@@ -2,7 +2,7 @@
 
 namespace Raakkan\Yali\Core\Concerns;
 
-trait HasMessages
+trait ActionMessages
 {
     protected static $tablePageMessage = '';
     protected static $updatePageMessage = '';
@@ -12,10 +12,6 @@ trait HasMessages
     protected static $updatePageMessageType = 'info';
     protected static $createPageMessageType = 'info';
     protected static $allPageMessageType = 'info';
-    protected static $createdSuccessMessage = '';
-    protected static $updatedSuccessMessage = '';
-    protected static $softDeletedSuccessMessage = '';
-    protected static $deletedSuccessMessage = '';
 
     public static function getTablePageMessage(): string
     {
@@ -64,25 +60,5 @@ trait HasMessages
     public static function getAllPageMessageType(): string
     {
         return static::$allPageMessageType ?: 'info';
-    }
-
-    public static function getCreatedSuccessMessage(): string
-    {
-        return static::$createdSuccessMessage ?: static::getTitle() . ' created successfully.';
-    }
-
-    public static function getUpdatedSuccessMessage(): string
-    {
-        return static::$updatedSuccessMessage ?: static::getTitle() . ' updated successfully.';
-    }
-
-    public static function getSoftDeletedSuccessMessage(): string
-    {
-        return static::$softDeletedSuccessMessage ?: static::getTitle() . ' deleted successfully.';
-    }
-
-    public static function getDeletedSuccessMessage(): string
-    {
-        return static::$deletedSuccessMessage ?: static::getTitle() . ' deleted successfully.';
     }
 }

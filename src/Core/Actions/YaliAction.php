@@ -33,11 +33,6 @@ abstract class YaliAction extends YaliComponent
         return '';
     }
 
-    public function getPayload()
-    {
-        return $this->getModel()->id;
-    }
-
     public function setModel(Model $model)
     {
         $this->model = $model;

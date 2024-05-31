@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Concerns\HasTitles;
-use Raakkan\Yali\Core\Concerns\HasMessages;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
+use Raakkan\Yali\Core\Concerns\ActionMessages;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
 use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
+use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
 use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
@@ -29,8 +31,10 @@ abstract class YaliResource implements HasTitlesInterface
     use HasForm;
     use HasModel;
     use HasTitles;
-    use HasMessages;
     use HasButtonLabels;
+    use ActionMessages;
+    use HasDeleteMessages;
+    use HasSuccessMessages;
 
     public static function getSlug(): string
     {

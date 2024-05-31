@@ -8,14 +8,19 @@ use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Pages\YaliPage;
 use Raakkan\Yali\App\ManageLanguagePage;
+use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\App\ManageTranslationPage;
-use Raakkan\Yali\Core\Concerns\HasMessages;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
+use Raakkan\Yali\Core\Concerns\ActionMessages;
 use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
+use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
+use Raakkan\Yali\Core\Actions\Concerns\HasActions;
+use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
 use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 
@@ -24,8 +29,10 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     use HasForm;
     use WithPagination;
     use HasTitles;
-    use HasMessages;
     use HasButtonLabels;
+    use ActionMessages;
+    use HasDeleteMessages;
+    use HasSuccessMessages;
 
     protected static $slug = 'translations';
 
@@ -36,6 +43,7 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
 
     public function mount()
     {
+        
     }
 
     public function getViewData()
@@ -69,17 +77,6 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     {
         return [
             [
-                'label' => 'Manage Language',
-                'slug' => '{language}/manage',
-                'route' => static::getRouteName(). '.manage-language',
-                'class' => ManageLanguagePage::class,
-                'type' => static::getType(),
-                'icon' => 'child-icon-1',
-                'order' => 1,
-                'path' => '{language}/manage',
-                'isHidden' => true,
-            ],
-            [
                 'label' => 'Manage Translation',
                 'slug' => '{language}/translations',
                 'route' => static::getRouteName(). '.manage-translation',
@@ -93,14 +90,57 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
         ];
     }
 
-    public function getAction()
+    public function getAction($action)
     {
-        return CreateAction::make()->setSource($this)->modal()->setModel(new Language())->setLabel('Create Language');
+        if (is_string($action) && is_subclass_of($action, YaliAction::class)) {
+            $actionClass = $action;
+        } elseif ($action instanceof YaliAction) {
+            $actionClass = get_class($action);
+        } else {
+            return null;
+        }
+        
+        if (array_key_exists($actionClass, $this->getHeaderActions())) {
+            return $this->getHeaderActions()[$actionClass];
+        }
+        
+        if (array_key_exists($actionClass, $this->getActions())) {
+            return $this->getActions()[$actionClass];
+        }
+        
+        return null;
     }
 
-    public function deleteLanguage($id)
+    public function getActions()
     {
-        $language = Language::find($id);
+        $actions = [
+            EditAction::make()->setSource($this)->modal(),
+            DeleteAction::make()->setSource($this)
+        ];
+
+        $data = [];
+        foreach ($actions as $action) {
+            $data[get_class($action)] = $action;
+        }
+
+        return $data;
+    }
+
+    public function getHeaderActions()
+    {
+        $actions = [CreateAction::make()->setSource($this)->modal()->setModel(new Language())->setLabel('Create Language')->classes(['btn', 'btn-ghost', 'btn-sm'])];
+        
+        $data = [];
+        foreach ($actions as $action) {
+            $data[get_class($action)] = $action;
+        }
+
+        return $data;
+    }
+
+    public function delete($id)
+    {
+        $language = Language::withTrashed()->find($id);
 
         if ($language->is_default) {
             $this->dispatch('toast', type: 'error', message: 'Default language cannot be deleted.');
@@ -112,13 +152,19 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
             return;
         }
 
-        $language->delete();
-
-        $this->dispatch('toast', type: 'success', message: 'Language has been deleted.');
+        if ($language->trashed()) {
+            // Hard delete
+            $language->forceDelete();
+            $this->dispatch('toast', type: 'success', message: 'Language has been permanently deleted.');
+        } else {
+            // Soft delete
+            $language->delete();
+            $this->dispatch('toast', type: 'success', message: 'Language has been deleted.');
+        }
     }
 
     public static function getDefaultTitle(): string
     {
-        return 'Language';
+        return __('Language');
     }
 }

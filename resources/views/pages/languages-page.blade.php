@@ -1,9 +1,11 @@
 <x-yali::card title="Languages" description="Handle Resource Page" class="w-full">
     <x-slot name="headerSlot">
         @php
-            $action = $this->getAction();
+            $actions = $this->getHeaderActions();
         @endphp
-        {!! $action->render() !!}
+        @foreach ($actions as $action)
+            {!! $action->render() !!}
+        @endforeach
     </x-slot>
 
     <div class="divide-y divide-gray-200">
@@ -31,13 +33,14 @@
                     </label>
                 </div>
                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-                    <button class="btn btn-danger btn-sm" wire:click="deleteLanguage({{ $language->id }})">
-                        Delete
-                    </button>
-                    <a href="{{ route($this->getRouteName() . '.manage-language', ['language' => $language->id]) }}"
-                        class="btn btn-primary btn-sm">
-                        Edit
-                    </a>
+                    @php
+                        $actions = $this->getActions();
+                    @endphp
+
+                    @foreach ($actions as $action)
+                        {!! $action->setModel($language)->render() !!}
+                    @endforeach
+
                     <a href="{{ route($this->getRouteName() . '.manage-translation', ['language' => $language->id]) }}"
                         class="btn btn-primary btn-sm">
                         Manage Translations
