@@ -1,9 +1,21 @@
 import 'flowbite';
 
-// import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
-// import collapse from '@alpinejs/collapse'
+document.addEventListener('alpine:init', () => {
+    Alpine.data('textTruncate', () => ({
+        truncateText(lines) {
+            const textElement = this.$el;
+            const lineHeight = parseFloat(getComputedStyle(textElement).lineHeight);
+            const maxHeight = lineHeight * lines;
 
-// Alpine.plugin(collapse)
+            textElement.style.maxHeight = `${maxHeight}px`;
+            textElement.style.overflow = 'hidden';
+            textElement.style.textOverflow = 'ellipsis';
+            textElement.style.display = '-webkit-box';
+            textElement.style.webkitBoxOrient = 'vertical';
+            textElement.style.webkitLineClamp = lines;
+        }
+    }));
+});
 
 Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
     console.log(directive.expression, el);

@@ -62,16 +62,9 @@
     }
 }
 
-.sortable-ghost {
-    opacity: 0.4;
-    background-color: #a8a8a8;
+.truncate-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
 }
-
-.draggable-handle {
-	cursor: move;
-	cursor: -webkit-grabbing;
-}
-
-.trix-button--icon-attach {
-    display: none;
-  }
