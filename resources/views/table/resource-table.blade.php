@@ -35,33 +35,7 @@
         @endif
     </div>
 
-    @php
-        $visibleFilters = array_filter($filters, function ($filter) {
-            return !$filter->isHidden();
-        });
-    @endphp
-    @if (count($visibleFilters) > 0)
-        {{-- TODO: implament filter applyed cache --}}
-        <div class="p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold">Filters</h3>
-                <button wire:click="clearAllFilters"
-                    class="btn btn-xs {{ $this->hasFilters() ? 'btn-primary' : 'btn-ghost cursor-not-allowed' }}"
-                    type="button" {{ $this->hasFilters() ? '' : 'disabled' }}>
-                    Clear Filters
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($visibleFilters as $filter)
-                    @if (!$filter->isHidden())
-                        <div class="bg-gray-100 dark:bg-gray-900 rounded-md p-4">
-                            {{ $filter->render() }}
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-    @endif
+    <x-yali::filter.filter-wrapper :filters="$filters" :hasFilters="$this->hasFilters()" wrapperClass="p-4" />
 
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

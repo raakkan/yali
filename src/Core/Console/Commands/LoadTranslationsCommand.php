@@ -77,6 +77,8 @@ class LoadTranslationsCommand extends Command
                 ], [
                     'value' => $value,
                     'translation_category_id' => $category->id,
+                    'is_enabled' => true,
+                    'created_by' => 'system',
                 ]);
             }
         }

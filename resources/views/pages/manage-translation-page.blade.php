@@ -1,6 +1,6 @@
-<div>
-    <div class="bg-white rounded-lg shadow-md">
-        <div class="p-6 space-y-6">
+<div class="">
+    <div class="bg-white rounded-lg shadow-md p-4 md:p-6">
+        <div class="space-y-6">
             <div class="flex items-center bg-gray-100 p-4 rounded-lg border">
                 <img class="w-12 h-12 rounded-full mr-4"
                     src="https://hatscripts.github.io/circle-flags/flags/language/{{ $language->code }}.svg"
@@ -10,44 +10,37 @@
                     <p class="text-gray-600">Language Code: {{ $language->code }}</p>
                 </div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-100 dark:bg-gray-900 rounded-md p-4">
-                    <x-yali::forms.select label="Select an category"
-                        selectClass="btn btn-white btn-bordered w-full mb-3" name="selectedCategory" :options="$translationCategories"
-                        placeholder="Select a category" wire:model="selectedCategory"
-                        placeholder="Select an category" />
-                </div>
+            <div class="flex items-center justify-between">
+                <button class="btn btn-primary btn-sm">Create Translation</button>
+                <button class="btn btn-primary btn-sm">Create Translation Category</button>
             </div>
+
+            <x-yali::filter.filter-wrapper :filters="$this->getFilters()" :hasFilters="$this->hasFilters()" />
         </div>
 
-        <div class="p-6 space-y-6">
+        <div class="pt-4">
+            <x-yali::forms.search wire:model.live.debounce.300ms="search" wire:click="clearSearch" :wrapperClass="'mb-4'"
+                :label="'Search Translations'" :placeholder="'Search Translations...'" :hasSearch="$search" />
+        </div>
+
+        <div class="space-y-6 pt-4">
             @if (count($translations) > 0)
-                <div class="flex flex-col">
-                    @foreach ($translations as $translation)
-                        <div class="flex items-center bg-slate-100 p-4 rounded-lg border">
-                            <img class="w-12 h-12 rounded-full mr-4"
-                                src="https://hatscripts.github.io/circle-flags/flags/language/{{ $translation->language->code }}.svg"
-                                alt="{{ $translation->language->name }} flag">
-                            <div>
-                                <h2 class="text-xl font-semibold text-gray-800">{{ $translation->key }}</h2>
-                                <p class="text-gray-600">Language: {{ $translation->language->name }}</p>
-                            </div>
+                @foreach ($translations as $translation)
+                    <div class="bg-gray-100 border rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-gray-800">
+                                {{ $translation->translationCategory->name }}</h2>
+                            <span class="text-gray-500">{{ $translation->group }}</span>
                         </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="flex items-center bg-slate-100 p-4 rounded-lg border">
-                    <img class="w-12 h-12 rounded-full mr-4"
-                        src="https://hatscripts.github.io/circle-flags/flags/language/{{ $language->code }}.svg"
-                        alt="{{ $language->name }} flag">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">No translations found</h2>
-                        <p class="text-gray-600">Language: {{ $language->name }}</p>
+                        <div class="flex items-center justify-between">
+                            {{ $translation->key }}
+                            {{ $translation->value }}
+                        </div>
                     </div>
-                </div>
+                @endforeach
             @endif
         </div>
+
 
         @if ($translations->hasPages())
             <div class="px-3 pb-3">

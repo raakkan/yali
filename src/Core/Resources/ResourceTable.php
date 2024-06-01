@@ -7,78 +7,25 @@ use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Concerns\Livewire\HasFilters;
+use Raakkan\Yali\Core\Concerns\Livewire\HasResource;
+use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 
 // TODO: pagination page/2 in url bar refresh if filter activated no data
 class ResourceTable extends Component
 {
     use WithPagination;
-
-    public $resource;
-
-    public $search = '';
-
-    public $filterInputs = [];
+    use HasFilters;
+    use HasPagination;
+    use HasResource;
+    use HasSearch;
 
     public function mount($resource)
     {
         $this->resource = YaliManager::resolveResource($resource);
         
         $this->setFilterInputs();
-    }
-
-    #[On('refresh-page')] 
-    public function dcxz()
-    {
-        $this->resetPage();
-    }
-
-    public function getResource()
-    {
-        $resource = $this->resource['class'];
-        return new $resource();
-    }
-
-    public function getTable()
-    {
-        return $this->getResource()->table($this->getResource()->getTable());
-    }
-
-    public function getModel()
-    {
-        return $this->getResource()->getModelInstance();
-    }
-
-    public function getQueryBuilder()
-    {
-        return $this->getResource()->getQueryBuilder();
-    }
-
-    public function getModelData()
-    {
-        $table = $this->getTable();
-
-        $queryBuilder = $this->getQueryBuilder();
-
-        $queryBuilder->search($this->search)
-                    ->withTrashed()
-                    ->applyFilters($table->getFilters(), $this->filterInputs);
-
-        return $queryBuilder->paginate($table->getPerPage());
-    }
-
-    public function sortBy($column)
-    {
-        $filter = $this->getTable()->getFilterByName($column);
-
-        if ($filter && array_key_exists($column, $this->filterInputs)) {
-            if ($this->filterInputs[$column]) {
-                $this->filterInputs[$column] = $this->filterInputs[$column] === 'asc' ? 'desc' : 'asc';
-            }else{
-                $this->filterInputs[$column] = 'asc';
-            }
-        }
-        
-        $this->resetPage();
     }
 
     #[Computed]
@@ -96,9 +43,18 @@ class ResourceTable extends Component
         return $data;
     }
 
-    public function clearSearch()
+    public function sortBy($column)
     {
-        $this->search = '';
+        $filter = $this->getTable()->getFilterByName($column);
+
+        if ($filter && array_key_exists($column, $this->filterInputs)) {
+            if ($this->filterInputs[$column]) {
+                $this->filterInputs[$column] = $this->filterInputs[$column] === 'asc' ? 'desc' : 'asc';
+            }else{
+                $this->filterInputs[$column] = 'asc';
+            }
+        }
+        
         $this->resetPage();
     }
 
@@ -112,35 +68,6 @@ class ResourceTable extends Component
             $this->dispatch('toast', type: 'success', message: $this->getResource()->getModelName() . ' has been deleted.');
             $this->resetPage();
         }
-    }
-
-    public function updatedFilterInputs()
-    {
-        $this->resetPage();
-    }
-
-    public function setFilterInputs()
-    {
-        $this->filterInputs = collect($this->getTable()->getFilters())->mapWithKeys(function ($filter) {
-            return [$filter->getName() => $filter->getValue()];
-        })->toArray();
-    }
-
-    #[Computed]
-    public function hasFilters()
-    {
-        foreach ($this->filterInputs as $value) {
-            if (!empty($value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function clearAllFilters()
-    {
-        $this->setFilterInputs();
-        $this->resetPage();
     }
 
     public function render()

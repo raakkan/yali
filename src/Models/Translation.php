@@ -15,8 +15,23 @@ class Translation extends Model
         'note',
         'language_code',
         'language_id',
+        'created_by',
+        'is_enabled',
         'translation_category_id',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_enabled' => 'boolean',
+            'created_by' => 'enum:system,user',
+        ];
+    }
 
     public function language()
     {

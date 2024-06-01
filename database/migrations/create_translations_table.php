@@ -15,6 +15,8 @@ return new class extends Migration
             $table->text('value')->nullable();
             $table->longText('note')->nullable();
             $table->string('language_code');
+            $table->enum('created_by', ['system', 'user'])->default('system');
+            $table->boolean('is_enabled')->default(true);
             $table->unsignedBigInteger('language_id');
             $table->timestamps();
 

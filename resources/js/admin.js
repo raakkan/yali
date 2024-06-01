@@ -1,11 +1,9 @@
 import 'flowbite';
 
 // import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
-// import Clipboard from '@ryangjchandler/alpine-clipboard'
+// import collapse from '@alpinejs/collapse'
 
-// Alpine.plugin(Clipboard)
-
-// Livewire.start()
+// Alpine.plugin(collapse)
 
 Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
     console.log(directive.expression, el);

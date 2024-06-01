@@ -5,44 +5,49 @@ namespace Raakkan\Yali\App;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Raakkan\Yali\Models\Language;
+use Raakkan\Yali\Core\Filters\SelectFilter;
 use Raakkan\Yali\Models\TranslationCategory;
+use Raakkan\Yali\Core\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Concerns\Livewire\HasFilters;
+use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 
 class ManageTranslationPage extends Component
 {
     use WithPagination;
+    use HasFilters;
+    use HasSearch;
+    use HasPagination;
+    use HasRecords;
 
     public Language $language;
     protected $view = 'yali::pages.manage-translation-page';
 
-    public $translationCategories;
-    public $selectedCategory = 'all';
-
     public function mount()
     {
-        $translationCategories = TranslationCategory::all()->pluck('name', 'id')->toArray();
-
-        $translationCategories['all'] = 'All';
-
-        $this->translationCategories = $translationCategories;
-    }
-
-    public function updatedSelectedCategory($value)
-    {
-        $this->resetPage();
+        
     }
 
     public function render()
     {
-        $translations = $this->language->translations();
-
-        if ($this->selectedCategory !== 'all') {
-            $translations->where('translation_category_id', $this->selectedCategory);
-        }
-
-        $translations = $translations->paginate(20);
+        $query = $this->language->translations()->getQuery();
 
         return view($this->view, [
-            'translations' => $translations,
+            'translations' => $this->getRecords($query),
         ])->layout('yali::layouts.app');
     }
+
+    public function getFilters()
+    {
+        $translationCategories = TranslationCategory::all()->pluck('name', 'id')->toArray();
+
+        $translationGroups = $this->language->translations()->distinct()->pluck('group')->toArray();
+        $translationGroups = array_combine($translationGroups, $translationGroups);
+
+        return [
+            SelectFilter::make('translation_category_id')->label('Category')->options($translationCategories),
+            SelectFilter::make('group')->label('Group')->options($translationGroups),
+        ];
+    }
+
 }
