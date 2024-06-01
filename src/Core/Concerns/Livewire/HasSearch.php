@@ -8,18 +8,34 @@ trait HasSearch
 {
     public $search = '';
 
+    public $searchColumns = [];
+
     public function clearSearch()
     {
         $this->search = '';
         $this->resetPage();
     }
 
-    public function applySearch(Builder $query, $key)
+    public function applySearch(Builder $query)
     {
-        if (!empty($this->search) && !empty($key)) {
-            $query->where($key, 'like', '%' . $this->search . '%');
+        $columns = $this->searchColumns;
+        $search = $this->search;
+        
+        if (!empty($this->search) && !empty($columns)) {
+            if (!empty($columns)) {
+                $query->where(function ($q) use ($columns, $search) {
+                    foreach ($columns as $column) {
+                        $q->orWhere($column, 'like', '%' . $search . '%');
+                    }
+                });
+            }
         }
 
         return $query;
+    }
+
+    public function setSearchColumns($columns)
+    {
+        $this->searchColumns = $columns;
     }
 }

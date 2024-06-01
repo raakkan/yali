@@ -18,7 +18,7 @@ trait HasRecords
          }
  
          if (property_exists($this, 'search') && !empty($this->search)) {
-             $query = $this->applySearch($query, 'key');
+             $query = $this->applySearch($query);
          }
  
          if (property_exists($this, 'perPage')) {

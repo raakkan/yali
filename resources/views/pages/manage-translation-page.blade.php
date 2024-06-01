@@ -10,10 +10,10 @@
                     <p class="text-gray-600">Language Code: {{ $language->code }}</p>
                 </div>
             </div>
-            <div class="flex items-center justify-between">
+            {{-- <div class="flex items-center justify-between">
                 <button class="btn btn-primary btn-sm">Create Translation</button>
                 <button class="btn btn-primary btn-sm">Create Translation Category</button>
-            </div>
+            </div> --}}
 
             <x-yali::filter.filter-wrapper :filters="$this->getFilters()" :hasFilters="$this->hasFilters()" />
         </div>

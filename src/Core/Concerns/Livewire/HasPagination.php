@@ -19,4 +19,10 @@ trait HasPagination
     {
         return $query->paginate($this->perPage);
     }
+
+    public function setPerPage($perPage)
+    {
+        $this->perPage = $perPage;
+        return $this;
+    }
 }

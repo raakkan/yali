@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns\Livewire;
+namespace Raakkan\Yali\Core\Resources\Concerns;
 
 trait HasResource
 {
@@ -27,21 +27,8 @@ trait HasResource
         return $this->getTable()->getFilters();
     }
 
-    public function getQueryBuilder()
+    public function getQuery()
     {
-        return $this->getResource()->getQueryBuilder();
-    }
-
-    public function getModelData()
-    {
-        $table = $this->getTable();
-
-        $queryBuilder = $this->getQueryBuilder();
-
-        $queryBuilder->search($this->search)
-                    ->withTrashed()
-                    ->applyFilters($table->getFilters(), $this->filterInputs);
-
-        return $queryBuilder->paginate($table->getPerPage());
+        return $this->getModel()->newQuery();
     }
 }

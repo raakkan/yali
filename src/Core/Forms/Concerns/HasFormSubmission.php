@@ -30,8 +30,7 @@ trait HasFormSubmission
             $result = call_user_func($this->submitCallback, $data);
         } else {
             if (is_null($model->id)) {
-                $model->create($data);
-                $result = $model;
+                $result = $model->create($data);
             } else {
                 $model->update($data);
                 $result = $model;

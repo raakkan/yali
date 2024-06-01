@@ -43,6 +43,38 @@ trait HasFilters
         }
     }
 
+    #[Computed]
+    public function getSort()
+    {
+        $filters = $this->getTable()->getFilters();
+
+        $data = [];
+        foreach ($filters as $filter) {
+            if (method_exists($filter, 'ascLabel')) {
+                $data[$filter->getName()] = $this->filterInputs[$filter->getName()];
+            }
+        }
+
+        return $data;
+    }
+
+    public function sortBy($column)
+    {
+        $filter = $this->getTable()->getFilterByName($column);
+
+        if ($filter && array_key_exists($column, $this->filterInputs)) {
+            if ($this->filterInputs[$column]) {
+                $this->filterInputs[$column] = $this->filterInputs[$column] === 'asc' ? 'desc' : 'asc';
+            }else{
+                $this->filterInputs[$column] = 'asc';
+            }
+        }
+        
+        if (method_exists($this, 'resetPage')) {
+            $this->resetPage();
+        }
+    }
+
     public function applyFilters(Builder $query)
     {
         $filters = $this->getFilters();
