@@ -5,6 +5,7 @@ namespace Raakkan\Yali\App;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Raakkan\Yali\Models\Language;
+use Raakkan\Yali\Models\Translation;
 use Raakkan\Yali\Core\Filters\SelectFilter;
 use Raakkan\Yali\Models\TranslationCategory;
 use Raakkan\Yali\Core\Concerns\Livewire\HasSearch;
@@ -31,7 +32,7 @@ class ManageTranslationPage extends Component
     public function render()
     {
         $query = $this->language->translations()->getQuery();
-
+        
         $this->setSearchColumns(['group', 'key']);
 
         return view($this->view, [

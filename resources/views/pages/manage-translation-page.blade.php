@@ -22,19 +22,19 @@
             <x-yali::forms.search wire:model.live.debounce.300ms="search" wire:click="clearSearch" :wrapperClass="'mb-4'"
                 :label="'Search Translations'" :placeholder="'Search Translations...'" :hasSearch="$search" />
         </div>
-
         <div class="space-y-6 pt-4">
             @if (count($translations) > 0)
                 @foreach ($translations as $translation)
                     <div class="bg-gray-100 border rounded-lg p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-xl font-semibold text-gray-800">
-                                {{ $translation->translationCategory->name }}</h2>
+                                {{ $translation->translationCategory->name ?? '' }}</h2>
                             <span class="text-gray-500">{{ $translation->group }}</span>
                         </div>
                         <div class="flex items-center justify-between">
                             {{ $translation->key }}
                             {{ $translation->value }}
+                            {{ $translation->defaultTranslation?->value }}
                         </div>
                     </div>
                 @endforeach
@@ -43,10 +43,8 @@
 
 
         @if ($translations->hasPages())
-            <div class="px-3 pb-3">
-                {{-- TODO: pagination cache --}}
-                {{ $translations->links('yali::pagination') }}
-            </div>
+            {{-- TODO: pagination cache --}}
+            {{ $translations->links('yali::pagination') }}
         @endif
     </div>
 </div>

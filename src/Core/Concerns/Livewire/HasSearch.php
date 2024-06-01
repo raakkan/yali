@@ -10,6 +10,11 @@ trait HasSearch
 
     public $searchColumns = [];
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function clearSearch()
     {
         $this->search = '';

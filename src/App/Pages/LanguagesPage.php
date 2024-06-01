@@ -55,7 +55,6 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     #[On('refresh-page')] 
     public function dcxz()
     {
-        // TODO: page reload stuck in some page/2
         $this->resetPage();
     }
 
@@ -161,6 +160,8 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
             $language->delete();
             $this->dispatch('toast', type: 'success', message: 'Language has been deleted.');
         }
+
+        $this->resetPage();
     }
 
     public static function getDefaultTitle(): string
