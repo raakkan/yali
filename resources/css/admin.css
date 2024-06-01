@@ -62,9 +62,25 @@
     }
 }
 
-.truncate-text {
-    overflow: hidden;
+@mixin line-clamp($lines) {
     display: -webkit-box;
+    -webkit-line-clamp: $lines;
     -webkit-box-orient: vertical;
-    word-wrap: break-word;
-}
+    overflow: hidden;
+  }
+  
+  .line-clamp {
+    @include line-clamp(2);
+  }
+  
+  .line-clamp-1 {
+    @include line-clamp(1);
+  }
+  
+  .line-clamp-2 {
+    @include line-clamp(2);
+  }
+  
+  .line-clamp-3 {
+    @include line-clamp(3);
+  }

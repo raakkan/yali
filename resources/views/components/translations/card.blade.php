@@ -1,23 +1,23 @@
-@props(['translation'])
-
-<div class="bg-white rounded-lg shadow-lg overflow-hidden">
-    <div class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-500">
-        <h3 class="text-lg font-semibold text-white">{{ $translation->key }}</h3>
+<div class="bg-white rounded-lg overflow-hidden flex flex-col border border-gray-200 dark:border-gray-600">
+    <div class="px-4 py-3 bg-gray-100 border-b border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-800">{{ $translation->key }}</h3>
     </div>
-    <div class="px-4 py-4">
-        <div class="mb-4 overflow-hidden h-20" x-data="textTruncate()" x-init="truncateText(2)">
-            <p class="text-gray-700 text-base font-inter">{{ $translation->value }}</p>
+    <div class="px-4 py-4 flex-1 overflow-hidden">
+        <div class="h-full overflow-y-auto">
+            <p class="text-gray-700 text-base line-clamp-3">{{ $translation->value }}</p>
         </div>
+    </div>
+    <div class="px-4 py-3 bg-gray-100">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 @if ($translation->translationCategory)
                     <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                         {{ $translation->translationCategory->name ?? '' }}
                     </span>
                 @endif
                 <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                     {{ $translation->group }}
                 </span>
             </div>

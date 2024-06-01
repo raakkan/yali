@@ -34,6 +34,7 @@ class ManageTranslationPage extends Component
         $query = $this->language->translations()->getQuery();
         
         $this->setSearchColumns(['group', 'key']);
+        $this->setPerPage(12);
 
         return view($this->view, [
             'translations' => $this->getRecords($query),

@@ -35,7 +35,9 @@
         @endif
     </div>
 
-    <x-yali::filter.filter-wrapper :filters="$filters" :hasFilters="$this->hasFilters()" wrapperClass="p-4" />
+    <div class="p-4">
+        <x-yali::filter.filter-wrapper :filters="$filters" :hasFilters="$this->hasFilters()" />
+    </div>
 
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
