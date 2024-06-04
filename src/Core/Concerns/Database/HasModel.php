@@ -18,9 +18,9 @@ trait HasModel
         return static::$model;
     }
 
-    public function getModelInstance(): Model
+    public static function getModelInstance(): Model
     {
-        $modelClass = $this->getModel();
+        $modelClass = static::getModel();
         return new $modelClass();
     }
 
@@ -32,5 +32,10 @@ trait HasModel
     public static function getModelName(): string
     {
         return class_basename(static::getModel());
+    }
+
+    public static function getModelQuery()
+    {
+        return static::getModelInstance()->newQuery();
     }
 }

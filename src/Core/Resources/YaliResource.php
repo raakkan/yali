@@ -41,10 +41,6 @@ abstract class YaliResource implements HasTitlesInterface
         return static::$slug ?: Str::plural(Str::kebab(static::getModelName()));
     }
 
-    public static function getName(): string
-    {
-        return class_basename(static::class);
-    }
 
     public static function getType(): string
     {
@@ -84,7 +80,7 @@ abstract class YaliResource implements HasTitlesInterface
                 'icon' => 'child-icon-1',
                 'order' => 1,
                 'path' => 'create',
-                'isHidden' => true,
+                'isHidden' => false,
             ],
             [
                 'label' => 'Edit',

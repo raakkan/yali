@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BooleanFilter extends Filter
 {
+    // TODO: this filter misbehaves when 0 is passed as value like admin and not admin
     protected $trueLabel;
     protected $falseLabel;
 

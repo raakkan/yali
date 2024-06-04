@@ -13,7 +13,6 @@ use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Concerns\HasResource;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 
-// TODO: pagination page/2 in url bar refresh if filter activated no data
 class ResourceTable extends Component
 {
     use WithPagination;

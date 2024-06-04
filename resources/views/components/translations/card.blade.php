@@ -1,10 +1,10 @@
 <div class="bg-white rounded-lg overflow-hidden flex flex-col border border-gray-200 dark:border-gray-600">
     <div class="px-4 py-3 bg-gray-100 border-b border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-800">{{ $translation->key }}</h3>
+        <h3 class="text-xl font-semibold text-gray-600">{{ $translation->key }}</h3>
     </div>
     <div class="px-4 py-4 flex-1 overflow-hidden">
         <div class="h-full overflow-y-auto">
-            <p class="text-gray-700 text-base line-clamp-3">{{ $translation->value }}</p>
+            <p class="text-gray-700 text-base line-clamp-4">{{ $translation->value }}</p>
         </div>
     </div>
     <div class="px-4 py-3 bg-gray-100">

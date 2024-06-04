@@ -4,7 +4,6 @@ namespace Raakkan\Yali\App\Pages;
 
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
-use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Pages\YaliPage;
@@ -22,6 +21,8 @@ use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
+use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
+use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 
 class LanguagesPage extends YaliPage implements HasTitlesInterface
 {
@@ -32,6 +33,7 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
     use HasPageMessages;
     use HasDeleteMessages;
     use HasSuccessMessages;
+    use HasPagination;
 
     protected static $slug = 'languages';
 
@@ -50,12 +52,6 @@ class LanguagesPage extends YaliPage implements HasTitlesInterface
         return [
             'languages' => Language::withTrashed()->paginate(3)
         ];
-    }
-
-    #[On('refresh-page')] 
-    public function dcxz()
-    {
-        $this->resetPage();
     }
 
     public function form(YaliForm $form): YaliForm
