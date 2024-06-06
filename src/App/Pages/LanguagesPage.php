@@ -8,28 +8,23 @@ use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Pages\YaliPage;
 use Raakkan\Yali\Core\Actions\YaliAction;
-use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
-use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Concerns\HasPageMessages;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
 use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
-use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 
-class LanguagesPage extends YaliPage implements HasTitlesInterface
+class LanguagesPage extends YaliPage
 {
     use HasForm;
     use WithPagination;
-    use HasTitles;
-    use HasButtonLabels;
     use HasPageMessages;
     use HasDeleteMessages;
     use HasSuccessMessages;

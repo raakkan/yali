@@ -46,7 +46,7 @@ trait HasFilters
     #[Computed]
     public function getSort()
     {
-        $filters = $this->getTable()->getFilters();
+        $filters = $this->getFilters();
 
         $data = [];
         foreach ($filters as $filter) {
@@ -60,7 +60,7 @@ trait HasFilters
 
     public function sortBy($column)
     {
-        $filter = $this->getTable()->getFilterByName($column);
+        $filter = $this->getFilterByName($column);
 
         if ($filter && array_key_exists($column, $this->filterInputs)) {
             if ($this->filterInputs[$column]) {

@@ -2,143 +2,62 @@
 
 namespace Raakkan\Yali\Core\Resources;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
-use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Table\YaliTable;
-use Illuminate\Database\Eloquent\Model;
-use Raakkan\Yali\App\HandleResourcePage;
-use Raakkan\Yali\Core\Actions\YaliAction;
-use Raakkan\Yali\Core\Concerns\HasTitles;
-use Raakkan\Yali\Core\Forms\Concerns\HasForm;
-use Raakkan\Yali\Core\Table\Concerns\HasTable;
-use Raakkan\Yali\Core\Concerns\HasButtonLabels;
-use Raakkan\Yali\Core\Concerns\HasPageMessages;
-use Raakkan\Yali\Core\Concerns\Database\HasModel;
-use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
-use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
-use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
+use Raakkan\Yali\Core\Concerns\Livewire\HasFilters;
+use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Resources\ResourceQueryBuilder;
-use Raakkan\Yali\Core\Support\Navigation\HasNavigation;
 
-abstract class YaliResource implements HasTitlesInterface
+class YaliResource extends BaseResource
 {
-    use HasNavigation;
-    use HasTable;
-    use HasForm;
-    use HasModel;
-    use HasTitles;
-    use HasButtonLabels;
-    use HasPageMessages;
-    use HasDeleteMessages;
-    use HasSuccessMessages;
+    use HasRecords;
+    use HasFilters;
+    
+    protected static $view = 'yali::pages.yali-resource-page';
 
-    public static function getSlug(): string
+    public function mount()
     {
-        return static::$slug ?: Str::plural(Str::kebab(static::getModelName()));
+        $this->setFilterInputs();
     }
 
-
-    public static function getType(): string
+    public function getViewData()
     {
-        return 'resource';
-    }
-
-    public function getTable()
-    {
-        if(!$this->table) {
-            $this->table = new YaliTable();
-
-            $this->table->headerActions = [CreateAction::make()->setLink()];
-
-            $this->table->actions = [
-                EditAction::make()->setLink(),
-                DeleteAction::make(),
-            ];
-        }
-        return $this->table;
-    }
-
-    public function getQueryBuilder()
-    {
-        return new ResourceQueryBuilder($this->getModelInstance()->newQuery(), $this->table($this->getTable()));
-    }
-
-    public static function getChildNavigationItems(): array
-    {
-        // TODO: dont register any action is modal
         return [
-            [
-                'label' => 'Create',
-                'slug' => 'create',
-                'route' => static::getCreateRouteName(),
-                'class' => HandleResourcePage::class,
-                'type' => static::getType(),
-                'icon' => 'child-icon-1',
-                'order' => 1,
-                'path' => 'create',
-                'isHidden' => false,
-            ],
-            [
-                'label' => 'Edit',
-                'slug' => '{modelKey}/edit',
-                'route' => static::getUpdateRouteName(),
-                'class' => HandleResourcePage::class,
-                'type' => static::getType(),
-                'icon' => 'child-icon-2',
-                'order' => 2,
-                'path' => '{modelKey}/edit',
-                'isHidden' => true,
-            ],
+            'table' => $this->getResourceTable(),
         ];
     }
 
-    public static function getClass()
+    public function getResourceTable(): YaliTable
     {
-        return static::class;
-    }
+        $table = $this->table($this->getTable());
 
-    public function getAction($action)
-    {
-        if (is_string($action) && is_subclass_of($action, YaliAction::class)) {
-            $actionClass = $action;
-        } elseif ($action instanceof YaliAction) {
-            $actionClass = get_class($action);
-        } else {
-            return null;
+        $table->setRecords($this->getRecords($this->getModelQuery()));
+
+        if (!$table->hasActions()) {
+            $table = $this->getResourceTableActions($table);
         }
-        
-        if (array_key_exists($actionClass, $this->getTable()->getHeaderActions())) {
-            return $this->getTable()->getHeaderActions()[$actionClass];
-        }
-        
-        if (array_key_exists($actionClass, $this->getTable()->getActions())) {
-            return $this->getTable()->getActions()[$actionClass];
-        }
-        
-        return null;
+
+        return $table;
     }
 
-    public static function getRouteName()
+    public function getResourceTableActions(YaliTable $table): YaliTable
     {
-        return Str::kebab(Str::plural(static::getType()) . str_replace('\\', '', static::class));
+        $table->actions = [
+            CreateAction::make()->setLink(),
+            EditAction::make()->setLink(),
+            DeleteAction::make(),
+        ];
+        return $table;
     }
 
-    public static function getCreateRouteName()
+    public function getFilters()
     {
-        return static::getRouteName() . '.create';
+        return $this->getResourceTable()->getFilters();
     }
 
-    public static function getUpdateRouteName()
+    public function getFilterByName($name)
     {
-        return static::getRouteName() . '.edit';
-    }
-
-    public static function getDefaultTitle(): string
-    {
-        return static::getModelName();
+        return $this->getResourceTable()->getFilterByName($name);
     }
 }

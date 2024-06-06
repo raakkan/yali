@@ -16,6 +16,11 @@ abstract class BaseResource extends BasePage
 
     protected static $subtitle = '';
 
+    public static function getTitle(): string
+    {
+        return static::$title ?: Str::title(Str::plural(static::getModelName()));
+    }
+
     public static function getSubtitle(): string
     {
         return static::$subtitle;

@@ -20,7 +20,6 @@ class Yali
     protected $app;
     protected $pageManager;
     protected $pluginManager;
-    protected $resourceManager;
     protected $navigationManager;
     protected $iconLoader;
     protected $componentRegistry;
@@ -28,9 +27,8 @@ class Yali
     public function __construct($app) {
         $this->app = $app;
         $this->pageManager = $this->app->make(PageManager::class);
-        $this->navigationManager = $this->app->make(NavigationManager::class);
 
-        $this->resourceManager = $this->app->make(ResourceManager::class);
+        $this->navigationManager = $this->app->make(NavigationManager::class);
 
         $this->componentRegistry = $this->app->make(ComponentRegistry::class);
 
@@ -40,19 +38,14 @@ class Yali
     public function boot() {
 
         $this->pageManager->loadPages();
-        $this->resourceManager->loadResources();
 
         $this->registerLivewireComponents();
 
-        $this->navigationManager->build(array_merge($this->pageManager->getPages(), $this->resourceManager->getResources()));
+        $this->navigationManager->build($this->pageManager->getPages());
     }
 
     public function registerLivewireComponents() {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
-        Livewire::component('yali::resource-table', ResourceTable::class);
-
-        Livewire::component('yali::resource-page', ResourcePage::class);
-        Livewire::component('yali::resource-handle-page', HandleResourcePage::class);
 
         Livewire::component('yali::action-modal-component', ActionModalComponent::class);
 
@@ -68,7 +61,7 @@ class Yali
     }
 
     public function getResources() {
-        return $this->resourceManager->getResources();
+        return [];
     }
 
     public function getNavigation() {

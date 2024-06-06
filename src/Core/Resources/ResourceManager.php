@@ -26,6 +26,7 @@ class ResourceManager
         $files = File::allFiles($resourcesDirectory);
 
         foreach ($files as $file) {
+            // todo: check base child class
             $class = $resourcesNamespace . str_replace(['/', '.php'], ['\\', ''], $file->getRelativePathname());
             $this->registerResource($class, $source);
         }

@@ -5,18 +5,12 @@ declare(strict_types=1);
 namespace Raakkan\Yali\Providers;
 
 use Livewire\Livewire;
-use BladeUI\Icons\Factory;
 use Raakkan\Yali\Core\Yali;
-use Raakkan\Yali\App\ResourcePage;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Facades\YaliManager;
-use Illuminate\Contracts\Container\Container;
 use Raakkan\Yali\Core\Support\Icon\IconManager;
-use Raakkan\Yali\Core\Resources\ResourceManager;
-use Raakkan\Yali\Core\Resources\Table\ResourceTable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
@@ -29,10 +23,6 @@ class YaliServiceProvider extends ServiceProvider
         
         $this->app->singleton(PageManager::class, function () {
             return new PageManager();
-        });
-
-        $this->app->singleton(ResourceManager::class, function ($app) {
-            return new ResourceManager();
         });
 
         $this->app->singleton(NavigationManager::class, function ($app) {

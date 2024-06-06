@@ -7,7 +7,10 @@ use Raakkan\Yali\Core\View\Button;
 trait HasSubmitButton
 {
     protected $submitButton;
-    protected $submitButtonLabel = 'Submit';
+    protected $submitButtonLabel = '';
+
+    protected $createSubmitButtonLabel = '';
+    protected $updateSubmitButtonLabel = '';
 
     public function getSubmitButton()
     {
@@ -28,12 +31,22 @@ trait HasSubmitButton
 
     public function getSubmitButtonLabel()
     {
-        return $this->submitButtonLabel;
+        return $this->submitButtonLabel ?: 'Submit';
     }
 
     public function setSubmitButtonLabel($label)
     {
         $this->submitButtonLabel = $label;
         return $this;
+    }
+
+    public function getCreateSubmitButtonLabel(): string
+    {
+        return $this->createSubmitButtonLabel ?: 'Create';
+    }
+
+    public function getUpdateSubmitButtonLabel(): string
+    {
+        return $this->updateSubmitButtonLabel ?: 'Update';
     }
 }

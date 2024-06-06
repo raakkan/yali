@@ -3,15 +3,20 @@
 namespace Raakkan\Yali\Core\Table;
 
 use Raakkan\Yali\Core\Filters\SortFilter;
+use Raakkan\Yali\Core\Table\Concerns\HasModelRecords;
+use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Table\Concerns\HasColumns;
 use Raakkan\Yali\Core\Actions\Concerns\HasActions;
 use Raakkan\Yali\Core\Filters\Concerns\HasFilters;
 
-class YaliTable
+class YaliTable extends YaliComponent
 {
     use HasFilters;
     use HasActions;
     use HasColumns;
+    use HasModelRecords;
+
+    protected $view = 'yali::table.yali-table';
 
     protected $perPage = 10;
 

@@ -44,8 +44,7 @@
                             @else
                                 {!! $action->setModel($language)->render() !!}
                                 <div>
-                                    <a href="{{ route($this->getRouteName() . '.manage-translation', ['language' => $language->id]) }}"
-                                        class="btn btn-ghost btn-sm">
+                                    <a class="btn btn-ghost btn-sm">
                                         Manage Translations
                                     </a>
                                 </div>

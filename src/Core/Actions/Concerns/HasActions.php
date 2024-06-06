@@ -8,8 +8,6 @@ trait HasActions
 {
     public $actions = [];
 
-    public $headerActions = [];
-
     public function actions($actions)
     {
         $this->actions = $actions;
@@ -27,20 +25,8 @@ trait HasActions
         return $actions;
     }
 
-    public function headerActions($actions)
+    public function hasActions()
     {
-        $this->headerActions = $actions;
-        return $this;
-    }
-
-    public function getHeaderActions()
-    {
-        $actions = [];
-        foreach ($this->headerActions as $action) {
-            if (is_subclass_of($action, YaliAction::class)) {
-                $actions[get_class($action)] = $action;
-            }
-        }
-        return $actions;
+        return count($this->getActions()) > 0;
     }
 }
