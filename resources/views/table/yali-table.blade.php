@@ -4,7 +4,13 @@
         <tbody>
             @if (count($class->getColumns()) > 0)
                 @forelse ($class->getRecords() as $data)
-                    <x-yali::table.row :data="$data" :columns="$class->getColumns()" />
+                    <x-yali::table.row :data="$data" :columns="$class->getColumns()">
+                        {{-- <x-slot name="actions">
+                            @foreach ($class->getActions() as $action)
+                                {{ $action->setModel($data)->render() }}
+                            @endforeach
+                        </x-slot> --}}
+                    </x-yali::table.row>
                 @empty
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400"

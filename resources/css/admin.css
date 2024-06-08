@@ -3,6 +3,7 @@
 @import './grid-layout.css';
 @import './max-width.css';
 @import './border.css';
+@import './global-loader.css';
 
 @tailwind base;
 @tailwind components;

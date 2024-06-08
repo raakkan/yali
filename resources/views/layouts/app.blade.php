@@ -12,6 +12,7 @@
 </head>
 
 <body class="font-sans antialiased">
+    <x-yali::global-loader />
     <nav class="navbar">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">

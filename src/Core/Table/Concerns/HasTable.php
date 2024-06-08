@@ -6,7 +6,7 @@ use Raakkan\Yali\Core\Table\YaliTable;
 
 trait HasTable
 {
-    private $table;
+    protected $table;
 
     public function table(YaliTable $table): YaliTable
     {
