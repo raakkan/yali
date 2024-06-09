@@ -1,4 +1,4 @@
-@if ($class->isLink())
+{{-- @if ($class->isLink())
     <a href="{{ $class->getRoute() }}" class="{{ $class->getClasses() == '' ? 'btn-link' : ' ' . $class->getClasses() }}"
         @if ($class->getStyles() !== null) style="{{ $class->getStyles() }}" @endif
         wire:key="action-link-{{ $class->getUniqueKey() }}">
@@ -26,4 +26,9 @@
             {{ $class->getLabel() }}
         </button>
     @endif
+@endif --}}
+@if ($class->isLink())
+    {!! $class->getLink() !!}
+@else
+    {!! $class->getButton() !!}
 @endif

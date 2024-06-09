@@ -112,6 +112,13 @@ trait HasNavigation
                 $navigationItem->addChild($childNavigationItem);
             }
         }
+
+        if (method_exists(static::class, 'getPages')) {
+            foreach (static::getPages() as $page) {
+                $navigationItem->addChild($page::createNavigationItem());
+            }
+        }
+
         return $navigationItem;
     }
 

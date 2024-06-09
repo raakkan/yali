@@ -32,6 +32,7 @@ class YaliResource extends BaseResource
         $table = $this->getResourceTable();
         $records = $this->getRecords($this->getModelQuery());
         $table->setRecords($records);
+        $table->setModelPrimaryKey(static::getModelPrimaryKey());
         
         return [
             'table' => $table,
@@ -40,34 +41,52 @@ class YaliResource extends BaseResource
         ];
     }
 
-    public function getResourceTable(): YaliTable
+    public static function getResourceTable(): YaliTable
     {
-        $table = $this->table($this->getTable());
+        $table = static::getTable();
 
         if (!$table->hasActions()) {
-            $table = $this->getResourceTableActions($table);
+            $table = static::getResourceTableActions($table);
         }
 
         return $table;
     }
 
-    public function getResourceTableActions(YaliTable $table): YaliTable
+    public static function getResourceTableActions(YaliTable $table): YaliTable
     {
-        $table->actions = [
-            CreateAction::make()->setLink(),
-            EditAction::make()->setLink(),
-            DeleteAction::make(),
-        ];
+        foreach (static::getPages() as $key => $page) {
+            if ($key == 'create') {
+                $table->actions = array_merge($table->actions, [
+                    CreateAction::make()->link($page::getRouteName())->headerAction(),
+                ]);
+            } elseif ($key == 'edit') {
+                $table->actions = array_merge($table->actions, [
+                    EditAction::make()->link($page::getRouteName()),
+                ]);
+            }
+        }
+
         return $table;
     }
 
-    public function getFilters()
+    public static function getFilters()
     {
-        return $this->getResourceTable()->getFilters();
+        return static::getResourceTable()->getFilters();
     }
 
-    public function getFilterByName($name)
+    public static function getFilterByName($name)
     {
-        return $this->getResourceTable()->getFilterByName($name);
+        return static::getResourceTable()->getFilterByName($name);
+    }
+
+    public static function getPages()
+    {
+        Pages\CreatePage::setResource(static::class);
+        Pages\EditPage::setResource(static::class);
+
+        return [
+            'create' => Pages\CreatePage::class,
+            'edit' => Pages\EditPage::class,
+        ];
     }
 }

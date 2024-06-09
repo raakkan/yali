@@ -19,7 +19,22 @@ trait HasActions
         $actions = [];
         foreach ($this->actions as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
-                $actions[get_class($action)] = $action;
+                if (!$action->isHeaderAction()) {
+                    $actions[get_class($action)] = $action;
+                }
+            }
+        }
+        return $actions;
+    }
+
+    public function getHeaderActions()
+    {
+        $actions = [];
+        foreach ($this->actions as $action) {
+            if (is_subclass_of($action, YaliAction::class)) {
+                if ($action->isHeaderAction()) {
+                    $actions[get_class($action)] = $action;
+                }
             }
         }
         return $actions;

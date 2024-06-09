@@ -1,44 +1,17 @@
 <?php
 
 namespace Raakkan\Yali\Core\View;
-use Illuminate\Support\Facades\Blade;
-use Raakkan\Yali\Core\Concerns\Makable;
-use Raakkan\Yali\Core\Concerns\UI\Stylable;
 
-class Button
+use Illuminate\Support\Facades\Blade;
+
+class Button extends BaseComponent
 {
-    use Makable;
-    use Stylable;
-    
-    private $label;
-    private $icon;
-    private $link;
     private $disabled;
     private $tag = 'button';
     private $type = 'button';
-    private $attributes = [];
 
     private $spinner = false;
     private $spinnerTarget = null;
-
-
-    public function setLabel($label)
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-        return $this;
-    }
-
-    public function setLink($link)
-    {
-        $this->link = $link;
-        return $this;
-    }
 
     public function setDisabled($disabled)
     {
@@ -61,12 +34,6 @@ class Button
     public function submit()
     {
         $this->type = 'submit';
-        return $this;
-    }
-
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
         return $this;
     }
 
@@ -114,10 +81,5 @@ class Button
         $html .= '</' . $this->tag . '>';
         
         return $html;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }

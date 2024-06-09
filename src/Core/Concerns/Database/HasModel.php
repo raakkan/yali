@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 trait HasModel
 {
     protected static $model;
-    protected static $primaryKey = 'id';
+    protected static $modelPrimaryKey = 'id';
 
     public static function getModel()
     {
@@ -24,9 +24,9 @@ trait HasModel
         return new $modelClass();
     }
 
-    public static function getPrimaryKey(): string
+    public static function getModelPrimaryKey(): string
     {
-        return static::$primaryKey;
+        return static::$modelPrimaryKey;
     }
 
     public static function getModelName(): string

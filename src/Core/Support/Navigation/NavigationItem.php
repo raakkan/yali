@@ -46,15 +46,11 @@ class NavigationItem
 
     public function hasChildrens()
     {
-        return $this->childrens !== null;
+        return $this->childrens !== null && count($this->childrens) > 0;
     }
 
     public function getSlug()
     {
-        if ($this->hasParent()) {
-            return $this->parent->getSlug(). '/'. $this->slug;
-        }
-
         return $this->slug;
     }
 
@@ -126,10 +122,6 @@ class NavigationItem
 
     public function getPath()
     {
-        if ($this->hasParent()) {
-            return $this->parent->getPath(). '/'. $this->path ?? $this->slug;
-        }
-
         return $this->path ?? $this->slug;
     }
 }

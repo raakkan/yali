@@ -22,6 +22,8 @@ class YaliTable extends YaliComponent
 
     public $includeDeleted = false;
 
+    public $modelPrimaryKey = 'id';
+
     public function perPage($perPage)
     {
         $this->perPage = $perPage;
@@ -59,6 +61,17 @@ class YaliTable extends YaliComponent
             $this->filters = array_merge($this->filters, [SortFilter::make($column->getName())->setValue($column->getSortDirection())->hidden()]);
         }
         return $this->filters;
+    }
+
+    public function getModelPrimaryKey()
+    {
+        return $this->modelPrimaryKey;
+    }
+
+    public function setModelPrimaryKey($modelPrimaryKey)
+    {
+        $this->modelPrimaryKey = $modelPrimaryKey;
+        return $this;
     }
 
 }

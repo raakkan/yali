@@ -6,18 +6,18 @@ use Raakkan\Yali\Core\Table\YaliTable;
 
 trait HasTable
 {
-    protected $table;
+    protected static $table;
 
-    public function table(YaliTable $table): YaliTable
+    public static function table(YaliTable $table): YaliTable
     {
         return $table;
     }
 
-    public function getTable()
+    public static function getTable()
     {
-        if(!$this->table) {
-            $this->table = new YaliTable();
+        if(!static::$table) {
+            static::$table = new YaliTable();
         }
-        return $this->table;
+        return static::table(static::$table);
     }
 }

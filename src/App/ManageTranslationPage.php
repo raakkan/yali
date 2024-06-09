@@ -5,23 +5,19 @@ namespace Raakkan\Yali\App;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Raakkan\Yali\Models\Language;
-use Raakkan\Yali\Models\Translation;
 use Raakkan\Yali\Core\Forms\YaliForm;
-use Raakkan\Yali\Core\Concerns\HasTitles;
 use Raakkan\Yali\Core\Filters\SelectFilter;
 use Raakkan\Yali\Models\TranslationCategory;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
-use Raakkan\Yali\Core\Concerns\HasButtonLabels;
 use Raakkan\Yali\Core\Concerns\HasPageMessages;
 use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
 use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
 use Raakkan\Yali\Core\Concerns\Livewire\HasSearch;
 use Raakkan\Yali\Core\Concerns\Livewire\HasFilters;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
-use Raakkan\Yali\Core\Contracts\HasTitlesInterface;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 
-class ManageTranslationPage extends Component implements HasTitlesInterface
+class ManageTranslationPage extends Component
 {
     use WithPagination;
     use HasFilters;
@@ -29,8 +25,6 @@ class ManageTranslationPage extends Component implements HasTitlesInterface
     use HasPagination;
     use HasRecords;
     use HasForm;
-    use HasTitles;
-    use HasButtonLabels;
     use HasPageMessages;
     use HasDeleteMessages;
     use HasSuccessMessages;

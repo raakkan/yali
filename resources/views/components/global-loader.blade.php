@@ -1,4 +1,5 @@
 <script>
+    // TODO: check this loader with livewire default loader
     document.addEventListener('livewire:init', () => {
 
         Livewire.hook('request', ({

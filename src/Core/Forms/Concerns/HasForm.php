@@ -6,19 +6,19 @@ use Raakkan\Yali\Core\Forms\YaliForm;
 
 trait HasForm
 {
-    protected $form;
+    protected static $form;
    
-    public function form(YaliForm $form): YaliForm
+    public static function form(YaliForm $form): YaliForm
     {
         return $form;
     }
 
-    public function getForm()
+    public static function getForm()
     {
-        if(!$this->form) {
-            $this->form = new YaliForm();
+        if(!static::$form) {
+            static::$form = new YaliForm();
         }
 
-        return $this->form;
+        return static::form(static::$form);
     }
 }

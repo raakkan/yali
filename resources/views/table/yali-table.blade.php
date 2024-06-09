@@ -5,11 +5,11 @@
             @if (count($class->getColumns()) > 0)
                 @forelse ($class->getRecords() as $data)
                     <x-yali::table.row :data="$data" :columns="$class->getColumns()">
-                        {{-- <x-slot name="actions">
+                        <x-slot name="actions">
                             @foreach ($class->getActions() as $action)
-                                {{ $action->setModel($data)->render() }}
+                                {{ $action->setRouteParam($data->{$class->getModelPrimaryKey()})->render() }}
                             @endforeach
-                        </x-slot> --}}
+                        </x-slot>
                     </x-yali::table.row>
                 @empty
                     <tr>

@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+use Raakkan\Yali\Core\View\Link;
 use Raakkan\Yali\Core\View\Button;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Concerns\Makable;
@@ -19,29 +20,18 @@ abstract class YaliAction extends YaliComponent
     use Modalable;
     use HasLabel;
     use HasLink;
-    use HasSource;
 
-    protected $model;
+    public $headerAction = false;
 
-    public function getAlertMessage()
+    public function headerAction($headerAction = true)
     {
-        return '';
-    }
-
-    public function getAlertType()
-    {
-        return '';
-    }
-
-    public function setModel(Model $model)
-    {
-        $this->model = $model;
+        $this->headerAction = $headerAction;
         return $this;
     }
 
-    public function getModel()
+    public function isHeaderAction()
     {
-        return $this->model;
+        return $this->headerAction;
     }
 
     public function getButton()
@@ -51,5 +41,21 @@ abstract class YaliAction extends YaliComponent
         $button->styles($this->getStylesArray());
         $button->setLabel($this->getLabel());
         return $button;
+    }
+
+    public function getLink()
+    {
+        $link = Link::make();
+        $link->classes($this->getClassesArray());
+        $link->styles($this->getStylesArray());
+        $link->setLabel($this->getLabel());
+        
+        if($this->hasRouteParam()) {
+            $link->setUrl(route($this->getRoute(), $this->getRouteParam()));
+        }else {
+            $link->setUrl(route($this->getRoute()));
+        }
+
+        return $link;
     }
 }
