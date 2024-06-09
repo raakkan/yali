@@ -8,8 +8,7 @@ trait HasSubmitButton
 {
     protected $submitButton;
     protected $submitButtonLabel = '';
-
-    protected $createSubmitButtonLabel = '';
+    
     protected $updateSubmitButtonLabel = '';
 
     public function getSubmitButton()
@@ -38,11 +37,6 @@ trait HasSubmitButton
     {
         $this->submitButtonLabel = $label;
         return $this;
-    }
-
-    public function getCreateSubmitButtonLabel(): string
-    {
-        return $this->createSubmitButtonLabel ?: 'Create';
     }
 
     public function getUpdateSubmitButtonLabel(): string

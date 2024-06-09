@@ -53,6 +53,12 @@ class Yali
 
         foreach ($this->getPages() as $page) {
             Livewire::component($this->componentRegistry->getName($page['class']), $page['class']);
+
+            if (method_exists($page['class'], 'getPages')) {
+                foreach ($page['class']::getPages() as $subPage) {
+                    Livewire::component($this->componentRegistry->getName($subPage), $subPage);
+                }
+            }
         }
     }
 

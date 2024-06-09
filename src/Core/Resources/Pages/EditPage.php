@@ -17,4 +17,20 @@ class EditPage extends ResourcePage
     {
         return parent::getSlug(). '/{record}/edit'; 
     }
+
+    public function mount($record)
+    {
+        $this->model = $this->getResource()::getModelInstance()->find($record);
+        $this->fillForm();
+    }
+
+    public static function getTitle(): string
+    {
+        return static::$title ?: 'Edit ' . Str::title(static::getResource()::getModelName());
+    }
+
+    public static function getFormSubmitButtonLabel(): string
+    {
+        return static::$formSubmitButtonLabel ?? 'Update';
+    }
 }

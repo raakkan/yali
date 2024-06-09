@@ -4,7 +4,8 @@
     @if (count($columns) > 0)
         <tr>
             @foreach ($columns as $column)
-                <th scope="col" class="px-6 py-3 @if ($column->isSortable()) cursor-pointer @endif"
+                <th scope="col" data-label="{{ $column->getLabel() }}"
+                    class="px-6 py-3 @if ($column->isSortable()) cursor-pointer @endif"
                     @if ($column->isSortable()) wire:click="sortBy('{{ $column->getName() }}')" @endif>
                     <div class="flex items-center">
                         {{ $column->getLabel() }}
@@ -27,8 +28,8 @@
                     </div>
                 </th>
             @endforeach
-            @if (isset($actions))
-                <th scope="col" class="px-6 py-3">Actions</th>
+            @if (isset($actions) && count($actions) > 0)
+                <th data-label="Actions" scope="col" class="px-6 py-3">Actions</th>
             @endif
         </tr>
     @endif

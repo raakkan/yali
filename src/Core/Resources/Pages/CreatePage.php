@@ -8,6 +8,16 @@ class CreatePage extends ResourcePage
 {
     protected static $view = 'yali::resources.pages.create-page';
 
+    public function mount()
+    {
+        $this->model = $this->getResource()::getModelInstance();
+    }
+
+    public static function getTitle(): string
+    {
+        return static::$title ?: 'Create ' . Str::title(static::getResource()::getModelName());
+    }
+
     public static function getRouteName()
     {
         return static::getResource()::getRouteName() . '.create';
@@ -16,5 +26,10 @@ class CreatePage extends ResourcePage
     public static function getSlug(): string
     {
         return parent::getSlug(). '/create';
+    }
+
+    public static function getFormSubmitButtonLabel(): string
+    {
+        return static::$formSubmitButtonLabel ?? 'Create';
     }
 }

@@ -30,7 +30,6 @@ class YaliForm extends YaliComponent
     use HasFormActions;
 
     protected $view = 'yali::forms.form';
-    protected YaliResource | YaliPage $source;
 
     public function getRounded()
     {
@@ -39,17 +38,4 @@ class YaliForm extends YaliComponent
         }
         return $this->rounded;
     }
-
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    public function setSource(YaliResource | YaliPage $source)
-    {
-        $this->source = $source;
-
-        return $this;
-    }
-
 }

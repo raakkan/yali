@@ -4,17 +4,18 @@ namespace Raakkan\Yali\Core\Resources\Pages;
 
 use Illuminate\Support\Str;
 use Raakkan\Yali\Core\Pages\BasePage;
+use Raakkan\Yali\Core\Forms\Concerns\InteractsWithForms;
 
 abstract class ResourcePage extends BasePage
 {
+    use InteractsWithForms;
     protected static $resource;
 
     protected static $subtitle = '';
 
-    public static function getTitle(): string
-    {
-        return static::$title ?: Str::title(Str::plural(static::getModelName()));
-    }
+    protected static $formSubmitButtonLabel;
+
+    protected static $formUpdatedMessage;
 
     public static function getSubtitle(): string
     {
@@ -45,13 +46,31 @@ abstract class ResourcePage extends BasePage
         return static::$resource;
     }
 
-    public static function getModel(): string
+    public function submit()
     {
-        return static::getResource()::getModel();
+        $validatedData = $this->validatedInputs();
+
+        if (is_null($this->model->{static::getResource()::getModelPrimaryKey()})) {
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
+            return redirect()->route(static::getResource()::getRouteName() . '.edit', ['record' => $this->model->{static::getResource()::getModelPrimaryKey()}]);
+        } else {
+            $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
+            $this->dispatch('toast', type: 'success', message: static::getFormUpdatedMessage());
+        }
     }
 
-    public static function getModelName(): string
+    public function getForm()
     {
-        return class_basename(static::getModel());
+        return $this->getResource()::getForm()->setSubmitButtonLabel($this->getFormSubmitButtonLabel());
+    }
+
+    public static function getFormSubmitButtonLabel(): string
+    {
+        return static::$formSubmitButtonLabel ?? 'Submit';
+    }
+
+    public static function getFormUpdatedMessage(): string
+    {
+        return static::$formUpdatedMessage ?? static::getResource()::getModelName() .' has been updated.';
     }
 }
