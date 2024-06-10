@@ -3,7 +3,6 @@
 namespace Raakkan\Yali\Core\Actions;
 use Illuminate\Support\Js;
 use Raakkan\Yali\Core\Concerns\Components\HasButton;
-use Raakkan\Yali\Core\View\Link;
 use Raakkan\Yali\Core\View\Button;
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Concerns\Makable;
@@ -42,24 +41,5 @@ abstract class YaliAction extends YaliComponent
         return array_merge($this->getButton()->getAttributes(), [
             'wire:key' => 'action-button-'. $this->getUniqueKey(),
         ]);
-    }
-
-    public function getLink()
-    {
-        $link = Link::make();
-        $link->classes($this->getClassesArray());
-        $link->styles($this->getStylesArray());
-        $link->setLabel($this->getLabel());
-        $link->setAttributes([
-            'wire:key' => 'action-link-'. $this->getUniqueKey()
-        ]);
-        
-        if($this->hasRouteParam()) {
-            $link->setUrl(route($this->getRoute(), $this->getRouteParam()));
-        }else {
-            $link->setUrl(route($this->getRoute()));
-        }
-
-        return $link;
     }
 }

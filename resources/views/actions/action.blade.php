@@ -27,8 +27,5 @@
         </button>
     @endif
 @endif --}}
-@if ($class->isLink())
-    {!! $class->getLink() !!}
-@else
-    {!! $class->getButton() !!}
-@endif
+
+{!! $class->getButton() !!}

@@ -13,6 +13,13 @@ trait HasLink
     {
         $this->route = $route;
         $this->isLink = true;
+
+        // if($this->hasRouteParam()) {
+        //     $this->button->setUrl(route($this->getRoute(), $this->getRouteParam()));
+        // }else {
+        //     $this->button->setUrl(route($this->getRoute()));
+        // }
+
         return $this;
     }
 

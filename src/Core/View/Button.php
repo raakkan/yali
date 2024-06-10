@@ -9,6 +9,8 @@ class Button extends BaseComponent
     private $disabled;
     private $tag = 'button';
     private $type = 'button';
+    private $url;
+    private $target;
 
     private $spinner = false;
     private $spinnerTarget = null;
@@ -44,12 +46,33 @@ class Button extends BaseComponent
         return $this;
     }
 
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        $this->tag = 'a';
+        return $this;
+    }
+
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        return $this;
+    }
+
     public function render()
     {
         $classString = $this->getClasses() !== '' ? $this->getClasses() : 'btn btn-primary';
         $styleString = $this->getStyles() !== '' ? 'style="' . $this->getStyles() . '"' : '';
         
-        $html = '<' . $this->tag . ' type="' . $this->type . '" class="' . $classString . '" ' . $styleString;
+        $html = '<' . $this->tag;
+        
+        if ($this->tag === 'a') {
+            $html .= ' href="' . $this->url . '"';
+        } else {
+            $html .= ' type="' . $this->type . '"';
+        }
+        
+        $html .= ' class="' . $classString . '" ' . $styleString;
         
         if ($this->disabled) {
             $html .= ' disabled';
@@ -63,7 +86,11 @@ class Button extends BaseComponent
             $html .= ' wire:loading.attr="disabled" wire:target="' . $this->spinnerTarget .'"';
         }
         
-        $html .= ' >';
+        if ($this->target !== null) {
+            $html .= ' target="' . $this->target . '"';
+        }
+        
+        $html .= '>';
 
         if ($this->spinner)
         {
