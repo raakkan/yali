@@ -6,6 +6,12 @@ trait Makable
 {
     public static function make(...$arguments)
     {
-        return new static(...$arguments);
+        $instance = new static(...$arguments);
+
+        if (method_exists($instance, 'initializeTraits')) {
+            $instance->initializeTraits();
+        }
+
+        return $instance;
     }
 }

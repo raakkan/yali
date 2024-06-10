@@ -31,19 +31,6 @@ abstract class YaliComponent
         }
     }
 
-    public function __get($name)
-    {
-        if (method_exists($this, $name)) {
-            return $this->$name();
-        }
-
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        }
-
-        return null;
-    }
-
     public function setViewData($viewData)
     {
         $this->viewData = $viewData;
@@ -85,5 +72,14 @@ abstract class YaliComponent
     public function getUniqueKey()
     {
         return md5(get_class($this) . '_' . uniqid());
+    }
+
+    protected function initializeTraits()
+    {
+        foreach (class_uses_recursive($this) as $trait) {
+            if (method_exists($this, $method = 'initialize' . class_basename($trait))) {
+                $this->{$method}($this);
+            }
+        }
     }
 }

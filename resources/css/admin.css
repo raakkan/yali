@@ -4,6 +4,7 @@
 @import './max-width.css';
 @import './border.css';
 @import './global-loader.css';
+@import './table.css';
 
 @tailwind base;
 @tailwind components;
@@ -92,27 +93,4 @@
 
 .line-clamp-3 {
     @include line-clamp(3);
-}
-
-@media (max-width: 640px) {
-    table thead {
-        display: none;
-    }
-
-    table tbody tr {
-        display: block;
-    }
-
-    table tbody td {
-        display: block;
-        text-align: right;
-        font-size: 0.875rem;
-    }
-
-    table tbody td::before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
 }

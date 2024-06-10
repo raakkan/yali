@@ -62,10 +62,12 @@ class YaliResource extends BaseResource
             } elseif ($key == 'edit') {
                 $table->actions = array_merge($table->actions, [
                     EditAction::make()->link($page::getRouteName()),
-                    DeleteAction::make(),
                 ]);
             }
         }
+        $table->actions = array_merge($table->actions, [
+            DeleteAction::make(),
+        ]);
 
         return $table;
     }

@@ -1,0 +1,22 @@
+@media (max-width: 640px) {
+    table thead {
+        display: none;
+    }
+
+    table tbody tr {
+        display: block;
+    }
+
+    table tbody td {
+        display: block;
+        text-align: right;
+        font-size: 0.875rem;
+    }
+
+    table tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}

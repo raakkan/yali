@@ -32,6 +32,11 @@ abstract class BaseComponent
         return $this;
     }
 
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
     abstract public function render();
 
     public function __toString()

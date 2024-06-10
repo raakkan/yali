@@ -5,8 +5,8 @@ namespace Raakkan\Yali\Core\Actions\Concerns;
 trait ModalConfirmation
 {
     public $confirmation = false;
-    public $confirmationTitle = '';
-    public $confirmationMessage = '';
+    public $confirmationTitle;
+    public $confirmationMessage;
 
     public function confirmation($confirmation = true)
     {
@@ -27,7 +27,7 @@ trait ModalConfirmation
 
     public function getConfirmationTitle()
     {
-        return $this->confirmationTitle;
+        return $this->confirmationTitle ?? 'Delete Confirmation';
     }
 
     public function confirmationMessage($message)
@@ -38,6 +38,6 @@ trait ModalConfirmation
 
     public function getConfirmationMessage()
     {
-        return $this->confirmationMessage;
+        return $this->confirmationMessage ?? 'Are you sure you want to do this record?';
     }
 }
