@@ -21,7 +21,7 @@ class EditPage extends ResourcePage
     public function mount($record)
     {
         // TODO: Implement fail on record not found exception
-        $this->model = $this->getResource()::getModelInstance()->findOrFail($record);
+        $this->model = $this->getResource()::getModel()->findOrFail($record);
         $this->fillForm();
     }
 

@@ -10,7 +10,7 @@ class CreatePage extends ResourcePage
 
     public function mount()
     {
-        $this->model = $this->getResource()::getModelInstance();
+        $this->model = $this->getResource()::getModel();
     }
 
     public static function getTitle(): string

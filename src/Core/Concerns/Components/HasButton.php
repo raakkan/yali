@@ -9,6 +9,10 @@ trait HasButton
     protected $button;
     protected $buttonCallback;
 
+    protected $buttonIsLink = false;
+
+    protected $linkTarget;
+
     public function initializeHasButton()
     {
         $this->button = Button::make();
@@ -52,6 +56,14 @@ trait HasButton
 
     public function getButton()
     {
+        if ($this->buttonIsLink()) {
+            $this->button->setUrl($this->getButtonUrl());
+
+            if (isset($this->linkTarget) && $this->linkTarget) {
+                $this->button->setTarget($this->linkTarget);
+            }
+        }
+
         if ($this->buttonCallback) {
             call_user_func($this->buttonCallback, $this->button);
         }
@@ -83,5 +95,15 @@ trait HasButton
     public function buttonAttributes()
     {
         return [];
+    }
+
+    public function buttonIsLink()
+    {
+        return $this->buttonIsLink;
+    }
+
+    public function getButtonUrl()
+    {
+        return '#';
     }
 }

@@ -22,6 +22,7 @@ abstract class YaliAction extends YaliComponent
     use HasLabel;
     use HasLink;
     use HasButton;
+    use HasModel;
 
     public $headerAction = false;
 
@@ -38,8 +39,8 @@ abstract class YaliAction extends YaliComponent
 
     public function buttonAttributes()
     {
-        return array_merge($this->getButton()->getAttributes(), [
+        return [
             'wire:key' => 'action-button-'. $this->getUniqueKey(),
-        ]);
+        ];
     }
 }

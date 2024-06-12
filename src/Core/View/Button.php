@@ -46,6 +46,12 @@ class Button extends BaseComponent
         return $this;
     }
 
+    public function setLink()
+    {
+        $this->tag = 'a';
+        return $this;
+    }
+
     public function setUrl($url)
     {
         $this->url = $url;

@@ -8,7 +8,7 @@
                     <x-yali::table.row :data="$data" :columns="$class->getColumns()">
                         <x-slot name="actions">
                             @foreach ($class->getActions() as $action)
-                                {{ $action->setRouteParam($data->{$class->getModelPrimaryKey()})->render() }}
+                                {{ $action->setModel($data)->render() }}
                             @endforeach
                         </x-slot>
                     </x-yali::table.row>

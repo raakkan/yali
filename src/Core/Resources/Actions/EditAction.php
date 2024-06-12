@@ -9,10 +9,19 @@ class EditAction extends YaliAction
 {
     protected $view = 'yali::actions.action';
 
-    public function __construct() {
-        $this->classes([
+    protected $buttonIsLink = true;
+
+    public function buttonClasses()
+    {
+        return [
             ButtonClass::LINK
-        ]);
+        ];
+    }
+
+    public function getButtonUrl()
+    {
+        $this->setRouteParameters(['record' => $this->getModel()->{$this->getModelPrimaryKey()}]);
+        return $this->getRoute();
     }
 
     public function getLabel()

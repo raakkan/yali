@@ -9,12 +9,20 @@ class CreateAction extends YaliAction
 {
     protected $view = 'yali::actions.action';
 
-    public function __construct() {
-        $this->classes([
+    protected $buttonIsLink = true;
+
+    public function buttonClasses()
+    {
+        return [
             ButtonClass::BTN,
             ButtonClass::PRIMARY,
             ButtonClass::SMALL
-        ]);
+        ];
+    }
+
+    public function getButtonUrl()
+    {
+        return $this->getRoute();
     }
 
     public function getLabel()
