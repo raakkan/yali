@@ -1,11 +1,6 @@
 <x-yali::card title="Languages" description="Handle Resource Page" class="w-full">
     <x-slot name="headerSlot">
-        @php
-            $actions = $this->getHeaderActions();
-        @endphp
-        @foreach ($actions as $action)
-            {!! $action->render() !!}
-        @endforeach
+        header action
     </x-slot>
 
     <div class="divide-y divide-gray-200">
@@ -33,28 +28,8 @@
                     </label>
                 </div>
                 <div class="flex">
-                    @php
-                        $actions = $this->getActions();
-                    @endphp
-
-                    @foreach ($actions as $action)
-                        @if ($action instanceof \Raakkan\Yali\Core\Resources\Actions\DeleteAction)
-                            @if ($language->trashed())
-                                {!! $action->setModel($language)->setLabel('Permanently Delete')->render() !!}
-                            @else
-                                {!! $action->setModel($language)->render() !!}
-                                <div>
-                                    <a class="btn btn-ghost btn-sm">
-                                        Manage Translations
-                                    </a>
-                                </div>
-                            @endif
-                        @else
-                            {!! $action->setModel($language)->render() !!}
-                        @endif
-                    @endforeach
-
-
+                    actions
+                    {{ $language->trashed() ? ' (trashed)' : '(not trashed)' }}
                 </div>
             </div>
         @endforeach

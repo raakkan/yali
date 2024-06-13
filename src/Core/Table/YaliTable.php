@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Table;
 
+use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\Table\Concerns\HasModelRecords;
 use Raakkan\Yali\Core\View\YaliComponent;
@@ -15,14 +16,13 @@ class YaliTable extends YaliComponent
     use HasActions;
     use HasColumns;
     use HasModelRecords;
+    use HasModel;
 
     protected $view = 'yali::table.yali-table';
 
     protected $perPage = 10;
 
     public $includeDeleted = false;
-
-    public $modelPrimaryKey = 'id';
 
     public function perPage($perPage)
     {
@@ -35,24 +35,6 @@ class YaliTable extends YaliComponent
         return $this->perPage;
     }
 
-    // public function enableSoftDeletes()
-    // {
-    //     $model = $this->resource->getModelInstance();
-
-    //     if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive($model))) {
-    //         $this->includeDeleted = true;
-    //     } else {
-    //         throw new \Exception("The model {$this->resource->getModelName()} does not use the SoftDeletes trait.");
-    //     }
-
-    //     return $this;
-    // }
-
-    public function isSoftDeletesEnabled(): bool
-    {
-        return $this->includeDeleted;
-    }
-
     public function getFilters()
     {
         $sortableColumns = $this->getSortableColumns();
@@ -62,16 +44,4 @@ class YaliTable extends YaliComponent
         }
         return $this->filters;
     }
-
-    public function getModelPrimaryKey()
-    {
-        return $this->modelPrimaryKey;
-    }
-
-    public function setModelPrimaryKey($modelPrimaryKey)
-    {
-        $this->modelPrimaryKey = $modelPrimaryKey;
-        return $this;
-    }
-
 }

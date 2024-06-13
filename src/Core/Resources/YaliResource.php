@@ -32,7 +32,7 @@ class YaliResource extends BaseResource
         $table = $this->getResourceTable();
         $records = $this->getRecords($this->getModelQuery());
         $table->setRecords($records);
-        $table->setModelPrimaryKey(static::getModelPrimaryKey());
+        $table->setModel(static::getModel());
         
         return [
             'table' => $table,
@@ -57,7 +57,7 @@ class YaliResource extends BaseResource
         foreach (static::getPages() as $key => $page) {
             if ($key == 'create') {
                 $table->actions = array_merge($table->actions, [
-                    CreateAction::make()->link($page::getRouteName())->headerAction(),
+                    CreateAction::make()->link($page::getRouteName()),
                 ]);
             } elseif ($key == 'edit') {
                 $table->actions = array_merge($table->actions, [

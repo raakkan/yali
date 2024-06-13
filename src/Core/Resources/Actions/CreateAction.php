@@ -10,6 +10,7 @@ class CreateAction extends YaliAction
     protected $view = 'yali::actions.action';
 
     protected $buttonIsLink = true;
+    public $headerAction = true;
 
     public function buttonClasses()
     {

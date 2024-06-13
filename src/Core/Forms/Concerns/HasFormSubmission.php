@@ -6,8 +6,8 @@ trait HasFormSubmission
 {
     protected $formSubmitMethod = 'submit';
     protected $submitCallback;
-    protected $beforeSubmitCallback;
-    protected $afterSubmitCallback;
+    protected $beforeFormSubmitCallback;
+    protected $afterFormSubmitCallback;
 
     public function getFormSubmitMethod()
     {
@@ -27,7 +27,7 @@ trait HasFormSubmission
         }
 
         if ($this->hasCustomSubmitCallback()) {
-            $result = call_user_func($this->submitCallback, $data);
+            $result = call_user_func($this->submitCallback, $data, $model);
         } else {
             if (is_null($model->id)) {
                 $result = $model->create($data);

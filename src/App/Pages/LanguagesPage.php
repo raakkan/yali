@@ -13,8 +13,10 @@ use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Concerns\HasPageMessages;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
+use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\HasDeleteMessages;
 use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
+use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
@@ -29,23 +31,26 @@ class LanguagesPage extends YaliPage
     use HasDeleteMessages;
     use HasSuccessMessages;
     use HasPagination;
+    use HasRecords;
+    use HasModel;
 
     protected static $slug = 'languages';
 
     protected static $navigationOrder = 99;
     protected static $navigationIcon = 'language';
+    protected static $navigationLabel = 'Languages';
 
     protected static $view = 'yali::pages.languages-page';
 
     public function mount()
     {
-        
+        $this->setModel(Language::class);
     }
 
     public function getViewData()
     {
         return [
-            'languages' => Language::withTrashed()->paginate(3)
+            'languages' => $this->getRecords($this->getModelQuery())
         ];
     }
 
@@ -61,71 +66,6 @@ class LanguagesPage extends YaliPage
         ])->beforeFormSubmit(function ($data, $model) {
             // dd($data, $model);
         })->gridColumns(2)->maxWidth(LayoutMaxWidth::XL);
-    }
-
-    public static function getChildNavigationItems(): array
-    {
-        return [
-            [
-                'label' => 'Manage Translation',
-                'slug' => '{language}/translations',
-                'route' => static::getRouteName(). '.manage-translation',
-                'class' => ManageTranslationPage::class,
-                'type' => static::getType(),
-                'icon' => 'child-icon-2',
-                'order' => 2,
-                'path' => '{language}/translations',
-                'isHidden' => true,
-            ],
-        ];
-    }
-
-    public function getAction($action)
-    {
-        if (is_string($action) && is_subclass_of($action, YaliAction::class)) {
-            $actionClass = $action;
-        } elseif ($action instanceof YaliAction) {
-            $actionClass = get_class($action);
-        } else {
-            return null;
-        }
-        
-        if (array_key_exists($actionClass, $this->getHeaderActions())) {
-            return $this->getHeaderActions()[$actionClass];
-        }
-        
-        if (array_key_exists($actionClass, $this->getActions())) {
-            return $this->getActions()[$actionClass];
-        }
-        
-        return null;
-    }
-
-    public function getActions()
-    {
-        $actions = [
-            EditAction::make()->setSource($this)->modal(),
-            DeleteAction::make()->setSource($this)
-        ];
-
-        $data = [];
-        foreach ($actions as $action) {
-            $data[get_class($action)] = $action;
-        }
-
-        return $data;
-    }
-
-    public function getHeaderActions()
-    {
-        $actions = [CreateAction::make()->setSource($this)->modal()->setModel(new Language())->setLabel('Create Language')->classes(['btn', 'btn-ghost', 'btn-sm'])];
-        
-        $data = [];
-        foreach ($actions as $action) {
-            $data[get_class($action)] = $action;
-        }
-
-        return $data;
     }
 
     public function delete($id)
@@ -153,10 +93,5 @@ class LanguagesPage extends YaliPage
         }
 
         $this->resetPage();
-    }
-
-    public static function getDefaultTitle(): string
-    {
-        return __('Language');
     }
 }

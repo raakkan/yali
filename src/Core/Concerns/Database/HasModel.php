@@ -31,18 +31,21 @@ trait HasModel
 
     public function setModel($model)
     {
-        
-        if (!$model instanceof Model) {
-            throw new \InvalidArgumentException("The provided model must be an instance of " . Model::class);
+        if (is_string($model) && class_exists($model)) {
+            $modelInstance = new $model();
+        } elseif ($model instanceof Model) {
+            $modelInstance = $model;
+        } else {
+            throw new \InvalidArgumentException("The provided model must be a valid class name or an instance of " . Model::class);
         }
         
-        static::$model = get_class($model);
-        static::$modelInstance = $model;
-
+        static::$model = get_class($modelInstance);
+        static::$modelInstance = $modelInstance;
+    
         if (!isset(static::$modelPrimaryKey)) {
-            static::$modelPrimaryKey = $model->getKeyName();
+            static::$modelPrimaryKey = $modelInstance->getKeyName();
         }
-
+    
         return $this;
     }
 
