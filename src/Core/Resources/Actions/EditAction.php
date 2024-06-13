@@ -20,17 +20,12 @@ class EditAction extends YaliAction
 
     public function getButtonUrl()
     {
-        $this->setRouteParameters(['record' => $this->getModel()->{$this->getModelPrimaryKey()}]);
+        $this->setRouteParameters(['record' => $this->getModelIdentifier()]);
         return $this->getRoute();
     }
 
     public function getLabel()
     {
         return $this->label ?? 'Edit';
-    }
-
-    public function getSubmitButtonLabel()
-    {
-        return 'Submit';
     }
 }

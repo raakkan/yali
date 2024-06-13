@@ -48,10 +48,6 @@ trait HasButton
                 $this->button->setAttributes($this->getAttributes());
             }
         }
-
-        if (method_exists($this, 'buttonAsLink')) {
-            $this->button->setUrl($this->buttonAsLink());
-        }
     }
 
     public function getButton()

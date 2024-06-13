@@ -29,9 +29,4 @@ class CreateAction extends YaliAction
     {
         return $this->label ?? 'Create';
     }
-
-    public function getSubmitButtonLabel()
-    {
-        return 'Submit';
-    }
 }

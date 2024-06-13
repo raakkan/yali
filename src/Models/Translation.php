@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Database\Enums\CreatedBy;
+use Raakkan\Yali\Core\Translation\YaliTranslator;
 
 class Translation extends Model
 {
@@ -20,6 +21,13 @@ class Translation extends Model
         'is_enabled',
         'translation_category_id',
     ];
+
+    protected static function booted()
+    {
+        static::saved(function ($translation) {
+            YaliTranslator::flushTranslationCache($translation->group . '.' . $translation->key, $translation->language_code);
+        });
+    }
 
     /**
      * Get the attributes that should be cast.

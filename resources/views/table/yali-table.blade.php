@@ -1,6 +1,7 @@
 <div class="md:overflow-x-auto w-full">
     <table class="w-full md:table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <x-yali::table.header :columns="$class->getColumns()" :actions="$class->getActions()" />
+
         <tbody
             class="divide-y divide-gray-200 dark:divide-gray-700 border-y border-gray-200 dark:border-gray-700 rtl:border-l-0">
             @if (count($class->getColumns()) > 0)

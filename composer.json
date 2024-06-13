@@ -9,7 +9,7 @@
             "Raakkan\\Yali\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "src/helpers/plugin-helpers.php"
+            "src/helpers/helpers.php"
         ]
     },
     "autoload-dev": {

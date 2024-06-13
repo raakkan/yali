@@ -3,12 +3,13 @@
 namespace Raakkan\Yali\Core\Concerns\Database;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait HasModel
 {
     protected static $model;
     protected static $modelInstance;
-    protected static $modelPrimaryKey = 'id';
+    protected static $modelPrimaryKey;
 
     public static function getModel()
     {
@@ -59,4 +60,15 @@ trait HasModel
     {
         return static::getModel()->newQuery();
     }
+
+    public function getModelIdentifier()
+    {
+        return $this->getModel()->{$this->getModelPrimaryKey()};
+    }
+
+    public static function isSoftDeletesEnabled(): bool
+    {
+        return in_array(SoftDeletes::class, class_uses(static::getModel()));
+    }
+
 }

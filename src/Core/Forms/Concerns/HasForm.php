@@ -21,4 +21,11 @@ trait HasForm
 
         return static::form(static::$form);
     }
+
+    public function setForm(YaliForm $form)
+    {
+        static::$form = $form;
+
+        return $this;
+    }
 }
