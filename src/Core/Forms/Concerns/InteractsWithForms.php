@@ -51,6 +51,7 @@ trait InteractsWithForms
         $validated = Validator::make(
             $this->inputs,
             $rules,
+            $this->getForm()->getValidationMessages()
          )->validate();
 
         return $validated;

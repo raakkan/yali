@@ -27,4 +27,31 @@ trait HasFormFields
 
         return $validationRules;
     }
+
+    public function getValidationMessages()
+    {
+        $validationMessages = [];
+
+        foreach ($this->fields as $field) {
+            $fieldValidationMessages = $field->getValidationMessages();
+            
+            foreach ($fieldValidationMessages as $key => $message) {
+                $validationMessages[$field->getName() . '.' . $key] = $message;
+            }
+        }
+
+        return $validationMessages;
+    }
+
+    public function getValidationAttributes()
+    {
+        $validationAttributes = [];
+
+        foreach ($this->fields as $field) {
+            $validationAttributes[$field->getName()] = $field->getLabel();
+        }
+
+        return $validationAttributes;
+    }
+
 }
