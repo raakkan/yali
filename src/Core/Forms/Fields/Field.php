@@ -23,6 +23,8 @@ abstract class Field extends YaliComponent
 
     protected $type = '';
 
+    public $infoMessage;
+
     public static function make($name)
     {
         return new static($name);
@@ -95,5 +97,16 @@ abstract class Field extends YaliComponent
         $this->type = $type;
 
         return $this;
+    }
+
+    public function infoMessage($message)
+    {
+        $this->infoMessage = $message;
+        return $this;
+    }
+
+    public function getInfoMessage()
+    {
+        return $this->infoMessage;
     }
 }

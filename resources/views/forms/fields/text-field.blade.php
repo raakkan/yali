@@ -1,24 +1,8 @@
-<div x-data="{ showPassword: false }">
-    @php
-        $hasError = $errors->has($class->getName());
-    @endphp
-
-    @include('yali::forms.fields.utils.input-label', [
-        'for' => $class->getName(),
-        'hasError' => $hasError,
-        'label' => $class->getLabel(),
-    ])
-    <div class="relative">
-        <input x-ref="{{ $class->getName() }}"
-            type="{{ $class->getType() === 'password' ? 'password' : $class->getType() }}" id="{{ $class->getName() }}"
-            class="{{ $hasError ? 'input-error' : 'input' }} pr-10" placeholder="{{ $class->getPlaceholder() }}"
-            wire:model="inputs.{{ $class->getName() }}">
-        @if ($class->getType() === 'password')
-            @include('yali::forms.fields.utils.password-toggle-button', ['refId' => $class->getName()])
-        @endif
-    </div>
-
-    @error($class->getName())
-        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-    @enderror
-</div>
+<x-yali::forms.field-wrapper :name="$class->getName()" :class="$class" :label="$class->getLabel()" :error="$errors->has($class->getName()) ? $errors->first($class->getName()) : null" :info="$class->getInfoMessage()">
+    <input x-ref="{{ $class->getName() }}" type="{{ $class->getType() === 'password' ? 'password' : $class->getType() }}"
+        id="{{ $class->getName() }}" class="{{ $errors->has($class->getName()) ? 'input-error' : 'input' }} pr-10"
+        placeholder="{{ $class->getPlaceholder() }}" wire:model="inputs.{{ $class->getName() }}">
+    @if ($class->getType() === 'password')
+        @include('yali::forms.fields.utils.password-toggle-button', ['refId' => $class->getName()])
+    @endif
+</x-yali::forms.field-wrapper>
