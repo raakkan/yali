@@ -20,6 +20,8 @@ abstract class YaliAction extends YaliComponent
     use HasButton;
     use HasModel;
 
+    protected $view = 'yali::actions.action';
+
     public $headerAction = false;
 
     public function headerAction($headerAction = true)

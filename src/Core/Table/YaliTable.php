@@ -24,6 +24,11 @@ class YaliTable extends YaliComponent
 
     public $includeDeleted = false;
 
+    protected $responsiveConfig = [
+        'enabled' => true,
+        'maxWidth' => 640,
+    ];
+
     public function perPage($perPage)
     {
         $this->perPage = $perPage;
@@ -44,4 +49,27 @@ class YaliTable extends YaliComponent
         }
         return $this->filters;
     }
+
+    public function enableResponsive(int $maxWidth = 640)
+    {
+        $this->responsiveConfig = [
+            'enabled' => true,
+            'maxWidth' => $maxWidth,
+        ];
+        return $this;
+    }
+
+    public function disableResponsive()
+    {
+        $this->responsiveConfig = [
+            'enabled' => false,
+        ];
+        return $this;
+    }
+
+    public function getResponsiveConfig()
+    {
+        return $this->responsiveConfig;
+    }
+
 }

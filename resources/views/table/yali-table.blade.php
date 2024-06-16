@@ -1,4 +1,31 @@
-<div class="md:overflow-x-auto w-full">
+@if ($class->getResponsiveConfig()['enabled'])
+    <style>
+        @media (max-width: {{ $class->getResponsiveConfig()['maxWidth'] }}px) {
+            table thead {
+                display: none;
+            }
+
+            table tbody tr {
+                display: block;
+            }
+
+            table tbody td {
+                display: block;
+                text-align: right;
+                font-size: 0.875rem;
+            }
+
+            table tbody td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    </style>
+@endif
+
+<div class="overflow-x-auto w-full">
     <table class="w-full md:table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <x-yali::table.header :columns="$class->getColumns()" :actions="$class->getActions()" />
 

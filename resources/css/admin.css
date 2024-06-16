@@ -4,7 +4,6 @@
 @import './max-width.css';
 @import './border.css';
 @import './global-loader.css';
-@import './table.css';
 
 @tailwind base;
 @tailwind components;

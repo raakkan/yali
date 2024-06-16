@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Resources\Actions;
 
@@ -8,8 +8,6 @@ use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
 
 class DeleteAction extends YaliAction
 {
-    protected $view = 'yali::actions.action';
-
     protected string $label = 'Delete';
 
     public function __construct()
@@ -27,15 +25,15 @@ class DeleteAction extends YaliAction
 
     public function buttonAttributes()
     {
-        return array_merge($this->getButton()->getAttributes(), [
+        return [
             'wire:key' => 'action-button-'. $this->getUniqueKey(),
             'wire:yali-confirm' => Js::from([
                 'title' => $this->getConfirmationTitle(),
                 'message' => $this->getConfirmationMessage(),
-                'payload' => 2
+                'payload' => $this->getModelIdentifier(),
             ])->toHtml(),
             'wire:click' => 'delete'
-        ]);
+        ];
     }
 
     // public function getPayload()

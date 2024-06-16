@@ -92,4 +92,9 @@ class YaliResource extends BaseResource
             'edit' => Pages\EditPage::class,
         ];
     }
+
+    public function delete($recordId)
+    {
+        dd($recordId);
+    }
 }

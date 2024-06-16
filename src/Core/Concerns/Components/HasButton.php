@@ -40,18 +40,14 @@ trait HasButton
                 $this->button->setLabel($this->getLabel());
             }
         }
-
-        if (count($this->buttonAttributes()) > 0) {
-            $this->button->setAttributes($this->buttonAttributes());
-        } else {
-            if (method_exists($this, 'getAttributes')) {
-                $this->button->setAttributes($this->getAttributes());
-            }
-        }
     }
 
     public function getButton()
     {
+        if (count($this->buttonAttributes()) > 0) {
+            $this->button->setAttributes($this->buttonAttributes());
+        }
+        
         if ($this->buttonIsLink()) {
             $this->button->setUrl($this->getButtonUrl());
 
