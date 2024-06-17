@@ -28,26 +28,26 @@
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0 {{ $position === 'left' ? '-translate-x-full' : ($position === 'right' ? 'translate-x-full' : ($position === 'top' ? '-translate-y-full' : ($position === 'bottom' ? 'translate-y-full' : 'scale-90'))) }}"
                 x-transition:enter-end="opacity-100 translate-x-0 translate-y-0 scale-100"
-                x-transition:leave="ease-in duration-200"
+                x-transition:leave="ease-in duration-300"
                 x-transition:leave-start="opacity-100 translate-x-0 translate-y-0 scale-100"
                 x-transition:leave-end="opacity-0 {{ $position === 'left' ? '-translate-x-full' : ($position === 'right' ? 'translate-x-full' : ($position === 'top' ? '-translate-y-full' : ($position === 'bottom' ? 'translate-y-full' : 'scale-90'))) }}"
                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
-                @if ($header)
-                    <div
-                        class="{{ $position === 'center'
-                            ? 'flex justify-center items-center'
-                            : ($position === 'top' || $position === 'bottom'
-                                ? 'flex justify-center'
-                                : ($position === 'left'
-                                    ? 'flex justify-start'
-                                    : ($position === 'right'
-                                        ? 'flex justify-end'
-                                        : 'flex justify-end'))) }}">
+                <div class="{{ $position === 'center'
+                    ? 'flex justify-center items-center h-screen'
+                    : ($position === 'top' || $position === 'bottom'
+                        ? 'flex justify-center'
+                        : ($position === 'left'
+                            ? 'flex justify-start'
+                            : ($position === 'right'
+                                ? 'flex justify-end'
+                                : 'flex justify-end'))) }}"
+                    {{ $attributes->whereStartsWith('@click.outside') }}
+                    {{ $attributes->whereStartsWith('@keyup.escape.window') }}>
 
-                        <div class="w-full max-h-[calc(100vh-2rem)] flex flex-col {{ $bgColor }} {{ $rounded }} {{ $margin }} {{ $maxWidth }}"
-                            {{ $attributes->whereStartsWith('@click.outside') }}
-                            {{ $attributes->whereStartsWith('@keyup.escape.window') }}>
+                    @if ($header)
+                        <div
+                            class="w-full max-h-[calc(100vh-2rem)] flex flex-col {{ $bgColor }} {{ $rounded }} {{ $margin }} {{ $maxWidth }}">
                             <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                                 <div>
                                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -77,10 +77,10 @@
                                 {{ $slot }}
                             </div>
                         </div>
-                    </div>
-                @else
-                    {{ $slot }}
-                @endif
+                    @else
+                        {{ $slot }}
+                    @endif
+                </div>
 
             </div>
         </div>

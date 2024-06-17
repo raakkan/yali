@@ -78,7 +78,6 @@
         </div>
     </div>
 
-    <x-yali::modals.confirm />
     <x-yali::toast />
 </body>
 

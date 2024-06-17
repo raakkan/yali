@@ -18,6 +18,8 @@ class YaliTable extends YaliComponent
     use HasModelRecords;
     use HasModel;
 
+    protected $componentName = 'table';
+
     protected $view = 'yali::table.yali-table';
 
     protected $perPage = 10;

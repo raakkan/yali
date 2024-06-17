@@ -11,7 +11,10 @@ trait Makable
         if (method_exists($instance, 'initializeTraits')) {
             $instance->initializeTraits();
         }
-
+        
+        if (method_exists($instance, 'generateUniqueKey')) {
+            $instance->generateUniqueKey();
+        }
         return $instance;
     }
 }

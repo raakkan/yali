@@ -97,4 +97,9 @@ class YaliResource extends BaseResource
     {
         dd($recordId);
     }
+
+    public function performAction($actionKey, $recordId)
+    {
+        dd($this->getResourceTable()->getAction($actionKey), $recordId);
+    }
 }

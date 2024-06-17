@@ -27,12 +27,14 @@ class DeleteAction extends YaliAction
     {
         return [
             'wire:key' => 'action-button-'. $this->getUniqueKey(),
-            'wire:yali-confirm' => Js::from([
-                'title' => $this->getConfirmationTitle(),
-                'message' => $this->getConfirmationMessage(),
-                'payload' => $this->getModelIdentifier(),
-            ])->toHtml(),
-            'wire:click' => 'delete'
+            'x-on:click' => 'open = true',
+            // 'wire:yali-confirm' => Js::from([
+            //     'title' => $this->getConfirmationTitle(),
+            //     'message' => $this->getConfirmationMessage(),
+            //     'payload' => $this->getModelIdentifier(),
+            // ])->toHtml(),
+            // 'wire:click' => 'delete'
+            // 'wire:click' => 'performAction('.Js::from(get_class($this)).', '.$this->getModelIdentifier().')',
         ];
     }
 

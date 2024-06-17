@@ -13,5 +13,7 @@ trait HasModelRecords
     public function setRecords($records)
     {
         $this->records = $records;
+
+        return $this;
     }
 }

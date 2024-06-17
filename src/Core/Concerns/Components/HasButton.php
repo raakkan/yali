@@ -44,7 +44,7 @@ trait HasButton
 
     public function getButton()
     {
-        if (count($this->buttonAttributes()) > 0) {
+        if ($this->buttonHasAttributes()) {
             $this->button->setAttributes($this->buttonAttributes());
         }
         
@@ -87,6 +87,11 @@ trait HasButton
     public function buttonAttributes()
     {
         return [];
+    }
+
+    public function buttonHasAttributes()
+    {
+        return count($this->buttonAttributes()) > 0;
     }
 
     public function buttonIsLink()

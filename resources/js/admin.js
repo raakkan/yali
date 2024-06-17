@@ -1,7 +1,6 @@
 import 'flowbite';
 
 Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
-    console.log(directive.expression);
     let content = eval(`(${directive.expression})`);
 
     let wireClickFunction = el.getAttribute('wire:click').replace(/\([^)]+\)/g, "");

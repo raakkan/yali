@@ -1,6 +1,6 @@
-@if ($class->getResponsiveConfig()['enabled'])
+@if ($table->getResponsiveConfig()['enabled'])
     <style>
-        @media (max-width: {{ $class->getResponsiveConfig()['maxWidth'] }}px) {
+        @media (max-width: {{ $table->getResponsiveConfig()['maxWidth'] }}px) {
             table thead {
                 display: none;
             }
@@ -27,15 +27,15 @@
 
 <div class="overflow-x-auto w-full">
     <table class="w-full md:table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <x-yali::table.header :columns="$class->getColumns()" :actions="$class->getActions()" />
+        <x-yali::table.header :columns="$table->getColumns()" :actions="$table->getActions()" />
 
         <tbody
             class="divide-y divide-gray-200 dark:divide-gray-700 border-y border-gray-200 dark:border-gray-700 rtl:border-l-0">
-            @if (count($class->getColumns()) > 0)
-                @forelse ($class->getRecords() as $data)
-                    <x-yali::table.row :data="$data" :columns="$class->getColumns()">
+            @if (count($table->getColumns()) > 0)
+                @forelse ($table->getRecords() as $data)
+                    <x-yali::table.row :data="$data" :columns="$table->getColumns()">
                         <x-slot name="actions">
-                            @foreach ($class->getActions() as $action)
+                            @foreach ($table->getActions() as $action)
                                 {{ $action->setModel($data)->render() }}
                             @endforeach
                         </x-slot>
@@ -43,7 +43,7 @@
                 @empty
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400"
-                            colspan="{{ count($class->getColumns()) }}">
+                            colspan="{{ count($table->getColumns()) }}">
                             <p class="text-gray-500 dark:text-gray-400">No data found.</p>
                         </td>
                     </tr>

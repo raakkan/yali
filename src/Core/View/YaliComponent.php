@@ -10,6 +10,10 @@ abstract class YaliComponent
 
     protected $viewData = [];
 
+    protected $uniqueKey;
+
+    protected $componentName;
+
     public function render()
     {
         $view = $this->getView();
@@ -65,13 +69,25 @@ abstract class YaliComponent
     public function getViewData()
     {
         return array_merge($this->viewData, [
-            'class' => $this
+            $this->getComponentName() => $this
         ]);
+    }
+
+    public function getComponentName()
+    {
+        return isset($this->componentName) ? $this->componentName : 'class';
+    }
+
+    protected function generateUniqueKey()
+    {
+        if (!$this->uniqueKey) {
+            $this->uniqueKey = md5(get_class($this) . '_' . uniqid());
+        }
     }
 
     public function getUniqueKey()
     {
-        return md5(get_class($this) . '_' . uniqid());
+        return $this->uniqueKey;
     }
 
     protected function initializeTraits()

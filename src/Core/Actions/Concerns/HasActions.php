@@ -44,4 +44,31 @@ trait HasActions
     {
         return count($this->getActions()) > 0;
     }
+
+    public function setActionModel($actionClass ,$model)
+    {
+        $action = $this->getAction($actionClass);
+
+        $action->setModel($model);
+
+        $this->setAction($actionClass, $action);
+
+        return $this;
+    }
+
+    public function getAction($class)
+    {
+        $action = $this->getActions()[$class] ?? null;
+        if (!$action) {
+            $action = $this->getHeaderActions()[$class] ?? null;
+        }
+        return $action;
+    }
+
+    public function setAction($actionClass, $action)
+    {
+        $this->actions[$actionClass] = $action;
+        return $this;
+    }
+
 }
