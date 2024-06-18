@@ -12,10 +12,8 @@ class PageManager
 
     public function loadPages(): void
     {
-        $this->loadPagesFromDirectory('Raakkan\\Yali\\App\\Pages\\', __DIR__ . '/../../App/Pages', 'yali');
         $this->loadPagesFromDirectory('App\\Yali\\Pages\\', base_path('app/Yali/Pages'), 'app');
 
-        $this->loadPagesFromDirectory('Raakkan\\Yali\\App\\Resources\\', __DIR__ . '/../../App/Resources', 'yali');
         $this->loadPagesFromDirectory('App\\Yali\\Resources\\', base_path('app/Yali/Resources'), 'app');
     }
 

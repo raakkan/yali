@@ -1,6 +1,11 @@
 <x-yali::card title="Languages" description="Handle Resource Page" class="w-full">
     <x-slot name="headerSlot">
-        header action
+        @php
+            $actions = $this->getHeaderActions();
+        @endphp
+        @foreach ($actions as $action)
+            {!! $action->render() !!}
+        @endforeach
     </x-slot>
 
     <div class="divide-y divide-gray-200">
@@ -28,8 +33,13 @@
                     </label>
                 </div>
                 <div class="flex">
-                    actions
-                    {{ $language->trashed() ? ' (trashed)' : '(not trashed)' }}
+                    @php
+                        $actions = $this->getActions();
+                    @endphp
+
+                    @foreach ($actions as $action)
+                        {!! $action->setModel($language)->render() !!}
+                    @endforeach
                 </div>
             </div>
         @endforeach

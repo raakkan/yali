@@ -1,6 +1,6 @@
 <?php 
 
-namespace Raakkan\Yali\App\Pages;
+namespace Raakkan\Yali\App;
 
 use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Pages\YaliPage;

@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
+use Raakkan\Yali\App\LanguagesPage;
 use Raakkan\Yali\App\HandleResourcePage;
 
 class NavigationManager
@@ -18,17 +19,23 @@ class NavigationManager
     public function build($pages)
     {
         $this->navigation->add(DashboardPage::createNavigationItem());
+        $this->navigation->add(LanguagesPage::createNavigationItem());
 
         // TODO: navigation slug uniqueness check
-        foreach ($pages as $key => $value) {
-            $group = $value['class']::getNavigationGroup();
+        foreach ($pages as $value) {
+            // $group = $value['class']::getNavigationGroup();
 
-            if ($group) {
-                $groupItem = $this->findOrCreateGroup($group, $value['class']::getNavigationGroupIcon());
-                $groupItem->addItem($value['class']::createNavigationItem());
-            } else {
-                $this->navigation->add($value['class']::createNavigationItem());
-            }
+            // if ($group) {
+            //     $groupItem = $this->findOrCreateGroup($group, $value['class']::getNavigationGroupIcon());
+            //     $groupItem->addItem($value['class']::createNavigationItem());
+            // } else {
+               
+            // }
+
+            // if ($value['class'] == 'App\Yali\Resources\UserResource') {
+            //     dd($value['class']::getTitle(), $value['class']::getModel());
+            // }
+            $this->navigation->add($value['class']::createNavigationItem());
         }
     }
 

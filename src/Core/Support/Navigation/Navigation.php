@@ -10,7 +10,7 @@ class Navigation implements Renderable
 
     public function add($item)
     {
-        $this->items[] = $item;
+        $this->items[$item->getClass()] = $item;
     }
 
     public function findGroup($group)

@@ -26,10 +26,12 @@ class ActionConfirmationModal extends Component
 
     public function confirmAction()
     {
-        // $action = $this->getAction();
-        // $action->execute($this->recordId);
-
+        $action = $this->getAction();
+        $action->setModel($this->sourceClass::getModel()->find($this->recordId));
+        $action->execute();
+        $this->dispatch('refresh-page');
         $this->closeModal();
+        $this->dispatch('toast', type: 'success', message: 'Successful');
     }
 
     public function cancelAction()

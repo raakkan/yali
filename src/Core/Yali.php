@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core;
 
 use Livewire\Livewire;
 use Raakkan\Yali\App\DashboardPage;
+use Raakkan\Yali\App\LanguagesPage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\ManageTranslationPage;
@@ -39,10 +40,12 @@ class Yali
         $this->registerLivewireComponents();
 
         $this->navigationManager->build($this->pageManager->getPages());
+
     }
 
     public function registerLivewireComponents() {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
+        Livewire::component($this->componentRegistry->getName(LanguagesPage::class), LanguagesPage::class);
 
         Livewire::component('yali::action-modal', ActionModal::class);
         Livewire::component('yali::action-confirmation-modal', ActionConfirmationModal::class);

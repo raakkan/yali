@@ -8,44 +8,47 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 trait HasModel
 {
     protected static $model;
-    protected static $modelInstance;
+    protected static $modelInstances = [];
     protected static $modelPrimaryKey;
 
     public static function getModel()
     {
+        $class = static::class;
+
         if (!class_exists(static::$model)) {
             throw new \InvalidArgumentException("Model class '" . static::$model . "' does not exist.");
         }
 
-        if (!isset(static::$modelInstance)) {
+        if (!isset(static::$modelInstances[$class])) {
             $modelClass = static::$model;
-            static::$modelInstance = new $modelClass();
+            static::$modelInstances[$class] = new $modelClass();
         }
 
         if (!isset(static::$modelPrimaryKey)) {
-            static::$modelPrimaryKey = static::$modelInstance->getKeyName();
+            static::$modelPrimaryKey = static::$modelInstances[$class]->getKeyName();
         }
 
-        return static::$modelInstance;
+        return static::$modelInstances[$class];
     }
 
     public function setModel($model)
     {
+        $class = static::class;
+
         if (is_string($model) && class_exists($model)) {
-            $modelInstance = new $model();
+            static::$model = $model;
+            static::$modelInstances[$class] = new $model();
         } elseif ($model instanceof Model) {
-            $modelInstance = $model;
+            static::$model = get_class($model);
+            static::$modelInstances[$class] = $model;
         } else {
             throw new \InvalidArgumentException("The provided model must be a valid class name or an instance of " . Model::class);
         }
-        
-        static::$model = get_class($modelInstance);
-        static::$modelInstance = $modelInstance;
-    
+
         if (!isset(static::$modelPrimaryKey)) {
-            static::$modelPrimaryKey = $modelInstance->getKeyName();
+            static::$modelPrimaryKey = static::$modelInstances[$class]->getKeyName();
         }
-    
+
         return $this;
     }
 

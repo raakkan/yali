@@ -13,6 +13,10 @@ class DeleteAction extends YaliAction
     public function __construct()
     {
         $this->simpleConfirmation();
+
+        $this->action = function ($model) {
+            $model->delete();
+        };
     }
 
     public function buttonClasses()

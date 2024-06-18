@@ -32,6 +32,8 @@ abstract class YaliAction extends YaliComponent
 
     protected $view = 'yali::actions.action';
 
+    protected $action;
+
     public function buttonAttributes()
     {
         return [
@@ -41,10 +43,22 @@ abstract class YaliAction extends YaliComponent
 
     public function execute()
     {
-        $this->action();
+        if (is_callable($this->action)) {
+            return call_user_func($this->action, $this->getModel());
+        }
     }
 
-    public function action()
+    public function action($action = null)
     {
+        if (is_callable($action)) {
+            $this->action = $action;
+        }
+
+        return $this;
+    }
+
+    public function form(array $form = null)
+    {
+        
     }
 }

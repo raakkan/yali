@@ -13,7 +13,6 @@ class ResourceManager
 
     public function loadResources(): void
     {
-        $this->loadResourcesFromDirectory('Raakkan\\Yali\\App\\Resources\\', __DIR__ . '/../../App/Resources', 'yali');
         $this->loadResourcesFromDirectory('App\\Yali\\Resources\\', base_path('app/Yali/Resources'), 'app');
     }
 
