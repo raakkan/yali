@@ -20,7 +20,7 @@ trait HasActions
         foreach ($this->actions as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
                 if (!$action->isHeaderAction()) {
-                    $actions[get_class($action)] = $action;
+                    $actions[get_class($action)] = $action->setSource($this->getSource());
                 }
             }
         }
@@ -33,7 +33,7 @@ trait HasActions
         foreach ($this->actions as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
                 if ($action->isHeaderAction()) {
-                    $actions[get_class($action)] = $action;
+                    $actions[get_class($action)] = $action->setSource($this->getSource());
                 }
             }
         }

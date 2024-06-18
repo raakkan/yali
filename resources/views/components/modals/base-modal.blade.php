@@ -1,10 +1,10 @@
 @props(['button', 'header' => false, 'position' => 'center'])
-<div x-data="{ open: false }" class="inline-block">
+<div class="inline-block">
 
     @if (isset($button))
         {{ $button }}
     @else
-        <button x-on:click="open = true">Open</button>
+        <button class="btn btn-primary" x-on:click="open = true">Open</button>
     @endif
 
     <div x-show="open" x-cloak>

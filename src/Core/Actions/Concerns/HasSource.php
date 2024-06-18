@@ -16,9 +16,4 @@ trait HasSource
         $this->source = $source;
         return $this;
     }
-
-    public function getSourceClass()
-    {
-        return $this->getSource()->getClass();
-    }
 }

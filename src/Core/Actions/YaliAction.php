@@ -6,11 +6,13 @@ use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Actions\Concerns\HasLink;
 use Raakkan\Yali\Core\Actions\Concerns\HasLabel;
+use Raakkan\Yali\Core\Actions\Concerns\HasSource;
 use Raakkan\Yali\Core\Actions\Concerns\HasWizard;
 use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\Components\HasButton;
 use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
+use Raakkan\Yali\Core\Actions\Concerns\ModalConfirmation;
 
 abstract class YaliAction extends YaliComponent
 {
@@ -22,13 +24,13 @@ abstract class YaliAction extends YaliComponent
     use HasButton;
     use HasModel;
     use HasHeaderActions;
+    use HasSource;
     use HasWizard;
+    use ModalConfirmation;
 
     protected $componentName = 'action';
 
     protected $view = 'yali::actions.action';
-
-    protected $livewireComponent;
 
     public function buttonAttributes()
     {
@@ -37,15 +39,12 @@ abstract class YaliAction extends YaliComponent
         ];
     }
 
-    public function getLivewireComponent()
+    public function execute()
     {
-        return $this->livewireComponent;
+        $this->action();
     }
 
-    public function setLivewireComponent($livewireComponent)
+    public function action()
     {
-        $this->livewireComponent = $livewireComponent;
-
-        return $this;
     }
 }

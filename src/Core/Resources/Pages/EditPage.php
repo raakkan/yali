@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 class EditPage extends ResourcePage
 {
     protected static $view = 'yali::resources.pages.edit-page';
+    protected static $title = 'Edit';
 
     public static function getRouteName()
     {

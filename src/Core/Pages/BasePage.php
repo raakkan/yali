@@ -47,7 +47,7 @@ abstract class BasePage extends Component
     public function render()
     {
         if (view()->exists(static::$view)) {
-            return view(static::$view, array_merge(['title' => static::$title], $this->getViewData()))->layout('yali::layouts.app');
+            return view(static::$view, $this->getViewData())->layout('yali::layouts.app')->title(static::getTitle());
         } else {
             if (app()->isLocal()) {
                 throw new \Exception("View not found: {$this->view} from " . get_class($this));

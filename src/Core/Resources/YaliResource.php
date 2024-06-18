@@ -93,13 +93,8 @@ class YaliResource extends BaseResource
         ];
     }
 
-    public function delete($recordId)
+    public static function getAction($actionClass)
     {
-        dd($recordId);
-    }
-
-    public function performAction($actionKey, $recordId)
-    {
-        dd($this->getResourceTable()->getAction($actionKey), $recordId);
+        return static::getResourceTable()->getAction($actionClass);
     }
 }

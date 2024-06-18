@@ -1,5 +1,6 @@
 @props([
     'label' => null,
+    'loadingLabel' => 'Loading...',
     'spinner' => false,
     'spinnerTarget' => null,
     'icon' => null,
@@ -30,7 +31,14 @@
             <x-yali::icon name="{{ $icon }}" />
         @endif
 
-        @if ($label)
+        @if ($spinner && $loadingLabel)
+            <span wire:loading wire:target="{{ $spinnerTarget }}">
+                {{ $loadingLabel }}
+            </span>
+            <span wire:loading.remove wire:target="{{ $spinnerTarget }}">
+                {{ $label }}
+            </span>
+        @else
             {{ $label }}
         @endif
 

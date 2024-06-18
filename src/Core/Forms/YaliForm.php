@@ -9,8 +9,6 @@ use Raakkan\Yali\Core\Concerns\UI\Colorable;
 use Raakkan\Yali\Core\Concerns\UI\Spaceable;
 use Raakkan\Yali\Core\Concerns\UI\Borderable;
 use Raakkan\Yali\Core\Concerns\UI\Layoutable;
-use Raakkan\Yali\Core\Resources\YaliResource;
-use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormFields;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormActions;
 use Raakkan\Yali\Core\Forms\Concerns\HasSubmitButton;
@@ -23,7 +21,6 @@ class YaliForm extends YaliComponent
     use Borderable;
     use Colorable;
     use Spaceable;
-    use Modalable;
     use HasFormFields;
     use HasSubmitButton;
     use HasFormSubmission;

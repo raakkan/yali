@@ -3,17 +3,14 @@
 namespace Raakkan\Yali\Core;
 
 use Livewire\Livewire;
-use Raakkan\Yali\App\ResourcePage;
 use Raakkan\Yali\App\DashboardPage;
-use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\ManageTranslationPage;
-use Raakkan\Yali\Core\Resources\ResourceTable;
-use Raakkan\Yali\Core\Resources\ResourceManager;
-use Raakkan\Yali\Core\Actions\ActionModalComponent;
+use Raakkan\Yali\Core\Actions\Modals\ActionModal;
 use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
+use Raakkan\Yali\Core\Actions\Modals\ActionConfirmationModal;
 
 class Yali
 {
@@ -47,7 +44,8 @@ class Yali
     public function registerLivewireComponents() {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
 
-        Livewire::component('yali::action-modal-component', ActionModalComponent::class);
+        Livewire::component('yali::action-modal', ActionModal::class);
+        Livewire::component('yali::action-confirmation-modal', ActionConfirmationModal::class);
 
         Livewire::component('yali::manage-translation', ManageTranslationPage::class);
 

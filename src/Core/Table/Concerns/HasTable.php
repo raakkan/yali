@@ -17,6 +17,7 @@ trait HasTable
     {
         if(!static::$table) {
             static::$table = new YaliTable();
+            static::$table->setSource(static::class);
         }
         return static::table(static::$table);
     }

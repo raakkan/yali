@@ -4,7 +4,6 @@ namespace Raakkan\Yali\Core\Actions\Concerns;
 
 trait Modalable
 {
-    use ModalConfirmation;
     protected bool $isModal = false;
 
     protected $modalData = [
