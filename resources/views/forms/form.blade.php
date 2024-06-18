@@ -7,9 +7,9 @@
 @endphp
 
 
-<form wire:submit.prevent="{{ $formSubmitMethod }}" class="{{ $class->getClasses() }} flex flex-col h-full"
-    style="{{ $class->getStyles() }}">
-    <div class="p-4 {{ $class->isModal() ? 'flex-1 overflow-y-auto' : '' }}">
+<form wire:submit.prevent="{{ $formSubmitMethod }}"
+    class="{{ $class->getClasses() }} flex flex-col h-full bg-white rounded-lg" style="{{ $class->getStyles() }}">
+    <div class="p-4 flex-1 overflow-y-auto">
         <div class="grid-layout" data-cols="{{ $class->getGridColumns() }}" data-gap="{{ $class->getGap() }}">
             @foreach ($fields as $field)
                 {!! $field->render() !!}
@@ -26,8 +26,7 @@
 
         </div>
     </div>
-    <div
-        class="p-4 {{ $class->isModal() ? 'bg-white border-t sticky bottom-0 rounded-b-lg' : '' }} space-x-3 flex {{ $formActionsPosition }}">
+    <div class="p-4 border-t sticky bottom-0 space-x-3 flex {{ $formActionsPosition }}">
         @foreach ($extraActionButtons as $button)
             {!! $button->render() !!}
         @endforeach

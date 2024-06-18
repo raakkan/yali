@@ -3,12 +3,15 @@
 namespace Raakkan\Yali\App;
 
 use Livewire\WithPagination;
+use Raakkan\Yali\Core\Forms\YaliForm;
+use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
+use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 
 class LanguagesPage extends BaseResource
 {
@@ -49,7 +52,14 @@ class LanguagesPage extends BaseResource
     {
         $actions = [];
         $actions[EditAction::class] = EditAction::make()->setSource(LanguagesPage::class);
-        $actions[DeleteAction::class] = DeleteAction::make()->setSource(LanguagesPage::class);
+        $actions[DeleteAction::class] = DeleteAction::make()
+                                            ->setSource(LanguagesPage::class)
+                                            ->confirmation(true, true)
+                                            ->form(function ($form) {
+                                                return $form->fields([
+                                                    TextField::make('code')
+                                                ])->maxWidth(LayoutMaxWidth::MD);
+                                            });
         return $actions;
     }
 

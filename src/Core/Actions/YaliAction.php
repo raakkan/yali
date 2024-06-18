@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
@@ -33,6 +34,7 @@ abstract class YaliAction extends YaliComponent
     protected $view = 'yali::actions.action';
 
     protected $action;
+    protected $form;
 
     public function buttonAttributes()
     {
@@ -57,8 +59,40 @@ abstract class YaliAction extends YaliComponent
         return $this;
     }
 
-    public function form(array $form = null)
+    public function form($form)
     {
-        
+        $yaliForm = new YaliForm($form);
+
+        $formData = null;
+
+        if (is_array($form)) {
+            $formData = $form;
+        }
+
+        if (is_callable($form)) {
+            $formData = call_user_func($form, $yaliForm);
+        }
+
+        if (is_null($formData)) {
+            return $this;
+        }
+
+        if (is_array($formData)) {
+            $yaliForm->fields($formData);
+        }
+
+        $this->form = $yaliForm;
+
+        return $this;
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function hasForm()
+    {
+        return !is_null($this->form);
     }
 }

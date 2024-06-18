@@ -14,6 +14,8 @@ class ActionConfirmationModal extends Component
 
     public $recordId;
 
+    public $showWizardOrForm = false;
+
     public function mount()
     {
         // dd($this->getAction());
