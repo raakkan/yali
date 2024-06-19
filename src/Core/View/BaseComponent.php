@@ -3,12 +3,14 @@
 namespace Raakkan\Yali\Core\View;
 
 use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\Concerns\UI\Colorable;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 
 abstract class BaseComponent
 {
     use Makable;
     use Stylable;
+    use Colorable;
     
     protected $label;
     protected $icon;
@@ -20,13 +22,31 @@ abstract class BaseComponent
         return $this;
     }
 
+    public function label($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
     public function setIcon($icon)
     {
         $this->icon = $icon;
         return $this;
     }
 
+    public function icon($icon)
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+
     public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
+    public function attributes(array $attributes)
     {
         $this->attributes = $attributes;
         return $this;

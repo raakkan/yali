@@ -3,9 +3,12 @@
 namespace Raakkan\Yali\Core\Actions\Modals;
 
 use Livewire\Component;
+use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 
 class ActionConfirmationModal extends Component
 {
+    use HasRecords;
+
     public $openModal = false;
 
     public $sourceClass;
@@ -18,7 +21,7 @@ class ActionConfirmationModal extends Component
 
     public function mount()
     {
-        // dd($this->getAction());
+        // dd($this->getRecordModel());
     }
 
     public function getAction()
@@ -26,10 +29,15 @@ class ActionConfirmationModal extends Component
         return $this->sourceClass::getAction($this->actionClass);
     }
 
+    public function getRecordModel()
+    {
+        return $this->getRecord($this->sourceClass::getModelQuery(), $this->sourceClass::getModelPrimaryKey(), $this->recordId);
+    }
+
     public function confirmAction()
     {
         $action = $this->getAction();
-        $action->setModel($this->sourceClass::getModel()->find($this->recordId));
+        $action->setModel($this->getRecordModel());
         $action->execute();
         $this->dispatch('refresh-page');
         $this->closeModal();
@@ -44,6 +52,7 @@ class ActionConfirmationModal extends Component
     public function closeModal()
     {
         $this->openModal = false;
+        $this->showWizardOrForm = false;
     }
 
     public function render()

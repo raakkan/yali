@@ -8,8 +8,8 @@ trait HasSubmitButton
 {
     protected $submitButton;
     protected $submitButtonLabel = '';
-    
     protected $updateSubmitButtonLabel = '';
+    protected $submitButtonCallback;
 
     public function getSubmitButton()
     {
@@ -19,6 +19,11 @@ trait HasSubmitButton
                 ->submit()
                 ->setLabel($this->getSubmitButtonLabel());
         }
+
+        if ($this->submitButtonCallback) {
+            call_user_func($this->submitButtonCallback, $this->submitButton);
+        }
+
         return $this->submitButton;
     }
 
@@ -42,5 +47,11 @@ trait HasSubmitButton
     public function getUpdateSubmitButtonLabel(): string
     {
         return $this->updateSubmitButtonLabel ?: 'Update';
+    }
+
+    public function customizeSubmitButton(callable $callback)
+    {
+        $this->submitButtonCallback = $callback;
+        return $this;
     }
 }

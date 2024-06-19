@@ -22,10 +22,16 @@ trait HasFormActions
 
         if (strpos($position, 'justify-') !== false) {
             $this->formActionsPostion = $position;
-        } elseif ($position === 'left' || $position === 'right') {
-            $this->formActionsPostion = $position === 'left' ? 'justify-start' : 'justify-end';
-        } elseif ($position === 'end' || $position === 'start') {
-            $this->formActionsPostion = $position === 'end' ? 'justify-end' : 'justify-start';
+        } elseif ($position === 'left' || $position === 'right' || $position === 'start' || $position === 'end') {
+            $this->formActionsPostion = $position === 'left' ? 'justify-start' : ($position === 'right' ? 'justify-end' : ($position === 'start' ? 'justify-start' : 'justify-end'));
+        } elseif ($position === 'center') {
+            $this->formActionsPostion = 'justify-center';
+        } elseif ($position === 'between') {
+            $this->formActionsPostion = 'justify-between';
+        } elseif ($position === 'around') {
+            $this->formActionsPostion = 'justify-around';
+        } elseif ($position === 'evenly') {
+            $this->formActionsPostion = 'justify-evenly';
         } else {
             $this->formActionsPostion = 'justify-end';
         }

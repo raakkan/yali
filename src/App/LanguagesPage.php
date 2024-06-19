@@ -52,14 +52,7 @@ class LanguagesPage extends BaseResource
     {
         $actions = [];
         $actions[EditAction::class] = EditAction::make()->setSource(LanguagesPage::class);
-        $actions[DeleteAction::class] = DeleteAction::make()
-                                            ->setSource(LanguagesPage::class)
-                                            ->confirmation(true, true)
-                                            ->form(function ($form) {
-                                                return $form->fields([
-                                                    TextField::make('code')
-                                                ])->maxWidth(LayoutMaxWidth::MD);
-                                            });
+        $actions[DeleteAction::class] = static::getDdeleteAction();
         return $actions;
     }
 
@@ -70,6 +63,22 @@ class LanguagesPage extends BaseResource
           $action = static::getHeaderActions()[$actionClass] ?? null;
         }
         return $action;
+    }
+
+    public static function getDdeleteAction()
+    {
+        return DeleteAction::make()
+            ->setSource(LanguagesPage::class)
+            ->confirmation(true, true)
+            ->form(function ($form) {
+                return $form->fields([
+                    TextField::make('code')->required()
+                ])->maxWidth(LayoutMaxWidth::MD)->customizeSubmitButton(function ($button) {
+                    $button->setLabel('Delete')->color('btn-primary');
+                })->title('Delete Language')->headerMessage(function ($form) {
+                    // dd($form->getModel());
+                });
+            });
     }
 }
 

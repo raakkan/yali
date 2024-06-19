@@ -67,7 +67,7 @@ class Button extends BaseComponent
 
     public function render()
     {
-        $classString = $this->getClasses() !== '' ? $this->getClasses() : 'btn btn-primary';
+        $classString = $this->getClasses() !== '' ? $this->getClasses() . ' ' . $this->getTextColor() . ' ' . $this->getColor() : 'btn btn-primary ' . $this->getTextColor() . ' ' . $this->getColor();
         $styleString = $this->getStyles() !== '' ? 'style="' . $this->getStyles() . '"' : '';
         
         $html = '<' . $this->tag;

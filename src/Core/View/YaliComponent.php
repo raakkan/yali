@@ -14,8 +14,12 @@ abstract class YaliComponent
 
     protected $componentName;
 
+    protected $beforeRenderCallbacks = [];
+
     public function render()
     {
+        $this->callBeforeRenderCallbacks();
+
         $view = $this->getView();
 
         if (is_callable($view)) {
@@ -96,6 +100,20 @@ abstract class YaliComponent
             if (method_exists($this, $method = 'initialize' . class_basename($trait))) {
                 $this->{$method}($this);
             }
+        }
+    }
+
+    public function beforeRender($callback)
+    {
+        $this->beforeRenderCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    protected function callBeforeRenderCallbacks()
+    {
+        foreach ($this->beforeRenderCallbacks as $callback) {
+            call_user_func($callback, $this);
         }
     }
 }

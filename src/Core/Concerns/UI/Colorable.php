@@ -25,7 +25,7 @@ trait Colorable
      */
     public function getTextColor()
     {
-        return $this->textColor ?? 'text-gray-700';
+        return $this->textColor ?? '';
     }
 
     /**
@@ -50,9 +50,9 @@ trait Colorable
      *
      * @return string
      */
-    public function getBackgroundColor()
+    public function getColor()
     {
-        return $this->backgroundColor ?? 'bg-white';
+        return $this->backgroundColor ?? '';
     }
 
     /**
@@ -61,7 +61,7 @@ trait Colorable
      * @param  string  $color
      * @return $this
      */
-    public function backgroundColor($color)
+    public function color($color)
     {
         if ($color instanceof \BackedEnum) {
             $this->backgroundColor = $color->value;

@@ -61,8 +61,8 @@ abstract class YaliAction extends YaliComponent
 
     public function form($form)
     {
-        $yaliForm = new YaliForm($form);
-
+        $yaliForm = new YaliForm();
+        
         $formData = null;
 
         if (is_array($form)) {
