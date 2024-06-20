@@ -34,11 +34,11 @@
                 </div>
                 <div class="flex">
                     @php
-                        $actions = $this->getActions();
+                        $actions = $this->getActions($language);
                     @endphp
 
                     @foreach ($actions as $action)
-                        {!! $action->setModel($language)->render() !!}
+                        {!! $action->render() !!}
                     @endforeach
                 </div>
             </div>

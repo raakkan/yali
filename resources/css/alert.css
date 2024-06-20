@@ -1,0 +1,26 @@
+.alert {
+    @apply flex items-center flex-col md:flex-row p-4 mb-4 text-sm rounded-lg border text-gray-800 bg-gray-50 dark:bg-gray-800 dark:text-gray-300;
+}
+
+.alert > svg {
+    @apply w-7 h-7 mb-2 md:mr-2 md:mb-0;
+}
+
+/* Alert Types */
+
+.alert-info {
+    @apply text-blue-800 bg-blue-100 border-blue-300 dark:bg-gray-800 dark:text-blue-300;
+}
+
+.alert-success {
+    @apply text-green-800 bg-green-100 border-green-300 dark:bg-gray-800 dark:text-green-300;
+}
+
+.alert-warning {
+    @apply text-yellow-800 bg-yellow-100 border-yellow-300 dark:bg-gray-800 dark:text-yellow-300;
+}
+
+.alert-danger {
+    @apply text-red-800 bg-red-100 border-red-300 dark:bg-gray-800 dark:text-red-300;
+}
+

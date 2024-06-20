@@ -1,11 +1,13 @@
 @props(['name', 'class', 'label', 'error', 'info'])
 
 <div>
-    @include('yali::forms.fields.utils.input-label', [
-        'for' => $name,
-        'hasError' => $error,
-        'label' => $label,
-    ])
+    @if ($label !== '' && !is_null($label))
+        @include('yali::forms.fields.utils.input-label', [
+            'for' => $name,
+            'hasError' => $error,
+            'label' => $label,
+        ])
+    @endif
 
     <div class="relative">
         {{ $slot }}

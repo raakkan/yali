@@ -77,4 +77,9 @@ trait HasModel
         return in_array(SoftDeletes::class, class_uses(static::getModel()));
     }
 
+    public static function hasModel(): bool
+    {
+        return class_exists(static::$model);
+    }
+
 }

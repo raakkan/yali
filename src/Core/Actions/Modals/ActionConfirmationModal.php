@@ -26,7 +26,7 @@ class ActionConfirmationModal extends Component
 
     public function getAction()
     {
-        return $this->sourceClass::getAction($this->actionClass);
+        return $this->sourceClass::getAction($this->actionClass, $this->getRecordModel());
     }
 
     public function getRecordModel()
@@ -38,7 +38,8 @@ class ActionConfirmationModal extends Component
     {
         $action = $this->getAction();
         $action->setModel($this->getRecordModel());
-        $action->execute();
+        $result = $action->execute();
+        dd($result);
         $this->dispatch('refresh-page');
         $this->closeModal();
         $this->dispatch('toast', type: 'success', message: 'Successful');

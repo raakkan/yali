@@ -2,46 +2,16 @@
 
 namespace Raakkan\Yali\Core\Concerns\UI;
 
-/**
- * Trait Stylable
- *
- * Provides functionality to manage styles and classes for an object.
- */
 trait Stylable
 {
-    /**
-     * The inline styles of the object.
-     *
-     * @var string|null
-     */
     protected ?string $styles = null;
 
-    /**
-     * The CSS classes of the object.
-     *
-     * @var string|null
-     */
     protected ?string $classes = null;
 
-    /**
-     * The default inline styles of the object.
-     *
-     * @var array
-     */
     protected array $defaultStyles = [];
 
-    /**
-     * The default CSS classes of the object.
-     *
-     * @var array
-     */
     protected array $defaultClasses = [];
 
-    /**
-     * Get the inline styles of the object.
-     *
-     * @return string
-     */
     public function getStyles(): string
     {
         return $this->styles ?? implode('; ', array_map(
@@ -51,11 +21,6 @@ trait Stylable
         ));
     }
 
-    /**
-     * Get the inline styles as an associative array.
-     *
-     * @return array
-     */
     public function getStylesArray(): array
     {
         if (empty($this->styles)) {
@@ -75,12 +40,6 @@ trait Stylable
         return array_merge($this->defaultStyles, $stylesArray);
     }
 
-    /**
-     * Set the inline styles of the object.
-     *
-     * @param array $styles
-     * @return $this
-     */
     public function styles(array $styles): self
     {
         $style = '';
@@ -92,13 +51,6 @@ trait Stylable
         return $this;
     }
 
-    /**
-     * Add a new inline style to the object.
-     *
-     * @param string $property
-     * @param string $value
-     * @return $this
-     */
     public function addStyle(string $property, string $value): self
     {
         $existingStyles = $this->getStylesArray();
@@ -107,13 +59,6 @@ trait Stylable
         return $this->styles($existingStyles);
     }
 
-    /**
-     * Update an existing inline style of the object.
-     *
-     * @param string $property
-     * @param string $value
-     * @return $this
-     */
     public function updateStyle(string $property, string $value): self
     {
         $existingStyles = $this->getStylesArray();
@@ -125,12 +70,6 @@ trait Stylable
         return $this->styles($existingStyles);
     }
 
-    /**
-     * Check if the object has a specific inline style.
-     *
-     * @param string $property
-     * @return bool
-     */
     public function hasStyle(string $property): bool
     {
         $existingStyles = $this->getStylesArray();
@@ -138,21 +77,11 @@ trait Stylable
         return array_key_exists($property, $existingStyles);
     }
 
-    /**
-     * Get the CSS classes of the object.
-     *
-     * @return string
-     */
     public function getClasses(): string
     {
         return $this->classes ?? implode(' ', $this->defaultClasses);
     }
 
-    /**
-     * Get the CSS classes as an array.
-     *
-     * @return array
-     */
     public function getClassesArray(): array
     {
         if (empty($this->classes)) {
@@ -162,12 +91,6 @@ trait Stylable
         return array_merge($this->defaultClasses, explode(' ', $this->classes));
     }
 
-    /**
-     * Set the CSS classes of the object.
-     *
-     * @param array $classes
-     * @return $this
-     */
     public function classes(array $classes): self
     {
         $class = '';
@@ -184,12 +107,6 @@ trait Stylable
         return $this;
     }
 
-    /**
-     * Check if the object has a specific CSS class.
-     *
-     * @param string $class
-     * @return bool
-     */
     public function hasClass(string $class): bool
     {
         $existingClasses = $this->getClassesArray();
@@ -197,12 +114,6 @@ trait Stylable
         return in_array($class, $existingClasses);
     }
 
-    /**
-     * Add a new CSS class to the object.
-     *
-     * @param string $class
-     * @return $this
-     */
     public function addClass(string $class): self
     {
         if (!$this->hasClass($class)) {
@@ -215,13 +126,6 @@ trait Stylable
         return $this;
     }
 
-    /**
-     * Update an existing CSS class of the object.
-     *
-     * @param string $oldClass
-     * @param string $newClass
-     * @return $this
-     */
     public function updateClass(string $oldClass, string $newClass): self
     {
         $existingClasses = $this->getClassesArray();
@@ -235,12 +139,6 @@ trait Stylable
         return $this;
     }
 
-    /**
-     * Remove a CSS class from the object.
-     *
-     * @param string $class
-     * @return $this
-     */
     public function removeClass(string $class): self
     {
         $existingClasses = $this->getClassesArray();
@@ -254,12 +152,6 @@ trait Stylable
         return $this;
     }
 
-    /**
-     * Remove an inline style from the object.
-     *
-     * @param string $property
-     * @return $this
-     */
     public function removeStyle(string $property): self
     {
         $existingStyles = $this->getStylesArray();
@@ -271,24 +163,12 @@ trait Stylable
         return $this->styles($existingStyles);
     }
 
-    /**
-     * Set the default inline styles of the object.
-     *
-     * @param array $styles
-     * @return $this
-     */
     public function setDefaultStyles(array $styles): self
     {
         $this->defaultStyles = $styles;
         return $this;
     }
 
-    /**
-     * Set the default CSS classes of the object.
-     *
-     * @param array $classes
-     * @return $this
-     */
     public function setDefaultClasses(array $classes): self
     {
         $this->defaultClasses = $classes;

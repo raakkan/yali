@@ -4,49 +4,59 @@ namespace Raakkan\Yali\Core\Forms\Concerns;
 
 trait HasFormMessages
 {
-    public $headerMessage = '';
+    public $headerMessages = [];
 
-    public $footerMessage = '';
+    public $footerMessages = [];
 
-    public function headerMessage($messageOrCallback, $callback = null)
+    public function addHeaderMessage($messageOrCallback, $callback = null)
     {
         if (is_callable($messageOrCallback)) {
-            $this->headerMessage = $messageOrCallback($this);
+            $this->headerMessages[] = $messageOrCallback($this);
         } elseif (is_string($messageOrCallback)) {
-            $this->headerMessage = $callback ? $callback($messageOrCallback, $this) : $messageOrCallback;
+            $this->headerMessages[] = $callback ? $callback($messageOrCallback, $this) : $messageOrCallback;
         }
 
         return $this;
     }
 
-    public function footerMessage($messageOrCallback, $callback = null)
+    public function addFooterMessage($messageOrCallback, $callback = null)
     {
         if (is_callable($messageOrCallback)) {
-            $this->footerMessage = $messageOrCallback($this);
+            $this->footerMessages[] = $messageOrCallback($this);
         } elseif (is_string($messageOrCallback)) {
-            $this->footerMessage = $callback ? $callback($messageOrCallback, $this) : $messageOrCallback;
+            $this->footerMessages[] = $callback ? $callback($messageOrCallback, $this) : $messageOrCallback;
         }
 
         return $this;
     }
 
-    public function getHeaderMessage()
+    public function getHeaderMessages()
     {
-        return $this->headerMessage;
+        return $this->headerMessages;
     }
 
-    public function getFooterMessage()
+    public function getFooterMessages()
     {
-        return $this->footerMessage;
+        return $this->footerMessages;
     }
 
-    public function hasHeaderMessage()
+    public function hasHeaderMessages()
     {
-        return !empty($this->headerMessage);
+        return !empty($this->headerMessages);
     }
 
-    public function hasFooterMessage()
+    public function hasFooterMessages()
     {
-        return !empty($this->footerMessage);
+        return !empty($this->footerMessages);
+    }
+
+    public function getFirstHeaderMessage()
+    {
+        return !empty($this->headerMessages) ? $this->headerMessages[0] : null;
+    }
+
+    public function getFirstFooterMessage()
+    {
+        return !empty($this->footerMessages) ? $this->footerMessages[0] : null;
     }
 }

@@ -12,6 +12,7 @@ use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
+use Raakkan\Yali\Core\View\InfoMessage;
 
 class LanguagesPage extends BaseResource
 {
@@ -48,36 +49,41 @@ class LanguagesPage extends BaseResource
         return $actions;
     }
 
-    public static function getActions()
+    public static function getActions($model)
     {
         $actions = [];
-        $actions[EditAction::class] = EditAction::make()->setSource(LanguagesPage::class);
-        $actions[DeleteAction::class] = static::getDdeleteAction();
+        $actions[EditAction::class] = EditAction::make()->setModel($model)->setSource(LanguagesPage::class);
+        $actions[DeleteAction::class] = static::getDeleteAction($model);
         return $actions;
     }
 
-    public static function getAction($actionClass)
+    public static function getAction($actionClass, $model)
     {
-        $action = static::getActions()[$actionClass] ?? null;
+        $action = static::getActions($model)[$actionClass] ?? null;
         if (!$action) {
           $action = static::getHeaderActions()[$actionClass] ?? null;
         }
         return $action;
     }
 
-    public static function getDdeleteAction()
+    public static function getDeleteAction($model)
     {
         return DeleteAction::make()
             ->setSource(LanguagesPage::class)
+            ->setModel($model)
             ->confirmation(true, true)
             ->form(function ($form) {
                 return $form->fields([
-                    TextField::make('code')->required()
-                ])->maxWidth(LayoutMaxWidth::MD)->customizeSubmitButton(function ($button) {
-                    $button->setLabel('Delete')->color('btn-primary');
-                })->title('Delete Language')->headerMessage(function ($form) {
-                    // dd($form->getModel());
+                    TextField::make('name')->required()->placeholder('Type language name to confirm')->disableLabel(),
+                ])->customizeSubmitButton(function ($button) {
+                    $button->setLabel('Delete')->addClass('btn-danger');
+                })->title('Delete Language')->addHeaderMessage(function ($form) {
+                    return InfoMessage::make('If you delete this language, it will be permanently deleted')->danger();
+                })->addHeaderMessage(function ($form) {
+                    return InfoMessage::make('Type <b>&nbsp;"' . $form->getModel()->name . '"&nbsp;</b> to confirm')->danger();
                 });
+            })->action(function ($model, $form) {
+                return 'deleted';
             });
     }
 }

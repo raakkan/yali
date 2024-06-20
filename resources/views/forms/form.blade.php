@@ -11,9 +11,16 @@
 
     <div class="p-4 flex-1 overflow-y-auto">
 
-        @if ($class->hasHeaderMessage())
+        @if ($class->hasHeaderMessages())
             <div class="mb-4">
-                {{ $class->getHeaderMessage() }}
+                @foreach ($class->getHeaderMessages() as $headerMessage)
+                    @if ($headerMessage instanceof Raakkan\Yali\Core\View\BaseComponent)
+                        {!! $headerMessage->render() !!}
+                    @else
+                        {!! $headerMessage !!}
+                    @endif
+                @endforeach
+
             </div>
         @endif
 

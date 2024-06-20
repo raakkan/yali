@@ -24,6 +24,7 @@ abstract class Field extends YaliComponent
     protected $type = '';
 
     public $infoMessage;
+    public $disableLabel = false;
 
     public static function make($name)
     {
@@ -43,7 +44,17 @@ abstract class Field extends YaliComponent
 
     public function getLabel()
     {
+        if($this->disableLabel) {
+            return '';
+        }
+        
         return $this->label ?? Str::of($this->name)->replace('_', ' ')->title();
+    }
+
+    public function disableLabel()
+    {
+        $this->disableLabel = true;
+        return $this;
     }
 
     public function default($default)

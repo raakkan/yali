@@ -9,20 +9,23 @@
             if ($this->getAction()->hasForm()) {
                 $submitButton = $this->getAction()->getForm()->getSubmitButton();
                 $submitButton->setLabel($this->getAction()->getForm()->getSubmitButtonLabel());
-                // TODO: if user change class on submit button not effect in submit button
-                // so we need to change it here
-                $submitButton->classes(['btn', 'btn-danger', 'btn-sm', 'btn-full-width']);
-                $submitButton->setSpinner(true, 'submit');
+                $submitButton->classes(['btn', 'btn-sm', 'btn-full-width']);
+                $submitButton->setSpinner(true, 'confirmAction');
+
+                $form = $this->getAction()
+                    ->getForm()
+                    ->setFormSubmitMethod('confirmAction')
+                    ->setSubmitButton($submitButton);
             }
 
             $confirmationTitle = $this->getAction()->getConfirmationTitle();
             $confirmationMessage = $this->getAction()->getConfirmationMessage();
             $loadingLabel = $this->getAction()->getLoadingLabel();
 
-            $extraActionButton = Raakkan\Yali\Core\View\Button::make();
-            $extraActionButton->classes(['btn', 'btn-ghost', 'btn-sm', 'btn-full-width']);
-            $extraActionButton->setLabel('Cancel');
-            $extraActionButton->setAttributes([
+            $closeButton = Raakkan\Yali\Core\View\Button::make();
+            $closeButton->classes(['btn', 'btn-ghost', 'btn-sm', 'btn-full-width']);
+            $closeButton->setLabel('Cancel');
+            $closeButton->setAttributes([
                 'wire:click' => 'cancelAction',
             ]);
 
@@ -65,9 +68,9 @@
                             </h3>
                             {!! $closeIconButton->render() !!}
                         </div>
-                        {{ $this->getAction()->getForm()->setSubmitButton($submitButton)->render() }}
+                        {{ $form->render() }}
                     @else
-                        {{ $this->getAction()->getForm()->setSubmitButton($submitButton)->extraActionButtons($extraActionButton)->render() }}
+                        {{ $form->extraActionButtons($closeButton)->render() }}
                     @endif
                 </div>
             @endif
