@@ -1,19 +1,19 @@
 @php
-    $fields = $class->getFields();
-    $submitButton = $class->getSubmitButton();
-    $formSubmitMethod = $class->getFormSubmitMethod();
-    $formActionsPosition = $class->getFormActionsPosition();
-    $extraActionButtons = $class->getExtraActionButtons();
+    $fields = $form->getFields();
+    $submitButton = $form->getSubmitButton();
+    $formSubmitMethod = $form->getFormSubmitMethod();
+    $formActionsPosition = $form->getFormActionsPosition();
+    $extraActionButtons = $form->getExtraActionButtons();
 @endphp
 
-<form wire:submit.prevent="{{ $formSubmitMethod }}" class="{{ $class->getClasses() }} flex flex-col h-full"
-    style="{{ $class->getStyles() }}">
+<form wire:submit.prevent="{{ $formSubmitMethod }}" class="{{ $form->getClasses() }} flex flex-col h-full"
+    style="{{ $form->getStyles() }}">
 
     <div class="p-4 flex-1 overflow-y-auto">
 
-        @if ($class->hasHeaderMessages())
+        @if ($form->hasHeaderMessages())
             <div class="mb-4">
-                @foreach ($class->getHeaderMessages() as $headerMessage)
+                @foreach ($form->getHeaderMessages() as $headerMessage)
                     @if ($headerMessage instanceof Raakkan\Yali\Core\View\BaseComponent)
                         {!! $headerMessage->render() !!}
                     @else
@@ -24,9 +24,9 @@
             </div>
         @endif
 
-        <div class="grid-layout" data-cols="{{ $class->getGridColumns() }}" data-gap="{{ $class->getGap() }}">
+        <div class="grid-layout" data-cols="{{ $form->getGridColumns() }}" data-gap="{{ $form->getGap() }}">
             @foreach ($fields as $field)
-                {!! $field->render() !!}
+                {!! $field->setFormId($form->getId())->render() !!}
             @endforeach
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Concerns;
 trait Makable
 {
     protected $callerMetadata;
+    protected static $componentInstanceCounts = [];
 
     public static function make(...$arguments)
     {
@@ -21,9 +22,29 @@ trait Makable
             $instance->generateUniqueKey();
         }
 
+        if (method_exists($instance, 'generateComponentId')) {
+            $instance->incrementInstanceCount();
+            $instance->generateComponentId();
+        }
+
         $instance->setCallerMetadata($callerMetadata);
 
         return $instance;
+    }
+
+    protected function incrementInstanceCount()
+    {
+        $componentName = get_class($this);
+        if (!isset(self::$componentInstanceCounts[$componentName])) {
+            self::$componentInstanceCounts[$componentName] = 0;
+        }
+        self::$componentInstanceCounts[$componentName]++;
+    }
+
+    protected function getInstanceId()
+    {
+        $componentName = get_class($this);
+        return self::$componentInstanceCounts[$componentName];
     }
 
     public function setCallerMetadata($callerMetadata)

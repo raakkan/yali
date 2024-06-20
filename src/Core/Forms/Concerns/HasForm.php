@@ -16,7 +16,7 @@ trait HasForm
     public static function getForm()
     {
         if(!static::$form) {
-            static::$form = new YaliForm();
+            static::$form = YaliForm::make();
         }
 
         return static::form(static::$form);

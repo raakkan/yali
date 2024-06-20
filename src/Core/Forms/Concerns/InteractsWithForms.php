@@ -16,7 +16,7 @@ trait InteractsWithForms
     {
         foreach ($this->getForm()->getFields() as $field) {
             if ($field->getType() !== 'password') {
-                $this->inputs[$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
+                $this->inputs[$this->getForm()->getId()][$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
             }
         }
     }

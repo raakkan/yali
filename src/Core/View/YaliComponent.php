@@ -7,14 +7,11 @@ use Illuminate\Support\HtmlString;
 abstract class YaliComponent
 {
     protected $view;
-
     protected $viewData = [];
-
     protected $uniqueKey;
-
     protected $componentName;
-
     protected $beforeRenderCallbacks = [];
+    protected $id;
 
     public function render()
     {
@@ -73,7 +70,8 @@ abstract class YaliComponent
     public function getViewData()
     {
         return array_merge($this->viewData, [
-            $this->getComponentName() => $this
+            $this->getComponentName() => $this,
+            'id' => $this->getId()  // Add the id to the view data
         ]);
     }
 
@@ -115,5 +113,27 @@ abstract class YaliComponent
         foreach ($this->beforeRenderCallbacks as $callback) {
             call_user_func($callback, $this);
         }
+    }
+
+    protected function generateComponentId()
+    {
+        $componentName = $this->getComponentName() . '-';
+        $instanceId = null;
+
+        if (method_exists($this, 'getInstanceId')) {
+            $instanceId = $this->getInstanceId();
+        }
+
+        if (!is_null($instanceId)) {
+            $this->id = $componentName . 'component-' . $instanceId;
+        } else {
+            // Fallback if instance ID generation fails for some reason but this problem in livewire
+            $this->id = $componentName . 'component-' . uniqid();
+        }
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 }

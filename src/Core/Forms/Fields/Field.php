@@ -25,6 +25,7 @@ abstract class Field extends YaliComponent
 
     public $infoMessage;
     public $disableLabel = false;
+    public $formId;
 
     public static function make($name)
     {
@@ -120,4 +121,15 @@ abstract class Field extends YaliComponent
     {
         return $this->infoMessage;
     }
+
+     public function getFormId()
+     {
+         return $this->formId;
+     }
+
+      public function setFormId($formId)
+      {
+         $this->formId = $formId;
+         return $this;
+      }
 }
