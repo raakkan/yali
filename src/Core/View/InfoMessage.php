@@ -45,7 +45,25 @@ class InfoMessage extends BaseComponent
     public function danger()
     {
         $this->type = 'danger';
-        return $this;
+        return $this; 
+    }
+
+    public function success()
+    {
+        $this->type = 'success';
+        return $this; 
+    }
+
+    public function info()
+    {
+        $this->type = 'info';
+        return $this; 
+    }
+
+    public function warning()
+    {
+        $this->type = 'warning';
+        return $this; 
     }
 
     public function render()

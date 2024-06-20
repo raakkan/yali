@@ -4,15 +4,19 @@ namespace Raakkan\Yali\Core\Forms\Fields;
 
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\Rule;
+use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 
+// encrypt and decrypt
 abstract class Field extends YaliComponent
 {
+    use Makable;
     use HasValidation;
     use Stylable;
 
+    protected $componentName = 'field';
     public $name;
 
     public $label;
@@ -26,11 +30,6 @@ abstract class Field extends YaliComponent
     public $infoMessage;
     public $disableLabel = false;
     public $formId;
-
-    public static function make($name)
-    {
-        return new static($name);
-    }
 
     public function __construct($name)
     {

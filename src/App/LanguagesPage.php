@@ -81,13 +81,17 @@ class LanguagesPage extends BaseResource
                 ])->customizeSubmitButton(function ($button) {
                     $button->setLabel('Delete')->addClass('btn-danger');
                 })->title('Delete Language')->addHeaderMessage(function ($form) {
-                    return InfoMessage::make('If you delete this language, it will be permanently deleted')->danger();
+                    return InfoMessage::make('If you delete this language, it will be permanently deleted')->icon('exclamation')->info();
                 })->addHeaderMessage(function ($form) {
                     return InfoMessage::make('Type <b>&nbsp;"' . $form->getModel()->name . '"&nbsp;</b> to confirm')->danger();
                 });
-            })->action(function ($model, $form) {
-                sleep(3);
-                return 'deleted';
+            })->action(function ($model, $formData) {
+                
+                throw_if($formData['name'] !== $model->name, new \Exception('Language name does not match'));
+
+                if ($model->name === $formData['name']) {
+                    $model->delete();
+                }
             });
     }
 }

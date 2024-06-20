@@ -100,44 +100,45 @@
 
 /* Disabled button state */
 .btn-disabled,
-.btn[disabled] {
+.btn.is-disabled {
     @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed opacity-50 dark:bg-gray-700 dark:text-gray-500 dark:border-gray-700;
 }
 
-.btn[disabled]:hover {
+.btn.is-disabled:hover {
     @apply bg-gray-300 text-gray-500 border-gray-300 dark:bg-gray-700 dark:text-gray-500 dark:border-gray-700;
 }
 
 /* Handling disabled state for specific button types */
-.btn-primary[disabled] {
+.btn-primary.is-disabled {
     @apply bg-blue-300 text-gray-500 border-blue-300 cursor-not-allowed;
 }
 
-.btn-secondary[disabled] {
+.btn-secondary.is-disabled {
     @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed;
 }
 
-.btn-success[disabled] {
+.btn-success.is-disabled {
     @apply bg-green-300 text-gray-500 border-green-300 cursor-not-allowed;
 }
 
-.btn-danger[disabled] {
+.btn-danger.is-disabled {
     @apply bg-red-300 text-gray-500 border-red-300 cursor-not-allowed;
 }
 
-.btn-warning[disabled] {
+.btn-warning.is-disabled {
     @apply bg-yellow-300 text-gray-500 border-yellow-300 cursor-not-allowed;
 }
 
-.btn-info[disabled] {
+.btn-info.is-disabled {
     @apply bg-cyan-300 text-gray-500 border-cyan-300 cursor-not-allowed;
 }
 
-.btn-link[disabled] {
+.btn-link.is-disabled {
     @apply text-gray-500 cursor-not-allowed;
 }
 
-.btn-white[disabled] {
+.btn-white.is-disabled {
     @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed;
 }
+
 

@@ -43,14 +43,19 @@ abstract class YaliAction extends YaliComponent
         ];
     }
 
-    public function execute()
+    public function execute($formData)
     {
-        if (is_callable($this->action)) {
-            if ($this->hasForm()) {
-                return call_user_func($this->action, $this->getModel(), $this->getForm());
-            } else {
-                return call_user_func($this->action, $this->getModel());
+        try {
+            if (is_callable($this->action)) {
+                if ($this->hasForm()) {
+                    return call_user_func($this->action, $this->getModel(), $formData);
+                } else {
+                    return call_user_func($this->action, $this->getModel());
+                }
             }
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            throw $e;
         }
     }
 

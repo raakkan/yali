@@ -11,6 +11,7 @@ class CreatePage extends ResourcePage
     public function mount()
     {
         $this->model = $this->getResource()::getModel();
+        $this->fillForm();
     }
 
     public static function getTitle(): string

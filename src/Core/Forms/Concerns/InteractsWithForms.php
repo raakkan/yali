@@ -18,6 +18,9 @@ trait InteractsWithForms
             if ($field->getType() !== 'password') {
                 $this->inputs[$this->getForm()->getId()][$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
             }
+            if ($field->getType() === 'password') {
+                $this->inputs[$this->getForm()->getId()][$field->getName()] = '';
+            }
         }
     }
 
@@ -29,10 +32,9 @@ trait InteractsWithForms
         if ($this->model->id) {
             foreach ($this->getForm()->getFields() as $field) {
                 if ($field->getType() === 'password') {
-                    if (empty($this->inputs[$field->getName()])) {
+                    if (empty($this->inputs[$this->getForm()->getId()][$field->getName()])) {
 
-                        // If the field is a password field and the input is empty,
-                        // remove the confirmation field rule and the confirmation field itself from the rules array.
+                        // check not correct
                         if (array_key_exists($field->getName(), $rules)) {
                             foreach ($rules[$field->getName()] as $key => $rule) {
                                 if (is_string($rule) && Str::contains($rule, 'confirmed')) {
@@ -49,7 +51,7 @@ trait InteractsWithForms
         }
         
         $validated = Validator::make(
-            $this->inputs,
+            $this->inputs[$this->getForm()->getId()],
             $rules,
             $this->getForm()->getValidationMessages()
          )->validate();
