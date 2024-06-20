@@ -1,15 +1,9 @@
+/* Base button styles */
 .btn {
     @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
 }
 
-.btn-shadow {
-    @apply shadow-sm;
-}
-
-.btn svg {
-    @apply w-5 h-5 mr-2;
-}
-
+/* Button sizes */
 .btn-xs {
     @apply px-2.5 py-1.5 text-xs;
 }
@@ -26,6 +20,11 @@
     @apply px-6 py-4 text-xl;
 }
 
+.btn svg {
+    @apply w-5 h-5 mr-2;
+}
+
+/* Button types */
 .btn-primary {
     @apply bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
 }
@@ -58,8 +57,9 @@
     @apply bg-white text-gray-800 hover:bg-gray-100 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700;
 }
 
-.btn-bordered {
-    @apply border border-gray-300 dark:border-gray-700;
+/* Button utility classes */
+.btn-shadow {
+    @apply shadow-sm;
 }
 
 .btn-circle {
@@ -93,3 +93,51 @@
 .btn-transparent.btn-sm {
     @apply text-sm px-1.5 py-1 ml-auto rounded-lg;
 }
+
+.btn-bordered {
+    @apply border border-gray-300 dark:border-gray-700;
+}
+
+/* Disabled button state */
+.btn-disabled,
+.btn[disabled] {
+    @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed opacity-50 dark:bg-gray-700 dark:text-gray-500 dark:border-gray-700;
+}
+
+.btn[disabled]:hover {
+    @apply bg-gray-300 text-gray-500 border-gray-300 dark:bg-gray-700 dark:text-gray-500 dark:border-gray-700;
+}
+
+/* Handling disabled state for specific button types */
+.btn-primary[disabled] {
+    @apply bg-blue-300 text-gray-500 border-blue-300 cursor-not-allowed;
+}
+
+.btn-secondary[disabled] {
+    @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed;
+}
+
+.btn-success[disabled] {
+    @apply bg-green-300 text-gray-500 border-green-300 cursor-not-allowed;
+}
+
+.btn-danger[disabled] {
+    @apply bg-red-300 text-gray-500 border-red-300 cursor-not-allowed;
+}
+
+.btn-warning[disabled] {
+    @apply bg-yellow-300 text-gray-500 border-yellow-300 cursor-not-allowed;
+}
+
+.btn-info[disabled] {
+    @apply bg-cyan-300 text-gray-500 border-cyan-300 cursor-not-allowed;
+}
+
+.btn-link[disabled] {
+    @apply text-gray-500 cursor-not-allowed;
+}
+
+.btn-white[disabled] {
+    @apply bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed;
+}
+

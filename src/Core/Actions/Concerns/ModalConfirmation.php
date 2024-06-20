@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\Core\Actions\Concerns;
 
+use Raakkan\Yali\Core\View\Button;
+
 trait ModalConfirmation
 {
     public $confirmation = false;
@@ -9,7 +11,10 @@ trait ModalConfirmation
     public $confirmationTitle;
     public $confirmationMessage;
 
-    public $loadingLabel;
+    public $confirmationButton;
+    public $confirmationButtonLabel;
+    public $confirmationButtonLoadingLabel;
+    public $confirmationButtonCustomizeCallback;
 
     public function confirmation($confirmation = true, $simpleConfirmation = false)
     {
@@ -22,7 +27,7 @@ trait ModalConfirmation
 
         return $this;
     }
-    
+
     public function isConfirmation()
     {
         return $this->confirmation;
@@ -45,9 +50,13 @@ trait ModalConfirmation
         return $this->simpleConfirmation;
     }
 
-    public function confirmationTitle($title)
+    public function confirmationTitle($title, $callback = null)
     {
-        $this->confirmationTitle = $title;
+        if (is_callable($title)) {
+            $this->confirmationTitle = $title($this);
+        } elseif (is_string($title)) {
+            $this->confirmationTitle = $callback ? $callback($title, $this) : $title;
+        }
         return $this;
     }
 
@@ -56,9 +65,13 @@ trait ModalConfirmation
         return $this->confirmationTitle ?? 'Delete Confirmation';
     }
 
-    public function confirmationMessage($message)
+    public function confirmationMessage($message, $callback = null)
     {
-        $this->confirmationMessage = $message;
+        if (is_callable($message)) {
+            $this->confirmationMessage = $message($this);
+        } elseif (is_string($message)) {
+            $this->confirmationMessage = $callback ? $callback($message, $this) : $message;
+        }
         return $this;
     }
 
@@ -67,14 +80,51 @@ trait ModalConfirmation
         return $this->confirmationMessage ?? 'Are you sure you want to do this record?';
     }
 
-    public function loadingLabel($loadingLabel)
+    public function confirmationButtonLoadingLabel($loadingLabel)
     {
-        $this->loadingLabel = $loadingLabel;
+        $this->confirmationButtonLoadingLabel = $loadingLabel;
         return $this;
     }
 
-    public function getLoadingLabel()
+    public function getConfirmationButtonLoadingLabel()
     {
-        return $this->loadingLabel ?? 'Deleting...';
+        return $this->confirmationButtonLoadingLabel ?? 'Deleting...';
+    }
+
+    public function getConfirmationButton()
+    {
+        $button = $this->confirmationButton;
+
+        if (!$button) {
+            $button = Button::make()
+            ->classes(['btn', 'btn-danger', 'btn-sm', 'btn-full-width'])
+            ->label($this->getConfirmationButtonLabel())
+            ->setLoadingLabel($this->getConfirmationButtonLoadingLabel());
+        }
+
+        if (is_callable($this->confirmationButtonCustomizeCallback)) {
+            $button = call_user_func($this->confirmationButtonCustomizeCallback, $button, $this);
+        }
+
+        $this->confirmationButton = $button;
+
+        return $button;
+    }
+
+    public function getConfirmationButtonLabel()
+    {
+        return $this->confirmationButtonLabel;
+    }
+
+    public function confirmationButtonLabel($label)
+    {
+        $this->confirmationButtonLabel = $label;
+        return $this;
+    }
+
+    public function cunstomizeSubmitButton($callback)
+    {
+        $this->confirmationButtonCustomizeCallback = $callback;
+        return $this;
     }
 }

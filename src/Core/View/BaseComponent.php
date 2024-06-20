@@ -55,6 +55,17 @@ abstract class BaseComponent
         return $this->attributes;
     }
 
+    public function withAttributes(array $attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+        return $this;
+    }
+
+    public function hasLabel()
+    {
+        return isset($this->label);
+    }
+
     abstract public function render();
 
     public function __toString()

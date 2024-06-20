@@ -1,26 +1,33 @@
 <div x-data="{ open: $wire.entangle('openModal') }" class="inline-block">
     <x-yali::modals.base-modal>
         @php
+            $confirmationTitle = $this->getAction()->getConfirmationTitle();
+            $confirmationMessage = $this->getAction()->getConfirmationMessage();
+            $loadingLabel = $this->getAction()->getConfirmationButtonLoadingLabel();
+
             $button = $this->getAction()->getButton();
             $button->setAttributes([
                 'x-on:click' => 'open = true',
             ]);
+
+            $confirmButton = $this->getAction()->getConfirmationButton();
+
+            if (!$this->getAction()->getConfirmationButtonLabel() && !$confirmButton->hasLabel()) {
+                $confirmButton->label('Yes, I\'m sure');
+            }
 
             if ($this->getAction()->hasForm()) {
                 $submitButton = $this->getAction()->getForm()->getSubmitButton();
                 $submitButton->setLabel($this->getAction()->getForm()->getSubmitButtonLabel());
                 $submitButton->classes(['btn', 'btn-sm', 'btn-full-width']);
                 $submitButton->setSpinner(true, 'confirmAction');
+                $submitButton->setLoadingLabel($loadingLabel);
 
                 $form = $this->getAction()
                     ->getForm()
                     ->setFormSubmitMethod('confirmAction')
                     ->setSubmitButton($submitButton);
             }
-
-            $confirmationTitle = $this->getAction()->getConfirmationTitle();
-            $confirmationMessage = $this->getAction()->getConfirmationMessage();
-            $loadingLabel = $this->getAction()->getLoadingLabel();
 
             $closeButton = Raakkan\Yali\Core\View\Button::make();
             $closeButton->classes(['btn', 'btn-ghost', 'btn-sm', 'btn-full-width']);
@@ -44,17 +51,14 @@
         @if ($this->getAction()->isSimpleConfirmation() && !$this->getAction()->hasForm())
             <x-yali::actions.simple-confirmation :confirmationTitle="$confirmationTitle" :confirmationMessage="$confirmationMessage" :loadingLabel="$loadingLabel">
                 <x-slot name="confirmButton">
-                    <x-yali::ui.button label="Yes, I'm sure" wire:click="confirmAction"
-                        class="btn btn-danger btn-full-width btn-sm" spinner spinnerTarget="confirmAction"
-                        loadingLabel="{{ $loadingLabel }}" />
+                    {!! $confirmButton->setAttributes(['wire:click' => 'confirmAction'])->setSpinner(true, 'confirmAction')->render() !!}
                 </x-slot>
             </x-yali::actions.simple-confirmation>
         @else
             @if ($this->getAction()->isSimpleConfirmation() && $this->getAction()->hasForm() && !$showWizardOrForm)
                 <x-yali::actions.simple-confirmation :confirmationTitle="$confirmationTitle" :confirmationMessage="$confirmationMessage" :loadingLabel="$loadingLabel">
                     <x-slot name="confirmButton">
-                        <x-yali::ui.button label="Yes, I'm sure" wire:click="$set('showWizardOrForm', true)"
-                            class="btn btn-danger btn-full-width btn-sm" />
+                        {!! $confirmButton->setAttributes(['wire:click' => "\$set('showWizardOrForm', true)"])->render() !!}
                     </x-slot>
                 </x-yali::actions.simple-confirmation>
             @endif

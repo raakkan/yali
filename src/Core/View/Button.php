@@ -14,8 +14,9 @@ class Button extends BaseComponent
 
     private $spinner = false;
     private $spinnerTarget = null;
+    private $loadingLabel = 'Loading...';
 
-    public function setDisabled($disabled)
+    public function setDisabled($disabled = true)
     {
         $this->disabled = $disabled;
         return $this;
@@ -65,6 +66,12 @@ class Button extends BaseComponent
         return $this;
     }
 
+    public function setLoadingLabel($loadingLabel)
+    {
+        $this->loadingLabel = $loadingLabel;
+        return $this;
+    }
+
     public function render()
     {
         $classString = $this->getClasses() !== '' ? $this->getClasses() : 'btn btn-primary';
@@ -89,7 +96,7 @@ class Button extends BaseComponent
         }
 
         if ($this->spinner) {
-            $html .= ' wire:loading.attr="disabled" wire:target="' . $this->spinnerTarget .'"';
+            $html .= ' wire:loading.attr="disabled" wire:target="' . $this->spinnerTarget . '"';
         }
         
         if ($this->target !== null) {
@@ -107,10 +114,13 @@ class Button extends BaseComponent
             $html .= Blade::render('<x-yali::icon name="' . $this->icon . '" />');
         }
         
-        if ($this->label !== null) {
+        if ($this->spinner && $this->loadingLabel) {
+            $html .= Blade::render('<span wire:loading wire:target="' . $this->spinnerTarget . '">' . $this->loadingLabel . '</span>');
+            $html .= Blade::render('<span wire:loading.remove wire:target="' . $this->spinnerTarget . '">' . $this->label . '</span>');
+        } else {
             $html .= $this->label;
         }
-        
+
         $html .= '</' . $this->tag . '>';
         
         return $html;

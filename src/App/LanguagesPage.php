@@ -72,6 +72,9 @@ class LanguagesPage extends BaseResource
             ->setSource(LanguagesPage::class)
             ->setModel($model)
             ->confirmation(true, true)
+            ->confirmationTitle('Delete Language')
+            ->confirmationMessage(fn ($form) => 'Are you sure you want to delete ' . $form->getModel()->name . ' language?')
+            ->confirmationButtonLoadingLabel('Language deleting...')
             ->form(function ($form) {
                 return $form->fields([
                     TextField::make('name')->required()->placeholder('Type language name to confirm')->disableLabel(),
@@ -83,6 +86,7 @@ class LanguagesPage extends BaseResource
                     return InfoMessage::make('Type <b>&nbsp;"' . $form->getModel()->name . '"&nbsp;</b> to confirm')->danger();
                 });
             })->action(function ($model, $form) {
+                sleep(3);
                 return 'deleted';
             });
     }
