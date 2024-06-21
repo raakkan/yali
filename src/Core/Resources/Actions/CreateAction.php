@@ -12,8 +12,13 @@ class CreateAction extends YaliAction
 
     public function __construct()
     {
-        $this->action = function ($model) {
-            dd($model);
+        $this->action = function ($model, $data) {
+            foreach ($data as $key => $value) {
+                $model->$key = $value;
+            }
+            $model->save();
+
+            return $model;
         };
     }
 

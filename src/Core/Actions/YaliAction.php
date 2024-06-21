@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions;
+
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
@@ -12,6 +13,7 @@ use Raakkan\Yali\Core\Actions\Concerns\HasWizard;
 use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\Components\HasButton;
+use Raakkan\Yali\Core\Actions\Concerns\HasActionForm;
 use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
 use Raakkan\Yali\Core\Actions\Concerns\ModalConfirmation;
 use Raakkan\Yali\Core\Actions\Concerns\HasActionSuccessMessages;
@@ -30,13 +32,17 @@ abstract class YaliAction extends YaliComponent
     use HasWizard;
     use ModalConfirmation;
     use HasActionSuccessMessages;
+    use HasActionForm;
 
     protected $componentName = 'action';
 
     protected $view = 'yali::actions.action';
 
     protected $action;
-    protected $form;
+
+    protected $beforeExecuteCallback;
+
+    protected $afterExecuteCallback;
 
     public function buttonAttributes()
     {
@@ -48,13 +54,28 @@ abstract class YaliAction extends YaliComponent
     public function execute($formData = null)
     {
         try {
+            $formData = $this->runCallback($this->beforeExecuteCallback, $this, $this->getModel(), $formData);
+
             if (is_callable($this->action)) {
-                return call_user_func($this->action, $this->getModel(), $formData);
+                $result = call_user_func($this->action, $this->getModel(), $formData);
             }
+
+            $result = $this->runCallback($this->afterExecuteCallback, $this, $this->getModel(), $formData, $result);
+
+            return $result;
         } catch (\Exception $e) {
             error_log($e->getMessage());
             throw $e;
         }
+    }
+
+    protected function runCallback($callback, $action, $model, $formData, $result = null)
+    {
+        if (is_callable($callback)) {
+            return call_user_func($callback, $action, $this->getModel(), $formData, $result);
+        }
+
+        return $result ?? $formData;
     }
 
     public function action($action = null)
@@ -66,44 +87,15 @@ abstract class YaliAction extends YaliComponent
         return $this;
     }
 
-    public function form($form)
+    public function beforeExecute(callable $callback)
     {
-        $yaliForm = new YaliForm();
-        
-        if($this->hasModel()) {
-            $yaliForm->setModel($this->getModel());
-        }
-        
-        $formData = null;
-
-        if (is_array($form)) {
-            $formData = $form;
-        }
-
-        if (is_callable($form)) {
-            $formData = call_user_func($form, $yaliForm);
-        }
-
-        if (is_null($formData)) {
-            return $this;
-        }
-
-        if (is_array($formData)) {
-            $yaliForm->fields($formData);
-        }
-
-        $this->form = $yaliForm;
-
+        $this->beforeExecuteCallback = $callback;
         return $this;
     }
 
-    public function getForm()
+    public function afterExecute(callable $callback)
     {
-        return $this->form;
-    }
-
-    public function hasForm()
-    {
-        return !is_null($this->form);
+        $this->afterExecuteCallback = $callback;
+        return $this;
     }
 }

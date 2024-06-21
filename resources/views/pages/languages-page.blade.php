@@ -48,7 +48,7 @@
                         @else
                             @if (
                                 ($action instanceof \Raakkan\Yali\Core\Resources\Actions\DeleteAction && $language->code !== 'en') ||
-                                    ($action instanceof \Raakkan\Yali\Core\Resources\Actions\EditAction && $language->code !== 'en'))
+                                    $action instanceof \Raakkan\Yali\Core\Resources\Actions\EditAction)
                                 {!! $action->render() !!}
                             @endif
                         @endif

@@ -6,10 +6,12 @@ namespace Raakkan\Yali\Providers;
 
 use Livewire\Livewire;
 use Raakkan\Yali\Core\Yali;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Events\ActionExecuted;
 use Raakkan\Yali\Core\Support\Icon\IconManager;
 use Raakkan\Yali\Core\Translation\YaliTranslator;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
@@ -47,6 +49,10 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(
+            ActionExecuted::class,
+        );
+        
         YaliManager::boot();
         
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');

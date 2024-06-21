@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Actions\Concerns;
 
 trait HasActionSuccessMessages
 {
+    protected $successMessage = 'Action completed successfully.';
     protected $createdSuccessMessage = '';
     protected $updatedSuccessMessage = '';
     protected $hardDeletedSuccessMessage = '';
@@ -12,7 +13,7 @@ trait HasActionSuccessMessages
 
     public function getCreatedSuccessMessage(): string
     {
-        if (method_exists($this->getSource(), 'createdSuccessMessage')) {
+        if (method_exists($this->getSource(), 'getCreatedSuccessMessage')) {
             return $this->getSource()::getCreatedSuccessMessage();
         }
 
@@ -54,6 +55,6 @@ trait HasActionSuccessMessages
 
     public function getSuccessMassage(): string
     {
-        return '';
+        return $this->successMassage;
     }
 }

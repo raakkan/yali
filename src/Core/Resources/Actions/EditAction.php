@@ -16,8 +16,9 @@ class EditAction extends YaliAction
                 $model->$key = $value;
             }
             $model->save();
-        };
 
+            return $model;
+        };
     }
 
     public function buttonClasses()

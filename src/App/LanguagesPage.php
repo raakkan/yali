@@ -2,14 +2,15 @@
 
 namespace Raakkan\Yali\App;
 
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
-use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\View\InfoMessage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Resources\BaseResource;
+use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
@@ -37,11 +38,6 @@ class LanguagesPage extends BaseResource
 
     protected static $model = \Raakkan\Yali\Models\Language::class;
 
-    public function mount()
-    {
-        // dd(static::getActions($this->getModel()));
-    }
-
     public function getViewData()
     {
         return [
@@ -62,10 +58,61 @@ class LanguagesPage extends BaseResource
     public static function actions()
     {
         return [
-            CreateAction::make()->modal(slideRight: true),
-            EditAction::make()->modal(slideRight: true),
-            DeleteAction::make(),
-            RestoreAction::make(),
+            CreateAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
+                $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
+            
+                if ($model->translations->count() <= 0) { 
+                    
+                    $englishTranslations = $englishLanguage->translations;
+                    
+                    foreach ($englishTranslations as $translation) {
+                        $newTranslation = $model->translations()->make($translation->toArray());
+                        $newTranslation->language_code = $model->code;
+                        $newTranslation->save();
+                    }
+                }
+
+                if ($model->is_default) {
+                    $languages = \Raakkan\Yali\Models\Language::all();
+
+                    foreach ($languages as $language) {
+                        if ($language->id === $model->id) {
+                            continue;
+                        }
+                        $language->is_default = false;
+                        $language->save();
+                    }
+                }
+            
+                return $result;
+            }),
+            EditAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
+                if ($model->is_default) {
+                    $languages = \Raakkan\Yali\Models\Language::all();
+
+                    foreach ($languages as $language) {
+                        if ($language->id === $model->id) {
+                            continue;
+                        }
+                        $language->is_default = false;
+                        $language->save();
+                    }
+                }
+            
+                return $result;
+            }),
+            DeleteAction::make()->afterExecute(function ($action, $model, $formData, $result) {
+                $model->is_active = false;
+                $model->save();
+            
+                return $result;
+            }),
+            RestoreAction::make()->afterExecute(function ($action, $model, $formData, $result) {
+                $model->is_active = true;
+                $model->save();
+            
+                return $result;
+            }),
             ForceDeleteAction::make(),
             ManageTranslationAction::make()->link(ManageTranslationPage::getRouteName())
         ];
