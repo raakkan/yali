@@ -64,19 +64,11 @@
             @endif
 
             @if ($showWizardOrForm)
-                <div class="bg-white rounded-lg m-4 w-full {{ $this->getAction()->getForm()->getMaxWidth() }}">
-                    @if ($this->getAction()->getForm()->hasTitle())
-                        <div class="flex items-center justify-between p-4 border-b border-gray-200">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">
-                                {{ $this->getAction()->getForm()->getTitle() }}
-                            </h3>
-                            {!! $closeIconButton->render() !!}
-                        </div>
-                        {{ $form->render() }}
-                    @else
-                        {{ $form->extraActionButtons($closeButton)->render() }}
-                    @endif
-                </div>
+                @if ($this->getAction()->getForm()->hasTitle())
+                    {{ $form->setTitle($this->getAction()->getForm()->getTitle())->setModalPosition('center')->formHeaderButtons($closeIconButton)->render() }}
+                @else
+                    {{ $form->setModalPosition('center')->extraActionButtons($closeButton)->render() }}
+                @endif
             @endif
         @endif
     </x-yali::modals.base-modal>

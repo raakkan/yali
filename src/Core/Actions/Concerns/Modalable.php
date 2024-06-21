@@ -38,12 +38,14 @@ trait Modalable
         if ($slideRight) {
             $this->modalData['slideRight'] = true;
         }
-        if ($slideUp) {
-            $this->modalData['slideUp'] = true;
-        }
-        if ($slideDown) {
-            $this->modalData['slideDown'] = true;
-        }
+
+        // pending
+        // if ($slideUp) {
+        //     $this->modalData['slideUp'] = true;
+        // }
+        // if ($slideDown) {
+        //     $this->modalData['slideDown'] = true;
+        // }
         
         $this->modalData['closeOnOutsideClick'] = $closeOnOutsideClick;
         $this->modalData['closeOnEscape'] = $closeOnEscape;

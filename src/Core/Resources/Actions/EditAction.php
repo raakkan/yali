@@ -11,9 +11,13 @@ class EditAction extends YaliAction
 
     public function __construct()
     {
-        $this->action = function ($model) {
-            dd($model);
+        $this->action = function ($model, $data) {
+            foreach ($data as $key => $value) {
+                $model->$key = $value;
+            }
+            $model->save();
         };
+
     }
 
     public function buttonClasses()
@@ -32,5 +36,10 @@ class EditAction extends YaliAction
     public function getLabel()
     {
         return $this->label ?? 'Edit';
+    }
+
+    public function getSuccessMassage(): string
+    {
+        return $this->getUpdatedSuccessMessage();
     }
 }

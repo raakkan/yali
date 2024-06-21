@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
+use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
+use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
 
 class BaseModal extends Component
 {
@@ -69,7 +71,7 @@ class BaseModal extends Component
             
             $this->dispatch('refresh-page');
             $this->closeModal();
-            $this->dispatch('toast', type: 'success', message: 'Successful');
+            $this->dispatch('toast', type: 'success', message: $this->getAction()->getSuccessMassage());
         } catch (\Exception $e) {
             $this->dispatch('toast', type: 'error', message: $e->getMessage());
         }

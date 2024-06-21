@@ -31,4 +31,9 @@ class RestoreAction extends YaliAction
             'wire:click' => 'excuteAction(' . Js::from($this->getClassName())->toHtml() . ', ' . $this->getModelIdentifier() . ')',
         ];
     }
+
+    public function getSuccessMassage(): string
+    {
+        return $this->getRestoredSuccessMessage();
+    }
 }

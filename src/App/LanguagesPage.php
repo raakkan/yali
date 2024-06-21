@@ -53,14 +53,17 @@ class LanguagesPage extends BaseResource
     {
         return $form->fields([
             TextField::make('name')->required(),
+            TextField::make('code')->required(),
+            ToggleField::make('is_active')->default(true),
+            ToggleField::make('is_default')->default(false),
         ]);
     }
 
     public static function actions()
     {
         return [
-            CreateAction::make()->modal(slideLeft: true),
-            EditAction::make()->modal(),
+            CreateAction::make()->modal(slideRight: true),
+            EditAction::make()->modal(slideRight: true),
             DeleteAction::make(),
             RestoreAction::make(),
             ForceDeleteAction::make(),

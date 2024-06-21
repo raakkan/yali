@@ -26,4 +26,9 @@ class ForceDeleteAction extends YaliAction
             'text-red-500'
         ];
     }
+
+    public function getSuccessMassage(): string
+    {
+        return $this->getHardDeletedSuccessMessage();
+    }
 }

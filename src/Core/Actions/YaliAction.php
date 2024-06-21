@@ -14,6 +14,7 @@ use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\Components\HasButton;
 use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
 use Raakkan\Yali\Core\Actions\Concerns\ModalConfirmation;
+use Raakkan\Yali\Core\Actions\Concerns\HasActionSuccessMessages;
 
 abstract class YaliAction extends YaliComponent
 {
@@ -28,6 +29,7 @@ abstract class YaliAction extends YaliComponent
     use HasSource;
     use HasWizard;
     use ModalConfirmation;
+    use HasActionSuccessMessages;
 
     protected $componentName = 'action';
 
@@ -47,11 +49,7 @@ abstract class YaliAction extends YaliComponent
     {
         try {
             if (is_callable($this->action)) {
-                if ($this->hasForm()) {
-                    return call_user_func($this->action, $this->getModel(), $formData);
-                } else {
-                    return call_user_func($this->action, $this->getModel());
-                }
+                return call_user_func($this->action, $this->getModel(), $formData);
             }
         } catch (\Exception $e) {
             error_log($e->getMessage());

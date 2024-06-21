@@ -9,13 +9,28 @@
 
     $title = $form->getTitle();
     $subtitle = $form->getSubtitle();
+
+    $modalPosition = $form->getModalPosition();
 @endphp
 
-<form wire:submit.prevent="{{ $formSubmitMethod }}" class="w-full h-full {{ $form->getClasses() }}"
+@php
+    $formInModal = isset($modalPosition) && $modalPosition !== null && $modalPosition !== '';
+@endphp
+
+<form wire:submit.prevent="{{ $formSubmitMethod }}"
+    class="h-full w-full {{ $modalPosition === 'center'
+        ? 'flex justify-center items-center h-screen'
+        : ($modalPosition === 'top' || $modalPosition === 'bottom'
+            ? 'flex justify-center'
+            : ($modalPosition === 'left'
+                ? 'flex justify-start'
+                : ($modalPosition === 'right'
+                    ? 'flex justify-end'
+                    : 'flex justify-end'))) }} {{ $form->getClasses() }}"
     style="{{ $form->getStyles() }}">
 
     <x-yali::card title="{{ $title }}" subtitle="{{ $subtitle }}" maxWidth="{{ $maxWidth }}"
-        footerActionsPosition="{{ $formActionsPosition }}" modalPosition="{{ $form->getModalPosition() }}">
+        footerActionsPosition="{{ $formActionsPosition }}" modalPosition="{{ $modalPosition }}">
 
         <x-slot name="headerSlot">
             @foreach ($formHeaderButtons as $button)
@@ -23,10 +38,10 @@
             @endforeach
         </x-slot>
 
-        <div class="p-4 overflow-y-auto">
+        <div class="{{ $formInModal ? 'p-2 md:p-3' : 'px-4 py-6' }} overflow-y-auto">
 
             @if ($form->hasHeaderMessages())
-                <div class="mb-4">
+                <div class="">
                     @foreach ($form->getHeaderMessages() as $headerMessage)
                         @if ($headerMessage instanceof Raakkan\Yali\Core\View\BaseComponent)
                             {!! $headerMessage->render() !!}

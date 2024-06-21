@@ -95,7 +95,7 @@ abstract class BaseResource extends BasePage
                 $action->execute();
 
                 $this->dispatch('refresh-page');
-                $this->dispatch('toast', type: 'success', message: 'Successful');
+                $this->dispatch('toast', type: 'success', message: $action->getSuccessMassage());
             } catch (\Exception $e) {
                 $this->dispatch('toast', type: 'error', message: $e->getMessage());
             }

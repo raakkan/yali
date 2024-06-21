@@ -35,4 +35,9 @@ class CreateAction extends YaliAction
     {
         return $this->label ?? 'Create';
     }
+
+    public function getSuccessMassage(): string
+    {
+        return $this->getCreatedSuccessMessage();
+    }
 }

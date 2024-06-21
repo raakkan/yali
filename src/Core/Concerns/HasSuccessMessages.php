@@ -8,6 +8,7 @@ trait HasSuccessMessages
     protected static $updatedSuccessMessage = '';
     protected static $hardDeletedSuccessMessage = '';
     protected static $deletedSuccessMessage = '';
+    protected static $restoradSuccessMessage = '';
 
     public static function getCreatedSuccessMessage(): string
     {
@@ -27,5 +28,10 @@ trait HasSuccessMessages
     public static function getDeletedSuccessMessage(): string
     {
         return static::$deletedSuccessMessage ?: static::getTitle() . ' deleted successfully.';
+    }
+
+    public static function getRestoredSuccessMessage(): string
+    {
+        return static::$restoradSuccessMessage ?: static::getTitle() . ' restored successfully.';
     }
 }
