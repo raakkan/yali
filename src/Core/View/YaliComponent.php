@@ -136,4 +136,9 @@ abstract class YaliComponent
     {
         return $this->id;
     }
+
+    public function getClassName()
+    {
+        return get_class($this);
+    }
 }

@@ -1,4 +1,4 @@
-<div x-data="{ open: $wire.entangle('openModal') }" class="inline-block">
+<div x-data="{ open: $wire.entangle('openActionModal') }" class="inline-block">
     <x-yali::modals.base-modal>
         @php
             $confirmationTitle = $this->getAction()->getConfirmationTitle();
@@ -7,7 +7,7 @@
 
             $button = $this->getAction()->getButton();
             $button->setAttributes([
-                'x-on:click' => 'open = true',
+                'wire:click' => 'openModal',
             ]);
 
             $confirmButton = $this->getAction()->getConfirmationButton();

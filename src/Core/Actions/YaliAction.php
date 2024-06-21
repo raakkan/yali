@@ -43,7 +43,7 @@ abstract class YaliAction extends YaliComponent
         ];
     }
 
-    public function execute($formData)
+    public function execute($formData = null)
     {
         try {
             if (is_callable($this->action)) {

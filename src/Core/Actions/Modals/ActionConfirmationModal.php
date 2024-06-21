@@ -11,7 +11,7 @@ class ActionConfirmationModal extends Component
 {
     use HasRecords;
 
-    public $openModal = false;
+    public $openActionModal = false;
 
     public $sourceClass;
 
@@ -36,26 +36,33 @@ class ActionConfirmationModal extends Component
 
     public function getAction()
     {
-        return $this->sourceClass::getAction($this->actionClass, $this->getRecordModel());
+        return $this->sourceClass::getAction($this->actionClass, $this->getModel());
     }
 
-    public function getRecordModel()
+    public function getModel()
     {
-        return $this->getRecord($this->sourceClass::getModelQuery(), $this->sourceClass::getModelPrimaryKey(), $this->recordId);
+        if ($this->recordId) {
+            return $this->getRecord($this->sourceClass::getModelQuery(), $this->sourceClass::getModelPrimaryKey(), $this->recordId);
+        }else{
+            return $this->sourceClass::getModel();
+        }
     }
 
     public function confirmAction()
     {
         $action = $this->getAction();
-        $action->setModel($this->getRecordModel());
+        $action->setModel($this->getModel());
 
         $formData = null;
         if ($this->getAction()->hasForm()) {
-            $formData = $this->validatedInputs();
+            $form = $this->getAction()->getForm();
+            $data = $this->inputs[$form->getId()];
+            $formData = $this->validatedInputs($form, $data);
         }
 
         try {
             $action->execute($formData);
+            $this->recordId = null;
             $this->dispatch('refresh-page');
             $this->closeModal();
             $this->dispatch('toast', type: 'success', message: 'Successful');
@@ -69,9 +76,19 @@ class ActionConfirmationModal extends Component
         $this->closeModal();
     }
 
+    public function openModal()
+    {
+        $result = $this->getAction()->triggerBeforeConfirmationOpen();
+        if ($result === true) {
+            $this->openActionModal = true;
+        } else {
+            $this->dispatch('toast', type: 'error', message: $result);
+        }
+    }
+
     public function closeModal()
     {
-        $this->openModal = false;
+        $this->openActionModal = false;
         $this->showWizardOrForm = false;
     }
 
@@ -80,14 +97,14 @@ class ActionConfirmationModal extends Component
         return view('yali::actions.modals.action-confirmation-modal')->layout('yali::layouts.app');
     }
 
-    public function validatedInputs()
+    public function validatedInputs($form, $data)
     {
-        $rules = $this->getAction()->getForm()->getValidationRules();
+        $rules = $form->getValidationRules();
         
         $validated = Validator::make(
-            $this->inputs[$this->getAction()->getForm()->getId()],
+            $data,
             $rules,
-            $this->getAction()->getForm()->getValidationMessages()
+            $form->getValidationMessages()
          )->validate();
 
         return $validated;

@@ -62,9 +62,9 @@ class YaliTranslator extends Translator
         });
     }
 
-    public static function flushTranslationCache($key, $locale)
+    public function flushTranslationCache($key, $locale)
     {
-        [$namespace, $group, $item] = self::parseKey($key);
+        [$namespace, $group, $item] = $this->parseKey($key);
 
         Cache::forget("translation_{$locale}_{$group}_{$item}");
     }

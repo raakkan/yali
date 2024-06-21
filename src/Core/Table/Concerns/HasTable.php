@@ -16,7 +16,7 @@ trait HasTable
     public static function getTable()
     {
         if(!static::$table) {
-            static::$table = new YaliTable();
+            static::$table = YaliTable::make();
             static::$table->setSource(static::class);
         }
         return static::table(static::$table);

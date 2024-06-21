@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Table;
 
+use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Table\Concerns\HasColumns;
@@ -13,6 +14,7 @@ use Raakkan\Yali\Core\Table\Concerns\HasModelRecords;
 
 class YaliTable extends YaliComponent
 {
+    use Makable;
     use HasFilters;
     use HasActions;
     use HasColumns;

@@ -16,14 +16,14 @@
         </div>
     </div>
 
-    <div class="mb-6">
+    {{-- <div class="mb-6">
         <x-yali::filter.filter-wrapper :filters="$this->getFilters()" :hasFilters="$this->hasFilters()" />
     </div>
 
     <div class="mb-6">
         <x-yali::forms.search wire:model.live.debounce.300ms="search" wire:click="clearSearch" :placeholder="'Search Translations...'"
             :hasSearch="$search" />
-    </div>
+    </div> --}}
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @if (count($translations) > 0)

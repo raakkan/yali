@@ -32,13 +32,32 @@
                         <span class="ml-2 text-gray-700">Active</span>
                     </label>
                 </div>
-                <div class="flex">
+                <div class="flex items-center space-x-2">
                     @php
                         $actions = $this->getActions($language);
                     @endphp
 
                     @foreach ($actions as $action)
-                        {!! $action->render() !!}
+                        @if ($language->trashed())
+                            @if (
+                                $action instanceof \Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction ||
+                                    $action instanceof \Raakkan\Yali\Core\Resources\Actions\RestoreAction)
+                                {!! $action->render() !!}
+                            @endif
+                        @else
+                            @if (
+                                ($action instanceof \Raakkan\Yali\Core\Resources\Actions\DeleteAction && $language->code !== 'en') ||
+                                    ($action instanceof \Raakkan\Yali\Core\Resources\Actions\EditAction && $language->code !== 'en'))
+                                {!! $action->render() !!}
+                            @endif
+                        @endif
+                        @if (
+                            !$action instanceof \Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction &&
+                                !$action instanceof \Raakkan\Yali\Core\Resources\Actions\RestoreAction &&
+                                !$action instanceof \Raakkan\Yali\Core\Resources\Actions\DeleteAction &&
+                                !$action instanceof \Raakkan\Yali\Core\Resources\Actions\EditAction)
+                            {!! $action->render() !!}
+                        @endif
                     @endforeach
                 </div>
             </div>

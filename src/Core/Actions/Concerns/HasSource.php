@@ -8,7 +8,16 @@ trait HasSource
 
     public function getSource()
     {
-        return $this->source;
+        $callerMeta = $this->getCallerMetadata();
+        $callerSource = array_key_exists('class', $callerMeta) ? $callerMeta['class'] : null;
+        
+        if ($this->source) {
+            return $this->source;
+        } elseif ($callerSource) {
+            return $callerSource;
+        }else {
+            return throw new \Exception('Source not set');
+        }
     }
 
     public function setSource($source)

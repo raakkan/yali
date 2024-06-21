@@ -69,7 +69,6 @@ class NavigationItem
                 if ($child->isActive()) {
                     return true;
                 }
-
                 // Check if the child item path matches the current URL pattern
                 $childPath = $child->getPath();
                 $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $childPath);

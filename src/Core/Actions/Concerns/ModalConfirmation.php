@@ -16,6 +16,9 @@ trait ModalConfirmation
     public $confirmationButtonLoadingLabel;
     public $confirmationButtonCustomizeCallback;
 
+    // Adding array for multiple before confirmation open callbacks
+    protected $beforeConfirmationOpenCallbacks = [];
+
     public function confirmation($confirmation = true, $simpleConfirmation = false)
     {
         $this->confirmation = $confirmation;
@@ -126,5 +129,25 @@ trait ModalConfirmation
     {
         $this->confirmationButtonCustomizeCallback = $callback;
         return $this;
+    }
+
+    public function beforeConfirmationOpen(callable $callback, string $failureMessage)
+    {
+        $this->beforeConfirmationOpenCallbacks[] = [
+            'callback' => $callback,
+            'message' => $failureMessage,
+        ];
+        return $this;
+    }
+
+    public function triggerBeforeConfirmationOpen()
+    {
+        foreach ($this->beforeConfirmationOpenCallbacks as $item) {
+            $callback = $item['callback'];
+            if (!call_user_func($callback, $this)) {
+                return $item['message'];
+            }
+        }
+        return true;
     }
 }

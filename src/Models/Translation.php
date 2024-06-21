@@ -25,7 +25,7 @@ class Translation extends Model
     protected static function booted()
     {
         static::saved(function ($translation) {
-            YaliTranslator::flushTranslationCache($translation->group . '.' . $translation->key, $translation->language_code);
+            app('translator')->flushTranslationCache($translation->group . '.' . $translation->key, $translation->language_code);
         });
     }
 
