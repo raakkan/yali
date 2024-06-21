@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 class CreatePage extends ResourcePage
 {
     protected static $view = 'yali::resources.pages.create-page';
+    protected static $subtitle = 'Create a new resource';
 
     public function mount()
     {

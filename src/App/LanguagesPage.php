@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\App;
 
 use Livewire\WithPagination;
+use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\View\InfoMessage;
 use Raakkan\Yali\Core\Actions\YaliAction;
@@ -48,10 +49,17 @@ class LanguagesPage extends BaseResource
         ];
     }
 
+    public static function form(YaliForm $form): YaliForm
+    {
+        return $form->fields([
+            TextField::make('name')->required(),
+        ]);
+    }
+
     public static function actions()
     {
         return [
-            CreateAction::make()->modal(),
+            CreateAction::make()->modal(slideLeft: true),
             EditAction::make()->modal(),
             DeleteAction::make(),
             RestoreAction::make(),

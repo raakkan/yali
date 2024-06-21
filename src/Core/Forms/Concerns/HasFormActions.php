@@ -8,6 +8,7 @@ trait HasFormActions
 {
     protected $formActionsPostion = 'justify-end';
     protected $extraActionButtons = [];
+    protected $formHeaderButtons = [];
 
     public function getFormActionsPosition()
     {
@@ -47,6 +48,17 @@ trait HasFormActions
     public function extraActionButtons(Button ...$buttons)
     {
         $this->extraActionButtons = $buttons;
+        return $this;
+    }
+
+    public function getFormHeaderButtons()
+    {
+        return $this->formHeaderButtons;
+    }
+
+    public function formHeaderButtons(Button ...$buttons)
+    {
+        $this->formHeaderButtons = $buttons;
         return $this;
     }
 }

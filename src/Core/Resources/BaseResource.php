@@ -8,24 +8,18 @@ use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
+use Raakkan\Yali\Core\Resources\Concerns\HasResourceTitles;
+use Raakkan\Yali\Core\Resources\Concerns\HasSubmitButtonLabels;
 
 abstract class BaseResource extends BasePage
 {
     use HasTable;
     use HasForm;
     use HasModel;
-
-    protected static $subtitle = '';
-
-    public static function getTitle(): string
-    {
-        return static::$title ?: Str::title(Str::plural(static::getModelName()));
-    }
-
-    public static function getSubtitle(): string
-    {
-        return static::$subtitle;
-    }
+    use HasResourceTitles;
+    use HasSubmitButtonLabels;
+    use HasSuccessMessages;
     
     public static function getSlug(): string
     {

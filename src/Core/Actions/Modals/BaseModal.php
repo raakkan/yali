@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 
 class BaseModal extends Component
 {
@@ -43,8 +45,17 @@ class BaseModal extends Component
         $action->setModel($this->getModel());
 
         $formData = null;
+        $form = null;
+
         if ($this->getAction()->hasForm()) {
             $form = $this->getAction()->getForm();
+        }
+
+        if(is_null($form) && method_exists($this,'getForm')) {
+            $form = $this->getForm();
+        }
+
+        if(!is_null($form)) {
             $data = $this->inputs[$form->getId()];
             $formData = $this->validatedInputs($form, $data);
         }
@@ -91,14 +102,30 @@ class BaseModal extends Component
 
     public function validatedInputs($form, $data)
     {
-        $rules = $form->getValidationRules();
-        
         $validated = Validator::make(
             $data,
-            $rules,
+            $form->getValidationRules(),
             $form->getValidationMessages()
          )->validate();
 
         return $validated;
+    }
+
+    public function getTitle()
+    {
+        if ($this->getAction() instanceof EditAction) {
+            return $this->sourceClass::getUpdateTitle();
+        }elseif ($this->getAction() instanceof CreateAction) {
+            return $this->sourceClass::getCreateTitle();
+        }
+    }
+
+    public function getSubmitButtonLabel()
+    {
+        if ($this->getAction() instanceof EditAction) {
+            return $this->sourceClass::getUpdateButtonLabel();
+        }elseif ($this->getAction() instanceof CreateAction) {
+            return $this->sourceClass::getCreateButtonLabel();
+        }
     }
 }

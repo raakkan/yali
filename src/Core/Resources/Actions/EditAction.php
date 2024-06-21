@@ -9,6 +9,13 @@ class EditAction extends YaliAction
 {
     protected $buttonIsLink = true;
 
+    public function __construct()
+    {
+        $this->action = function ($model) {
+            dd($model);
+        };
+    }
+
     public function buttonClasses()
     {
         return [

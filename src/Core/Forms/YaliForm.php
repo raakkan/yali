@@ -38,6 +38,8 @@ class YaliForm extends YaliComponent
     protected $view = 'yali::forms.form';
     protected $modelManager;
 
+    protected $modalPosition = '';
+
     public function __construct($model = null)
     {
         $this->modelManager = new ModelManager($model);
@@ -54,11 +56,19 @@ class YaliForm extends YaliComponent
         return $this;
     }
 
-    public function getRounded()
+    public function setModalPosition($position)
     {
-        if ($this->rounded === null) {
-            return 'rounded-lg';
-        }
-        return $this->rounded;
+        $this->modalPosition = $position;
+        return $this;
+    }
+
+    public function getModalPosition()
+    {
+        return $this->modalPosition;
+    }
+
+    public function isModal()
+    {
+        return !empty($this->getModalPosition());
     }
 }

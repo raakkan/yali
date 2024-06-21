@@ -6,7 +6,7 @@ trait HasSuccessMessages
 {
     protected static $createdSuccessMessage = '';
     protected static $updatedSuccessMessage = '';
-    protected static $softDeletedSuccessMessage = '';
+    protected static $hardDeletedSuccessMessage = '';
     protected static $deletedSuccessMessage = '';
 
     public static function getCreatedSuccessMessage(): string
@@ -19,9 +19,9 @@ trait HasSuccessMessages
         return static::$updatedSuccessMessage ?: static::getTitle() . ' updated successfully.';
     }
 
-    public static function getSoftDeletedSuccessMessage(): string
+    public static function getHardDeletedSuccessMessage(): string
     {
-        return static::$softDeletedSuccessMessage ?: static::getTitle() . ' deleted successfully.';
+        return static::$hardDeletedSuccessMessage ?: static::getTitle() . ' permanently deleted successfully.';
     }
 
     public static function getDeletedSuccessMessage(): string

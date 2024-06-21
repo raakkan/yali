@@ -48,4 +48,16 @@ trait HasTitles
     {
         return !empty($this->subtitle);
     }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+        return $this;
+    }
 }
