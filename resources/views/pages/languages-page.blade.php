@@ -3,6 +3,7 @@
         @php
             $actions = $this->getHeaderActions();
         @endphp
+
         @foreach ($actions as $action)
             {!! $action->render() !!}
         @endforeach

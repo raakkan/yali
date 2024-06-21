@@ -80,14 +80,6 @@ class LoadTranslationsCommand extends Command
                     'is_enabled' => true,
                     'created_by' => 'system',
                 ]);
-
-                \Raakkan\Yali\Models\DefaultTranslation::updateOrCreate([
-                    'group' => $group,
-                    'key' => $translationKey,
-                ], [
-                    'value' => $value,
-                    'created_by' => 'system',
-                ]);
             }
         }
     }

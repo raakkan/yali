@@ -93,7 +93,7 @@ class YaliResource extends BaseResource
         ];
     }
 
-    public static function getAction($actionClass)
+    public static function getAction($actionClass, $modelKey)
     {
         return static::getResourceTable()->getAction($actionClass);
     }

@@ -26,7 +26,7 @@ class ManageTranslationPage extends BaseResource
     public function getViewData()
     {
         return [
-            'translations' => $this->getRecords($this->getModelQuery())
+            'translations' => $this->getRecords($this->getModelQuery(), fn ($query) => $query->where('language_code', $this->language->code)),
         ];
     }
 

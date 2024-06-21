@@ -30,6 +30,7 @@ trait Modalable
     )
     {
         $this->isModal = true;
+        $this->buttonIsLink = false;
         
         if ($slideLeft) {
             $this->modalData['slideLeft'] = true;

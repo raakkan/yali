@@ -4,7 +4,6 @@ namespace Raakkan\Yali\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Raakkan\Yali\Core\Database\Enums\CreatedBy;
-use Raakkan\Yali\Core\Translation\YaliTranslator;
 
 class Translation extends Model
 {
@@ -50,11 +49,5 @@ class Translation extends Model
     public function translationCategory()
     {
         return $this->belongsTo(TranslationCategory::class);
-    }
-
-    public function defaultTranslation()
-    {
-        return $this->belongsTo(DefaultTranslation::class, 'group', 'group')
-            ->where('key', $this->key);
     }
 }

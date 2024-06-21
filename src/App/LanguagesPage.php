@@ -5,6 +5,7 @@ namespace Raakkan\Yali\App;
 use Livewire\WithPagination;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\View\InfoMessage;
+use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Resources\BaseResource;
@@ -37,6 +38,7 @@ class LanguagesPage extends BaseResource
 
     public function mount()
     {
+        // dd(static::getActions($this->getModel()));
     }
 
     public function getViewData()
@@ -46,41 +48,42 @@ class LanguagesPage extends BaseResource
         ];
     }
 
-    public static function getHeaderActions()
+    public static function actions()
     {
-        $actions[CreateAction::class] = CreateAction::make();
-        
-        return $actions;
+        return [
+            CreateAction::make()->modal(),
+            EditAction::make()->modal(),
+            DeleteAction::make(),
+            RestoreAction::make(),
+            ForceDeleteAction::make(),
+            ManageTranslationAction::make()->link(ManageTranslationPage::getRouteName())
+        ];
     }
 
     public static function getActions($model)
     {
         $actions = [];
-        $actions[EditAction::class] = EditAction::make()->setModel($model);
-        $actions[DeleteAction::class] = static::getDeleteAction($model);
 
-        $actions[ManageTranslationAction::class] = ManageTranslationAction::make()->setModel($model)->link(ManageTranslationPage::getRouteName());
-
-        if(static::isSoftDeletesEnabled()) {
-            $actions[RestoreAction::class] = RestoreAction::make()->setModel($model);
-            $actions[ForceDeleteAction::class] = static::getForceDeleteAction($model);
+        foreach (static::actions() as $action) {
+            if (is_subclass_of($action, YaliAction::class)) {
+                if (!$action->isHeaderAction()) {
+                    if ($action instanceof DeleteAction) {
+                        $actions[$action->getClassName()] = static::getDeleteAction($action, $model);
+                    } elseif ($action instanceof ForceDeleteAction) {
+                        $actions[$action->getClassName()] = static::getForceDeleteAction($action, $model);
+                    } else {
+                        $actions[$action->getClassName()] = $action->setModel($model);
+                    }
+                }
+            }
         }
-
+        
         return $actions;
     }
 
-    public static function getAction($actionClass, $model)
+    public static function getDeleteAction($action, $model)
     {
-        $action = static::getActions($model)[$actionClass] ?? null;
-        if (!$action) {
-          $action = static::getHeaderActions()[$actionClass] ?? null;
-        }
-        return $action;
-    }
-
-    public static function getDeleteAction($model)
-    {
-        return DeleteAction::make()
+        return $action
             ->setModel($model)
             ->confirmation(true, true)
             ->beforeConfirmationOpen(function ($form) {
@@ -94,9 +97,9 @@ class LanguagesPage extends BaseResource
             ->confirmationButtonLoadingLabel('Language deleting...');
     }
 
-    public static function getForceDeleteAction($model)
+    public static function getForceDeleteAction($action, $model)
     {
-        return ForceDeleteAction::make()
+        return $action
         ->setModel($model)
         ->confirmationTitle('Force Delete Language')
             ->confirmationMessage(fn ($form) => 'Are you sure you want to permanently delete ' . $form->getModel()->name . ' language?')
@@ -121,27 +124,10 @@ class LanguagesPage extends BaseResource
         });
     }
 
-    public function excuteAction($actionClass, $model)
-    {
-        $modelWithRecord = $this->getRecord(static::getModelQuery(), static::getModelPrimaryKey(), $model);
-        $action = static::getAction($actionClass, $modelWithRecord);
-
-        if ($action) {
-            try {
-                $action->execute();
-
-                $this->dispatch('refresh-page');
-                $this->dispatch('toast', type: 'success', message: 'Successful');
-            } catch (\Exception $e) {
-                $this->dispatch('toast', type: 'error', message: $e->getMessage());
-            }
-        }
-    }
-
     public static function getPages()
     {
         return [
-            'create' => ManageTranslationPage::class
+            ManageTranslationPage::class
         ];
     }
 }
