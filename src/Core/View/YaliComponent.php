@@ -11,11 +11,13 @@ abstract class YaliComponent
     protected $uniqueKey;
     protected $componentName;
     protected $beforeRenderCallbacks = [];
+    protected $disabled = false;
+    protected $disableIfCallbacks = [];
     protected $id;
-
     public function render()
     {
         $this->callBeforeRenderCallbacks();
+        $this->callDisableIfCallbacks();
 
         $view = $this->getView();
 
@@ -140,5 +142,31 @@ abstract class YaliComponent
     public function getClassName()
     {
         return get_class($this);
+    }
+
+    public function disableIf($callback)
+    {
+        $this->disableIfCallbacks[] = $callback;
+        return $this;
+    }
+
+    protected function callDisableIfCallbacks()
+    {
+        foreach ($this->disableIfCallbacks as $callback) {
+            if (call_user_func($callback, $this)) {
+                $this->disabled = true;
+            }
+        }
+    }
+
+    public function isDisabled()
+    {
+        return $this->disabled;
+    }
+
+    public function disable()
+    {
+        $this->disabled = true;
+        return $this;
     }
 }

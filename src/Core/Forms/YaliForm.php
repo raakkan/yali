@@ -13,6 +13,7 @@ use Raakkan\Yali\Core\Database\ModelManager;
 use Raakkan\Yali\Core\Concerns\UI\Borderable;
 use Raakkan\Yali\Core\Concerns\UI\Layoutable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormFields;
+use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormActions;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormMessages;
 use Raakkan\Yali\Core\Forms\Concerns\HasSubmitButton;
@@ -32,6 +33,7 @@ class YaliForm extends YaliComponent
     use HasFormActions;
     use HasTitles;
     use HasFormMessages;
+    use HasLivewire;
 
     protected $componentName  = 'form';
 

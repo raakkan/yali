@@ -22,6 +22,6 @@ class ActionModal extends BaseModal
 
     public function getForm()
     {
-        return $this->sourceClass::form($this->sourceClass::getForm());
+        return $this->sourceClass::form($this->sourceClass::getForm())->setLivewire($this);
     }
 }

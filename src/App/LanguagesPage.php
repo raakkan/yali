@@ -20,6 +20,7 @@ use Raakkan\Yali\Core\Resources\Actions\RestoreAction;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
 use Raakkan\Yali\Core\Translation\Actions\ManageTranslationAction;
+use function Livewire\store;
 
 class LanguagesPage extends BaseResource
 {
@@ -48,8 +49,16 @@ class LanguagesPage extends BaseResource
     public static function form(YaliForm $form): YaliForm
     {
         return $form->fields([
-            TextField::make('name')->required(),
-            TextField::make('code')->required(),
+            TextField::make('name')->required()->disableIf(function ($field) {
+                if ($field->getLivewireData() === 'English') {
+                    return true;
+                }
+            }),
+            TextField::make('code')->required()->disableIf(function ($field) {
+                if ($field->getLivewireData() === 'en') {
+                    return true;
+                }
+            }),
             ToggleField::make('is_active')->default(true),
             ToggleField::make('is_default')->default(false),
         ]);
@@ -88,6 +97,9 @@ class LanguagesPage extends BaseResource
             }),
             EditAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
                 if ($model->is_default) {
+                    $model->is_active = true;
+                    $model->save();
+
                     $languages = \Raakkan\Yali\Models\Language::all();
 
                     foreach ($languages as $language) {
@@ -97,8 +109,30 @@ class LanguagesPage extends BaseResource
                         $language->is_default = false;
                         $language->save();
                     }
+                } else {
+                    $defaultLanguageExists = \Raakkan\Yali\Models\Language::where('is_default', true)->exists();
+                    if (!$defaultLanguageExists) {
+                        $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
+                        if ($englishLanguage) {
+                            $englishLanguage->is_default = true;
+                            $englishLanguage->is_active = true;
+                            $englishLanguage->save();
+                        }
+                    }
                 }
-            
+
+                if ($model->is_default && !$model->is_active) {
+                    $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
+                    if ($englishLanguage) {
+                        $englishLanguage->is_default = true;
+                        $englishLanguage->is_active = true;
+                        $englishLanguage->save();
+                    }
+
+                    $model->is_default = false;
+                    $model->save();
+                }
+
                 return $result;
             }),
             DeleteAction::make()->afterExecute(function ($action, $model, $formData, $result) {

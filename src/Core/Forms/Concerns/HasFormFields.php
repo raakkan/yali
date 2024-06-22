@@ -14,7 +14,13 @@ trait HasFormFields
 
     public function getFields()
     {
-        return $this->fields;
+        $fields = [];
+
+        foreach ($this->fields as $field) {
+            $fields[] = $field->setLivewire($this->livewire);
+        }
+
+        return $fields;
     }
 
     public function getValidationRules()
