@@ -16,7 +16,11 @@ trait HasButton
     public function initializeHasButton()
     {
         $this->button = Button::make();
+        
+    }
 
+    public function getButton()
+    {
         if (count($this->buttonClasses()) > 0) {
             $this->button->classes($this->buttonClasses());
         } else {
@@ -32,7 +36,7 @@ trait HasButton
                 $this->button->styles($this->getStylesArray());
             }
         }
-
+        
         if ($this->buttonLabel()) {
             $this->button->setLabel($this->buttonLabel());
         } else {
@@ -40,10 +44,7 @@ trait HasButton
                 $this->button->setLabel($this->getLabel());
             }
         }
-    }
 
-    public function getButton()
-    {
         if ($this->buttonHasAttributes()) {
             $this->button->setAttributes($this->buttonAttributes());
         }

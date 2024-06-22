@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\View;
 
@@ -13,11 +13,19 @@ abstract class YaliComponent
     protected $beforeRenderCallbacks = [];
     protected $disabled = false;
     protected $disableIfCallbacks = [];
+    protected $dontRender = false;
+    protected $dontRenderIfCallbacks = [];
     protected $id;
+
     public function render()
     {
         $this->callBeforeRenderCallbacks();
         $this->callDisableIfCallbacks();
+        $this->callDontRenderIfCallbacks();
+
+        if ($this->dontRender) {
+            return new HtmlString('');
+        }
 
         $view = $this->getView();
 
@@ -73,7 +81,7 @@ abstract class YaliComponent
     {
         return array_merge($this->viewData, [
             $this->getComponentName() => $this,
-            'id' => $this->getId()  // Add the id to the view data
+            'id' => $this->getId()
         ]);
     }
 
@@ -129,7 +137,6 @@ abstract class YaliComponent
         if (!is_null($instanceId)) {
             $this->id = $componentName . 'component-' . $instanceId;
         } else {
-            // Fallback if instance ID generation fails for some reason but this problem in livewire
             $this->id = $componentName . 'component-' . uniqid();
         }
     }
@@ -168,5 +175,25 @@ abstract class YaliComponent
     {
         $this->disabled = true;
         return $this;
+    }
+
+    public function dontRenderIf($callback)
+    {
+        $this->dontRenderIfCallbacks[] = $callback;
+        return $this;
+    }
+
+    protected function callDontRenderIfCallbacks()
+    {
+        foreach ($this->dontRenderIfCallbacks as $callback) {
+            if (call_user_func($callback, $this)) {
+                $this->dontRender = true;
+            }
+        }
+    }
+
+    public function isDontRender()
+    {
+        return $this->dontRender;
     }
 }

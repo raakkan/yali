@@ -1,5 +1,10 @@
 import 'flowbite';
 
+// Livewire.directive('yali-modal', async ({ el, directive, component, cleanup }) => {
+//     let livewireComponent = Livewire.find(component.id);
+//     console.log(component.id);
+// });
+
 Livewire.directive('yali-confirm', async ({ el, directive, component, cleanup }) => {
     let content = eval(`(${directive.expression})`);
 

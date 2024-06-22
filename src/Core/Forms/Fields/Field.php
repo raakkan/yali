@@ -7,6 +7,7 @@ use Raakkan\Yali\Core\Concerns\Makable;
 use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
+use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
 
@@ -17,6 +18,7 @@ abstract class Field extends YaliComponent
     use HasValidation;
     use Stylable;
     use HasLivewire;
+    use HasColSpan;
 
     protected $componentName = 'field';
     public $name;
@@ -136,6 +138,10 @@ abstract class Field extends YaliComponent
 
     public function getLivewireData()
     {
-        return $this->livewire->inputs[$this->formId][$this->getName()];
+        if ($this->hasLivewire()) {
+            return $this->livewire->inputs[$this->formId][$this->getName()];
+        }
+
+        return null;
     }
 }

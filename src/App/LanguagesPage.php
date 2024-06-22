@@ -20,7 +20,6 @@ use Raakkan\Yali\Core\Resources\Actions\RestoreAction;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
 use Raakkan\Yali\Core\Translation\Actions\ManageTranslationAction;
-use function Livewire\store;
 
 class LanguagesPage extends BaseResource
 {
@@ -67,7 +66,7 @@ class LanguagesPage extends BaseResource
     public static function actions()
     {
         return [
-            CreateAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
+            CreateAction::make()->label('Create Language')->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
                 $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
             
                 if ($model->translations->count() <= 0) { 
@@ -148,7 +147,9 @@ class LanguagesPage extends BaseResource
                 return $result;
             }),
             ForceDeleteAction::make(),
-            ManageTranslationAction::make()->link(ManageTranslationPage::getRouteName())
+            ManageTranslationAction::make()->link(ManageTranslationPage::getRouteName())->dontRenderIf(function ($action) {
+                return $action->getModel()->trashed();
+            })
         ];
     }
 
@@ -204,7 +205,7 @@ class LanguagesPage extends BaseResource
             })->title('Delete Language')->addHeaderMessage(function ($form) {
                 return InfoMessage::make('If you delete this language, it will be permanently deleted')->icon('exclamation')->info();
             })->addHeaderMessage(function ($form) {
-                return InfoMessage::make('Type <b>&nbsp;"' . $form->getModel()->name . '"&nbsp;</b> to confirm')->danger();
+                return InfoMessage::make('<span>Type <b>' . $form->getModel()->name . '</b> to confirm deletion</span>')->danger();
             });
         })->action(function ($model, $formData) {
 

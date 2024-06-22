@@ -1,6 +1,6 @@
-@props(['name', 'class', 'label', 'error', 'info'])
+@props(['name', 'field', 'label', 'error', 'info'])
 
-<div>
+<div class="{{ $field->getColSpan() }}">
     @if ($label !== '' && !is_null($label))
         @include('yali::forms.fields.utils.input-label', [
             'for' => $name,

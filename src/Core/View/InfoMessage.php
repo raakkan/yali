@@ -66,6 +66,7 @@ class InfoMessage extends BaseComponent
         return $this; 
     }
 
+    // TODO: need to improve message render styling
     public function render()
     {
         $classString = 'alert alert-' . $this->type;

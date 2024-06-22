@@ -41,6 +41,16 @@ trait HasSearch
             }
         }
 
+         if (property_exists($this, 'searchColumns') && !empty($this->search) && !empty($this->searchColumns)) {
+            $query->where(function ($q) {
+                foreach ($this->searchColumns as $column) {
+                    if (is_string($column)) {
+                        $q->orWhere($column, 'like', '%' . $this->search . '%');
+                    }
+                }
+            });
+        }
+
         return $query;
     }
 }

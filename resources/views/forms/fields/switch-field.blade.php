@@ -1,4 +1,4 @@
-<x-yali::forms.field-wrapper :name="$field->getName()" :class="$field" :label="$field->getLabel()" :error="$errors->has($field->getName()) ? $errors->first($field->getName()) : null" :info="$field->getInfoMessage()">
+<x-yali::forms.field-wrapper :name="$field->getName()" :field="$field" :label="$field->getLabel()" :error="$errors->has($field->getName()) ? $errors->first($field->getName()) : null" :info="$field->getInfoMessage()">
     <label
         class="{{ $errors->has($field->getName()) ? 'input-error' : 'input' }} pr-10 inline-flex items-center cursor-pointer w-full">
         <div class="flex items-center">

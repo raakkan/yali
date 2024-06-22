@@ -10,25 +10,32 @@
             </div>
         </div>
         <div class="mt-4 md:mt-0">
-            <button
-                class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add
-                Translation</button>
+            @php
+                $actions = $this->getHeaderActions();
+            @endphp
+
+            @foreach ($actions as $action)
+                {!! $action->render() !!}
+            @endforeach
         </div>
     </div>
 
-    {{-- <div class="mb-6">
+    <div class="mb-6">
         <x-yali::filter.filter-wrapper :filters="$this->getFilters()" :hasFilters="$this->hasFilters()" />
     </div>
 
     <div class="mb-6">
         <x-yali::forms.search wire:model.live.debounce.300ms="search" wire:click="clearSearch" :placeholder="'Search Translations...'"
             :hasSearch="$search" />
-    </div> --}}
+    </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @if (count($translations) > 0)
             @foreach ($translations as $translation)
-                <x-yali::translations.card :translation="$translation" />
+                @php
+                    $actions = $this->getActions($translation);
+                @endphp
+                <x-yali::translations.card :translation="$translation" :actions="$actions" />
             @endforeach
         @else
             <div class="col-span-full text-center text-gray-600">

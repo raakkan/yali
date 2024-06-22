@@ -50,4 +50,16 @@ class Translation extends Model
     {
         return $this->belongsTo(TranslationCategory::class);
     }
+
+    public static function getGroups()
+    {
+        return self::query()
+            ->distinct()
+            ->pluck('group')
+            ->sort()
+            ->values()
+            ->mapWithKeys(function ($item) {
+                return [$item => $item];
+            });
+    }
 }

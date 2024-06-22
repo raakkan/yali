@@ -29,7 +29,7 @@
             @endisset
         </div>
     </div>
-    <div class="{{ $cardInModal ? 'max-h-[calc(100vh-7rem)] overflow-auto' : '' }}">
+    <div class="{{ $cardInModal ? 'max-h-[calc(100vh-9rem)] overflow-auto' : '' }}">
         {{ $slot }}
     </div>
     @isset($footerSlot)
