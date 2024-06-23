@@ -23,6 +23,6 @@ trait HasColSpan
 
     public function getColSpan()
     {
-        return "col-span-{$this->colSpan}";
+        return $this->colSpan;
     }
 }

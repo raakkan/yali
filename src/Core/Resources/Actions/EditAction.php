@@ -11,7 +11,7 @@ class EditAction extends YaliAction
 
     public function __construct()
     {
-        $this->action = function ($model, $data) {
+        $this->action = function ($action, $model, $data) {
             foreach ($data as $key => $value) {
                 $model->$key = $value;
             }

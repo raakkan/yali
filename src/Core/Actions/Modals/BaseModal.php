@@ -20,6 +20,7 @@ class BaseModal extends Component
     public $sourceClass;
 
     public $actionClass;
+    public $actionAdditionalData = [];
 
     public $recordId;
 
@@ -29,7 +30,7 @@ class BaseModal extends Component
 
     public function getAction()
     {
-        return $this->sourceClass::getAction($this->actionClass, $this->getModel());
+        return $this->sourceClass::getAction($this->actionClass, $this->getModel())->setAdditionalData($this->actionAdditionalData);
     }
 
     public function getModel()

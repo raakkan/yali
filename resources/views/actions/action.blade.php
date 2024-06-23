@@ -5,6 +5,7 @@
             'actionClass' => get_class($action),
             'sourceClass' => $action->getSource(),
             'recordId' => $action->getModel()->getKey(),
+            'actionAdditionalData' => $action->getAdditionalData(),
         ],
         key($action->getUniqueKey())
     )
@@ -15,6 +16,7 @@
             'actionClass' => get_class($action),
             'sourceClass' => $action->getSource(),
             'recordId' => $action->getModel()->getKey(),
+            'actionAdditionalData' => $action->getAdditionalData(),
         ],
         key($action->getUniqueKey())
     )

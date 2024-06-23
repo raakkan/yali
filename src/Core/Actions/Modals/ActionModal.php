@@ -2,8 +2,8 @@
 
 namespace Raakkan\Yali\Core\Actions\Modals;
 
-use Livewire\Component;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Livewire\Livewire;
+use function Livewire\store;
 
 class ActionModal extends BaseModal
 {

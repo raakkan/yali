@@ -207,7 +207,7 @@ class LanguagesPage extends BaseResource
             })->addHeaderMessage(function ($form) {
                 return InfoMessage::make('<span>Type <b>' . $form->getModel()->name . '</b> to confirm deletion</span>')->danger();
             });
-        })->action(function ($model, $formData) {
+        })->action(function ($action, $model, $formData) {
 
             throw_if($formData['name'] !== $model->name, new \Exception('Language name does not match'));
 

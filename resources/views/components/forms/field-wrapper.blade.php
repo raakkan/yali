@@ -1,6 +1,6 @@
 @props(['name', 'field', 'label', 'error', 'info'])
 
-<div class="{{ $field->getColSpan() }}">
+<div class="grid-col-span-{{ $field->getColSpan() }}">
     @if ($label !== '' && !is_null($label))
         @include('yali::forms.fields.utils.input-label', [
             'for' => $name,
@@ -9,7 +9,7 @@
         ])
     @endif
 
-    <div class="relative">
+    <div class="relative ">
         {{ $slot }}
     </div>
 

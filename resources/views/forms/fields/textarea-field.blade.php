@@ -8,11 +8,11 @@
     </div>
 </x-yali::forms.field-wrapper>
 
-@if ($field->autoresize)
+{{-- @if ($field->autoresize)
     <script>
         function resizeTextarea(el) {
             el.style.height = 'auto';
             el.style.height = (el.scrollHeight) + 'px';
         }
     </script>
-@endif
+@endif --}}

@@ -43,10 +43,10 @@ class ManageTranslationPage extends BaseResource
         return $form->fields([
             SelectField::make('translation_category_id')->required()->options(
                 fn () => \Raakkan\Yali\Models\TranslationCategory::pluck('name', 'id')
-            )->colSpan(2)->placeholder('Select a category'),
+            )->colSpan(2)->placeholder('Select a category')->label('Category'),
             SelectField::make('group')->required()->options(
                 fn () => \Raakkan\Yali\Models\Translation::getGroups()
-            )->placeholder('Select a group'),
+            )->placeholder('Select a group')->createNewOption(),
             TextField::make('key')->required(),
             TextareaField::make('value')->required()->colSpan(2),
             TextareaField::make('note')->colSpan(2),
@@ -56,7 +56,30 @@ class ManageTranslationPage extends BaseResource
     public static function actions()
     {
         return [
-            CreateAction::make()->modal(),
+            CreateAction::make()->modal()->action(function ($action, $model, $data) {
+                if ($action->hasAdditionalData()) {
+                    $languageCode = $action->getAdditionalData()['language_code'];
+                    $language = Language::where('code', $languageCode)->first();
+
+                    if ($language) {
+                        $data['language_code'] = $language->code;
+
+                        foreach($data as $key => $value) {
+                            $model->{$key} = $value;
+                        }
+
+                        $model->language()->associate($language);
+                        $model->save();
+
+                        return $model;
+                    }else {
+                        throw new \Exception('No language found');
+                    }
+
+                }else {
+                    throw new \Exception('No language code provided');
+                }
+            }),
             EditAction::make()->modal(),
             DeleteAction::make(),
         ];

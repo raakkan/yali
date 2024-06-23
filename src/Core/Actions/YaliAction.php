@@ -13,8 +13,10 @@ use Raakkan\Yali\Core\Actions\Concerns\HasWizard;
 use Raakkan\Yali\Core\Actions\Concerns\Modalable;
 use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Concerns\Components\HasButton;
+use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
 use Raakkan\Yali\Core\Actions\Concerns\HasActionForm;
 use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
+use Raakkan\Yali\Core\Actions\Concerns\HasAdditionalData;
 use Raakkan\Yali\Core\Actions\Concerns\ModalConfirmation;
 use Raakkan\Yali\Core\Actions\Concerns\HasActionSuccessMessages;
 
@@ -33,6 +35,8 @@ abstract class YaliAction extends YaliComponent
     use ModalConfirmation;
     use HasActionSuccessMessages;
     use HasActionForm;
+    use HasLivewire;
+    use HasAdditionalData;
 
     protected $componentName = 'action';
 
@@ -57,7 +61,7 @@ abstract class YaliAction extends YaliComponent
             $formData = $this->runCallback($this->beforeExecuteCallback, $this, $this->getModel(), $formData);
 
             if (is_callable($this->action)) {
-                $result = call_user_func($this->action, $this->getModel(), $formData);
+                $result = call_user_func($this->action, $this, $this->getModel(), $formData);
             }
 
             $result = $this->runCallback($this->afterExecuteCallback, $this, $this->getModel(), $formData, $result);

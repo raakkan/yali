@@ -14,7 +14,7 @@ class ForceDeleteAction extends YaliAction
     {
         $this->simpleConfirmation();
 
-        $this->action = function ($model) {
+        $this->action = function ($action, $model, $data) {
             $model->forceDelete();
         };
     }

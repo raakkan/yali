@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\Core\Forms\Fields;
 
+use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Illuminate\Contracts\Validation\Rule;
@@ -139,7 +140,7 @@ abstract class Field extends YaliComponent
     public function getLivewireData()
     {
         if ($this->hasLivewire()) {
-            return $this->livewire->inputs[$this->formId][$this->getName()];
+            return Js::from($this->livewire->inputs[$this->formId][$this->getName()])->toHtml();
         }
 
         return null;

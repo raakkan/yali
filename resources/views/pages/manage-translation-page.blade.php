@@ -15,7 +15,7 @@
             @endphp
 
             @foreach ($actions as $action)
-                {!! $action->render() !!}
+                {!! $action->setAdditionalData(['language_code' => $language->code])->render() !!}
             @endforeach
         </div>
     </div>

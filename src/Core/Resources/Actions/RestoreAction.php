@@ -12,7 +12,7 @@ class RestoreAction extends YaliAction
 
     public function __construct()
     {
-        $this->action = function ($model) {
+        $this->action = function ($action, $model, $data) {
             $model->restore();
         };
     }
