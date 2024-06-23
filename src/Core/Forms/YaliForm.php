@@ -9,7 +9,6 @@ use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Concerns\UI\Colorable;
 use Raakkan\Yali\Core\Concerns\UI\Spaceable;
-use Raakkan\Yali\Core\Database\ModelManager;
 use Raakkan\Yali\Core\Concerns\UI\Borderable;
 use Raakkan\Yali\Core\Concerns\UI\Layoutable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormFields;
@@ -42,19 +41,21 @@ class YaliForm extends YaliComponent
 
     protected $modalPosition = '';
 
-    public function __construct($model = null)
-    {
-        $this->modelManager = new ModelManager($model);
-    }
+    protected $model;
 
     public function getModel()
     {
-        return $this->modelManager->getModel();
+        return $this->model;
+    }
+
+    public function hasModel()
+    {
+        return !empty($this->model);
     }
 
     public function setModel($model)
     {
-        $this->modelManager->setModel($model);
+        $this->model = $model;
         return $this;
     }
 

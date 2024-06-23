@@ -35,6 +35,7 @@ abstract class Field extends YaliComponent
     public $infoMessage;
     public $disableLabel = false;
     public $formId;
+    protected $model;
 
     public function __construct($name)
     {
@@ -144,5 +145,16 @@ abstract class Field extends YaliComponent
         }
 
         return null;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 }

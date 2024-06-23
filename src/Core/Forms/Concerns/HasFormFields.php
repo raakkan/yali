@@ -17,7 +17,11 @@ trait HasFormFields
         $fields = [];
 
         foreach ($this->fields as $field) {
-            $fields[] = $field->setLivewire($this->livewire);
+            if ($this->hasModel()) {
+                $fields[] = $field->setModel($this->getModel())->setLivewire($this->livewire);
+            } else {
+                $fields[] = $field->setLivewire($this->livewire);
+            }
         }
 
         return $fields;

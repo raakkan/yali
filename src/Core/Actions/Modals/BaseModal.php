@@ -44,6 +44,7 @@ class BaseModal extends Component
 
     public function confirmAction()
     {
+        dd($this->inputs);
         $action = $this->getAction();
         $action->setModel($this->getModel());
 

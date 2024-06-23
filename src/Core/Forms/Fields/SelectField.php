@@ -56,4 +56,24 @@ class SelectField extends Field
     {
         return $this->createNewOption;
     }
+
+   public function relationship($name)
+    {
+        $this->beforeRender(function ($field) use ($name) {
+            if (method_exists($field->model, $name)) {
+                $relationship = $field->model->{$name}();
+
+                $relationType = (new \ReflectionClass($relationship))->getShortName();
+                $relationshipClass = $relationship->getRelated();
+
+                $field->options = $relationshipClass::all()->pluck('name', 'id');
+            } else {
+                throw new \Exception('Relationship not found');
+            }
+            
+        });
+
+        return $this;
+    }
+
 }

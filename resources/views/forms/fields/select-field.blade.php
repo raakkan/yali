@@ -9,13 +9,16 @@
         <select id="{{ $field->getId() }}" name="{{ $field->getName() }}"
             class="{{ $errors->has($field->getName()) ? 'input-error' : 'input' }} {{ $field->isDisabled() ? 'input-disabled' : '' }}"
             {{ $field->isDisabled() ? 'disabled' : '' }}
-            @change="handleChange('{{ $field->getId() }}', $event.target.value)">
+            @change="handleChange('{{ $field->getId() }}', $event.target.value)"
+            wire:model="inputs.{{ $field->getFormId() }}.{{ $field->getName() }}">
             @if ($field->getPlaceholder())
                 <option value="" hidden>{{ $field->getPlaceholder() }}</option>
             @endif
             <template x-for="option in options" :key="option.value">
-                <option :value="option.value" x-text="option.label" :selected="option.value === selectedValue"></option>
+                <option :value="option.value" x-text="option.label">
+                </option>
             </template>
+
             <option x-show="createNewOption" value="create-new">Create New</option>
         </select>
 
@@ -39,10 +42,12 @@
             init() {
                 this.selectedValue = Livewire.find(this.livewireId).get(`inputs.${this.formId}.${this.fieldName}`);
                 this.updateField(this.selectedValue);
+                console.log(this.selectedValue);
             },
             handleChange(fieldId, value) {
                 this.selectedValue = value;
 
+                console.log(this.selectedValue);
                 if (this.selectedValue === 'create-new') {
                     this.newInputShow = true;
                 } else if (value) {
