@@ -141,7 +141,7 @@ abstract class Field extends YaliComponent
     public function getLivewireData()
     {
         if ($this->hasLivewire()) {
-            return Js::from($this->livewire->inputs[$this->formId][$this->getName()])->toHtml();
+            return $this->livewire->form[$this->formId]['inputs'][$this->getName()];
         }
 
         return null;

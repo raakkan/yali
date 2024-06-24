@@ -4,7 +4,7 @@
             type="{{ $field->getType() === 'password' ? 'password' : $field->getType() }}" id="{{ $field->getName() }}"
             class="{{ $errors->has($field->getName()) ? 'input-error' : 'input' }} {{ $field->isDisabled() ? 'input-disabled' : '' }} pr-10"
             placeholder="{{ $field->getPlaceholder() }}"
-            wire:model="inputs.{{ $field->getFormId() }}.{{ $field->getName() }}"
+            wire:model="form.{{ $field->getFormId() }}.inputs.{{ $field->getName() }}"
             {{ $field->isDisabled() ? 'disabled' : '' }}>
         @if ($field->getType() === 'password')
             @include('yali::forms.fields.utils.password-toggle-button', ['refId' => $field->getName()])

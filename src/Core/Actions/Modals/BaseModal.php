@@ -24,7 +24,7 @@ class BaseModal extends Component
 
     public $recordId;
 
-    public $inputs = [];
+    public $form = [];
 
     protected static $view;
 
@@ -44,7 +44,6 @@ class BaseModal extends Component
 
     public function confirmAction()
     {
-        dd($this->inputs);
         $action = $this->getAction();
         $action->setModel($this->getModel());
 
@@ -60,7 +59,7 @@ class BaseModal extends Component
         }
 
         if(!is_null($form)) {
-            $data = $this->inputs[$form->getId()];
+            $data = $this->form[$form->getId()]['inputs'];
             $formData = $this->validatedInputs($form, $data);
         }
 

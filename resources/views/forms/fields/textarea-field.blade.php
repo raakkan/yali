@@ -2,7 +2,8 @@
     <div class="inline">
         <textarea id="{{ $field->getName() }}"
             class="{{ $errors->has($field->getName()) ? 'textarea-error' : 'textarea' }} {{ $field->isDisabled() ? 'textarea-disabled' : '' }} w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            placeholder="{{ $field->getPlaceholder() }}" wire:model="inputs.{{ $field->getFormId() }}.{{ $field->getName() }}"
+            placeholder="{{ $field->getPlaceholder() }}"
+            wire:model="form.{{ $field->getFormId() }}.inputs.{{ $field->getName() }}"
             {{ $field->isDisabled() ? 'disabled' : '' }} rows="{{ $field->rows }}" cols="{{ $field->cols }}"
             {{ $field->autoresize ? 'oninput=resizeTextarea(this)' : '' }}></textarea>
     </div>

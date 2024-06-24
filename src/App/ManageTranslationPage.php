@@ -41,7 +41,11 @@ class ManageTranslationPage extends BaseResource
     public static function form(YaliForm $form): YaliForm
     {
         return $form->fields([
-            SelectField::make('translation_category_id')->required()->relationship('translationCategory')->colSpan(2)->placeholder('Select a category')->label('Category'),
+            SelectField::make('translation_category_id')->required()->relationship(
+                name: 'translationCategory',
+                valueAttribute: 'id',
+                labelAttribute: 'name',
+            )->colSpan(2)->placeholder('Select a category')->label('Category'),
             SelectField::make('group')->required()->options(
                 fn () => \Raakkan\Yali\Models\Translation::getGroups()
             )->placeholder('Select a group')->createNewOption(),
