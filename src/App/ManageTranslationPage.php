@@ -2,6 +2,7 @@
 
 namespace Raakkan\Yali\App;
 
+use Illuminate\Support\Facades\Http;
 use Livewire\WithPagination;
 use Raakkan\Yali\Models\Language;
 use Raakkan\Yali\Core\Forms\YaliForm;
@@ -18,6 +19,7 @@ use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
 use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
+use Raakkan\Yali\Core\Support\Notification\Notification;
 
 class ManageTranslationPage extends BaseResource
 {
@@ -35,6 +37,8 @@ class ManageTranslationPage extends BaseResource
 
     public function mount()
     {
+        Notification::make()->success()->title('Welcome to Yali!')->content('Manage Translations')->send();
+        Notification::make()->success()->title('Manage Translations')->send();
         $this->setFilterInputs();
     }
 
