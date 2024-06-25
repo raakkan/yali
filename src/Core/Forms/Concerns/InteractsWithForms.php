@@ -10,16 +10,16 @@ trait InteractsWithForms
 {
     public Model $model;
 
-    public $inputs = [];
+    public $form = [];
 
     public function fillForm()
     {
         foreach ($this->getForm()->getFields() as $field) {
             if ($field->getType() !== 'password') {
-                $this->inputs[$this->getForm()->getId()][$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
+                $this->form[$this->getForm()->getId()]['inputs'][$field->getName()] = $this->model->{$field->getName()} ?? $field->getDefault();
             }
             if ($field->getType() === 'password') {
-                $this->inputs[$this->getForm()->getId()][$field->getName()] = '';
+                $this->form[$this->getForm()->getId()]['inputs'][$field->getName()] = '';
             }
         }
     }
@@ -32,7 +32,7 @@ trait InteractsWithForms
         if ($this->model->id) {
             foreach ($this->getForm()->getFields() as $field) {
                 if ($field->getType() === 'password') {
-                    if (empty($this->inputs[$this->getForm()->getId()][$field->getName()])) {
+                    if (empty($this->form[$this->getForm()->getId()]['inputs'][$field->getName()])) {
 
                         // check not correct
                         if (array_key_exists($field->getName(), $rules)) {
@@ -51,7 +51,7 @@ trait InteractsWithForms
         }
         
         $validated = Validator::make(
-            $this->inputs[$this->getForm()->getId()],
+            $this->form[$this->getForm()->getId()]['inputs'],
             $rules,
             $this->getForm()->getValidationMessages()
          )->validate();

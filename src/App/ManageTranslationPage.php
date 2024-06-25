@@ -64,8 +64,6 @@ class ManageTranslationPage extends BaseResource
                     $language = Language::where('code', $languageCode)->first();
 
                     if ($language) {
-                        $data['language_code'] = $language->code;
-
                         foreach($data as $key => $value) {
                             $model->{$key} = $value;
                         }

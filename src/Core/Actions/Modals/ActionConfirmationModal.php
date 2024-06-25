@@ -17,7 +17,7 @@ class ActionConfirmationModal extends BaseModal
             $fields = $this->getAction()->getForm()->getFields();
 
             foreach ($fields as $field) {
-                $this->inputs[$this->getAction()->getForm()->getId()][$field->getName()] = '';
+                $this->form[$this->getAction()->getForm()->getId()]['inputs'][$field->getName()] = '';
             }
         }
     }

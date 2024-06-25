@@ -14,11 +14,10 @@ class Translation extends Model
         'key',
         'value',
         'note',
-        'language_code',
-        'language_id',
         'created_by',
         'is_enabled',
         'translation_category_id',
+        'language_code',
     ];
 
     protected static function booted()
@@ -43,7 +42,7 @@ class Translation extends Model
 
     public function language()
     {
-        return $this->belongsTo(Language::class);
+        return $this->belongsTo(Language::class, 'language_code' , 'code');
     }
 
     public function translationCategory()

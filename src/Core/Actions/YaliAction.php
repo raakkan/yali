@@ -55,16 +55,16 @@ abstract class YaliAction extends YaliComponent
         ];
     }
 
-    public function execute($formData = null)
+    public function execute($form = null)
     {
         try {
-            $formData = $this->runCallback($this->beforeExecuteCallback, $this, $this->getModel(), $formData);
+            $formData = $this->runCallback($this->beforeExecuteCallback, $this, $this->getModel(), $form);
 
             if (is_callable($this->action)) {
-                $result = call_user_func($this->action, $this, $this->getModel(), $formData);
+                $result = call_user_func($this->action, $this, $this->getModel(), $form);
             }
 
-            $result = $this->runCallback($this->afterExecuteCallback, $this, $this->getModel(), $formData, $result);
+            $result = $this->runCallback($this->afterExecuteCallback, $this, $this->getModel(), $form, $result);
 
             return $result;
         } catch (\Exception $e) {
@@ -73,13 +73,13 @@ abstract class YaliAction extends YaliComponent
         }
     }
 
-    protected function runCallback($callback, $action, $model, $formData, $result = null)
+    protected function runCallback($callback, $action, $model, $form, $result = null)
     {
         if (is_callable($callback)) {
-            return call_user_func($callback, $action, $this->getModel(), $formData, $result);
+            return call_user_func($callback, $action, $this->getModel(), $form, $result);
         }
 
-        return $result ?? $formData;
+        return $result ?? $form ?? $model;
     }
 
     public function action($action = null)

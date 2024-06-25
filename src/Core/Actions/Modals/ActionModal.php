@@ -15,7 +15,13 @@ class ActionModal extends BaseModal
             $fields = $this->getForm()->getFields();
 
             foreach ($fields as $field) {
-                $this->form[$this->getForm()->getId()]['inputs'][$field->getName()] = $this->getModel()->{$field->getName()} ?? $field->getDefault();
+                $modelValue = $this->getModel()->{$field->getName()};
+
+                $this->form[$this->getForm()->getId()]['inputs'][$field->getName()] = $modelValue ?? $field->getDefault();
+
+                if (isset($modelValue)) {
+                    $this->form[$this->getForm()->getId()]['inputs_old_values'][$field->getName()] = $modelValue;
+                }
             }
         }
     }

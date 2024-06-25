@@ -66,7 +66,7 @@ class LanguagesPage extends BaseResource
     public static function actions()
     {
         return [
-            CreateAction::make()->label('Create Language')->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
+            CreateAction::make()->label('Create Language')->modal(slideRight: true)->afterExecute(function ($action, $model, $form, $result) {
                 $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
             
                 if ($model->translations->count() <= 0) { 
@@ -75,7 +75,6 @@ class LanguagesPage extends BaseResource
                     
                     foreach ($englishTranslations as $translation) {
                         $newTranslation = $model->translations()->make($translation->toArray());
-                        $newTranslation->language_code = $model->code;
                         $newTranslation->save();
                     }
                 }
@@ -94,10 +93,25 @@ class LanguagesPage extends BaseResource
             
                 return $result;
             }),
-            EditAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $formData, $result) {
-                if ($model->is_default) {
-                    $model->is_active = true;
-                    $model->save();
+            EditAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $form, $result) {
+                $defaultField = $form->getField('is_default');
+                $activeField = $form->getField('is_active');
+                
+                if($defaultField->getOldValue() === true && $defaultField->getValue() === false) {
+                    $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
+                        
+                    if ($englishLanguage) {
+                        $englishLanguage->is_default = true;
+                        $englishLanguage->is_active = true;
+                        $englishLanguage->save();
+                    }
+                }
+
+                if($defaultField->getOldValue() === false && $defaultField->getValue() === true) {
+                    if ($activeField->getValue() === false) {
+                        $this->dispatch('toast', type: 'error', message: 'Default language must be active');
+                        return $result;
+                    }
 
                     $languages = \Raakkan\Yali\Models\Language::all();
 
@@ -108,28 +122,6 @@ class LanguagesPage extends BaseResource
                         $language->is_default = false;
                         $language->save();
                     }
-                } else {
-                    $defaultLanguageExists = \Raakkan\Yali\Models\Language::where('is_default', true)->exists();
-                    if (!$defaultLanguageExists) {
-                        $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
-                        if ($englishLanguage) {
-                            $englishLanguage->is_default = true;
-                            $englishLanguage->is_active = true;
-                            $englishLanguage->save();
-                        }
-                    }
-                }
-
-                if ($model->is_default && !$model->is_active) {
-                    $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
-                    if ($englishLanguage) {
-                        $englishLanguage->is_default = true;
-                        $englishLanguage->is_active = true;
-                        $englishLanguage->save();
-                    }
-
-                    $model->is_default = false;
-                    $model->save();
                 }
 
                 return $result;

@@ -70,16 +70,27 @@ class LoadTranslationsCommand extends Command
                     'name' => 'App',
                 ]);
     
-                $language->translations()->updateOrCreate([
-                    'group' => $group,
-                    'key' => $translationKey,
-                    'language_code' => $languageCode,
-                ], [
-                    'value' => $value,
-                    'translation_category_id' => $category->id,
-                    'is_enabled' => true,
-                    'created_by' => 'system',
-                ]);
+                $translation = Translation::where('group', $group)->where('key', $translationKey)->first();
+    
+                if (!$translation) {
+                    $translation = new Translation();
+                    $translation->group = $group;
+                    $translation->key = $translationKey;
+                    $translation->value = $value;
+                    $translation->note = '';
+                    $translation->created_by = 'system';
+                    $translation->is_enabled = true;
+                    $translation->translationCategory()->associate($category);
+                    $translation->language()->associate($language);
+                    $translation->save();
+                } else {
+                    $translation->value = $value;
+                    $translation->save();
+                }
+    
+                if ($translation->wasRecentlyCreated) {
+                    $this->info("Translation created: {$translationKey}");
+                }
             }
         }
     }

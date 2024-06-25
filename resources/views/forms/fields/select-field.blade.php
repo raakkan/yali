@@ -8,14 +8,9 @@
                 <option value="" hidden>{{ $field->getPlaceholder() }}</option>
             @endif
 
-            @foreach ($field->getLivewireOptions() as $value => $label)
+            @foreach ($field->getOptions() as $value => $label)
                 <option value="{{ $value }}">{{ $label }}</option>
             @endforeach
         </select>
-
-        {{-- <div class="mt-2">
-            <input class="input" type="text" id="new-{{ $field->getId() }}" name="{{ $field->getName() }}"
-                placeholder="Create New {{ $field->getLabel() }}" @change="updateField($event.target.value)">
-        </div> --}}
     </div>
 </x-yali::forms.field-wrapper>

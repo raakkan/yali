@@ -9,8 +9,10 @@ use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
+use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
+use Raakkan\Yali\Core\Forms\Concerns\HandlesFieldRelationship;
 
 // encrypt and decrypt
 abstract class Field extends YaliComponent
@@ -20,6 +22,8 @@ abstract class Field extends YaliComponent
     use Stylable;
     use HasLivewire;
     use HasColSpan;
+    use HandlesFieldRelationship;
+    use HasFieldValue;
 
     protected $componentName = 'field';
     public $name;

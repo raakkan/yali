@@ -61,10 +61,18 @@ class BaseModal extends Component
         if(!is_null($form)) {
             $data = $this->form[$form->getId()]['inputs'];
             $formData = $this->validatedInputs($form, $data);
+
+            foreach ($formData as $name => $value) {
+                $form->setFieldValue($name, $value);
+
+                if (isset($this->form[$form->getId()]['inputs_old_values'][$name])) {
+                    $form->setOldFieldValue($name, $this->form[$form->getId()]['inputs_old_values'][$name]);
+                }
+            }
         }
 
         try {
-            $action->execute($formData);
+            $action->execute($form);
 
             if ($this instanceof ActionConfirmationModal) {
                 $this->recordId = null;
@@ -75,6 +83,7 @@ class BaseModal extends Component
             $this->dispatch('toast', type: 'success', message: $this->getAction()->getSuccessMassage());
         } catch (\Exception $e) {
             $this->dispatch('toast', type: 'error', message: $e->getMessage());
+            throw $e;
         }
     }
 

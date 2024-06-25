@@ -11,10 +11,17 @@ class EditAction extends YaliAction
 
     public function __construct()
     {
-        $this->action = function ($action, $model, $data) {
-            foreach ($data as $key => $value) {
-                $model->$key = $value;
+        $this->action = function ($action, $model, $form) {
+            $fields = $form->getFields();
+
+            foreach ($fields as $field) {
+                $fieldName = $field->getName();
+
+                if (!$field->hasRelationship()) {
+                    $model->$fieldName = $field->getValue();
+                }
             }
+
             $model->save();
 
             return $model;

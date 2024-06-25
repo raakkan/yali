@@ -40,6 +40,6 @@ class Language extends Model
      */
     public function translations()
     {
-        return $this->hasMany(Translation::class);
+        return $this->hasMany(Translation::class, 'language_code', 'code');
     }
 }
