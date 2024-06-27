@@ -1,10 +1,11 @@
 <?php 
 
-use Illuminate\Support\Facades\Route;
-use Raakkan\Yali\App\DashboardPage;
-use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\App\ResourcePage;
+use Raakkan\Yali\App\DashboardPage;
+use Illuminate\Support\Facades\Route;
+use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Support\Notification\NotificationManager;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', DashboardPage::class)->name('yali::pages.dashboard');
@@ -20,5 +21,10 @@ Route::prefix('admin')->group(function () {
             }
         }
     }
+
+    Route::get('/notifications/fetch', function () {
+        $notifications = app(NotificationManager::class)->getNotifications();
+        return response()->json($notifications);
+    })->name('notifications.fetch');
     
 });

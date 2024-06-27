@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Concerns\Livewire;
 
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 trait HasPagination

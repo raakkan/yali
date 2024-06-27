@@ -9,6 +9,7 @@ use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
+use Raakkan\Yali\Core\Support\Notification\Notification;
 use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
 
 class BaseModal extends Component
@@ -65,8 +66,8 @@ class BaseModal extends Component
             foreach ($formData as $name => $value) {
                 $form->setFieldValue($name, $value);
 
-                if (isset($this->form[$form->getId()]['inputs_old_values'][$name])) {
-                    $form->setOldFieldValue($name, $this->form[$form->getId()]['inputs_old_values'][$name]);
+                if (isset($this->form[$form->getId()]['old.inputs'][$name])) {
+                    $form->setOldFieldValue($name, $this->form[$form->getId()]['old.inputs'][$name]);
                 }
             }
         }
@@ -94,6 +95,7 @@ class BaseModal extends Component
 
     public function openModal()
     {
+        Notification::make()->success()->title('Welcome to Yali!')->message('Manage Translations')->send();
         $result = $this->getAction()->triggerBeforeConfirmationOpen();
         if ($result === true) {
             $this->openActionModal = true;

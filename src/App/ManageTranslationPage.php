@@ -37,8 +37,6 @@ class ManageTranslationPage extends BaseResource
 
     public function mount()
     {
-        Notification::make()->success()->title('Welcome to Yali!')->content('Manage Translations')->send();
-        Notification::make()->success()->title('Manage Translations')->send();
         $this->setFilterInputs();
     }
 

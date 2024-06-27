@@ -27,7 +27,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "livewire/livewire": "^3.4",
         "wikimedia/composer-merge-plugin": "^2.1",
         "illuminate/support": "^11.7",
         "illuminate/console": "^11.7"

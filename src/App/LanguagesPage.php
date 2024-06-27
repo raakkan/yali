@@ -108,10 +108,13 @@ class LanguagesPage extends BaseResource
                 }
 
                 if($defaultField->getOldValue() === false && $defaultField->getValue() === true) {
-                    if ($activeField->getValue() === false) {
-                        $this->dispatch('toast', type: 'error', message: 'Default language must be active');
-                        return $result;
-                    }
+                    // if ($activeField->getValue() === false) {
+                    //     $this->dispatch('toast', type: 'error', message: 'Default language must be active');
+                    //     return $result;
+                    // }
+
+                    $model->is_active = true;
+                    $model->save();
 
                     $languages = \Raakkan\Yali\Models\Language::all();
 
@@ -122,6 +125,11 @@ class LanguagesPage extends BaseResource
                         $language->is_default = false;
                         $language->save();
                     }
+                }
+
+                if($activeField->getOldValue() === true) {
+                    $model->is_active = true;
+                    $model->save();
                 }
 
                 return $result;

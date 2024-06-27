@@ -20,7 +20,7 @@ class ActionModal extends BaseModal
                 $this->form[$this->getForm()->getId()]['inputs'][$field->getName()] = $modelValue ?? $field->getDefault();
 
                 if (isset($modelValue)) {
-                    $this->form[$this->getForm()->getId()]['inputs_old_values'][$field->getName()] = $modelValue;
+                    $this->form[$this->getForm()->getId()]['old.inputs'][$field->getName()] = $modelValue;
                 }
             }
         }

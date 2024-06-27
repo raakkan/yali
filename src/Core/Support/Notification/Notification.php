@@ -2,18 +2,24 @@
 
 namespace Raakkan\Yali\Core\Support\Notification;
 
+use Illuminate\Support\Facades\Session;
 use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Iconable;
 use Illuminate\Support\Traits\Conditionable;
 
-class Notification
+class Notification  extends YaliComponent
 {
     use Makable;
     use Conditionable;
     use Iconable;
 
+    protected $componentName = 'notification';
+
+    protected $view = 'yali::notification.notification';
+
     public $title;
-    public $content;
+    public $message;
     public $timeout = 3000;
     public $type = 'success';
 
@@ -23,16 +29,36 @@ class Notification
         return $this;
     }
 
-    public function content($content)
+    public function getTitle()
     {
-        $this->content = $content;
+        return $this->title;
+    }
+
+    public function message($message)
+    {
+        $this->message = $message;
         return $this;
+    }
+
+    public function hasMessage()
+    {
+        return !empty($this->message);
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     public function timeout($timeout)
     {
         $this->timeout = $timeout;
         return $this;
+    }
+
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 
     public function success()
@@ -43,15 +69,12 @@ class Notification
 
     public function send()
     {
-        $store = session()->get('notification', []);
-        $notifications[uniqid()] = [
-            'title' => $this->title,
-            'content' => $this->content,
-            'timeout' => $this->timeout,
-            'type' => $this->type
-        ];
-        $messages = array_merge($store, $notifications);
+        $id = uniqid();
 
-        session()->flash('notification', $messages);
+        app(NotificationManager::class)->addNotification($id, $this);
+
+        session()->push('yali.notifications', [$id]);
+
+        return $this;
     }
 }
