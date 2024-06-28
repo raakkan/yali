@@ -47,11 +47,7 @@ class YaliServiceProvider extends ServiceProvider
             $iconLoader = $app->make('yali-manager')->getIconLoader();
             return new IconManager($iconLoader);
         });
-
-        $this->app->singleton(NotificationManager::class, function () {
-            return new NotificationManager();
-        });
-
+        
         $this->registerCommands();
     }
 
@@ -72,21 +68,17 @@ class YaliServiceProvider extends ServiceProvider
 
         $this->app['yali-icon']->loadIcons();
 
-        Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/yali/livewire/update', $handle);
-        });
+        // on('dehydrate', function (Component $component) {
+        //     if (!Livewire::isLivewireRequest()) {
+        //         return;
+        //     }
 
-        on('dehydrate', function (Component $component) {
-            if (! Livewire::isLivewireRequest()) {
-                return;
-            }
-
-            if (count(session()->get('yali.notifications') ?? []) <= 0) {
-                return;
-            }
+        //     if ($component->getName() === 'raakkan.yali.app.languages-page') {
+        //         Log::info($component->getName() . ' dehydrated');
+        //         $component->dispatch('notifications-sent');
+        //     }
             
-            $component->dispatch('notifications-sent');
-        });
+        // });
     }
 
     protected function loadSeeders()

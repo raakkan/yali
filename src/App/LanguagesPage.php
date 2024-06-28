@@ -207,11 +207,12 @@ class LanguagesPage extends BaseResource
             })->addHeaderMessage(function ($form) {
                 return InfoMessage::make('<span>Type <b>' . $form->getModel()->name . '</b> to confirm deletion</span>')->danger();
             });
-        })->action(function ($action, $model, $formData) {
+        })->action(function ($action, $model, $form) {
+            $nameField = $form->getField('name');
 
-            throw_if($formData['name'] !== $model->name, new \Exception('Language name does not match'));
+            throw_if($nameField->getValue() !== $model->name, new \Exception('Language name does not match'));
 
-            if ($model->name === $formData['name']) {
+            if ($model->name === $nameField->getValue()) {
                 $model->forceDelete();
             }
         });

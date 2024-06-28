@@ -4,7 +4,7 @@ namespace Raakkan\Yali\Core\Support\Notification;
 
 class NotificationManager
 {
-   protected $notifications = [];
+   public $notifications = [];
 
    public function addNotification($id, Notification $notification)
    {

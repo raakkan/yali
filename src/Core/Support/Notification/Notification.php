@@ -2,13 +2,14 @@
 
 namespace Raakkan\Yali\Core\Support\Notification;
 
-use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Concerns\UI\Iconable;
 use Illuminate\Support\Traits\Conditionable;
 
-class Notification  extends YaliComponent
+class Notification extends YaliComponent
 {
     use Makable;
     use Conditionable;
@@ -69,11 +70,55 @@ class Notification  extends YaliComponent
 
     public function send()
     {
-        $id = uniqid();
+        session()->push('yali.notifications', $this->toArray());
 
-        app(NotificationManager::class)->addNotification($id, $this);
+        $this->getLivewire()->dispatch('notifications-sent');
 
-        session()->push('yali.notifications', [$id]);
+        return $this;
+    }
+
+    public $livewire;
+
+    public function livewire($livewire)
+    {
+        $this->livewire = $livewire;
+        return $this;
+    }
+
+    public function getLivewire()
+    {
+        if (!$this->livewire) {
+            $callerMeta = $this->getCallerMetadata();
+            $callerObject = array_key_exists('object', $callerMeta) ? $callerMeta['object'] : null;
+
+            if ($callerObject && $callerObject instanceof Component) {
+                $this->livewire = $callerObject;
+            }
+        }
+
+        return $this->livewire;
+    }
+
+    public function toArray()
+    {
+        return [
+            'title' => $this->title,
+            'message' => $this->message,
+            'timeout' => $this->timeout,
+            'type' => $this->type,
+            'livewire' => $this->livewire,
+            'icon' => $this->getIconView(),
+        ];
+    }
+
+    public function fromArray(array $data)
+    {
+        $this->title = $data['title'] ?? $this->title;
+        $this->message = $data['message'] ?? $this->message;
+        $this->timeout = $data['timeout'] ?? $this->timeout;
+        $this->type = $data['type'] ?? $this->type;
+        $this->livewire = $data['livewire'] ?? $this->livewire;
+        $this->icon = $data['icon'] ?? $this->icon;
 
         return $this;
     }

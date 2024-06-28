@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    {{-- @livewire('yali::notifications-component') --}}
+    @livewire('yali::notifications-component')
 
     <x-yali::toast />
 </body>

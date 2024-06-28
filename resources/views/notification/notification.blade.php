@@ -1,4 +1,4 @@
-<div x-data="{ show: true, id: '{{ $id }}' }" x-show="show" x-init="setTimeout(() => show = false, {{ $notification->getTimeout() }})" x-id="['notification_' + id]"
+<div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, {{ $notification->getTimeout() }})"
     class="relative max-w-full p-3 rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-[#0f9c0f] to-[#6ad45c] text-white">
     <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">

@@ -2,6 +2,8 @@
 
 namespace Raakkan\Yali\Core\Concerns\UI;
 
+use Illuminate\Support\Facades\Blade;
+
 trait Iconable
 {
     protected $icon;
@@ -33,7 +35,7 @@ trait Iconable
         return $this;
     }
 
-    public function getViewIcon()
+    public function getIconView()
     {
         $icon = $this->getIcon();
         $cssClasses = $this->iconCssClasses;
@@ -49,7 +51,7 @@ trait Iconable
         } elseif (filter_var($icon, FILTER_VALIDATE_URL)) {
             return sprintf('<img src="%s" alt="Icon" class="%s">', e($icon), e($cssClasses));
         } else {
-            return sprintf('<x-yali::icon name="%s" class="%s" />', e($icon), e($cssClasses));
+            return Blade::render(sprintf('<x-yali::icon name="%s" class="%s" />', e($icon), e($cssClasses)));
         }
     }
 

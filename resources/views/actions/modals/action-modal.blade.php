@@ -24,7 +24,7 @@
             ]);
 
             $closeIconButton = Raakkan\Yali\Core\View\Button::make();
-            $closeIconButton->classes(['btn', 'btn-icon', 'btn-transparent', 'p-0']);
+            $closeIconButton->classes(['btn', 'btn-icon', 'btn-transparent', 'btn-sm']);
             $closeIconButton->setAttributes([
                 'wire:click' => 'cancelAction',
             ]);

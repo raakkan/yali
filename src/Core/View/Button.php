@@ -3,9 +3,12 @@
 namespace Raakkan\Yali\Core\View;
 
 use Illuminate\Support\Facades\Blade;
+use Raakkan\Yali\Core\Concerns\UI\Iconable;
 
 class Button extends BaseComponent
 {
+    use Iconable;
+
     private $disabled;
     private $tag = 'button';
     private $type = 'button';
@@ -110,8 +113,8 @@ class Button extends BaseComponent
             $html .= Blade::render('<x-yali::icon name="spinner" wire:loading wire:target="' . $this->spinnerTarget .'" class="inline w-4 h-4 me-3 animate-spin" />');
         }
         
-        if ($this->icon !== null) {
-            $html .= Blade::render('<x-yali::icon name="' . $this->icon . '" />');
+        if ($this->hasIcon()) {
+            $html .= $this->getIconView();
         }
         
         if ($this->spinner && $this->loadingLabel) {

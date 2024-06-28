@@ -4,9 +4,12 @@ namespace Raakkan\Yali\Core\View;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Blade;
+use Raakkan\Yali\Core\Concerns\UI\Iconable;
 
 class InfoMessage extends BaseComponent
 {
+    use Iconable;
+    
     private $type = 'info';
     private $dismissible = false;
     private $message;

@@ -11,7 +11,6 @@ abstract class BaseComponent
     use Stylable;
     
     protected $label;
-    protected $icon;
     protected $attributes = [];
 
     public function setLabel($label)
@@ -23,18 +22,6 @@ abstract class BaseComponent
     public function label($label)
     {
         $this->label = $label;
-        return $this;
-    }
-
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-        return $this;
-    }
-
-    public function icon($icon)
-    {
-        $this->icon = $icon;
         return $this;
     }
 

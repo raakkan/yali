@@ -84,7 +84,7 @@ class BaseModal extends Component
             $this->dispatch('toast', type: 'success', message: $this->getAction()->getSuccessMassage());
         } catch (\Exception $e) {
             $this->dispatch('toast', type: 'error', message: $e->getMessage());
-            throw $e;
+            // throw $e;
         }
     }
 
@@ -96,12 +96,13 @@ class BaseModal extends Component
     public function openModal()
     {
         Notification::make()->success()->title('Welcome to Yali!')->message('Manage Translations')->send();
-        $result = $this->getAction()->triggerBeforeConfirmationOpen();
-        if ($result === true) {
-            $this->openActionModal = true;
-        } else {
-            $this->dispatch('toast', type: 'error', message: $result);
-        }
+        // $this->dispatch('notifications-sent');
+        // $result = $this->getAction()->triggerBeforeConfirmationOpen();
+        // if ($result === true) {
+        //     $this->openActionModal = true;
+        // } else {
+        //     $this->dispatch('toast', type: 'error', message: $result);
+        // }
     }
 
     public function closeModal()
