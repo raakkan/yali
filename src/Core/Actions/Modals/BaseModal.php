@@ -95,14 +95,13 @@ class BaseModal extends Component
 
     public function openModal()
     {
-        Notification::make()->success()->title('Welcome to Yali!')->message('Manage Translations')->send();
-        // $this->dispatch('notifications-sent');
-        // $result = $this->getAction()->triggerBeforeConfirmationOpen();
-        // if ($result === true) {
-        //     $this->openActionModal = true;
-        // } else {
-        //     $this->dispatch('toast', type: 'error', message: $result);
-        // }
+        $this->dispatch('notifications-sent');
+        $result = $this->getAction()->triggerBeforeConfirmationOpen();
+        if ($result === true) {
+            $this->openActionModal = true;
+        } else {
+            $this->dispatch('toast', type: 'error', message: $result);
+        }
     }
 
     public function closeModal()

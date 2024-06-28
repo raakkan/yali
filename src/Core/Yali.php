@@ -9,6 +9,7 @@ use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Actions\Modals\ActionModal;
+use Raakkan\Yali\Core\FileManager\FileManagerPage;
 use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 use Raakkan\Yali\Core\Actions\Modals\ActionConfirmationModal;
@@ -52,6 +53,8 @@ class Yali
         Livewire::component('yali::action-confirmation-modal', ActionConfirmationModal::class);
 
         Livewire::component('yali::manage-translation', ManageTranslationPage::class);
+
+        Livewire::component('yali::file-manager', FileManagerPage::class);
 
         Livewire::component('yali::notifications-component', Notifications::class);
 

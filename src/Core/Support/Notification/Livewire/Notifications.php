@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Support\Notification\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Log;
 
 class Notifications extends Component
 {
@@ -12,7 +13,16 @@ class Notifications extends Component
     #[On('notifications-sent')]
     public function getNotifications()
     {
-        $this->notifications = session()->pull('yali.notifications');
+        $notifications = session()->pull('yali.notifications', []);
+
+        foreach ($notifications as $notification) {
+            $this->notifications[] = $notification;
+        }
+    }
+
+    public function clear()
+    {
+        session()->forget('yali.notifications');
     }
 
     public function render()

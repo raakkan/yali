@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\LanguagesPage;
 use Raakkan\Yali\App\HandleResourcePage;
+use Raakkan\Yali\Core\FileManager\FileManagerPage;
 
 class NavigationManager
 {
@@ -20,6 +21,7 @@ class NavigationManager
     {
         $this->navigation->add(DashboardPage::createNavigationItem());
         $this->navigation->add(LanguagesPage::createNavigationItem());
+        $this->navigation->add(FileManagerPage::createNavigationItem());
 
         // TODO: navigation slug uniqueness check
         foreach ($pages as $value) {
