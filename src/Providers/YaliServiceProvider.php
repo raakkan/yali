@@ -63,8 +63,16 @@ class YaliServiceProvider extends ServiceProvider
         YaliManager::boot();
         
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
+        // Load Web Routes
+        Route::middleware('web')
+            ->group(__DIR__.'/../routes/web.php');
+
+        // Load API Routes
+        Route::prefix('api')
+            ->middleware('api')
+            ->group(__DIR__.'/../routes/api.php');
 
         $this->app['yali-icon']->loadIcons();
 
