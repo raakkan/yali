@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
-use Livewire\Livewire;
-use Livewire\Component;
-use function Livewire\on;
 use Raakkan\Yali\Core\Yali;
-use function Livewire\store;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Events\ActionExecuted;
-use Raakkan\Yali\Core\Support\Icon\IconManager;
-use Raakkan\Yali\Core\Translation\YaliTranslator;
 
+use Raakkan\Yali\Core\FileManager\FileManager;
+use Raakkan\Yali\Core\Support\Icon\IconManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
-use Raakkan\Yali\Core\Support\Notification\NotificationManager;
-use Raakkan\Yali\Core\Support\Notification\Livewire\Notifications;
 
 class YaliServiceProvider extends ServiceProvider
 {
@@ -46,6 +40,10 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->singleton('yali-icon', function ($app) {
             $iconLoader = $app->make('yali-manager')->getIconLoader();
             return new IconManager($iconLoader);
+        });
+
+        $this->app->bind(FileManager::class, function ($app) {
+            return new FileManager(Storage::disk('local'));
         });
         
         $this->registerCommands();

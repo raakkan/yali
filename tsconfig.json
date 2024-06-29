@@ -1,37 +1,39 @@
 {
     "compilerOptions": {
-        "target": "es2020", // Ensure JavaScript compatibility
-        "module": "esnext", // Specify module code generation
-        "strict": true, // Enable all strict type-checking options
-        "allowJs": true, // Allow JavaScript files to be compiled
-        "checkJs": true, // Enable type checking in .js files
-        "noImplicitAny": true, // Raise errors on expressions and declarations with an implied 'any' type
-        "strictNullChecks": true, // Ensure strict null checks
-        "strictFunctionTypes": true, // Ensure function parameter bivariance
-        "strictBindCallApply": true, // Check that `bind`, `call`, and `apply` methods are invoked with correct arguments
-        "strictPropertyInitialization": true, // Check stricter rules for property initialization
-        "noImplicitThis": true, // Raise error on 'this' expressions with an implied 'any' type
-        "alwaysStrict": true, // Ensure 'use strict' is always emitted
+        "target": "es2020",
+        "module": "nodenext",
+        "moduleResolution": "node",
+        "strict": true,
+        "allowJs": true,
+        "checkJs": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
         "types": [
             "vite/client"
         ],
-        "baseUrl": ".", // Base directory to resolve non-relative module names
+        "baseUrl": "./packages/raakkan/yali/resources/js",
         "paths": {
             "@/*": [
-                "./resources/js/*"
+                "./*"
             ]
         },
-        "esModuleInterop": true, // Emit __importStar and __importDefault helpers for runtime babel ecosystem compatibility
-        "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
-        "forceConsistentCasingInFileNames": true // Ensure consistent casing in module file names
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true
     },
     "include": [
-        "./resources/**/*.ts",
-        "./resources/**/*.d.ts",
-        "./resources/**/*.vue"
+        "./packages/raakkan/yali/resources/**/*.ts",
+        "./packages/raakkan/yali/resources/**/*.d.ts",
+        "./packages/raakkan/yali/resources/**/*.vue"
     ],
     "exclude": [
-        "node_modules", // Exclude directory to improve compilation speed
-        "dist" // Exclude built files to prevent compilation loops
+        "node_modules",
+        "dist"
     ]
 }
