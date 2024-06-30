@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <div v-if="isLoading" class="text-center py-4">
-            Loading...
-        </div>
-        <div v-else-if="!hasContent" class="text-center py-4">
+    <div class="p-4">
+        <div v-if="!hasContent && !isLoading" class="text-center py-4">
             No files or folders found in this directory.
         </div>
-        <div v-else class="flex flex-row space-x-4">
+        <div v-else class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             <FolderComponent v-for="folder in folders" :key="folder.path" :folder="folder" />
             <FileComponent v-for="file in files" :key="file.path" :file="file" />
         </div>
+
     </div>
 </template>
 

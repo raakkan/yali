@@ -1,8 +1,9 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="mb-4 flex justify-between items-center">
-      <h2 class="text-2xl font-bold text-gray-800">File Manager</h2>
-      <div class="flex space-x-2">
+  <div class="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg">
+    <div class="p-4 flex flex-col md:flex-row md:justify-between md:items-center border-b dark:border-gray-600">
+      <h2 class="text-2xl font-semibold">File Manager</h2>
+      <div class="flex justify-between md:justify-start mt-4 md:mt-0 md:space-x-2">
+        <RefreshButton />
         <CreateFolderButton />
         <UploadFileButton />
         <DeleteSelectedButton />
@@ -13,10 +14,6 @@
 
     <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"
       :files="store.currentFolder?.files" />
-
-    <div v-if="store.error" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
-      {{ store.error }}
-    </div>
   </div>
 </template>
 
@@ -29,6 +26,7 @@ import FileManagerContent from './components/FileManagerContent.vue';
 import CreateFolderButton from './components/CreateFolderButton.vue';
 import UploadFileButton from './components/UploadFileButton.vue';
 import DeleteSelectedButton from './components/DeleteSelectedButton.vue';
+import RefreshButton from './components/RefreshButton.vue';
 import { IFolder, IFile } from './types';
 
 export default defineComponent({
@@ -38,7 +36,8 @@ export default defineComponent({
     Breadcrumbs,
     CreateFolderButton,
     UploadFileButton,
-    DeleteSelectedButton
+    DeleteSelectedButton,
+    RefreshButton
   },
   props: {
     dataProps: {

@@ -71,28 +71,6 @@ export const useFilemanagerStore = defineStore('filemanager', {
         clearSelection() {
             this.selectedItem = null;
         },
-
-        async uploadFile(file: File) {
-            console.log(file, this.currentFolder);
-
-            // this.isLoading = true;
-            // try {
-            //     const formData = new FormData();
-            //     formData.append('file', file);
-            //     if (this.currentFolder) {
-            //         formData.append('folder', this.currentFolder.path);
-            //     }
-            //     await axios.post('http://127.0.0.1:8000/api/admin/file-manager/upload', formData, {
-            //         headers: { 'Content-Type': 'multipart/form-data' }
-            //     });
-            //     await this.openFolder(this.currentFolder);
-            // } catch (error) {
-            //     this.error = 'Failed to upload file';
-            //     console.error('Error uploading file:', error);
-            // } finally {
-            //     this.isLoading = false;
-            // }
-        },
     },
 
     getters: {

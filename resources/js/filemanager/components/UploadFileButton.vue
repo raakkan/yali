@@ -1,8 +1,13 @@
 <template>
     <div>
-        <button @click="showUploadDialog"
-            class="flex items-center px-4 py-2 rounded text-white transition-colors bg-blue-500 hover:bg-blue-600">
-            <span>Upload File</span>
+        <button @click="showUploadDialog" class="btn btn-primary btn-sm flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd" />
+            </svg>
+            <span class="hidden sm:inline-block ml-2">Upload File</span>
         </button>
 
         <Modal :is-visible="isUploaderOpen" icon-background-class="bg-blue-100">
@@ -23,11 +28,28 @@
                         select</button>
                 </div>
                 <div class="file-list space-y-2 mb-4">
-                    <div v-for="file in files" :key="file.name" class="bg-gray-100 p-2 rounded">
-                        <span class="font-semibold">{{ file.name }}</span> - {{ file.progress }}%
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: `${file.progress}%` }"></div>
+                    <div v-for="(file, index) in files" :key="index"
+                        class="bg-gray-100 p-2 rounded flex items-center justify-between">
+                        <div class="flex-grow flex items-center">
+                            <div v-if="file.isImage && file.preview" class="mr-2">
+                                <img :src="file.preview" alt="Preview" class="w-10 h-10 object-cover rounded">
+                            </div>
+                            <div class="flex-grow">
+                                <span class="font-semibold">{{ file.name }}</span> - {{ file.progress }}%
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: `${file.progress}%` }">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <button @click="removeFile(index)" class="ml-2 text-red-500 hover:text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </template>
@@ -49,10 +71,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 import { useFilemanagerStore } from '../store';
 import Modal from './Modal.vue';
 import axios from 'axios';
+
+interface FileObject {
+    name: string;
+    file: File;
+    progress: number;
+    isImage: boolean;
+    preview?: string;
+}
 
 export default defineComponent({
     name: 'UploadFileButton',
@@ -60,7 +90,7 @@ export default defineComponent({
     setup() {
         const store = useFilemanagerStore();
         const isUploaderOpen = ref(false);
-        const files = ref<{ name: string; file: File; progress: number }[]>([]);
+        const files = ref<FileObject[]>([]);
         const isUploading = ref(false);
         const fileInput = ref<HTMLInputElement | null>(null);
 
@@ -89,9 +119,37 @@ export default defineComponent({
         const addFiles = (newFiles: File[]) => {
             newFiles.forEach(file => {
                 if (!files.value.some(f => f.name === file.name)) {
-                    files.value.push({ name: file.name, file, progress: 0 });
+                    const isImage = file.type.startsWith('image/');
+                    const fileObj: FileObject = reactive({
+                        name: file.name,
+                        file,
+                        progress: 0,
+                        isImage,
+                        preview: undefined
+                    });
+
+                    if (isImage) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            fileObj.preview = e.target?.result as string;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+
+                    files.value.push(fileObj);
                 }
             });
+        };
+
+        const removeFile = (index: number) => {
+            files.value.splice(index, 1);
+            resetFileInput();
+        };
+
+        const resetFileInput = () => {
+            if (fileInput.value) {
+                fileInput.value.value = '';
+            }
         };
 
         const startUpload = async () => {
@@ -99,6 +157,7 @@ export default defineComponent({
             for (const fileObj of files.value) {
                 const formData = new FormData();
                 formData.append('file', fileObj.file);
+                formData.append('folder', store.currentFolder.path);
 
                 try {
                     await axios.post('/api/admin/file-manager/upload', formData, {
@@ -127,6 +186,7 @@ export default defineComponent({
             closeUploader,
             handleFileSelect,
             handleDrop,
+            removeFile,
             startUpload,
         };
     },

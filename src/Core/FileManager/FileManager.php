@@ -28,8 +28,20 @@ class FileManager
 
     public function uploadFile($file, ?string $folder = null): string
     {
-        $path = $folder ? $folder . '/' . $file->getClientOriginalName() : $file->getClientOriginalName();
-        $this->storage->putFileAs($folder, $file, $file->getClientOriginalName());
+        $originalName = $file->getClientOriginalName();
+        $filename = pathinfo($originalName, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        
+        $path = $folder ? $folder . '/' . $originalName : $originalName;
+        $counter = 1;
+
+        while ($this->storage->exists($path)) {
+            $newFilename = $filename . '_' . $counter . '.' . $extension;
+            $path = $folder ? $folder . '/' . $newFilename : $newFilename;
+            $counter++;
+        }
+
+        $this->storage->putFileAs($folder, $file, basename($path));
         return $path;
     }
 

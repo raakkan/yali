@@ -16,6 +16,8 @@ import { defineComponent, computed } from 'vue';
 import { useFilemanagerStore } from '../store/FileManagerStore';
 import { IFolder } from '../types';
 
+// TODO: test double click in mobile
+
 export default defineComponent({
     name: 'FolderComponent',
     props: {

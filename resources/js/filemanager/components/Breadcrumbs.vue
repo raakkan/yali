@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex py-2" aria-label="Breadcrumb">
+    <nav class="flex p-4 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-600" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li v-for="(folder, index) in store.breadcrumbs" :key="folder.path" class="inline-flex items-center">
                 <span v-if="index > 0" class="mr-2">/</span>
