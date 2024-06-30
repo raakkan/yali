@@ -1,127 +1,132 @@
 <template>
-    <div class="upload-file-button">
-        <button @click="openUploader" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-            Upload File
+    <div>
+        <button @click="showUploadDialog"
+            class="flex items-center px-4 py-2 rounded text-white transition-colors bg-blue-500 hover:bg-blue-600">
+            <span>Upload File</span>
         </button>
-        <div v-if="isUploaderOpen"
-            class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-            <div class="relative bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto">
-                <h2 class="text-2xl font-bold mb-4">Upload Files</h2>
-                <div ref="dragDropArea" class="border-2 border-dashed border-gray-300 rounded-lg p-6 mb-4 text-center">
-                    Drag and drop files here or click to select
+
+        <Modal :is-visible="isUploaderOpen" icon-background-class="bg-blue-100">
+            <template #icon>
+                <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+            </template>
+            <template #title>Upload Files</template>
+            <template #content>
+                <div ref="dragDropArea" @drop.prevent="handleDrop" @dragover.prevent @dragenter.prevent
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 mb-4 text-center">
+                    Drag and drop files here or
+                    <input type="file" ref="fileInput" @change="handleFileSelect" multiple class="hidden" />
+                    <button @click="$refs.fileInput.click()" class="text-blue-500 hover:underline">click to
+                        select</button>
                 </div>
                 <div class="file-list space-y-2 mb-4">
-                    <div v-for="file in files" :key="file.id" class="bg-gray-100 p-2 rounded">
+                    <div v-for="file in files" :key="file.name" class="bg-gray-100 p-2 rounded">
                         <span class="font-semibold">{{ file.name }}</span> - {{ file.progress }}%
                         <div class="w-full bg-gray-200 rounded-full h-2.5">
                             <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: `${file.progress}%` }"></div>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-between">
-                    <button @click="startUpload" :disabled="!files.length"
-                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">
-                        Start Upload
-                    </button>
-                    <button @click="closeUploader"
-                        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
+            </template>
+            <template #confirm-button>
+                <button @click="startUpload" :disabled="!files.length || isUploading"
+                    class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span v-if="isUploading">Uploading...</span>
+                    <span v-else>Upload</span>
+                </button>
+            </template>
+            <template #cancel-button>
+                <button @click="closeUploader" :disabled="isUploading"
+                    class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                    Cancel
+                </button>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useFilemanagerStore } from '../store';
-import Uppy from '@uppy/core';
-import XHRUpload from '@uppy/xhr-upload';
-import DragDrop from '@uppy/drag-drop';
+import Modal from './Modal.vue';
+import axios from 'axios';
 
 export default defineComponent({
     name: 'UploadFileButton',
+    components: { Modal },
     setup() {
         const store = useFilemanagerStore();
-        const uppy = ref<Uppy | null>(null);
         const isUploaderOpen = ref(false);
-        const files = ref([]);
-        const dragDropArea = ref<HTMLElement | null>(null);
+        const files = ref<{ name: string; file: File; progress: number }[]>([]);
+        const isUploading = ref(false);
+        const fileInput = ref<HTMLInputElement | null>(null);
 
-        const initializeUppy = () => {
-            if (dragDropArea.value) {
-                uppy.value = new Uppy({
-                    debug: true,
-                    autoProceed: false,
-                })
-                    .use(DragDrop, {
-                        target: dragDropArea.value,
-                    })
-                    .use(XHRUpload, {
-                        endpoint: '/api/admin/file-manager/upload',
-                        fieldName: 'file',
-                        formData: true,
-                    });
-
-                uppy.value.on('file-added', (file) => {
-                    files.value.push({ id: file.id, name: file.name, progress: 0 });
-                });
-
-                uppy.value.on('upload-progress', (file, progress) => {
-                    const fileIndex = files.value.findIndex((f) => f.id === file.id);
-                    if (fileIndex !== -1) {
-                        files.value[fileIndex].progress = Math.round(progress.bytesUploaded / progress.bytesTotal * 100);
-                    }
-                });
-
-                uppy.value.on('upload-success', (file, response) => {
-                    store.refresh();
-                });
-            }
-        };
-
-        onMounted(() => {
-            nextTick(() => {
-                if (isUploaderOpen.value) {
-                    initializeUppy();
-                }
-            });
-        });
-
-        onUnmounted(() => {
-            if (uppy.value) {
-                uppy.value.close();
-            }
-        });
-
-        const openUploader = () => {
+        const showUploadDialog = () => {
             isUploaderOpen.value = true;
-            nextTick(() => {
-                initializeUppy();
-            });
         };
 
         const closeUploader = () => {
             isUploaderOpen.value = false;
             files.value = [];
-            if (uppy.value) {
-                uppy.value.reset();
+        };
+
+        const handleFileSelect = (event: Event) => {
+            const target = event.target as HTMLInputElement;
+            if (target.files) {
+                addFiles(Array.from(target.files));
             }
         };
 
-        const startUpload = () => {
-            if (uppy.value) {
-                uppy.value.upload();
+        const handleDrop = (event: DragEvent) => {
+            if (event.dataTransfer?.files) {
+                addFiles(Array.from(event.dataTransfer.files));
             }
+        };
+
+        const addFiles = (newFiles: File[]) => {
+            newFiles.forEach(file => {
+                if (!files.value.some(f => f.name === file.name)) {
+                    files.value.push({ name: file.name, file, progress: 0 });
+                }
+            });
+        };
+
+        const startUpload = async () => {
+            isUploading.value = true;
+            for (const fileObj of files.value) {
+                const formData = new FormData();
+                formData.append('file', fileObj.file);
+
+                try {
+                    await axios.post('/api/admin/file-manager/upload', formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                        onUploadProgress: (progressEvent) => {
+                            if (progressEvent.total) {
+                                fileObj.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                            }
+                        },
+                    });
+                } catch (error) {
+                    console.error('Upload error:', error);
+                }
+            }
+            isUploading.value = false;
+            store.refresh();
+            closeUploader();
         };
 
         return {
             isUploaderOpen,
             files,
-            dragDropArea,
-            openUploader,
+            isUploading,
+            fileInput,
+            showUploadDialog,
             closeUploader,
+            handleFileSelect,
+            handleDrop,
             startUpload,
         };
     },
