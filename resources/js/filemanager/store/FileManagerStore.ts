@@ -1,24 +1,139 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { IFolder } from '../types';
+import { IFolder, IFile, SelectedFolder, SelectedFile } from '../types';
+
+export type SelectedItem = SelectedFolder | SelectedFile;
 
 export const useFilemanagerStore = defineStore('filemanager', {
-    state: () => {
-        return {
-            rootFolder: null as IFolder | null,
-            currentFolder: null as IFolder | null,
-            folders: [] as IFolder[],
-            isLoading: false as boolean,
-            error: null as string | null,
-        };
-    },
-    actions: {
-        async fetchFiles() {
-            const response = await axios.get('http://127.0.0.1:8000/api/admin/file-manager');
-            this.folders = response.data.folders;
-            console.log(this.folders);
+    state: () => ({
+        rootFolder: null as IFolder | null,
+        currentFolder: null as IFolder | null,
+        selectedItem: null as SelectedItem | null,
+        isLoading: false,
+        error: null as string | null,
+    }),
 
-            this.folders.files = response.data.files;
+    actions: {
+        setRootFolder(folder: IFolder) {
+            this.rootFolder = { ...folder, parent: null };
+        },
+        async fetchRootContents() {
+            if (this.rootFolder) {
+                await this.openFolder(this.rootFolder);
+            } else {
+                console.error('Root folder not set');
+            }
+        },
+
+        async openFolder(folder: IFolder) {
+            this.isLoading = true;
+            const path = folder ? folder.path : '/';
+
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/admin/file-manager?folder=${path}`);
+
+                if (response.data.folders.length && response.data.files.length) {
+                    folder.files = response.data.files;
+                    folder.folders = response.data.folders.map((subfolder: IFolder) => ({
+                        ...subfolder,
+                        parent: folder
+                    }));
+                }
+
+                this.currentFolder = folder;
+
+                this.clearSelection();
+                this.error = null;
+            } catch (error) {
+                this.error = 'Failed to open folder';
+                console.error('Error opening folder:', error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        selectItem(item: SelectedItem) {
+            this.selectedItem = item;
+        },
+
+        clearSelection() {
+            this.selectedItem = null;
+        },
+
+        async createFolder(folderName: string) {
+            console.log(folderName, this.currentFolder);
+            // this.isLoading = true;
+            // try {
+            //     const parentPath = this.currentFolder ? this.currentFolder.path : '';
+            //     await axios.post('http://127.0.0.1:8000/api/admin/file-manager/folders', {
+            //         name: folderName,
+            //         parent: parentPath
+            //     });
+            //     await this.openFolder(this.currentFolder);
+            // } catch (error) {
+            //     this.error = 'Failed to create folder';
+            //     console.error('Error creating folder:', error);
+            // } finally {
+            //     this.isLoading = false;
+            // }
+        },
+
+        async uploadFile(file: File) {
+            console.log(file, this.currentFolder);
+
+            // this.isLoading = true;
+            // try {
+            //     const formData = new FormData();
+            //     formData.append('file', file);
+            //     if (this.currentFolder) {
+            //         formData.append('folder', this.currentFolder.path);
+            //     }
+            //     await axios.post('http://127.0.0.1:8000/api/admin/file-manager/upload', formData, {
+            //         headers: { 'Content-Type': 'multipart/form-data' }
+            //     });
+            //     await this.openFolder(this.currentFolder);
+            // } catch (error) {
+            //     this.error = 'Failed to upload file';
+            //     console.error('Error uploading file:', error);
+            // } finally {
+            //     this.isLoading = false;
+            // }
+        },
+
+        async deleteSelected() {
+            console.log(this.selectedItem);
+
+            // if (this.selectedItem) {
+            //     this.isLoading = true;
+            //     try {
+            //         const itemType = 'type' in this.selectedItem && this.selectedItem.type === 'folder' ? 'folders' : 'files';
+            //         await axios.delete(`http://127.0.0.1:8000/api/admin/file-manager/${itemType}/${this.selectedItem.path}`);
+            //         this.clearSelection();
+            //         await this.openFolder(this.currentFolder);
+            //     } catch (error) {
+            //         this.error = 'Failed to delete item';
+            //         console.error('Error deleting item:', error);
+            //     } finally {
+            //         this.isLoading = false;
+            //     }
+            // }
+        },
+    },
+
+    getters: {
+        hasSelection: (state) => state.selectedItem !== null,
+        currentPath: (state) => state.currentFolder ? state.currentFolder.path : '',
+        breadcrumbs: (state) => {
+            const breadcrumbs: IFolder[] = [];
+            if (state.rootFolder && state.currentFolder) {
+                let current: IFolder | null = state.currentFolder;
+                while (current && current.path !== state.rootFolder.path) {
+                    breadcrumbs.unshift(current);
+                    current = current.parent as IFolder | null;
+                }
+                breadcrumbs.unshift(state.rootFolder);
+            }
+            return breadcrumbs;
         },
     },
 });

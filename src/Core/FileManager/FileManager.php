@@ -29,34 +29,24 @@ class FileManager
 
     public function getAllFolders(?string $folder = null): Collection
     {
-        try {
-            $folders = $folder ? $this->storage->directories($folder) : $this->storage->directories();
-            return collect($folders)->map(function ($folderPath) {
-                return [
-                    'name' => basename($folderPath),
-                    'path' => $folderPath,
-                    'fullPath' => $this->storage->path($folderPath), // Add this line
-                ];
-            })->values();
-        } catch (\Exception $e) {
-            \Log::error('Error in getAllFolders: ' . $e->getMessage());
-            return collect();
-        }
+        $folders = $folder ? $this->storage->directories($folder) : $this->storage->directories();
+        return collect($folders)->map(function ($folderPath) {
+            return [
+                'name' => basename($folderPath),
+                'path' => $folderPath,
+                'fullPath' => $this->storage->path($folderPath),
+            ];
+        })->values();
     }
 
     public function getFiles(?string $folder = null, string $disk = self::DEFAULT_DISK): Collection
     {
-        try {
-            $files = $folder ? $this->storage->files($folder) : $this->storage->files();
-            
-            return collect($files)->map(function ($file) use ($folder) {
-                $path = $folder ? "{$folder}/{$file}" : $file;
-                return $this->getFileInfo($path);
-            })->values();
-        } catch (\Exception $e) {
-            \Log::error('Error in getFiles: ' . $e->getMessage());
-            return collect();
-        }
+        $files = $folder ? $this->storage->files($folder) : $this->storage->files();
+        
+        return collect($files)->map(function ($file) use ($folder) {
+            $path = $folder ? "{$folder}/{$file}" : $file;
+            return $this->getFileInfo($file);
+        })->values();
     }
     
     private function getFileInfo(string $path): array
@@ -64,9 +54,11 @@ class FileManager
         return [
             'name' => basename($path),
             'path' => $path,
+            'fullPath' => $this->storage->path($path),
             'url' => $this->storage->url($path),
             'size' => $this->formatFileSize($this->storage->size($path)),
             'mime_type' => $this->storage->mimeType($path),
+            'extension' => pathinfo($path, PATHINFO_EXTENSION),
             'last_modified' => $this->formatDate($this->storage->lastModified($path)),
         ];
     }

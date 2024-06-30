@@ -6,4 +6,9 @@ export interface IFolder {
     fullPath: string;
     folders: IFolder[];
     files: IFile[];
+    parent: IFolder | null;
+}
+
+export interface SelectedFolder extends IFolder {
+    type: 'folder';
 }
