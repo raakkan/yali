@@ -32,16 +32,18 @@ export const useFilemanagerStore = defineStore('filemanager', {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/admin/file-manager?folder=${path}`);
 
-                if (response.data.folders.length && response.data.files.length) {
+                if (response.data.folders.length || response.data.files.length) {
                     folder.files = response.data.files;
                     folder.folders = response.data.folders.map((subfolder: IFolder) => ({
                         ...subfolder,
                         parent: folder
                     }));
+                } else {
+                    folder.files = [];
+                    folder.folders = [];
                 }
 
                 this.currentFolder = folder;
-
                 this.clearSelection();
                 this.error = null;
             } catch (error) {
@@ -52,30 +54,22 @@ export const useFilemanagerStore = defineStore('filemanager', {
             }
         },
 
+        async refresh() {
+            if (this.currentFolder) {
+                await this.openFolder(this.currentFolder);
+            } else if (this.rootFolder) {
+                await this.fetchRootContents();
+            } else {
+                console.error('No folder to refresh');
+            }
+        },
+
         selectItem(item: SelectedItem) {
             this.selectedItem = item;
         },
 
         clearSelection() {
             this.selectedItem = null;
-        },
-
-        async createFolder(folderName: string) {
-            console.log(folderName, this.currentFolder);
-            // this.isLoading = true;
-            // try {
-            //     const parentPath = this.currentFolder ? this.currentFolder.path : '';
-            //     await axios.post('http://127.0.0.1:8000/api/admin/file-manager/folders', {
-            //         name: folderName,
-            //         parent: parentPath
-            //     });
-            //     await this.openFolder(this.currentFolder);
-            // } catch (error) {
-            //     this.error = 'Failed to create folder';
-            //     console.error('Error creating folder:', error);
-            // } finally {
-            //     this.isLoading = false;
-            // }
         },
 
         async uploadFile(file: File) {
@@ -99,25 +93,6 @@ export const useFilemanagerStore = defineStore('filemanager', {
             //     this.isLoading = false;
             // }
         },
-
-        async deleteSelected() {
-            console.log(this.selectedItem);
-
-            // if (this.selectedItem) {
-            //     this.isLoading = true;
-            //     try {
-            //         const itemType = 'type' in this.selectedItem && this.selectedItem.type === 'folder' ? 'folders' : 'files';
-            //         await axios.delete(`http://127.0.0.1:8000/api/admin/file-manager/${itemType}/${this.selectedItem.path}`);
-            //         this.clearSelection();
-            //         await this.openFolder(this.currentFolder);
-            //     } catch (error) {
-            //         this.error = 'Failed to delete item';
-            //         console.error('Error deleting item:', error);
-            //     } finally {
-            //         this.isLoading = false;
-            //     }
-            // }
-        },
     },
 
     getters: {
@@ -134,6 +109,6 @@ export const useFilemanagerStore = defineStore('filemanager', {
                 breadcrumbs.unshift(state.rootFolder);
             }
             return breadcrumbs;
-        },
+        }
     },
 });

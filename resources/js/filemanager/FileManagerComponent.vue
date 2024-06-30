@@ -11,18 +11,9 @@
 
     <Breadcrumbs />
 
-    <!-- Files and Folders Grid -->
-    <div>
-      <div v-if="store.isLoading" class="text-center py-4">
-        Loading...
-      </div>
-      <div v-else class="flex flex-row space-x-4">
-        <FolderComponent v-for="folder in store.currentFolder?.folders" :key="folder.path" :folder="folder" />
-        <FileComponent v-for="file in store.currentFolder?.files" :key="file.path" :file="file" />
-      </div>
-    </div>
+    <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"
+      :files="store.currentFolder?.files" />
 
-    <!-- Error Toast -->
     <div v-if="store.error" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
       {{ store.error }}
     </div>
@@ -34,8 +25,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useFilemanagerStore } from './store/FileManagerStore';
 import { storeToRefs } from 'pinia';
 import Breadcrumbs from './components/Breadcrumbs.vue';
-import FolderComponent from './components/FolderComponent.vue';
-import FileComponent from './components/FileComponent.vue';
+import FileManagerContent from './components/FileManagerContent.vue';
 import CreateFolderButton from './components/CreateFolderButton.vue';
 import UploadFileButton from './components/UploadFileButton.vue';
 import DeleteSelectedButton from './components/DeleteSelectedButton.vue';
@@ -44,8 +34,7 @@ import { IFolder, IFile } from './types';
 export default defineComponent({
   name: 'FileManagerComponent',
   components: {
-    FolderComponent,
-    FileComponent,
+    FileManagerContent,
     Breadcrumbs,
     CreateFolderButton,
     UploadFileButton,

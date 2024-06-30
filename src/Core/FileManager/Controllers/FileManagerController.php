@@ -50,8 +50,11 @@ class FileManagerController extends Controller
         return response()->json(['message' => 'File uploaded successfully', 'path' => $path]);
     }
 
-    public function delete(Request $request, $type, $path)
+    public function delete(Request $request)
     {
+        $type = $request->query('type');
+        $path = $request->query('path');
+        
         try {
             $this->fileManager->delete($type, $path);
             return response()->json(['message' => 'Item deleted successfully']);

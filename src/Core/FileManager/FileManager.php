@@ -17,6 +17,39 @@ class FileManager
         $this->storage = $storage;
     }
 
+    public function createFolder(string $name, ?string $parent = null): void
+    {
+        $path = $parent ? "{$parent}/{$name}" : $name;
+        if ($this->storage->exists($path)) {
+            throw new \Exception("Folder already exists.");
+        }
+        $this->storage->makeDirectory($path);
+    }
+
+    public function uploadFile($file, ?string $folder = null): string
+    {
+        $path = $folder ? $folder . '/' . $file->getClientOriginalName() : $file->getClientOriginalName();
+        $this->storage->putFileAs($folder, $file, $file->getClientOriginalName());
+        return $path;
+    }
+
+    public function delete(string $type, string $path): void
+    {
+        if ($type === 'file') {
+            if (!$this->storage->exists($path)) {
+                throw new \Exception("File does not exist.");
+            }
+            $this->storage->delete($path);
+        } elseif ($type === 'folder') {
+            if (!$this->storage->exists($path)) {
+                throw new \Exception("Folder does not exist.");
+            }
+            $this->storage->deleteDirectory($path);
+        } else {
+            throw new \Exception("Invalid type specified.");
+        }
+    }
+
     public function getFolderContents(?string $folder = null, string $disk = self::DEFAULT_DISK): array
     {
         $files = $this->getFiles($folder, $disk);
