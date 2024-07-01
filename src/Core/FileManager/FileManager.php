@@ -2,21 +2,21 @@
 
 namespace Raakkan\Yali\Core\FileManager;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class FileManager
 {
     private const DEFAULT_DISK = 'local';
 
     private Filesystem $storage;
-    private ImageThumbnailGenerator $thumbnailGenerator;
+    private ImageHelper $imageHelper;
 
     public function __construct(Filesystem $storage)
     {
         $this->storage = $storage;
-        $this->thumbnailGenerator = new ImageThumbnailGenerator($storage);
+        $this->imageHelper = new ImageHelper($storage);
     }
 
     public function createFolder(string $name, ?string $parent = null): void
@@ -46,7 +46,7 @@ class FileManager
         $isImage = in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
 
         if ($isImage) {
-            $this->thumbnailGenerator->generateThumbnail($file, basename($path), $folder);
+            $result = $this->imageHelper->processImage($file, $folder);
         }
 
         $this->storage->putFileAs($folder, $file, basename($path));

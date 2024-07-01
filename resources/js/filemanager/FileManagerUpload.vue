@@ -1,9 +1,9 @@
 <template>
     <div v-if="isModalOpen"
         class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full p-2 md:p-0 md:flex md:items-center md:justify-center">
-        <div>
+        <div class=" w-full max-w-4xl">
             <FileManagerComponent :data-props="{ root: { name: 'root', path: '/' } }" :select="true" />
-            <div class="bg-white flex items-center justify-between p-4">
+            <div class="bg-white flex items-center justify-between p-4 rounded-b-lg">
                 <div>
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
                         Selected Files

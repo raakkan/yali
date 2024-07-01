@@ -43,7 +43,7 @@ class YaliServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(FileManager::class, function ($app) {
-            return new FileManager(Storage::disk('local'));
+            return new FileManager(Storage::disk('public'));
         });
         
         $this->registerCommands();

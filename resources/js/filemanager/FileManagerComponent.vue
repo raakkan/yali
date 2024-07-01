@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 border dark:border-gray-600" :class="select ? '' : 'rounded-lg'">
+  <div class="bg-white dark:bg-gray-800 border dark:border-gray-600" :class="select ? 'rounded-t-lg' : 'rounded-lg'">
     <div class="p-4 flex flex-col md:flex-row md:justify-between md:items-center border-b dark:border-gray-600">
       <h2 class="text-2xl font-semibold" :class="select ? 'hidden md:block' : ''">File Manager</h2>
       <div class="flex justify-between md:justify-start md:space-x-2" :class="select ? 'mt-0' : 'mt-4 md:mt-0'">
