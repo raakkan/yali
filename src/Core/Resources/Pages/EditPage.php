@@ -35,4 +35,9 @@ class EditPage extends ResourcePage
     {
         return static::$formSubmitButtonLabel ?? 'Update';
     }
+
+    public static function isHidden(): bool
+    {
+        return true;
+    }
 }

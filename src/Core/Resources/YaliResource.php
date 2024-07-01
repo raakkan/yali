@@ -84,13 +84,7 @@ class YaliResource extends BaseResource
 
     public static function getPages()
     {
-        Pages\CreatePage::setResource(static::class);
-        Pages\EditPage::setResource(static::class);
-
-        return [
-            'create' => Pages\CreatePage::class,
-            'edit' => Pages\EditPage::class,
-        ];
+        return [];
     }
 
     public static function getAction($actionClass, $modelKey)

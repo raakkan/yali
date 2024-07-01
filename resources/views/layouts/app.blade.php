@@ -8,7 +8,7 @@
 
     <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
 
-    {{ Vite::useHotFile(storage_path('vite.hot'))->useBuildDirectory('build')->withEntryPoints(['resources/css/admin.css', 'resources/js/admin.js']) }}
+    {{ Vite::useHotFile(storage_path('vite.hot'))->useBuildDirectory('build')->withEntryPoints(['resources/css/admin.css', 'resources/js/admin.ts']) }}
 </head>
 
 <body class="font-sans antialiased">
@@ -70,7 +70,7 @@
 
     </aside>
 
-    <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500">
+    <div class="p-2 md:p-4 sm:ml-64 bg-gray-100 dark:bg-gray-500" id="app">
 
         <div class="mt-16 md:mt-14">
             {{-- TODO: Breadcrumbs not finished yet --}}

@@ -10,7 +10,7 @@ export default ({ mode }) => {
         plugins: [
             laravel({
                 hotFile: '../../../storage/vite.hot',
-                input: ['resources/css/admin.css', 'resources/js/admin.js', 'resources/js/filemanager/filemanager.ts'],
+                input: ['resources/css/admin.css', 'resources/js/admin.ts'],
                 refresh: true,
             }),
             vue(),

@@ -34,4 +34,9 @@ class CreatePage extends ResourcePage
     {
         return static::$formSubmitButtonLabel ?? 'Create';
     }
+
+    public static function isHidden(): bool
+    {
+        return true;
+    }
 }

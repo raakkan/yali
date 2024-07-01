@@ -2,8 +2,9 @@
 
 namespace Raakkan\Yali\Core\Forms\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
 trait InteractsWithForms
@@ -11,6 +12,18 @@ trait InteractsWithForms
     public Model $model;
 
     public $form = [];
+
+    #[On('field-value-changed')]
+    public function fieldValueChanged($content, $formId, $fieldName)
+    {
+        $strippedContent = trim(strip_tags($content));
+
+        $isEmpty = empty($strippedContent);
+
+        if (array_key_exists($formId, $this->form) && array_key_exists($fieldName, $this->form[$formId]['inputs'])) {
+            $this->form[$formId]['inputs'][$fieldName] = $isEmpty ? '' : $content;
+        }
+    }
 
     public function fillForm()
     {
@@ -27,6 +40,7 @@ trait InteractsWithForms
     // TODO: display unchanged message
     public function validatedInputs()
     {
+        dd($this->form[$this->getForm()->getId()]['inputs']);
         $rules = $this->getValidationRules();
         // change to primary key
         if ($this->model->id) {

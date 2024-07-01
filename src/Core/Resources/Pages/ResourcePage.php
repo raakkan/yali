@@ -61,7 +61,7 @@ abstract class ResourcePage extends BasePage
 
     public function getForm()
     {
-        return $this->getResource()::getForm()->setSubmitButtonLabel($this->getFormSubmitButtonLabel());
+        return $this->getResource()::getForm()->setSubmitButtonLabel($this->getFormSubmitButtonLabel())->setLivewire($this);
     }
 
     public static function getFormSubmitButtonLabel(): string

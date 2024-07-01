@@ -56,6 +56,10 @@ class Navigation implements Renderable
             }
         }
 
+        $items = collect($items)->filter(function ($item) {
+            return !$item->isHidden();
+        })->toArray();
+
         $items = $this->sortItems($items);
 
         return $items;

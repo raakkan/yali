@@ -1,0 +1,21 @@
+.editor-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    min-height: 200px;
+}
+
+.editor-wrapper:focus-within {
+    outline: 2px solid #4299e1;
+    border-color: #4299e1;
+}
+
+.ProseMirror {
+    height: 100%;
+    min-height: 200px;
+    outline: none;
+}
+
+.ProseMirror p {
+    margin: 0.5rem 0;
+}

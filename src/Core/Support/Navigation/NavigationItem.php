@@ -123,4 +123,9 @@ class NavigationItem
     {
         return $this->path ?? $this->slug;
     }
+
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
 }

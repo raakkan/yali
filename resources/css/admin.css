@@ -5,6 +5,7 @@
 @import './border.css';
 @import './global-loader.css';
 @import './alert.css';
+@import './rich-editor.css';
 
 @tailwind base;
 @tailwind components;

@@ -80,6 +80,11 @@ trait HasNavigation
         return '/admin/' . static::getSlug();
     }
 
+    public static function isHidden(): bool
+    {
+        return false;
+    }
+
     public static function createNavigationItem(): NavigationItem
     {
         $navigationItem = new NavigationItem(
@@ -91,6 +96,7 @@ trait HasNavigation
             icon: static::getNavigationIcon(),
             order: static::getNavigationOrder(),
             path: static::getPath(),
+            hidden: static::isHidden()
         );
 
         if (method_exists(static::class, 'getChildNavigationItems')) {
