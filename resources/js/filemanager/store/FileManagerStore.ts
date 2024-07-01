@@ -77,6 +77,10 @@ export const useFilemanagerStore = defineStore('filemanager', {
         clearSelection() {
             this.selectedItem = null;
         },
+
+        resetStore() {
+            this.$reset();
+        },
     },
 
     getters: {

@@ -5,7 +5,7 @@
         </div>
         <div v-else class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             <FolderComponent v-for="folder in folders" :key="folder.path" :folder="folder" />
-            <FileComponent v-for="file in files" :key="file.path" :file="file" />
+            <FileComponent v-for="file in files" :key="file.path" :file="file" :select="select" />
         </div>
 
     </div>
@@ -19,7 +19,8 @@ import FileComponent from './FileComponent.vue';
 const props = defineProps({
     isLoading: Boolean,
     folders: Array,
-    files: Array
+    files: Array,
+    select: Boolean
 });
 
 const hasContent = computed(() =>

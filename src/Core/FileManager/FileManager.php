@@ -11,10 +11,12 @@ class FileManager
     private const DEFAULT_DISK = 'local';
 
     private Filesystem $storage;
+    private ImageThumbnailGenerator $thumbnailGenerator;
 
     public function __construct(Filesystem $storage)
     {
         $this->storage = $storage;
+        $this->thumbnailGenerator = new ImageThumbnailGenerator($storage);
     }
 
     public function createFolder(string $name, ?string $parent = null): void
@@ -39,6 +41,12 @@ class FileManager
             $newFilename = $filename . '_' . $counter . '.' . $extension;
             $path = $folder ? $folder . '/' . $newFilename : $newFilename;
             $counter++;
+        }
+
+        $isImage = in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+
+        if ($isImage) {
+            $this->thumbnailGenerator->generateThumbnail($file, basename($path), $folder);
         }
 
         $this->storage->putFileAs($folder, $file, basename($path));

@@ -82,7 +82,7 @@
 
     @livewire('yali::notifications-component')
 
-    <x-yali::toast />
+    <x-yali::filemanager.file-upload />
 </body>
 
 </html>

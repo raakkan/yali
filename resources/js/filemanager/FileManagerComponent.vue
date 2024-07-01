@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg">
+  <div class="bg-white dark:bg-gray-800 border dark:border-gray-600" :class="select ? '' : 'rounded-lg'">
     <div class="p-4 flex flex-col md:flex-row md:justify-between md:items-center border-b dark:border-gray-600">
-      <h2 class="text-2xl font-semibold">File Manager</h2>
-      <div class="flex justify-between md:justify-start mt-4 md:mt-0 md:space-x-2">
+      <h2 class="text-2xl font-semibold" :class="select ? 'hidden md:block' : ''">File Manager</h2>
+      <div class="flex justify-between md:justify-start md:space-x-2" :class="select ? 'mt-0' : 'mt-4 md:mt-0'">
         <RefreshButton />
         <CreateFolderButton />
         <UploadFileButton />
@@ -10,10 +10,12 @@
       </div>
     </div>
 
-    <Breadcrumbs />
+    <div class="h-full" :class="select ? 'max-h-72 overflow-y-auto' : ''">
+      <Breadcrumbs />
 
-    <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"
-      :files="store.currentFolder?.files" />
+      <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"
+        :files="store.currentFolder?.files" :select="select" />
+    </div>
   </div>
 </template>
 
@@ -43,6 +45,10 @@ export default defineComponent({
     dataProps: {
       type: Object,
       required: true
+    },
+    select: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {

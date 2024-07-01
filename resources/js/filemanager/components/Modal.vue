@@ -1,7 +1,7 @@
 <template>
     <div v-if="isVisible"
         class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-        <div class="bg-white rounded-lg p-4 w-full max-w-md m-4">
+        <div :class="['bg-white', 'rounded-lg', 'p-4', 'w-full', maxWidth, 'm-4']">
             <div>
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full"
                     :class="iconBackgroundClass">
@@ -41,6 +41,10 @@ export default defineComponent({
         iconBackgroundClass: {
             type: String,
             default: 'bg-blue-100',
+        },
+        maxWidth: {
+            type: String,
+            default: 'max-w-md',
         },
     },
 });

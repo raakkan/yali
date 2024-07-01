@@ -23,6 +23,10 @@ export default defineComponent({
         file: {
             type: Object as () => IFile,
             required: true
+        },
+        select: {
+            type: Boolean,
+            default: false
         }
     },
     setup(props) {

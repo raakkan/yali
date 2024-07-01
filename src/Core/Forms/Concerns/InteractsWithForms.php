@@ -16,12 +16,8 @@ trait InteractsWithForms
     #[On('field-value-changed')]
     public function fieldValueChanged($content, $formId, $fieldName)
     {
-        $strippedContent = trim(strip_tags($content));
-
-        $isEmpty = empty($strippedContent);
-
         if (array_key_exists($formId, $this->form) && array_key_exists($fieldName, $this->form[$formId]['inputs'])) {
-            $this->form[$formId]['inputs'][$fieldName] = $isEmpty ? '' : $content;
+            $this->form[$formId]['inputs'][$fieldName] =  $content;
         }
     }
 

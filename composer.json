@@ -29,7 +29,8 @@
     "require": {
         "wikimedia/composer-merge-plugin": "^2.1",
         "illuminate/support": "^11.7",
-        "illuminate/console": "^11.7"
+        "illuminate/console": "^11.7",
+        "intervention/image": "^3.7"
     },
     "extra": {
         "laravel": {
