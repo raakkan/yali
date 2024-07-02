@@ -1,5 +1,11 @@
 <template>
     <div class="p-4">
+        <div v-if="isLoading && !isLoaded">
+            <div class="grid grid-cols-auto-fill gap-2 md:gap-1">
+                <FolderComponentSkeleton v-for="n in 3" :key="n" />
+                <FileComponentSkeleton v-for="n in 3" :key="n" />
+            </div>
+        </div>
         <div v-if="!hasContent && !isLoading" class="text-center py-4">
             No files or folders found in this directory.
         </div>
@@ -14,9 +20,12 @@
 import { computed } from 'vue';
 import FolderComponent from './FolderComponent.vue';
 import FileComponent from './FileComponent.vue';
+import FolderComponentSkeleton from './Skeletons/FolderComponentSkeleton.vue';
+import FileComponentSkeleton from './Skeletons/FileComponentSkeleton.vue';
 
 const props = defineProps({
     isLoading: Boolean,
+    isLoaded: Boolean,
     folders: Array,
     files: Array,
     select: Boolean

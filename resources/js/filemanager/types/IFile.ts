@@ -7,6 +7,20 @@ export interface IFile {
     mime_type: string;
     extension: string;
     last_modified: string;
+    thumbnails?: {
+        thumb: {
+            path: string;
+            url: string;
+        };
+        small_thumb: {
+            path: string;
+            url: string;
+        };
+        very_small_thumb: {
+            path: string;
+            url: string;
+        };
+    };
 }
 
 export interface SelectedFile extends IFile {

@@ -1,8 +1,8 @@
 <template>
     <div @click="handleClick" :class="['flex flex-col items-center w-16 md:w-20 p-2 rounded-lg transition-colors cursor-pointer relative group',
         isSelected ? 'bg-blue-100' : 'hover:bg-gray-100']">
-        <div v-if="isImage" class="w-12 h-12 md:w-16 md:h-16 overflow-hidden">
-            <img :src="file.url" alt="Thumbnail" class="w-full h-full object-cover">
+        <div v-if="imageUrl" class="w-12 h-12 md:w-16 md:h-16 overflow-hidden">
+            <img :src="imageUrl" loading="lazy" alt="Thumbnail" class="w-full h-full object-cover">
         </div>
         <svg v-else class="w-12 h-12 md:w-16 md:h-16 text-gray-400" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24" fill="currentColor">
@@ -72,16 +72,28 @@ export default defineComponent({
             fileSelectStore.deselectFile(props.file);
         };
 
-        const isImage = computed(() => {
+        const imageUrl = computed(() => {
             const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-            return imageExtensions.includes(props.file.extension.toLowerCase());
+            const extension = props.file.extension.toLowerCase();
+
+            if (props.file.thumbnails) {
+                console.log(props.file.thumbnails);
+
+                return props.file.thumbnails.small_thumb.url;
+            }
+
+            if (imageExtensions.includes(extension)) {
+                return props.file.url;
+            }
+
+            return null;
         });
 
         const isSelectable = computed(() => {
             return fileSelectStore.canSelectFile(props.file);
         });
 
-        return { isSelected, handleClick, isImage, selectFile, isFileSelected, removeFile, isSelectable };
+        return { isSelected, handleClick, imageUrl, selectFile, isFileSelected, removeFile, isSelectable };
     }
 });
 </script>

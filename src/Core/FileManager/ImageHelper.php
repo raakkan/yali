@@ -115,6 +115,34 @@ class ImageHelper
         return $webpPath;
     }
 
+    public function getThumbnails(string $filename, ?string $folder = null): array
+    {
+        $filename = $this->removeFileExtension($filename);
+        $folder = $folder ? ltrim($folder, '/') : null;
+        $thumbnails = [
+            'thumb' => [
+                'path' => $folder ? "thumbnails/{$folder}/{$filename}_thumb.webp" : "thumbnails/{$filename}_thumb.webp",
+                'url' => null,
+            ],
+            'small_thumb' => [
+                'path' => $folder ? "thumbnails/{$folder}/{$filename}_small_thumb.webp" : "thumbnails/{$filename}_small_thumb.webp",
+                'url' => null,
+            ],
+            'very_small_thumb' => [
+                'path' => $folder ? "thumbnails/{$folder}/{$filename}_very_small_thumb.webp" : "thumbnails/{$filename}_very_small_thumb.webp",
+                'url' => null,
+            ],
+        ];
+
+        foreach ($thumbnails as $key => $thumbnail) {
+            if ($this->storage->exists($thumbnail['path'])) {
+                $thumbnails[$key]['url'] = $this->storage->url($thumbnail['path']);
+            }
+        }
+
+        return $thumbnails;
+    }
+
     private function createImageManager(): ImageManager | bool
     {
         if (extension_loaded('imagick')) {

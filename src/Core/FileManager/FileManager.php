@@ -95,10 +95,19 @@ class FileManager
     public function getFiles(?string $folder = null, string $disk = self::DEFAULT_DISK): Collection
     {
         $files = $folder ? $this->storage->files($folder) : $this->storage->files();
-        
+
         return collect($files)->map(function ($file) use ($folder) {
             $path = $folder ? "{$folder}/{$file}" : $file;
-            return $this->getFileInfo($file);
+            $fileInfo = $this->getFileInfo($file);
+
+            $isImage = in_array($fileInfo['mime_type'], ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+
+            if ($isImage) {
+                $thumbnails = $this->imageHelper->getThumbnails($fileInfo['name'], $folder);
+                $fileInfo['thumbnails'] = $thumbnails;
+            }
+
+            return $fileInfo;
         })->values();
     }
     

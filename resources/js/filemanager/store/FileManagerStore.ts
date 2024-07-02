@@ -29,10 +29,6 @@ export const useFilemanagerStore = defineStore('filemanager', {
             this.isLoading = true;
             const path = folder ? folder.path : '/';
 
-            // window.dispatchEvent(new CustomEvent('file-manager', {
-            //     detail: 'open-folder',
-            // }));
-
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/api/admin/file-manager?folder=${path}`);
 

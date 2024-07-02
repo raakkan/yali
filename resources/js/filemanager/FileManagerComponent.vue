@@ -11,9 +11,14 @@
     </div>
 
     <div class="h-full" :class="select ? 'max-h-80 overflow-y-auto' : ''">
+
+      <div v-if="store.isLoading && !isLoaded">
+        <BreadcrumbsSkeleton />
+      </div>
+
       <Breadcrumbs />
 
-      <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"
+      <FileManagerContent :isLoading="store.isLoading" :isLoaded="isLoaded" :folders="store.currentFolder?.folders"
         :files="store.currentFolder?.files" :select="select" />
     </div>
   </div>
@@ -30,6 +35,7 @@ import UploadFileButton from './components/UploadFileButton.vue';
 import DeleteSelectedButton from './components/DeleteSelectedButton.vue';
 import RefreshButton from './components/RefreshButton.vue';
 import { IFolder, IFile } from './types';
+import BreadcrumbsSkeleton from './components/Skeletons/BreadcrumbsSkeleton.vue';
 
 export default defineComponent({
   name: 'FileManagerComponent',
@@ -39,7 +45,8 @@ export default defineComponent({
     CreateFolderButton,
     UploadFileButton,
     DeleteSelectedButton,
-    RefreshButton
+    RefreshButton,
+    BreadcrumbsSkeleton
   },
   props: {
     dataProps: {
@@ -69,10 +76,15 @@ export default defineComponent({
 
     store.fetchRootContents();
 
+    const isLoaded = computed(() => {
+      return store.currentFolder !== null;
+    });
+
     return {
       store,
       isLoading,
-      error
+      error,
+      isLoaded,
     };
   }
 });
