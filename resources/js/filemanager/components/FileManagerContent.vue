@@ -3,11 +3,10 @@
         <div v-if="!hasContent && !isLoading" class="text-center py-4">
             No files or folders found in this directory.
         </div>
-        <div v-else class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div v-else class="grid grid-cols-auto-fill gap-2 md:gap-1">
             <FolderComponent v-for="folder in folders" :key="folder.path" :folder="folder" />
             <FileComponent v-for="file in files" :key="file.path" :file="file" :select="select" />
         </div>
-
     </div>
 </template>
 
@@ -28,3 +27,13 @@ const hasContent = computed(() =>
     (props.files && props.files.length > 0)
 );
 </script>
+<style scoped>
+.grid-cols-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+@media (max-width: 639px) {
+    .grid-cols-auto-fill {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    }
+}
+</style>

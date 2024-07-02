@@ -6,11 +6,11 @@
         <RefreshButton />
         <CreateFolderButton />
         <UploadFileButton />
-        <DeleteSelectedButton />
+        <DeleteSelectedButton v-if="!select" />
       </div>
     </div>
 
-    <div class="h-full" :class="select ? 'max-h-72 overflow-y-auto' : ''">
+    <div class="h-full" :class="select ? 'max-h-80 overflow-y-auto' : ''">
       <Breadcrumbs />
 
       <FileManagerContent :isLoading="store.isLoading" :folders="store.currentFolder?.folders"

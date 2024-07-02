@@ -3,18 +3,16 @@
         class="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full p-2 md:p-0 md:flex md:items-center md:justify-center">
         <div class=" w-full max-w-4xl">
             <FileManagerComponent :data-props="{ root: { name: 'root', path: '/' } }" :select="true" />
-            <div class="bg-white flex items-center justify-between p-4 rounded-b-lg">
-                <div>
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        Selected Files
-                    </h3>
-                </div>
-                <div class="flex justify-end space-x-2">
-                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        Save
-                    </button>
-                    <button @click="closeModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+            <div class="bg-white flex flex-row items-center justify-between p-3 md:p-6 rounded-b-lg">
+
+                <SelectedFiles />
+
+                <div class="flex flex-col space-y-3">
+                    <button @click="closeModal" class="btn btn-primary btn-xs md:btn-sm">
                         Cancel
+                    </button>
+                    <button class="btn btn-primary btn-xs md:btn-sm">
+                        Save
                     </button>
                 </div>
             </div>
@@ -25,39 +23,54 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue';
 import { useFilemanagerStore } from './store/FileManagerStore';
+import { useFileSelectStore } from './store/FileSelectStore';
 import FileManagerComponent from './FileManagerComponent.vue';
+import SelectedFiles from './components/select/SelectedFiles.vue';
 
 export default defineComponent({
     name: 'FileManagerUpload',
     components: {
-        FileManagerComponent
+        FileManagerComponent,
+        SelectedFiles
     },
     setup() {
         const store = useFilemanagerStore();
+        const fileSelectStore = useFileSelectStore();
         const isModalOpen = ref(false);
 
         onMounted(() => {
-            window.addEventListener('open-file-upload-modal', openModal);
+            window.addEventListener('open-file-upload-modal', (event) => openModal(event));
         });
 
         onUnmounted(() => {
-            window.removeEventListener('open-file-upload-modal', openModal);
+            window.removeEventListener('open-file-upload-modal', (event) => openModal(event));
         });
 
-        const openModal = () => {
+        const openModal = (event) => {
+            const eventData = event.detail;
+
+            if (eventData.hasOwnProperty('accept')) {
+                fileSelectStore.setFileTypeFilter(eventData.accept);
+            }
+            if (eventData.hasOwnProperty('multiple')) {
+                eventData.multiple ? fileSelectStore.setMultiSelect() : fileSelectStore.setSingleSelect();
+            }
+
             isModalOpen.value = true;
         };
 
         const closeModal = () => {
             isModalOpen.value = false;
             store.resetStore();
+            fileSelectStore.resetStore();
         };
 
         return {
             store,
             isModalOpen,
             openModal,
-            closeModal
+            closeModal,
+            fileSelectStore
         };
     },
 });

@@ -89,3 +89,12 @@
 .line-clamp-3 {
     @include line-clamp(3);
 }
+
+.grid-cols-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+    @media (max-width: 639px) {
+    .grid-cols-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    }
+    }
