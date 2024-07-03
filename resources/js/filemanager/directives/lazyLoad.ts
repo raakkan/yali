@@ -1,42 +1,33 @@
-import { DirectiveBinding } from 'vue';
+import { Directive, DirectiveBinding } from 'vue';
 
-interface ObserverInstance {
-    instance: IntersectionObserver | null;
-    entry: IntersectionObserverEntry | null;
-}
+const loadingImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+const errorImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkMzM2MzYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLXgiPjxsaW5lIHgxPSIxOCIgeTE9IjYiIHgyPSI2IiB5Mj0iMTgiPjwvbGluZT48bGluZSB4MT0iNiIgeTE9IjYiIHgyPSIxOCIgeTI9IjE4Ij48L2xpbmU+PC9zdmc+';
 
-const observers: Map<Element, ObserverInstance> = new Map();
+const vLazyLoad: Directive = {
+    mounted(el: HTMLImageElement, binding: DirectiveBinding) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+        };
 
-function loadImage(el: Element, binding: DirectiveBinding) {
-    const observer: ObserverInstance = {
-        instance: null,
-        entry: null,
-    };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    el.src = binding.value;
+                    el.classList.add('fade-in');
+                    observer.unobserve(el);
+                }
+            });
+        }, observerOptions);
 
-    const options = {
-        rootMargin: binding.value || '0px',
-        threshold: 0.1,
-    };
+        el.src = loadingImage;
+        el.onerror = () => {
+            el.src = errorImage;
+        };
 
-    observer.instance = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const img = entry.target as HTMLImageElement;
-                img.src = binding.value as string;
-                observer.instance?.unobserve(img);
-            }
-        });
-    }, options);
-
-    observer.instance.observe(el);
-    observers.set(el, observer);
-}
-
-export const vLazyLoad = {
-    mounted(el: Element, binding: DirectiveBinding) {
-        loadImage(el, binding);
-    },
-    updated(el: Element, binding: DirectiveBinding) {
-        loadImage(el, binding);
+        observer.observe(el);
     },
 };
+
+export default vLazyLoad;

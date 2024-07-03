@@ -18,28 +18,13 @@ class ImageHelper
         $this->storage = $storage;
     }
 
-    public function processImage($file, ?string $folder = null): array
+    public function processImage($file, ?string $folder = null, ?string $path = null): array
     {
         if (!$this->imageManager) {
             return [
                 'driver' => 'Driver not available',
             ];
         }
-
-        $originalName = $file->getClientOriginalName();
-        $filename = pathinfo($originalName, PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        
-        $path = $folder ? $folder . '/' . $originalName : $originalName;
-        $counter = 1;
-
-        while ($this->storage->exists($path)) {
-            $newFilename = $filename . '_' . $counter . '.' . $extension;
-            $path = $folder ? $folder . '/' . $newFilename : $newFilename;
-            $counter++;
-        }
-
-        $this->storage->putFileAs($folder, $file, basename($path));
 
         $thumbnails = $this->generateThumbnails($file, basename($path), $folder);
         $webpPath = $this->generateWebp($file, basename($path), $folder);
@@ -67,7 +52,7 @@ class ImageHelper
         ];
     }
 
-    private function generateThumbnails($file, string $filename, string $folder = null): array
+    public function generateThumbnails($file, string $filename, string $folder = null, string $thumbnailFolder = 'images'): array
     {
         $filename = $this->removeFileExtension($filename);
         $image = $this->imageManager->read($file);
@@ -94,9 +79,8 @@ class ImageHelper
             $thumbImage = $image->scale(width: $thumbnail['width'])
                 ->toWebp(quality: $thumbnail['quality']);
             
-            $thumbPath = $folder 
-                ? "thumbnails/{$folder}/{$filename}_{$key}.webp" 
-                : "thumbnails/{$filename}_{$key}.webp";
+            $thumbFolder = 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder;
+            $thumbPath = $folder ? $thumbFolder . DIRECTORY_SEPARATOR . $filename . "_{$key}.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $filename . "_{$key}.webp";
             
             $this->storage->put($thumbPath, $thumbImage);
             $thumbnail['path'] = $thumbPath;
@@ -105,38 +89,42 @@ class ImageHelper
         return $thumbnails;
     }
 
-    private function generateWebp($file, string $filename, string $folder = null): string
+    public function generateWebp($file, string $filename, string $folder = null): string
     {
         $filename = $this->removeFileExtension($filename);
-        $webpPath = $folder ? "webp/{$folder}/{$filename}.webp" : "webp/{$filename}.webp";
+        $webpPath = $folder ? 'webp' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $filename . '.webp' : 'webp' . DIRECTORY_SEPARATOR . $filename . '.webp';
         $image = $this->imageManager->read($file);
         $webpImage = $image->toWebp(quality: 100);
         $this->storage->put($webpPath, $webpImage);
         return $webpPath;
     }
 
-    public function getThumbnails(string $filename, ?string $folder = null): array
+    public function getThumbnails(string $filename, ?string $folder = null, string $thumbnailFolder = 'images'): array
     {
         $filename = $this->removeFileExtension($filename);
-        $folder = $folder ? ltrim($folder, '/') : null;
+        $folder = $folder ? ltrim($folder, DIRECTORY_SEPARATOR) : null;
         $thumbnails = [
             'thumb' => [
-                'path' => $folder ? "thumbnails/{$folder}/{$filename}_thumb.webp" : "thumbnails/{$filename}_thumb.webp",
+                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_thumb.webp",
                 'url' => null,
             ],
             'small_thumb' => [
-                'path' => $folder ? "thumbnails/{$folder}/{$filename}_small_thumb.webp" : "thumbnails/{$filename}_small_thumb.webp",
+                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_small_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_small_thumb.webp",
                 'url' => null,
             ],
             'very_small_thumb' => [
-                'path' => $folder ? "thumbnails/{$folder}/{$filename}_very_small_thumb.webp" : "thumbnails/{$filename}_very_small_thumb.webp",
+                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_very_small_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_very_small_thumb.webp",
                 'url' => null,
             ],
         ];
 
         foreach ($thumbnails as $key => $thumbnail) {
-            if ($this->storage->exists($thumbnail['path'])) {
-                $thumbnails[$key]['url'] = $this->storage->url($thumbnail['path']);
+            $path = $thumbnail['path'];
+            // if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //     $path = str_replace('\\', '/', $path);
+            // }
+            if ($this->storage->exists($path)) {
+                $thumbnails[$key]['url'] = $this->storage->url($path);
             }
         }
 

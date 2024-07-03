@@ -2,7 +2,7 @@
 
 use Raakkan\Yali\App\DashboardPage;
 use Illuminate\Support\Facades\Route;
-use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Support\Facades\YaliManager;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', DashboardPage::class)->name('yali::pages.dashboard');

@@ -12,16 +12,18 @@ class FileManager
 
     private Filesystem $storage;
     private ImageHelper $imageHelper;
+    private VideoHelper $videoHelper;
 
     public function __construct(Filesystem $storage)
     {
         $this->storage = $storage;
         $this->imageHelper = new ImageHelper($storage);
+        $this->videoHelper = new VideoHelper($storage);
     }
 
     public function createFolder(string $name, ?string $parent = null): void
     {
-        $path = $parent ? "{$parent}/{$name}" : $name;
+        $path = $parent ? $parent . DIRECTORY_SEPARATOR . $name : $name;
         if ($this->storage->exists($path)) {
             throw new \Exception("Folder already exists.");
         }
@@ -34,19 +36,22 @@ class FileManager
         $filename = pathinfo($originalName, PATHINFO_FILENAME);
         $extension = $file->getClientOriginalExtension();
         
-        $path = $folder ? $folder . '/' . $originalName : $originalName;
+        $path = $folder ? $folder . DIRECTORY_SEPARATOR . $originalName : $originalName;
         $counter = 1;
 
         while ($this->storage->exists($path)) {
             $newFilename = $filename . '_' . $counter . '.' . $extension;
-            $path = $folder ? $folder . '/' . $newFilename : $newFilename;
+            $path = $folder ? $folder . DIRECTORY_SEPARATOR . $newFilename : $newFilename;
             $counter++;
         }
 
-        $isImage = in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+        $isImage = in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']);
+        $isVideo = str_starts_with($file->getMimeType(), 'video/');
 
         if ($isImage) {
-            $result = $this->imageHelper->processImage($file, $folder);
+            $result = $this->imageHelper->processImage($file, $folder, $path);
+        } elseif ($isVideo) {
+            $result = $this->videoHelper->processVideo($file, $folder, $path);
         }
 
         $this->storage->putFileAs($folder, $file, basename($path));
@@ -97,13 +102,19 @@ class FileManager
         $files = $folder ? $this->storage->files($folder) : $this->storage->files();
 
         return collect($files)->map(function ($file) use ($folder) {
-            $path = $folder ? "{$folder}/{$file}" : $file;
+            $path = $folder ? $folder . DIRECTORY_SEPARATOR . $file : $file;
             $fileInfo = $this->getFileInfo($file);
 
-            $isImage = in_array($fileInfo['mime_type'], ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+            $isImage = in_array($fileInfo['mime_type'], ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']);
+            $isVideo = str_starts_with($fileInfo['mime_type'], 'video/');
 
             if ($isImage) {
                 $thumbnails = $this->imageHelper->getThumbnails($fileInfo['name'], $folder);
+                $fileInfo['thumbnails'] = $thumbnails;
+            }
+
+            if ($isVideo) {
+                $thumbnails = $this->imageHelper->getThumbnails($fileInfo['name'], $folder, 'videos');
                 $fileInfo['thumbnails'] = $thumbnails;
             }
 

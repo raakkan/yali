@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Facades;
+namespace Raakkan\Yali\Core\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

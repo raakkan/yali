@@ -34,6 +34,7 @@ export const useFilemanagerStore = defineStore('filemanager', {
 
                 if (response.data.folders.length || response.data.files.length) {
                     folder.files = response.data.files;
+
                     folder.folders = response.data.folders.map((subfolder: IFolder) => ({
                         ...subfolder,
                         parent: folder

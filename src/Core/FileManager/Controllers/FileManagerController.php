@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\FileManager\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Raakkan\Yali\Core\FileManager\FileManager;
+use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 class FileManagerController extends Controller
 {

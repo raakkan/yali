@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
-use Raakkan\Yali\Core\Facades\YaliManager;
-use Raakkan\Yali\Core\Events\ActionExecuted;
 
+use Raakkan\Yali\Core\Events\ActionExecuted;
 use Raakkan\Yali\Core\FileManager\FileManager;
 use Raakkan\Yali\Core\Support\Icon\IconManager;
+use Raakkan\Yali\Core\Support\Log\YaliLogManager;
+use Raakkan\Yali\Core\Support\Facades\YaliManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 
 class YaliServiceProvider extends ServiceProvider
@@ -24,6 +25,9 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton('yali.log', function () {
+            return new YaliLogManager();
+        });
 
         $this->app->singleton(PageManager::class, function () {
             return new PageManager();

@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import type { App } from 'vue';
-import { vLazyLoad } from './directives/lazyLoad';
 import FileManagerComponent from './FileManagerComponent.vue';
 
 const app: App = createApp({});
