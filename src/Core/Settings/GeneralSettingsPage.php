@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Settings;
+
 use Raakkan\Yali\Core\Pages\BasePage;
 
 class GeneralSettingsPage extends BasePage
@@ -15,4 +16,12 @@ class GeneralSettingsPage extends BasePage
     protected static $navigationGroupIcon = 'settings';
 
     protected static $view = 'yali::pages.settings.general-page';
+
+    public function getSettingFields()
+    {
+        return [
+            SettingField::make('site_name')->text(),
+            SettingField::make('site_description')->textarea(),
+        ];
+    }
 }
