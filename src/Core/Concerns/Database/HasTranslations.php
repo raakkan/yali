@@ -2,151 +2,89 @@
 
 namespace Raakkan\Yali\Core\Concerns\Database;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
-use Raakkan\Yali\Models\ModelTranslation;
+use Raakkan\Yali\Core\Database\Migrations\YaliTable;
+use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
-/**
- * Trait HasTranslations
- *
- * Provides functionality for handling translatable attributes in Eloquent models.
- */
 trait HasTranslations
 {
-    /**
-     * Boot the Translatable trait for a model.
-     *
-     * @return void
-     */
-    public static function bootTranslatable()
+    public static function bootHasTranslations()
     {
-        static::deleting(function (Model $model) {
-            $model->deleteTranslations();
-        });
     }
 
-    /**
-     * Delete all translations associated with the model.
-     *
-     * @return void
-     */
-    public function deleteTranslations()
-    {
-        $this->translations()->delete();
-    }
-
-    /**
-     * Get the translations relationship for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function translations()
-    {
-        return $this->hasMany(ModelTranslation::class, 'translatable_id')
-            ->where('translatable_type', static::class);
-    }
-
-    /**
-     * Get a translated attribute value.
-     *
-     * @param string $attributeName
-     * @return mixed
-     */
     public function getAttribute($attributeName)
     {
         if ($this->isTranslatableAttribute($attributeName)) {
-            return $this->getTranslation($attributeName, App::getLocale()) ?? '';
+            return $this->getTranslation($attributeName, App::getLocale());
         }
 
         return parent::getAttribute($attributeName);
     }
 
-    /**
-     * Set a translated attribute value.
-     *
-     * @param string $attributeName
-     * @param mixed $value
-     * @return $this
-     */
-    public function setAttribute($attributeName, $value)
-    {
-        if ($this->isTranslatableAttribute($attributeName)) {
-            $this->setTranslation($attributeName, App::getLocale(), $value);
-            return $this;
-        }
-
-        return parent::setAttribute($attributeName, $value);
-    }
-
-    /**
-     * Get the translation value for a given attribute and locale.
-     *
-     * @param string $attributeName
-     * @param string $locale
-     * @return mixed
-     */
     public function getTranslation($attributeName, $locale)
     {
-        return $this->translations()
-            ->where('key', $attributeName)
-            ->where('locale', $locale)
-            ->value('value');
-    }
+        $yaliTable = static::getTranslationTable();
 
-    /**
-     * Set the translation value for a given attribute and locale.
-     *
-     * @param string $attributeName
-     * @param string $locale
-     * @param mixed $value
-     * @return void
-     */
-    public function setTranslation($attributeName, $locale, $value)
-    {
-        $this->translations()->updateOrCreate([
-            'key' => $attributeName,
-            'locale' => $locale,
-        ], [
-            'value' => $value,
-        ]);
-    }
-
-    /**
-     * Fill the model with an array of attributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function fill(array $attributes)
-    {
-        foreach ($attributes as $key => $value) {
-            if ($this->isTranslatableAttribute($key)) {
-                $this->setTranslation($key, App::getLocale(), $value);
-                unset($attributes[$key]);
-            }
+        if (!Schema::hasTable($yaliTable->getTable())) {
+            YaliLog::warning('Translation table not found: ' . $yaliTable->getTable());
+            return null;
         }
 
-        return parent::fill($attributes);
+        $translation = DB::table($yaliTable->getTable())
+            ->where('locale', $locale)
+            ->where($this->getParentKey(), $this->getKey())
+            ->first();
+            
+        return $translation ? $translation->$attributeName : null;
     }
 
-    /**
-     * Check if an attribute is translatable.
-     *
-     * @param string $attributeName
-     * @return bool
-     */
+    public function setTranslation($locale, $data)
+    {
+        $yaliTable = static::getTranslationTable();
+
+        if (!Schema::hasTable($yaliTable->getTable())) {
+            YaliLog::warning('Translation table not found: ' . $yaliTable->getTable());
+            return;
+        }
+
+        $translation = DB::table($yaliTable->getTable())
+            ->where('locale', $locale)
+            ->where($this->getParentKey(), $this->getKey())
+            ->first();
+
+        if ($translation) {
+            DB::table($yaliTable->getTable())
+                ->where('id', $translation->id)
+                ->update($data);
+        } else {
+            DB::table($yaliTable->getTable())->insert([
+                'locale' => $locale,
+                $this->getParentKey() => $this->getKey(),
+                ...$data
+            ]);
+        }
+    }
+
     private function isTranslatableAttribute($attributeName)
     {
         return in_array($attributeName, $this->getTranslatableAttributes());
     }
 
-    /**
-     * Get the translatable attributes for the model.
-     *
-     * @return array
-     */
     public function getTranslatableAttributes()
     {
-        return property_exists($this, 'translatable') ? $this->translatable : [];
+        return static::getTranslationTable()->getColumnsNames();
+    }
+
+    public function getParentKey()
+    {
+        $modelTable = $this->getTable();
+        $modelTableSingular = Str::singular($modelTable);
+        $modelKeyName = $this->getKeyName();
+
+        return "{$modelTableSingular}_{$modelKeyName}";
     }
 }

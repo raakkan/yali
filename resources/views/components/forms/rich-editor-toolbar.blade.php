@@ -85,7 +85,7 @@
         @endif
         @if ($image)
             <button type="button"
-                x-on:click="$dispatch('open-file-upload-modal', {'fieldName': '{{ $fieldName }}', 'formId': '{{ $formId }}', 'multiple': true, 'accept': 'image'})"
+                x-on:click="$dispatch('open-file-upload-modal', {'multiple': true, 'accept': 'image', 'forwardEventData': {'fieldName': '{{ $fieldName }}', 'formId': '{{ $formId }}',}})"
                 class="p-1.5 rounded text-gray-600 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 transition duration-150 ease-in-out"
                 title="Insert Image">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

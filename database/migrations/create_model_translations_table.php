@@ -13,7 +13,7 @@ return new class extends Migration
             $table->morphs('translatable');
             $table->string('key');
             $table->string('locale');
-            $table->text('value')->nullable();
+            $table->longText('value')->nullable();
             $table->timestamps();
         
             $table->unique(['translatable_id', 'translatable_type', 'key', 'locale'], 'unique_translation_key');

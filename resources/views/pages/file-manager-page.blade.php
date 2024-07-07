@@ -1,5 +1,9 @@
-{{ Vite::useHotFile(storage_path('vite.hot'))->useBuildDirectory('build')->withEntryPoints(['resources/js/filemanager/filemanager.ts']) }}
-<div x-data x-on:file-manager.window="console.log($event.detail)" id="file-manager">
-    <file-manager-component
-        :data-props="{{ json_encode(['root' => ['path' => '/', 'name' => 'Home']]) }}"></file-manager-component>
+<div>
+    @php
+        $id = 'yali-vue-' . md5(serialize(rand()));
+    @endphp
+    <div id="{{ $id }}" data-vue="file-manager" wire:ignore>
+        <file-manager-component
+            :data-props="{{ json_encode(['root' => ['path' => '/', 'name' => 'Home']]) }}"></file-manager-component>
+    </div>
 </div>

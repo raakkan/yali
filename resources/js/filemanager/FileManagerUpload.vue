@@ -11,7 +11,7 @@
                     <button @click="closeModal" class="btn btn-primary btn-xs md:btn-sm">
                         Cancel
                     </button>
-                    <button class="btn btn-primary btn-xs md:btn-sm">
+                    <button @click="saveFiles" class="btn btn-primary btn-xs md:btn-sm">
                         Save
                     </button>
                 </div>
@@ -37,6 +37,7 @@ export default defineComponent({
         const store = useFilemanagerStore();
         const fileSelectStore = useFileSelectStore();
         const isModalOpen = ref(false);
+        const forwardEventData = ref({});
 
         onMounted(() => {
             window.addEventListener('open-file-upload-modal', (event) => openModal(event));
@@ -56,13 +57,26 @@ export default defineComponent({
                 eventData.multiple ? fileSelectStore.setMultiSelect() : fileSelectStore.setSingleSelect();
             }
 
+            if (eventData.hasOwnProperty('forwardEventData')) {
+                forwardEventData.value = eventData.forwardEventData;
+            }
+
             isModalOpen.value = true;
+        };
+
+        const saveFiles = () => {
+            const selectedFiles = fileSelectStore.selectedFiles;
+            window.dispatchEvent(new CustomEvent('file-manager-upload-selected', {
+                detail: selectedFiles
+            }));
+            closeModal();
         };
 
         const closeModal = () => {
             isModalOpen.value = false;
             store.resetStore();
             fileSelectStore.resetStore();
+            forwardEventData.value = {};
         };
 
         return {
@@ -70,7 +84,8 @@ export default defineComponent({
             isModalOpen,
             openModal,
             closeModal,
-            fileSelectStore
+            fileSelectStore,
+            saveFiles,
         };
     },
 });

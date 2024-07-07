@@ -105,7 +105,8 @@ class YaliServiceProvider extends ServiceProvider
         $this->commands([
             \Raakkan\Yali\Core\Console\Commands\YaliCommands::class,
             \Raakkan\Yali\Core\Console\Commands\LoadTranslationsCommand::class,
-            \Raakkan\Yali\Core\Console\Commands\MakeResourceCommand::class
+            \Raakkan\Yali\Core\Console\Commands\MakeResourceCommand::class,
+            \Raakkan\Yali\Core\Database\Console\Commands\YaliMigrateCommand::class,
         ]);
     }
 

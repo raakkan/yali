@@ -14,4 +14,11 @@ class FileManagerPage extends YaliPage
     protected static $navigationOrder = 98;
 
     protected static $view = 'yali::pages.file-manager-page';
+
+    public $testData = 'vxc';
+
+    public function test($n)
+    {
+        $this->testData = 'test'. ++$n;
+    }
 }

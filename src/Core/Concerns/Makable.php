@@ -56,4 +56,18 @@ trait Makable
     {
         return $this->callerMetadata;
     }
+
+    public function getCallerClass()
+    {
+        if ($this->hasCallerClass()) {
+            return $this->callerMetadata['class'];
+        }else {
+            return null;
+        }
+    }
+
+    public function hasCallerClass()
+    {
+        return isset($this->callerMetadata) && array_key_exists('class', $this->callerMetadata) && isset($this->callerMetadata['class']);
+    }
 }

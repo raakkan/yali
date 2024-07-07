@@ -36,7 +36,7 @@ trait InteractsWithForms
     // TODO: display unchanged message
     public function validatedInputs()
     {
-        dd($this->form[$this->getForm()->getId()]['inputs']);
+        // dd($this->form[$this->getForm()->getId()]['inputs']);
         $rules = $this->getValidationRules();
         // change to primary key
         if ($this->model->id) {
