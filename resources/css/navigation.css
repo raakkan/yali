@@ -1,31 +1,42 @@
-.navbar {
+.yali-navbar {
     @apply fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700;
 }
-.sidebar {
+.yali-sidebar {
     @apply fixed top-0 left-0 z-40 w-64 h-screen pt-20 md:pt-16 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700;
 }
-.sidebar > nav{
-    @apply h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800;
+.yali-sidebar > nav {
+    @apply h-full overflow-y-auto bg-white dark:bg-gray-800;
 }
-.sidebar-link {
+.yali-sidebar-item {
+    @apply px-3;
+}
+.yali-sidebar-link {
     @apply flex items-center p-2 text-gray-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700;
 }
-.sidebar-link-dropdown-button {
-    @apply flex items-center w-full p-2 text-base text-gray-500 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700;
+.yali-sidebar-link-dropdown {
 }
-.sidebar-link-dropdown-button > span {
+.yali-sidebar-link-dropdown-button {
+    @apply flex items-center w-full px-5 py-2 text-base text-gray-500 transition duration-75 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700;
+}
+.yali-sidebar-link-dropdown-button > span {
     @apply flex-1 ms-3 text-left rtl:text-right whitespace-nowrap;
 }
-.sidebar-link-dropdown-list{
-    @apply py-2 space-y-2;
+.yali-sidebar-link-dropdown-list {
+    @apply px-3 py-2 space-y-2 bg-slate-50;
 }
-.sidebar-link-dropdown-list > li > a{
-    @apply flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700;
+.yali-sidebar-link-dropdown-link {
+    @apply flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg hover:bg-white dark:text-white dark:hover:bg-gray-700;
 }
-.sidebar * a.active{
+.yali-sidebar * a.yali-active {
     @apply bg-gray-100 dark:bg-gray-700;
 }
+.yali-sidebar * a.yali-dropdown-active {
+    @apply bg-white dark:bg-gray-700 border;
+}
 
-.sidebar-icon{
+.yali-sidebar-icon {
     @apply w-6 h-6 text-gray-500;
+}
+
+.yali-sidebar-link-dropdown-item {
 }

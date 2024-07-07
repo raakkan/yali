@@ -7,6 +7,7 @@ use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\LanguagesPage;
 use Raakkan\Yali\App\HandleResourcePage;
 use Raakkan\Yali\Core\FileManager\FileManagerPage;
+use Raakkan\Yali\Core\Settings\GeneralSettingsPage;
 
 class NavigationManager
 {
@@ -22,59 +23,11 @@ class NavigationManager
         $this->navigation->add(DashboardPage::createNavigationItem());
         $this->navigation->add(LanguagesPage::createNavigationItem());
         $this->navigation->add(FileManagerPage::createNavigationItem());
+        $this->navigation->add(GeneralSettingsPage::createNavigationItem());
 
-        // TODO: navigation slug uniqueness check
         foreach ($pages as $value) {
-            // $group = $value['class']::getNavigationGroup();
-
-            // if ($group) {
-            //     $groupItem = $this->findOrCreateGroup($group, $value['class']::getNavigationGroupIcon());
-            //     $groupItem->addItem($value['class']::createNavigationItem());
-            // } else {
-               
-            // }
-
-            // if ($value['class'] == 'App\Yali\Resources\UserResource') {
-            //     dd($value['class']::getTitle(), $value['class']::getModel());
-            // }
             $this->navigation->add($value['class']::createNavigationItem());
         }
-    }
-
-    protected function findOrCreateGroup($group, $icon = null)
-    {
-        $groupItem = $this->navigation->findGroup($group);
-
-        if ($groupItem) {
-            if ($icon) {
-                $groupItem->setIcon($icon);
-            }
-            
-            return $groupItem;
-        }
-
-        $groupItem = new NavigationGroup($group);
-
-        if ($icon) {
-            $groupItem->setIcon($icon);
-        }
-
-        $this->navigation->add($groupItem);
-
-        return $groupItem;
-    }
-
-    protected function generateUniqueSlug($slug)
-    {
-        $originalSlug = $slug;
-        $counter = 1;
-
-        while ($this->navigation->hasSlug($slug)) {
-            $slug = $originalSlug . '-' . $counter;
-            $counter++;
-        }
-
-        return $slug;
     }
 
     public function getNavigation()

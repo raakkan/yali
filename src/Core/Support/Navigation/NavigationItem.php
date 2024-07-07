@@ -2,8 +2,12 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
+use Raakkan\Yali\Core\Concerns\Makable;
+
 class NavigationItem
 {
+    use Makable;
+
     public function __construct(
         public $label,
         public $slug,
@@ -51,7 +55,15 @@ class NavigationItem
 
     public function getSlug()
     {
-        return $this->slug;
+        $slug = trim($this->slug, '/');
+        return $slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function isActive()
@@ -59,6 +71,10 @@ class NavigationItem
         $currentUrl = request()->url();
         
         $itemUrl = url($this->getPath());
+
+        // if ($this->getLabel() === 'Users') {
+        //     dd($itemUrl, $this->getPath());
+        // }
 
         if ($currentUrl === $itemUrl) {
             return true;
@@ -121,7 +137,7 @@ class NavigationItem
 
     public function getPath()
     {
-        return $this->path ?? $this->slug;
+        return $this->path ?? '/admin/' . $this->slug;
     }
 
     public function isHidden()

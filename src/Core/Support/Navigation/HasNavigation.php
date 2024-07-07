@@ -7,30 +7,20 @@ use Str;
 trait HasNavigation
 {
     protected static $slug = '';
+
+    // Navigation Item
     protected static $navigationLabel = '';
-    protected static $navigationGroup = '';
-    protected static $navigationGroupIcon = '';
     protected static $navigationIcon = '';
     protected static $navigationOrder = 0;
+
+    // Navigation Group
+    protected static $navigationGroup = '';
+    protected static $navigationGroupIcon = '';
+    protected static $navigationGroupOrder = 0;
 
     public static function getNavigationLabel(): string
     {
         return static::$navigationLabel ?: Str::plural((static::getTitle()));
-    }
-
-    public static function setNavigationLabel(string $navigationLabel): void
-    {
-        static::$navigationLabel = $navigationLabel;
-    }
-
-    public static function getNavigationGroup(): string
-    {
-        return static::$navigationGroup;
-    }
-
-    public static function setNavigationGroup(string $navigationGroup): void
-    {
-        static::$navigationGroup = $navigationGroup;
     }
 
     public static function getNavigationIcon()
@@ -38,19 +28,9 @@ trait HasNavigation
         return static::$navigationIcon;
     }
 
-    public static function setNavigationIcon($navigationIcon): void
-    {
-        static::$navigationIcon = $navigationIcon;
-    }
-
     public static function getNavigationOrder(): int
     {
         return static::$navigationOrder;
-    }
-
-    public static function setNavigationOrder(int $navigationOrder): void
-    {
-        static::$navigationOrder = $navigationOrder;
     }
  
     public static function getSlug()
@@ -58,9 +38,14 @@ trait HasNavigation
         return static::$slug;
     }
 
-    public static function setSlug($slug)
+    public static function isHidden(): bool
     {
-        static::$slug = $slug;
+        return false;
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return static::$navigationGroup;
     }
 
     public static function getNavigationGroupIcon()
@@ -68,26 +53,14 @@ trait HasNavigation
         return static::$navigationGroupIcon;
     }
 
-    public function setNavigationGroupIcon($navigationGroupIcon)
+    public static function getNavigationGroupOrder(): int
     {
-        $this->navigationGroupIcon = $navigationGroupIcon;
-
-        return $this;
+        return static::$navigationGroupOrder;
     }
 
-    public static function getPath(): string
+    public static function createNavigationItem(): NavigationItem | NavigationGroup
     {
-        return '/admin/' . static::getSlug();
-    }
-
-    public static function isHidden(): bool
-    {
-        return false;
-    }
-
-    public static function createNavigationItem(): NavigationItem
-    {
-        $navigationItem = new NavigationItem(
+        $navigationItem = NavigationItem::make(
             label: static::getNavigationLabel(),
             slug: static::getSlug(),
             routeName: static::getRouteName(),
@@ -95,7 +68,6 @@ trait HasNavigation
             type: static::getType(),
             icon: static::getNavigationIcon(),
             order: static::getNavigationOrder(),
-            path: static::getPath(),
             hidden: static::isHidden()
         );
 
@@ -103,7 +75,7 @@ trait HasNavigation
             $childItems = static::getChildNavigationItems();
 
             foreach ($childItems as $childItem) {
-                $childNavigationItem = new NavigationItem(
+                $childNavigationItem = NavigationItem::make(
                     label: $childItem['label'],
                     slug: $childItem['slug'],
                     routeName: $childItem['route'],
@@ -111,7 +83,6 @@ trait HasNavigation
                     type: $childItem['type'],
                     icon: $childItem['icon'],
                     order: $childItem['order'],
-                    path: $childItem['path'],
                     hidden: $childItem['isHidden'] ?? false
                 );
 
@@ -123,6 +94,16 @@ trait HasNavigation
             foreach (static::getPages() as $page) {
                 $navigationItem->addChild($page::createNavigationItem());
             }
+        }
+
+        if(static::getNavigationGroup()) {
+            $navigationGroup = NavigationGroup::make(static::getNavigationGroup());
+            $navigationGroup->setIcon(static::getNavigationGroupIcon());
+            $navigationGroup->setOrder(static::getNavigationGroupOrder());
+
+            $navigationGroup->addItem($navigationItem);
+
+            return $navigationGroup;
         }
 
         return $navigationItem;

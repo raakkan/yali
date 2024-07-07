@@ -1,9 +1,12 @@
 <?php
 
 namespace Raakkan\Yali\Core\Support\Navigation;
+use Raakkan\Yali\Core\Concerns\Makable;
 
 class NavigationGroup
 {
+    use Makable;
+
     public $name;
     public $label;
     public $icon;
@@ -21,6 +24,8 @@ class NavigationGroup
         usort($this->items, function ($a, $b) {
             return $a->order - $b->order;
         });
+
+        return $this;
     }
 
     public function getName()
@@ -36,6 +41,19 @@ class NavigationGroup
     public function setItems($items)
     {
         $this->items = $items;
+
+        return $this;
+    }
+
+    public function mergeItems($items)
+    {
+        $this->items = array_merge($this->items, $items);
+
+        usort($this->items, function ($a, $b) {
+            return $a->order - $b->order;
+        });
+
+        return $this;
     }
 
     public function setIcon($icon)
@@ -43,6 +61,11 @@ class NavigationGroup
         $this->icon = $icon;
 
         return $this;
+    }
+
+    public function hasIcon()
+    {
+        return isset($this->icon) && $this->icon !== null && $this->icon !== '';
     }
 
     public function getIcon()
@@ -53,12 +76,24 @@ class NavigationGroup
     public function hasActiveRoute()
     {
         foreach ($this->items as $item) {
-            if ($item instanceof NavigationItem && $item->isActive()) {
+            if ($item->isActive()) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function isHidden()
+    {
+        return false;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
     }
 
 }

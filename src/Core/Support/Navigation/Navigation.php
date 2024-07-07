@@ -9,19 +9,71 @@ class Navigation implements Renderable
     protected $items = [];
 
     public function add($item)
-    {
+{
+    if ($item instanceof NavigationItem) {
+        $slug = $item->getSlug();
+        $uniqueSlug = $this->generateUniqueSlug($slug);
+        $item->setSlug($uniqueSlug);
         $this->items[$item->getClass()] = $item;
+    } else {
+        $group = $this->findGroup($item);
+        $this->items[$group->getName()] = $group;
+    }
+}
+
+
+    public function findGroup(NavigationGroup $group)
+{
+    foreach ($this->items as $item) {
+        if ($item instanceof NavigationGroup && $item->getName() === $group->getName()) {
+            $groupItems = $group->getItems();
+            $uniqueGroupItems = [];
+
+            foreach ($groupItems as $groupItem) {
+                $slug = $groupItem->getSlug();
+                $uniqueSlug = $this->generateUniqueSlug($slug);
+                $groupItem->setSlug($uniqueSlug);
+                $uniqueGroupItems[] = $groupItem;
+            }
+
+            $item->mergeItems($uniqueGroupItems);
+            $item->setOrder($group->order);
+
+            if ($group->hasIcon()) {
+                $item->setIcon($group->icon);
+            }
+
+            return $item;
+        }
     }
 
-    public function findGroup($group)
+    $groupItems = $group->getItems();
+    $uniqueGroupItems = [];
+
+    foreach ($groupItems as $groupItem) {
+        $slug = $groupItem->getSlug();
+        $uniqueSlug = $this->generateUniqueSlug($slug);
+        $groupItem->setSlug($uniqueSlug);
+        $uniqueGroupItems[] = $groupItem;
+    }
+
+    $group->setItems($uniqueGroupItems);
+
+    return $group;
+}
+
+
+    public function generateUniqueSlug($slug)
     {
-        foreach ($this->items as $item) {
-            if ($item instanceof NavigationGroup && $item->getName() === $group) {
-                return $item;
-            }
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while ($this->hasSlug($slug)) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
         }
 
-        return null;
+        return $slug;
     }
 
     public function hasSlug($slug)

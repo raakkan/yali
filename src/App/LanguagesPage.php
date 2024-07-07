@@ -4,6 +4,7 @@ namespace Raakkan\Yali\App;
 
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\App;
 use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\View\InfoMessage;
 use Raakkan\Yali\Core\Actions\YaliAction;
@@ -11,6 +12,7 @@ use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
+use Raakkan\Yali\Core\Translation\LocaleConfig;
 use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
@@ -125,6 +127,8 @@ class LanguagesPage extends BaseResource
                         $language->is_default = false;
                         $language->save();
                     }
+
+                    app(LocaleConfig::class)->setDefault($model->code);
                 }
 
                 if($activeField->getOldValue() === true) {

@@ -15,7 +15,7 @@
 <body class="font-sans antialiased">
     <x-yali::global-loader />
 
-    <nav class="navbar">
+    <nav class="yali-navbar">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
@@ -65,7 +65,7 @@
         </div>
     </nav>
 
-    <aside class="sidebar" id="logo-sidebar" aria-label="Sidebar">
+    <aside class="yali-sidebar" id="logo-sidebar" aria-label="Sidebar">
 
         {{ app(Raakkan\Yali\Core\Support\Navigation\NavigationManager::class)->getNavigation()->render() }}
 

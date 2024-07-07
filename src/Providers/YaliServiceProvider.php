@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
+use Raakkan\Yali\Core\Translation\LocaleConfig;
 use Raakkan\Yali\Core\Yali;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__.'/../../config/yali.php', 'yali');
+
         $this->app->singleton('yali.log', function () {
             return new YaliLogManager();
         });
@@ -44,6 +47,10 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->singleton('yali-icon', function ($app) {
             $iconLoader = $app->make('yali-manager')->getIconLoader();
             return new IconManager($iconLoader);
+        });
+
+        $this->app->singleton(LocaleConfig::class, function ($app) {
+            return new LocaleConfig(config('yali.locales'));
         });
 
         $this->app->bind(FileManager::class, function ($app) {

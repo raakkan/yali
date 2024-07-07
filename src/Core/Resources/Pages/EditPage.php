@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Resources\Pages;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\App;
 
 class EditPage extends ResourcePage
 {
