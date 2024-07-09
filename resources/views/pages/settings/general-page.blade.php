@@ -6,6 +6,6 @@
     @endphp
 
     @foreach ($settings as $item)
-        {{ $item->getName() }} {{ $item->getType() }}<br>
+        {!! $item->render() !!}<br>
     @endforeach
 </div>

@@ -6,6 +6,7 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 trait HasSettingTypes
 {
     protected $type = 'text';
+    protected $viewField;
 
     public function getType()
     {

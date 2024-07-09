@@ -15,8 +15,9 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('group')->nullable();
             $table->string('source')->default('admin');
-            $table->boolean('locked')->default(false);
-            $table->boolean('encrypted')->default(false);
+            $table->boolean('lock')->default(false);
+            $table->boolean('encrypt')->default(false);
+            $table->boolean('cache')->default(true);
             $table->timestamps();
         });
         

@@ -10,4 +10,5 @@
             @include('yali::forms.fields.utils.password-toggle-button', ['refId' => $field->getName()])
         @endif
     </div>
+    <test-component></test-component>
 </x-yali::forms.field-wrapper>

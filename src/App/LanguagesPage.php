@@ -199,7 +199,7 @@ class LanguagesPage extends BaseResource
         return $action
         ->setModel($model)
         ->confirmationTitle('Force Delete Language')
-            ->confirmationMessage(fn ($form) => 'Are you sure you want to permanently delete ' . $form->getModel()->name . ' language?')
+            ->confirmationMessage(fn ($action) => 'Are you sure you want to permanently delete ' . $action->getModel()->name . ' language?')
             ->confirmationButtonLoadingLabel('Force Language deleting...')
         ->form(function ($form) {
             return $form->fields([
@@ -207,7 +207,7 @@ class LanguagesPage extends BaseResource
             ])->customizeSubmitButton(function ($button) {
                 $button->setLabel('Delete')->addClass('btn-danger');
             })->title('Delete Language')->addHeaderMessage(function ($form) {
-                return InfoMessage::make('If you delete this language, it will be permanently deleted')->icon('exclamation')->info();
+                return InfoMessage::make('If you delete this language, it will be permanently deleted and all translations will be lost')->icon('exclamation')->info();
             })->addHeaderMessage(function ($form) {
                 return InfoMessage::make('<span>Type <b>' . $form->getModel()->name . '</b> to confirm deletion</span>')->danger();
             });
