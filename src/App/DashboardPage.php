@@ -18,15 +18,10 @@ class DashboardPage extends YaliPage
 
     protected static $slug = '/';
 
-    public $name;
-
-    public function save()
-    {
-        dd($this->name);
-    }
-    
-    public static function getRouteName(): string
-    {
-        return 'yali::pages.dashboard';
+    public function getWidgets(){
+        return [
+            \Raakkan\Yali\Core\Widget\CardWidget::class,
+            \Raakkan\Yali\Core\Widget\CardWidget::class
+        ];
     }
 }

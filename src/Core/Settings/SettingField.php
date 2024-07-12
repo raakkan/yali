@@ -32,11 +32,6 @@ class SettingField extends YaliComponent
         return $this;
     }
 
-    public function isCached()
-    {
-        return $this->cache;
-    }
-
     public function lock($lock = true)
     {
         $this->lock = $lock;

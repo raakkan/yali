@@ -1,12 +1,14 @@
 <?php
 
-namespace Raakkan\Yali\Core\View;
+namespace Raakkan\Yali\Core\View\Components;
 
 use Raakkan\Yali\Core\Concerns\Makable;
+use Illuminate\Support\Traits\Macroable;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
 
 abstract class BaseComponent
 {
+    use Macroable;
     use Makable;
     use Stylable;
     

@@ -1,14 +1,9 @@
-<div>
-    {{-- @php
-        $pages = app()
-            ->make(Raakkan\Yali\Core\Pages\PageManager::class)
-            ->getPages();
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+    @php
+        $widgets = $this->getWidgets();
     @endphp
 
-    @foreach ($pages as $pageId => $page)
-        @livewire('yali::pages.' . $pageId, key($pageId))
-    @endforeach --}}
-    @csrf
-    <input type="text" wire:model="name">
-    <button wire:click="save">Save</button>
+    @foreach ($widgets as $widget)
+        @livewire($widget)
+    @endforeach
 </div>

@@ -8,16 +8,22 @@ use Raakkan\Yali\Core\Concerns\Makable;
 use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Concerns\UI\Stylable;
+use Raakkan\Yali\Core\Support\Concerns\HasName;
 use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
+use Raakkan\Yali\Core\Support\Concerns\HasLabel;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
+use Raakkan\Yali\Core\Support\Concerns\HasPlaceholder;
 use Raakkan\Yali\Core\Forms\Concerns\HandlesFieldRelationship;
 
 // encrypt and decrypt
 abstract class Field extends YaliComponent
 {
     use Makable;
+    use HasName;
+    use HasLabel { getLabel as getLabelMethod; }
+    use HasPlaceholder { getPlaceholder as getPlaceholderMethod; }
     use HasValidation;
     use Stylable;
     use HasLivewire;
@@ -26,30 +32,18 @@ abstract class Field extends YaliComponent
     use HasFieldValue;
 
     protected $componentName = 'field';
-    public $name;
-
-    public $label;
 
     public $default;
-
-    public $placeholder;
 
     protected $type = '';
 
     public $infoMessage;
-    public $disableLabel = false;
     public $formId;
     protected $model;
 
     public function __construct($name)
     {
         $this->name = $name;
-    }
-
-    public function label($label)
-    {
-        $this->label = $label;
-        return $this;
     }
 
     public function getLabel()
@@ -61,12 +55,6 @@ abstract class Field extends YaliComponent
         return $this->label ?? Str::of($this->name)->replace('_', ' ')->title();
     }
 
-    public function disableLabel()
-    {
-        $this->disableLabel = true;
-        return $this;
-    }
-
     public function default($default)
     {
         $this->default = $default;
@@ -76,17 +64,6 @@ abstract class Field extends YaliComponent
     public function getDefault()
     {
         return $this->default;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function placeholder($placeholder)
-    {
-        $this->placeholder = $placeholder;
-        return $this;
     }
 
     public function getPlaceholder()

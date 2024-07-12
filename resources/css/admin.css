@@ -42,11 +42,11 @@
     }
 
     .input-label {
-        @apply block text-sm font-medium text-gray-900 dark:text-white mb-2;
+        @apply block text-sm font-medium text-gray-900 dark:text-white;
     }
 
     .input-label-error {
-        @apply block mb-2 text-sm font-medium text-red-700 dark:text-red-500;
+        @apply block text-sm font-medium text-red-700 dark:text-red-500;
     }
     
     .input-disabled {
