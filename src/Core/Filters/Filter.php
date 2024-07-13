@@ -3,8 +3,9 @@
 namespace Raakkan\Yali\Core\Filters;
 
 use Closure;
-use Raakkan\Yali\Core\Concerns\Makable;
+
 use Illuminate\Database\Eloquent\Builder;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 
 abstract class Filter
 {

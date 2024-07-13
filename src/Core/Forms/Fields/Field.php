@@ -2,19 +2,17 @@
 
 namespace Raakkan\Yali\Core\Forms\Fields;
 
-use Illuminate\Support\Js;
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Concerns\Makable;
-use Illuminate\Contracts\Validation\Rule;
 use Raakkan\Yali\Core\View\YaliComponent;
-use Raakkan\Yali\Core\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Support\Concerns\HasName;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
-use Raakkan\Yali\Core\Support\Concerns\HasLabel;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
-use Raakkan\Yali\Core\Concerns\Livewire\HasLivewire;
+use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Support\Concerns\HasPlaceholder;
+use Raakkan\Yali\Core\Support\Concerns\Components\HasLabel;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasLivewire;
 use Raakkan\Yali\Core\Forms\Concerns\HandlesFieldRelationship;
 
 // encrypt and decrypt

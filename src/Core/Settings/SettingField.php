@@ -1,10 +1,12 @@
 <?php
 
 namespace Raakkan\Yali\Core\Settings;
-use Raakkan\Yali\Core\Concerns\Makable;
+
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
-use Raakkan\Yali\Core\Support\Concerns\{ HasName, HasLabel };
+use Raakkan\Yali\Core\Support\Concerns\{ HasName };
+use Raakkan\Yali\Core\Support\Concerns\Components\HasLabel;
 use Raakkan\Yali\Core\Settings\Concerns\{ HasSettingTypes, HasSettingStoreTypes, HasFormActivation };
 
 class SettingField extends YaliComponent

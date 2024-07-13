@@ -2,8 +2,8 @@
 
 namespace Raakkan\Yali\Core\Forms\Wizard;
 use Illuminate\Support\Collection;
-use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 
 class Wizard extends YaliComponent
 {

@@ -3,11 +3,11 @@
 namespace Raakkan\Yali\Core\Support\Notification;
 
 use Livewire\Component;
-use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Facades\YaliManager;
-use Raakkan\Yali\Core\Concerns\UI\Iconable;
 use Illuminate\Support\Traits\Conditionable;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Support\Concerns\UI\Iconable;
 
 class Notification extends YaliComponent
 {

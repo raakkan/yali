@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Support\Concerns;
+namespace Raakkan\Yali\Core\Support\Concerns\Components;
 
 use Raakkan\Yali\Core\View\Components\Label;
 

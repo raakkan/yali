@@ -7,8 +7,8 @@ use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
 use Raakkan\Yali\Core\Table\Concerns\HasTable;
-use Raakkan\Yali\Core\Concerns\Database\HasModel;
-use Raakkan\Yali\Core\Concerns\HasSuccessMessages;
+use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\Support\Concerns\HasSuccessMessages;
 use Raakkan\Yali\Core\Resources\Concerns\HasResourceTitles;
 use Raakkan\Yali\Core\Resources\Concerns\HasSubmitButtonLabels;
 

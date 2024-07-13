@@ -3,7 +3,7 @@
 namespace Raakkan\Yali\Core\Table\Columns;
 
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Concerns\Makable;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 
 abstract class TableColumn
 {

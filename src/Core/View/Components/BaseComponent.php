@@ -2,9 +2,9 @@
 
 namespace Raakkan\Yali\Core\View\Components;
 
-use Raakkan\Yali\Core\Concerns\Makable;
 use Illuminate\Support\Traits\Macroable;
-use Raakkan\Yali\Core\Concerns\UI\Stylable;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
 
 abstract class BaseComponent
 {

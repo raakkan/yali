@@ -5,12 +5,9 @@ namespace Raakkan\Yali\Core\Actions\Modals;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
-use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Support\Notification\Notification;
-use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
 
 class BaseModal extends Component
 {

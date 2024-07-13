@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns\Database;
+namespace Raakkan\Yali\Core\Support\Concerns\Database;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;

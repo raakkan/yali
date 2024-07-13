@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns\Livewire;
+namespace Raakkan\Yali\Core\Support\Concerns\Livewire;
 
 trait HasLivewire
 {

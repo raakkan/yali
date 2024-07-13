@@ -2,9 +2,10 @@
 
 namespace Raakkan\Yali\Core\Support\Breadcrumb;
 use Illuminate\Http\Request;
-use Raakkan\Yali\Core\Traits\Makable;
+
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Facades\YaliManager;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationItem;
 
 

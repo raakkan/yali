@@ -3,7 +3,7 @@
 namespace Raakkan\Yali\Core\View;
 
 use Illuminate\Support\Facades\Blade;
-use Raakkan\Yali\Core\Concerns\UI\Iconable;
+use Raakkan\Yali\Core\Support\Concerns\UI\Iconable;
 use Raakkan\Yali\Core\View\Components\BaseComponent;
 
 class Button extends BaseComponent

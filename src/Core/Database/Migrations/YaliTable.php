@@ -1,7 +1,9 @@
 <?php
 
 namespace Raakkan\Yali\Core\Database\Migrations;
-use Raakkan\Yali\Core\Concerns\Makable;
+
+use Raakkan\Yali\Core\Support\Concerns\Makable;
+
 
 class YaliTable
 {

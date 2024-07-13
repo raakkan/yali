@@ -1,6 +1,6 @@
 <?php
 
-namespace Raakkan\Yali\Core\Concerns\UI;
+namespace Raakkan\Yali\Core\Support\Concerns\UI;
 
 trait Colorable
 {

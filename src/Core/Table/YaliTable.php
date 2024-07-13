@@ -2,15 +2,15 @@
 
 namespace Raakkan\Yali\Core\Table;
 
-use Raakkan\Yali\Core\Concerns\Makable;
 use Raakkan\Yali\Core\Filters\SortFilter;
 use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Table\Concerns\HasColumns;
 use Raakkan\Yali\Core\Actions\Concerns\HasSource;
-use Raakkan\Yali\Core\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Actions\Concerns\HasActions;
 use Raakkan\Yali\Core\Filters\Concerns\HasFilters;
 use Raakkan\Yali\Core\Table\Concerns\HasModelRecords;
+use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
 
 class YaliTable extends YaliComponent
 {

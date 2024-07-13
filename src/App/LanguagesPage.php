@@ -13,14 +13,14 @@ use Raakkan\Yali\Core\Forms\Fields\TextField;
 use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
 use Raakkan\Yali\Core\Translation\LocaleConfig;
-use Raakkan\Yali\Core\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Concerns\Livewire\HasPagination;
 use Raakkan\Yali\Core\Resources\Actions\RestoreAction;
 use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
 use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasPagination;
 use Raakkan\Yali\Core\Translation\Actions\ManageTranslationAction;
 
 class LanguagesPage extends BaseResource
