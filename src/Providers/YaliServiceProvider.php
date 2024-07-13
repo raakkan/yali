@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
-use Raakkan\Yali\Core\Translation\LocaleConfig;
 use Raakkan\Yali\Core\Yali;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\PageManager;
-
 use Raakkan\Yali\Core\Events\ActionExecuted;
+
 use Raakkan\Yali\Core\FileManager\FileManager;
+use Raakkan\Yali\Core\Settings\SettingsManager;
 use Raakkan\Yali\Core\Support\Icon\IconManager;
+use Raakkan\Yali\Core\Translation\LocaleConfig;
 use Raakkan\Yali\Core\Support\Log\YaliLogManager;
 use Raakkan\Yali\Core\Support\Facades\YaliManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
@@ -27,6 +28,10 @@ class YaliServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/yali.php', 'yali');
+
+        $this->app->singleton('yali-settings', function ($app) {
+            return new SettingsManager();
+        });
 
         $this->app->singleton('yali.log', function () {
             return new YaliLogManager();

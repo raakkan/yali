@@ -2,56 +2,58 @@
 
 namespace Raakkan\Yali\Core\Settings;
 
-use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
-use Raakkan\Yali\Core\Support\Concerns\{ HasName };
+use Raakkan\Yali\Core\Support\Concerns\{HasName};
 use Raakkan\Yali\Core\Support\Concerns\Components\HasLabel;
-use Raakkan\Yali\Core\Settings\Concerns\{ HasSettingTypes, HasSettingStoreTypes, HasFormActivation };
+use Raakkan\Yali\Core\Settings\Concerns\{
+    HasSettingTypes,
+    HasSettingStoreTypes,
+    HasSettingGroup,
+    Cacheable,
+    Lockable,
+    Encryptable,
+    Hideable,
+    HasSettingSource,
+    HandleAlreadyExistsField,
+    HasSettingFieldId
+};
 
-class SettingField extends YaliComponent
+class SettingField
 {
-    use Makable, HasName, HasLabel, HasSettingTypes, HasSettingStoreTypes, HasFormActivation,
-    HasFieldValue;
-
-    protected $view = 'yali::settings.setting-field';
-    protected $componentName = 'field';
-
-    protected $cache = true;
-    protected $lock = false;
-    protected $encrypted = false;
-    protected $hide = false;
+    use Makable, HasName, HasLabel, HasSettingTypes, HasSettingStoreTypes, HasSettingGroup, Cacheable, Lockable, Encryptable, Hideable,
+        HasFieldValue, HasSettingSource, HandleAlreadyExistsField, HasSettingFieldId;
 
     public function __construct($name)
     {
         $this->name = $name;
     }
 
-    public function cache($cache = true)
+    public function render()
     {
-        $this->cache = $cache;
+        if ($this->isHidden()) {
+            return '';
+        }
 
-        return $this;
+        if ($this->isAlreadyExists()) {
+            return $this->getAlreadyExistedField()->render();
+        }
+
+        return $this->getName();
     }
 
-    public function lock($lock = true)
+    public function toArray()
     {
-        $this->lock = $lock;
-
-        return $this;
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'label' => $this->getLabel(),
+            'type' => $this->getType(),
+            'group' => $this->getGroup(),
+            'source' => $this->getSource(),
+            'value' => $this->getValue(),
+            'alreadyExists' => $this->isAlreadyExists(),
+            'alreadyExistedField' => $this->isAlreadyExists() ? $this->getAlreadyExistedField()->toArray() : null,
+        ];
     }
-
-    public function encrypt($encrypted = true)
-    {
-        $this->encrypted = $encrypted;
-
-        return $this;
-    }
-
-    public function hide($hide = true)
-    {
-        $this->hide = $hide;
-        return $this;
-    }
-
 }

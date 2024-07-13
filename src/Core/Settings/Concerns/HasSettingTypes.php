@@ -1,8 +1,8 @@
 <?php
 
 namespace Raakkan\Yali\Core\Settings\Concerns;
-use Raakkan\Yali\Core\Forms\Fields\TextField;
 
+use Raakkan\Yali\Core\Forms\Fields\TextField;
 
 trait HasSettingTypes
 {
@@ -16,7 +16,6 @@ trait HasSettingTypes
 
     public function text()
     {
-        $this->viewField = TextField::make($this->name);
         $this->type = 'text';
         return $this;
     }

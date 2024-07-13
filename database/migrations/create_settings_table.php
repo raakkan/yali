@@ -10,14 +10,16 @@ return new class extends Migration
     {
         Schema::create('yali_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
+            $table->string('name');
             $table->json('value')->nullable();
             $table->string('type')->nullable();
             $table->string('group')->nullable();
-            $table->string('source')->default('admin');
+            $table->text('note')->nullable();
+            $table->string('source')->default('yali');
             $table->boolean('lock')->default(false);
             $table->boolean('encrypt')->default(false);
             $table->boolean('cache')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
         

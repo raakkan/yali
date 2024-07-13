@@ -5,9 +5,8 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\LanguagesPage;
-use Raakkan\Yali\App\HandleResourcePage;
+use Raakkan\Yali\Core\Settings\YaliSettingsPage;
 use Raakkan\Yali\Core\FileManager\FileManagerPage;
-use Raakkan\Yali\Core\Settings\GeneralSettingsPage;
 
 class NavigationManager
 {
@@ -23,7 +22,7 @@ class NavigationManager
         $this->navigation->add(DashboardPage::createNavigationItem());
         $this->navigation->add(LanguagesPage::createNavigationItem());
         $this->navigation->add(FileManagerPage::createNavigationItem());
-        $this->navigation->add(GeneralSettingsPage::createNavigationItem());
+        $this->navigation->add(YaliSettingsPage::createNavigationItem());
 
         foreach ($pages as $value) {
             $this->navigation->add($value['class']::createNavigationItem());

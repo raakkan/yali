@@ -8,9 +8,10 @@ use Raakkan\Yali\App\LanguagesPage;
 use Raakkan\Yali\Core\Pages\PageManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\ManageTranslationPage;
+use Raakkan\Yali\Core\Settings\YaliSettingsPage;
 use Raakkan\Yali\Core\Actions\Modals\ActionModal;
 use Raakkan\Yali\Core\FileManager\FileManagerPage;
-use Raakkan\Yali\Core\Settings\GeneralSettingsPage;
+use Raakkan\Yali\Core\Support\Facades\YaliSetting;
 use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
 use Raakkan\Yali\Core\Actions\Modals\ActionConfirmationModal;
@@ -37,7 +38,8 @@ class Yali
     }
 
     public function boot() {
-
+        YaliSetting::registerSettings(YaliSettingsPage::getSettingFields());
+        
         $this->pageManager->loadPages();
 
         $this->registerLivewireComponents();
@@ -57,7 +59,7 @@ class Yali
 
         Livewire::component('yali::file-manager', FileManagerPage::class);
 
-        Livewire::component('yali::settings.general-page', GeneralSettingsPage::class);
+        Livewire::component('yali::settings.general-page', YaliSettingsPage::class);
 
         Livewire::component('yali::notifications-component', Notifications::class);
 
