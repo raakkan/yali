@@ -13,12 +13,13 @@ return new class extends Migration
             $table->string('name');
             $table->json('value')->nullable();
             $table->string('type')->nullable();
-            $table->string('group')->nullable();
+            $table->string('group')->default('default');
             $table->text('note')->nullable();
             $table->string('source')->default('yali');
             $table->boolean('lock')->default(false);
             $table->boolean('encrypt')->default(false);
             $table->boolean('cache')->default(true);
+            $table->unique(['source', 'group', 'name']);
             $table->softDeletes();
             $table->timestamps();
         });

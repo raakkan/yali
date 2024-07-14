@@ -42,4 +42,14 @@ class Language extends Model
     {
         return $this->hasMany(Translation::class, 'language_code', 'code');
     }
+
+    public static function getActiveLanguages()
+    {
+        return self::where('is_active', true)->get();
+    }
+
+    public static function getDefaultLanguage()
+    {
+        return self::where('is_default', true)->first();
+    }
 }

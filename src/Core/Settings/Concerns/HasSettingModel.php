@@ -23,11 +23,7 @@ trait HasSettingModel
     {
         $query = $this->getModelQuery();
 
-        if ($this->hasGroup()) {
-            $query->where('group', $this->getGroup());
-        }
-
-        return $query->where('source', $this->getSource())->where('name', $this->getName())->exists();
+        return $query->where('source', $this->getSource())->where('group', $this->getGroup())->where('name', $this->getName())->exists();
     }
 
     public function createSettingInDb()
@@ -43,5 +39,15 @@ trait HasSettingModel
         $model->cache = $this->isCacheEnabled();
         $model->note = $this->getNote();
         $model->save();
+    }
+
+    public function attachDbValueToField()
+    {
+        $model = $this->getModelQuery()->where('source', $this->getSource())->where('group', $this->getGroup())->where('name', $this->getName())->first();
+        
+        if ($model) {
+            $this->setValue(json_decode($model->value));
+            $this->setOldValue(json_decode($model->value));
+        }
     }
 }

@@ -4,7 +4,7 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 
 trait HasSettingGroup
 {
-    protected $group = null;
+    protected $group = 'default';
 
     public function group($group = null)
     {

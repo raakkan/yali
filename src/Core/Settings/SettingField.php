@@ -36,16 +36,22 @@ class SettingField
         if ($this->isStoreTypeDatabase() && !$this->checkSettingExistsInDb()) {
             $this->createSettingInDb();
         }
-
+        
         if ($this->isAlreadyExists()) {
             return $this->getAlreadyExistedField()->render();
         }
 
+        if ($this->isStoreTypeDatabase()) {
+            $this->attachDbValueToField();
+        }
+
+        // dd($this->getValue());
+
         if($this->inputField){
             if ($this->type === 'select') {
-                return $this->getInputField()->options($this->getOptions())->render();
+                return $this->getInputField()->options($this->getOptions())->setValue($this->getValue())->render();
             }
-            return $this->getInputField()->render();
+            return $this->getInputField()->setValue($this->getValue())->render();
         }
 
         return $this->getName();
