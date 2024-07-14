@@ -31,8 +31,6 @@ abstract class Field extends YaliComponent
 
     protected $componentName = 'field';
 
-    public $default;
-
     protected $type = '';
 
     public $infoMessage;
@@ -51,17 +49,6 @@ abstract class Field extends YaliComponent
         }
         
         return $this->label ?? Str::of($this->name)->replace('_', ' ')->title();
-    }
-
-    public function default($default)
-    {
-        $this->default = $default;
-        return $this;
-    }
-
-    public function getDefault()
-    {
-        return $this->default;
     }
 
     public function getPlaceholder()

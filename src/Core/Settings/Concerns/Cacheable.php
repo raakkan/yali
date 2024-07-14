@@ -4,7 +4,7 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 
 trait Cacheable
 {
-    protected $cache = false;
+    protected $cache = true;
 
     public function cache($cache = true)
     {

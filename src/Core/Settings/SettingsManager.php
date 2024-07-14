@@ -31,14 +31,74 @@ class SettingsManager
         return $this;
     }
 
-    public function getSettings()
+    public function all()
     {
         return $this->settings;
     }
 
-    public function getSetting($id)
+    public function getSettingById($id)
     {
         return $this->settings[$id];
+    }
+
+    public function getSettingByName($name)
+    {
+        foreach ($this->settings as $setting) {
+            if ($setting->getName() === $name) {
+                return $setting;
+            }
+        }
+    }
+
+    public function getSettingsBySource($source, $includeHidden = false)
+    {
+        $settings = [];
+
+        foreach ($this->settings as $setting) {
+            if ($setting->getSource() === $source) {
+                if ($includeHidden) {
+                    $settings[] = $setting;
+                }elseif (!$setting->isHidden()) {
+                    $settings[] = $setting;
+                }
+            }
+        }
+
+        return $settings;
+    }
+
+    public function getSettingsByGroup($group, $includeHidden = false)
+    {
+        $settings = [];
+
+        foreach ($this->settings as $setting) {
+            if ($setting->getGroup() === $group) {
+                if ($includeHidden) {
+                    $settings[] = $setting;
+                }elseif (!$setting->isHidden()) {
+                    $settings[] = $setting;
+                }
+            }
+        }
+
+        return $settings;
+    }
+
+    public function getSettingsBySourceAndGroup($source, $group, $includeHidden = false)
+    {
+        $settings = [];
+
+        foreach ($this->settings as $setting) {
+            if ($setting->getSource() === $source && $setting->getGroup() === $group) {
+                if ($includeHidden) {
+                    $settings[] = $setting;
+                }elseif (!$setting->isHidden()) {
+                    $settings[] = $setting;
+                }
+            }
+        }
+
+        return $settings;
     }
 
     protected function idExists($id)

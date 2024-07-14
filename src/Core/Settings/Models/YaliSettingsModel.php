@@ -6,5 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class YaliSettingsModel extends Model
 {
-    protected static $table = 'yali_settings';
+    protected $table = 'yali_settings';
+
+    protected $fillable = [
+        'name',
+        'value',
+        'source',
+        'type',
+        'group',
+        'lock',
+        'encrypt',
+        'cache',
+        'note',
+    ];
+
+    protected $casts = [
+        'value' => 'json',
+        'lock' => 'boolean',
+        'encrypt' => 'boolean',
+        'cache' => 'boolean',
+    ];
 }

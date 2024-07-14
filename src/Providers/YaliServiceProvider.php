@@ -50,8 +50,7 @@ class YaliServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('yali-icon', function ($app) {
-            $iconLoader = $app->make('yali-manager')->getIconLoader();
-            return new IconManager($iconLoader);
+            return new IconManager();
         });
 
         $this->app->singleton(LocaleConfig::class, function ($app) {
@@ -70,37 +69,17 @@ class YaliServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(
-            ActionExecuted::class,
-        );
-        
         YaliManager::boot();
         
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
-        // Load Web Routes
         Route::middleware('web')
             ->group(__DIR__.'/../routes/web.php');
 
-        // Load API Routes
         Route::prefix('api')
             ->middleware('api')
             ->group(__DIR__.'/../routes/api.php');
-
-        $this->app['yali-icon']->loadIcons();
-
-        // on('dehydrate', function (Component $component) {
-        //     if (!Livewire::isLivewireRequest()) {
-        //         return;
-        //     }
-
-        //     if ($component->getName() === 'raakkan.yali.app.languages-page') {
-        //         Log::info($component->getName() . ' dehydrated');
-        //         $component->dispatch('notifications-sent');
-        //     }
-            
-        // });
     }
 
     protected function loadSeeders()

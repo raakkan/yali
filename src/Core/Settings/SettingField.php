@@ -16,13 +16,15 @@ use Raakkan\Yali\Core\Settings\Concerns\{
     Hideable,
     HasSettingSource,
     HandleAlreadyExistsField,
-    HasSettingFieldId
+    HasSettingFieldId,
+    HasSettingModel,
+    HasSettingNote
 };
 
 class SettingField
 {
     use Makable, HasName, HasLabel, HasSettingTypes, HasSettingStoreTypes, HasSettingGroup, Cacheable, Lockable, Encryptable, Hideable,
-        HasFieldValue, HasSettingSource, HandleAlreadyExistsField, HasSettingFieldId;
+        HasFieldValue, HasSettingSource, HandleAlreadyExistsField, HasSettingFieldId, HasSettingModel, HasSettingNote;
 
     public function __construct($name)
     {
@@ -31,12 +33,19 @@ class SettingField
 
     public function render()
     {
-        if ($this->isHidden()) {
-            return '';
+        if ($this->isStoreTypeDatabase() && !$this->checkSettingExistsInDb()) {
+            $this->createSettingInDb();
         }
 
         if ($this->isAlreadyExists()) {
             return $this->getAlreadyExistedField()->render();
+        }
+
+        if($this->inputField){
+            if ($this->type === 'select') {
+                return $this->getInputField()->options($this->getOptions())->render();
+            }
+            return $this->getInputField()->render();
         }
 
         return $this->getName();
@@ -55,5 +64,30 @@ class SettingField
             'alreadyExists' => $this->isAlreadyExists(),
             'alreadyExistedField' => $this->isAlreadyExists() ? $this->getAlreadyExistedField()->toArray() : null,
         ];
+    }
+
+    protected $options;
+
+    public function options($options)
+    {
+        if (!is_array($options) && !is_callable($options)) {
+            throw new \InvalidArgumentException('Options must be an array or a callable');
+        }
+
+        $this->options = $options;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        $options = [];
+            
+        if (is_callable($this->options)) {
+            $options = call_user_func($this->options);
+        } else {
+            $options = $this->options;
+        }
+        
+        return $options;
     }
 }

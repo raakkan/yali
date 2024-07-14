@@ -4,42 +4,28 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 
 trait HasSettingStoreTypes
 {
-    protected $storeTypes = [
-        'database',
-    ];
+    protected $storeType = 'database';
 
-    public function getStoreTypes()
+    public function getStoreType()
     {
         return $this->storeTypes;
     }
 
-    public function database($onlyDatabase = false)
+    public function database()
     {
-        if ($onlyDatabase) {
-            $this->storeTypes = ['database'];
-        } else {
-            $this->mergeStoreTypes(['database']);
-        }
-
+        $this->storeType = 'database';
         return $this;
     }
 
-    public function session($onlySession = false)
+    public function session()
     {
-        if ($onlySession) {
-            $this->storeTypes = ['session'];
-        } else {
-            $this->mergeStoreTypes(['session']);
-        }
-        
+        $this->storeType = 'session';
         return $this;
     }
 
-    public function mergeStoreTypes(array $storeTypes)
+    public function isStoreTypeDatabase()
     {
-        $this->storeTypes = array_unique(array_merge($this->storeTypes, $storeTypes));
-
-        return $this;
+        return $this->storeType === 'database';
     }
 
 }

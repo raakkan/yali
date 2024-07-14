@@ -23,7 +23,6 @@ class Yali
     protected $pageManager;
     protected $pluginManager;
     protected $navigationManager;
-    protected $iconLoader;
     protected $componentRegistry;
 
     public function __construct($app) {
@@ -33,8 +32,6 @@ class Yali
         $this->navigationManager = $this->app->make(NavigationManager::class);
 
         $this->componentRegistry = $this->app->make(ComponentRegistry::class);
-
-        $this->iconLoader = new IconLoader();
     }
 
     public function boot() {
@@ -95,11 +92,6 @@ class Yali
         }
     
         throw new \InvalidArgumentException("Resource '{$resource}' not found.");
-    }    
-
-    public function getIconLoader()
-    {
-        return $this->iconLoader;
     }
 
     public function getNavigationManager()

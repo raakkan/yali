@@ -4,6 +4,7 @@ namespace Raakkan\Yali\Core\Settings;
 
 use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Settings\SettingField;
+use Raakkan\Yali\Core\Support\Icon\IconManager;
 
 class YaliSettingsPage extends BasePage
 {
@@ -20,10 +21,17 @@ class YaliSettingsPage extends BasePage
 
     public static function getSettingFields()
     {
+        $iconPacks = app(IconManager::class)->getIconPacks();
+        $selectData = [];
+
+        foreach ($iconPacks as $iconPack) {
+            $selectData[$iconPack['name']] = $iconPack['name'];
+        }
+        
         return [
-            SettingField::make('site_name')->text(),
-            SettingField::make('site_description')->textarea(),
-            SettingField::make('site_name')->text(),
+            SettingField::make('icon_pack')->select()->customizeInputField(function ($inputField) {
+                $inputField->placeholder('Select Icon Pack');
+            })->options($selectData),
         ];
     }
 }

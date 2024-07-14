@@ -7,6 +7,8 @@ trait HasFieldValue
 {
     public $value;
     public $oldValue;
+    
+    public $defaultValue;
 
     public function value($value)
     {
@@ -44,5 +46,16 @@ trait HasFieldValue
     public function hasOldValue()
     {
         return !is_null($this->oldValue);
+    }
+
+    public function default($default)
+    {
+        $this->defaultValue = $default;
+        return $this;
+    }
+
+    public function getDefault()
+    {
+        return $this->defaultValue;
     }
 }

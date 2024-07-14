@@ -48,16 +48,21 @@ trait HandlesFieldRelationship
     {
         if ($this->relationshipType === 'BelongsTo') {
             $options = $this->relationshipClass::all()->pluck($this->relationshipLabelAttribute, $this->relationshipValueAttribute);
-            // $this->options = $options;
-
-            if ($this->hasLivewire()) {
-                return $options;
-            }
+            
+            return $options;
         }
     }
 
     public function hasRelationship()
     {
+        if(!$this->model) {
+            return false;
+        }
+
+        if (!$this->relationshipName) {
+            return false;
+        }
+
         return method_exists($this->model, $this->relationshipName);
     }
 }

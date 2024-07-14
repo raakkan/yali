@@ -24,14 +24,14 @@
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                         </path>
                     </svg>
-                    Mail Settings
+                    Icon Settings
                 </a>
             </nav>
         </div>
         <div class="flex-1 p-6 bg-white rounded-b-lg md:rounded-r-lg md:rounded-b-none">
-            <div x-show="activeTab === 'general'">
+            <div x-show="activeTab === 'general'" class="space-y-6">
                 @php
-                    $settings = Raakkan\Yali\Core\Support\Facades\YaliSetting::getSettings();
+                    $settings = Raakkan\Yali\Core\Support\Facades\YaliSetting::getSettingsBySource('yali', true);
                 @endphp
 
                 @foreach ($settings as $item)

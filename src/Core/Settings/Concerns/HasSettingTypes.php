@@ -2,27 +2,56 @@
 
 namespace Raakkan\Yali\Core\Settings\Concerns;
 
+use Raakkan\Yali\Core\Forms\Fields\SelectField;
+use Raakkan\Yali\Core\Forms\Fields\TextareaField;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
 
 trait HasSettingTypes
 {
     protected $type = 'text';
-    public $viewField;
+    public $inputField;
+
+    public $inputFieldCallback;
 
     public function getType()
     {
         return $this->type;
     }
 
+    public function customizeInputField($callback)
+    {
+        $this->inputFieldCallback = $callback;
+
+        return $this;
+    }
+
+    public function getInputField()
+    {
+        if ($this->inputFieldCallback) {
+            call_user_func($this->inputFieldCallback, $this->inputField);
+        }
+        
+        return $this->inputField;
+    }
+
     public function text()
     {
+        $this->inputField = TextField::make($this->name);
         $this->type = 'text';
         return $this;
     }
 
     public function textarea()
     {
+        $this->inputField = TextareaField::make($this->name);
         $this->type = 'textarea';
+        return $this;
+    }
+
+    public function select()
+    {
+        $this->inputField = SelectField::make($this->name);
+        $this->type = 'select';
         return $this;
     }
 
@@ -53,12 +82,6 @@ trait HasSettingTypes
     public function radio()
     {
         $this->type = 'radio';
-        return $this;
-    }
-
-    public function select()
-    {
-        $this->type = 'select';
         return $this;
     }
 
