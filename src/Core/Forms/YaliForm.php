@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Forms;
 use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Support\Concerns\HasTitles;
+use Raakkan\Yali\Core\Forms\Concerns\HasWireModel;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormFields;
 use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
 use Raakkan\Yali\Core\Forms\Concerns\HasFormActions;
@@ -32,6 +33,7 @@ class YaliForm extends YaliComponent
     use HasTitles;
     use HasFormMessages;
     use HasLivewire;
+    use HasWireModel;
 
     protected $componentName  = 'form';
 

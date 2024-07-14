@@ -19,6 +19,11 @@ class YaliSettingsPage extends BasePage
 
     protected static $view = 'yali::pages.yali-settings-page';
 
+    public function mount()
+    {
+        
+    }
+
     public static function getSettingFields()
     {
         $iconPacks = app(IconManager::class)->getIconPacks();
@@ -33,5 +38,10 @@ class YaliSettingsPage extends BasePage
                 $inputField->placeholder('Select Icon Pack');
             })->options($selectData),
         ];
+    }
+
+    public function submit()
+    {
+        dd('submit');
     }
 }

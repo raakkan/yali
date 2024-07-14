@@ -7,6 +7,7 @@ use Raakkan\Yali\Core\View\YaliComponent;
 use Raakkan\Yali\Core\Support\Concerns\HasName;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
+use Raakkan\Yali\Core\Forms\Concerns\HasWireModel;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
 use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
@@ -28,6 +29,7 @@ abstract class Field extends YaliComponent
     use HasColSpan;
     use HandlesFieldRelationship;
     use HasFieldValue;
+    use HasWireModel;
 
     protected $componentName = 'field';
 

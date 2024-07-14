@@ -18,9 +18,9 @@ trait HasFormFields
 
         foreach ($this->fields as $field) {
             if ($this->hasModel()) {
-                $fields[] = $field->setModel($this->getModel())->setLivewire($this->livewire);
+                $fields[] = $field->setModel($this->getModel())->setLivewire($this->livewire)->setWireModel($this->getWireModel().'.inputs.'.$field->getName());
             } else {
-                $fields[] = $field->setLivewire($this->livewire);
+                $fields[] = $field->setLivewire($this->livewire)->setWireModel($this->getWireModel().'.inputs.'.$field->getName());
             }
         }
 
