@@ -3,7 +3,6 @@
 namespace Raakkan\Yali\Core\Pages;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Raakkan\Yali\Core\Exceptions\PageRegistrationException;
 
 class PageManager
@@ -19,14 +18,14 @@ class PageManager
 
     protected function loadPagesFromDirectory(string $pagesNamespace, string $pagesDirectory, string $source): void
     {
-        if (!File::isDirectory($pagesDirectory)) {
+        if (! File::isDirectory($pagesDirectory)) {
             return;
         }
 
         $files = File::allFiles($pagesDirectory);
 
         foreach ($files as $file) {
-            $class = $pagesNamespace . str_replace(['/', '.php'], ['\\', ''], $file->getRelativePathname());
+            $class = $pagesNamespace.str_replace(['/', '.php'], ['\\', ''], $file->getRelativePathname());
             $this->registerPage($class, $source);
         }
     }
@@ -50,7 +49,7 @@ class PageManager
 
         $this->pages[$class] = [
             'class' => $class,
-            'source' => $source
+            'source' => $source,
         ];
     }
 

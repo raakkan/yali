@@ -5,6 +5,7 @@ namespace Raakkan\Yali\Core\Support\Concerns;
 trait HasTitles
 {
     public $title = '';
+
     public $subtitle = '';
 
     public function title($titleOrCallback, $callback = null)
@@ -41,23 +42,25 @@ trait HasTitles
 
     public function hasTitle()
     {
-        return !empty($this->title);
+        return ! empty($this->title);
     }
 
     public function hasSubtitle()
     {
-        return !empty($this->subtitle);
+        return ! empty($this->subtitle);
     }
 
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
     public function setSubtitle($subtitle)
     {
         $this->subtitle = $subtitle;
+
         return $this;
     }
 }

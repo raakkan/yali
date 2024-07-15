@@ -9,6 +9,7 @@ trait HasFilters
     public function filters($filters)
     {
         $this->filters = $filters;
+
         return $this;
     }
 
@@ -24,6 +25,7 @@ trait HasFilters
                 return $filter;
             }
         }
+
         return null;
     }
 }

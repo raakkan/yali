@@ -2,11 +2,10 @@
 
 namespace Raakkan\Yali\Core\Resources\Concerns;
 
-use Illuminate\Support\Str;
-
 trait HasSubmitButtonLabels
 {
     protected static $createButtonLabel = '';
+
     protected static $updateButtonLabel = '';
 
     public static function getCreateButtonLabel(): string

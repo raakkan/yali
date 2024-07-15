@@ -11,31 +11,36 @@ abstract class BaseComponent
     use Macroable;
     use Makable;
     use Stylable;
-    
+
     protected $label;
+
     protected $attributes = [];
 
     public function setLabel($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function label($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+
         return $this;
     }
 
     public function attributes(array $attributes)
     {
         $this->attributes = $attributes;
+
         return $this;
     }
 
@@ -47,6 +52,7 @@ abstract class BaseComponent
     public function withAttributes(array $attributes)
     {
         $this->attributes = array_merge($this->attributes, $attributes);
+
         return $this;
     }
 

@@ -20,7 +20,7 @@ trait Lockable
 
     public function isNotLocked()
     {
-        return !$this->lock;
+        return ! $this->lock;
     }
 
     public function disableLock()

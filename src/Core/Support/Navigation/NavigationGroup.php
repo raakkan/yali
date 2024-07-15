@@ -4,15 +4,18 @@ namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 
-
 class NavigationGroup
 {
     use Makable;
 
     public $name;
+
     public $label;
+
     public $icon;
+
     public $order;
+
     public $items = [];
 
     public function __construct($name)
@@ -97,5 +100,4 @@ class NavigationGroup
 
         return $this;
     }
-
 }

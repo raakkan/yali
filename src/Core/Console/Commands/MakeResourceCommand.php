@@ -2,9 +2,9 @@
 
 namespace Raakkan\Yali\Core\Console\Commands;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class MakeResourceCommand extends GeneratorCommand
 {
@@ -14,12 +14,13 @@ class MakeResourceCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__ . '/stubs/resource.stub';
+        return __DIR__.'/stubs/resource.stub';
     }
 
     protected function getPath($name)
     {
         $resourceName = Str::studly($name);
+
         return $this->laravel['path'].'/Yali/Resources/'.$resourceName.'.php';
     }
 
@@ -30,12 +31,12 @@ class MakeResourceCommand extends GeneratorCommand
 
         $stub = $this->files->get($this->getStub());
 
-        $namespace = $this->rootNamespace() . 'Yali\\Resources';
-        
+        $namespace = $this->rootNamespace().'Yali\\Resources';
+
         $stub = str_replace('{{ namespace }}', $namespace, $stub);
         $stub = str_replace('{{ class }}', $resourceName, $stub);
 
-        $modelNamespace = $this->rootNamespace() . 'Models\\' . $model;
+        $modelNamespace = $this->rootNamespace().'Models\\'.$model;
         $stub = str_replace('{{ modelNamespace }}', $modelNamespace, $stub);
         $stub = str_replace('{{ model }}', $model, $stub);
 
@@ -45,19 +46,21 @@ class MakeResourceCommand extends GeneratorCommand
     public function handle()
     {
         $model = $this->argument('model');
-        $modelClass = $this->laravel->getNamespace() . 'Models\\' . $model;
+        $modelClass = $this->laravel->getNamespace().'Models\\'.$model;
 
-        if (!class_exists($modelClass)) {
+        if (! class_exists($modelClass)) {
             $this->error("Model '{$model}' does not exist.");
+
             return false;
         }
 
-        $resourceName = Str::studly($model) . 'Resource';
+        $resourceName = Str::studly($model).'Resource';
 
         $path = $this->getPath($resourceName);
 
         if ($this->alreadyExists($resourceName)) {
             $this->error("Resource '{$resourceName}' already exists.");
+
             return false;
         }
 
@@ -75,7 +78,6 @@ class MakeResourceCommand extends GeneratorCommand
 
     protected function getResourcePath($resourceName)
     {
-        return app_path('Yali/Resources/' . $resourceName . '.php');
+        return app_path('Yali/Resources/'.$resourceName.'.php');
     }
-
 }

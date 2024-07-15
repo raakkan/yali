@@ -9,6 +9,7 @@ trait HasLivewire
     public function setLivewire($livewire)
     {
         $this->livewire = $livewire;
+
         return $this;
     }
 
@@ -19,7 +20,7 @@ trait HasLivewire
 
     public function hasLivewire()
     {
-        return isset($this->livewire) && !empty($this->livewire) && $this->livewire !== null;
+        return isset($this->livewire) && ! empty($this->livewire) && $this->livewire !== null;
     }
 
     public function getLivewireId()

@@ -9,6 +9,7 @@ trait HasLabel
     public function label($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
@@ -20,6 +21,7 @@ trait HasLabel
     public function setLabel($label)
     {
         $this->label = $label;
+
         return $this;
     }
 }

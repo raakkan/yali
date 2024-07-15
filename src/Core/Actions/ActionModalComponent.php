@@ -3,11 +3,8 @@
 namespace Raakkan\Yali\Core\Actions;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Log;
 use Raakkan\Yali\Core\Forms\Concerns\InteractsWithForms;
 use Raakkan\Yali\Core\Forms\Contracts\HasForms;
-use Raakkan\Yali\Core\Forms\YaliForm;
-use Raakkan\Yali\Core\Resources\YaliResource;
 
 class ActionModalComponent extends Component implements HasForms
 {
@@ -18,7 +15,7 @@ class ActionModalComponent extends Component implements HasForms
     public $action;
 
     public $modalType = '';
-    
+
     public function mount($data)
     {
         if (is_array($data) && array_key_exists('model', $data) && array_key_exists('source', $data) && array_key_exists('action', $data)) {
@@ -32,6 +29,7 @@ class ActionModalComponent extends Component implements HasForms
     public function getSource()
     {
         $source = $this->source;
+
         return new $source();
     }
 
@@ -39,7 +37,7 @@ class ActionModalComponent extends Component implements HasForms
     {
         $form = $this->getSource()->form($this->getSource()->getForm());
         $form->setSource($this->getSource())->modal(...$this->getAction()->getModalData());
-        
+
         return $form;
     }
 
@@ -56,7 +54,7 @@ class ActionModalComponent extends Component implements HasForms
     public function submit()
     {
         $validatedData = $this->validatedInputs();
-        
+
         if (is_null($this->model->id)) {
             $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             $this->dispatch('modal-close');

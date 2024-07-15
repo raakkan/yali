@@ -20,7 +20,7 @@ trait Hideable
 
     public function isNotHidden()
     {
-        return !$this->hide;
+        return ! $this->hide;
     }
 
     public function disableHide()

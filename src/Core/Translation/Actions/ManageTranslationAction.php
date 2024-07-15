@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Translation\Actions;
 
@@ -14,13 +14,14 @@ class ManageTranslationAction extends YaliAction
     public function buttonClasses()
     {
         return [
-            ButtonClass::LINK
+            ButtonClass::LINK,
         ];
     }
 
     public function getButtonUrl()
     {
         $this->setRouteParameters(['language' => $this->getModelIdentifier()]);
+
         return $this->getRoute();
     }
 }

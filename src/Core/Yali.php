@@ -3,29 +3,33 @@
 namespace Raakkan\Yali\Core;
 
 use Livewire\Livewire;
+use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\LanguagesPage;
-use Raakkan\Yali\Core\Pages\PageManager;
-use Livewire\Mechanisms\ComponentRegistry;
 use Raakkan\Yali\App\ManageTranslationPage;
-use Raakkan\Yali\Core\Settings\YaliSettingsPage;
+use Raakkan\Yali\Core\Actions\Modals\ActionConfirmationModal;
 use Raakkan\Yali\Core\Actions\Modals\ActionModal;
 use Raakkan\Yali\Core\FileManager\FileManagerPage;
+use Raakkan\Yali\Core\Pages\PageManager;
+use Raakkan\Yali\Core\Settings\YaliSettingsPage;
 use Raakkan\Yali\Core\Support\Facades\YaliSetting;
-use Raakkan\Yali\Core\Support\Icon\Loader\IconLoader;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
-use Raakkan\Yali\Core\Actions\Modals\ActionConfirmationModal;
 use Raakkan\Yali\Core\Support\Notification\Livewire\Notifications;
 
 class Yali
 {
     protected $app;
+
     protected $pageManager;
+
     protected $pluginManager;
+
     protected $navigationManager;
+
     protected $componentRegistry;
 
-    public function __construct($app) {
+    public function __construct($app)
+    {
         $this->app = $app;
         $this->pageManager = $this->app->make(PageManager::class);
 
@@ -34,9 +38,10 @@ class Yali
         $this->componentRegistry = $this->app->make(ComponentRegistry::class);
     }
 
-    public function boot() {
+    public function boot()
+    {
         YaliSetting::registerSettings(YaliSettingsPage::getSettingFields());
-        
+
         $this->pageManager->loadPages();
 
         $this->registerLivewireComponents();
@@ -45,7 +50,8 @@ class Yali
 
     }
 
-    public function registerLivewireComponents() {
+    public function registerLivewireComponents()
+    {
         Livewire::component($this->componentRegistry->getName(DashboardPage::class), DashboardPage::class);
         Livewire::component($this->componentRegistry->getName(LanguagesPage::class), LanguagesPage::class);
 
@@ -71,26 +77,29 @@ class Yali
         }
     }
 
-    public function getPages() {
+    public function getPages()
+    {
         return $this->pageManager->getPages();
     }
 
-    public function getResources() {
+    public function getResources()
+    {
         return [];
     }
 
-    public function getNavigation() {
+    public function getNavigation()
+    {
         return $this->navigationManager->getNavigation();
     }
 
     public function resolveResource($resource)
     {
         $resources = $this->getResources();
-    
+
         if (isset($resources[$resource])) {
             return $resources[$resource];
         }
-    
+
         throw new \InvalidArgumentException("Resource '{$resource}' not found.");
     }
 

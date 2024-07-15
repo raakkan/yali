@@ -9,6 +9,7 @@ trait HasName
     public function name($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -20,11 +21,12 @@ trait HasName
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function hasName()
     {
-        return !empty($this->name);
+        return ! empty($this->name);
     }
 }

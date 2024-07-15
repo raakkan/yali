@@ -7,15 +7,15 @@ use Raakkan\Yali\Core\Forms\YaliForm;
 trait HasActionForm
 {
     protected $form;
-    
+
     public function form($form)
     {
         $yaliForm = new YaliForm();
-        
-        if($this->hasModel()) {
+
+        if ($this->hasModel()) {
             $yaliForm->setModel($this->getModel());
         }
-        
+
         $formData = null;
 
         if (is_array($form)) {
@@ -46,6 +46,6 @@ trait HasActionForm
 
     public function hasForm()
     {
-        return !is_null($this->form);
+        return ! is_null($this->form);
     }
 }

@@ -37,5 +37,4 @@ class LocaleConfig
 
         return $this;
     }
-
 }

@@ -2,10 +2,10 @@
 
 namespace Raakkan\Yali\Core\Database\Migrations;
 
-use Illuminate\Support\Str;
-use Raakkan\Yali\Models\YaliModel;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Raakkan\Yali\Models\YaliModel;
 
 class YaliMigrator
 {
@@ -14,7 +14,7 @@ class YaliMigrator
         $models = File::allFiles(base_path('app/Models'));
 
         $yaliModels = collect($models)->filter(function ($model) {
-            $modelClass = 'App\\Models\\' . basename($model->getFilename(), '.php');
+            $modelClass = 'App\\Models\\'.basename($model->getFilename(), '.php');
 
             return is_subclass_of($modelClass, YaliModel::class);
         });
@@ -24,7 +24,7 @@ class YaliMigrator
 
     public function createTable($yaliTable)
     {
-        if (!Schema::hasTable($yaliTable->getTable())) {
+        if (! Schema::hasTable($yaliTable->getTable())) {
             Schema::create($yaliTable->getTable(), function ($table) use ($yaliTable) {
                 $table->id();
 
@@ -43,7 +43,7 @@ class YaliMigrator
                 foreach ($yaliTable->getColumns() as $column) {
                     $columnName = $column->name;
                     if ($column->isString) {
-                        $table->string($columnName, 255)->nullable(!$column->isRequired);
+                        $table->string($columnName, 255)->nullable(! $column->isRequired);
                     } else {
                         // Add other column types as needed
                     }
@@ -54,5 +54,4 @@ class YaliMigrator
             });
         }
     }
-
 }

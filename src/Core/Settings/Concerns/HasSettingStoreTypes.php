@@ -14,12 +14,14 @@ trait HasSettingStoreTypes
     public function database()
     {
         $this->storeType = 'database';
+
         return $this;
     }
 
     public function session()
     {
         $this->storeType = 'session';
+
         return $this;
     }
 
@@ -27,5 +29,4 @@ trait HasSettingStoreTypes
     {
         return $this->storeType === 'database';
     }
-
 }

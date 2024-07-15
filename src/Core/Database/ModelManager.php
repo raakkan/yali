@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ModelManager
 {
     protected $model;
+
     protected $modelInstance;
+
     protected $modelPrimaryKey;
 
     public function __construct($model = null)
@@ -20,8 +22,8 @@ class ModelManager
 
     public function getModel()
     {
-        if (!$this->modelInstance) {
-            throw new \Exception("Model instance not set.");
+        if (! $this->modelInstance) {
+            throw new \Exception('Model instance not set.');
         }
 
         return $this->modelInstance;
@@ -36,10 +38,11 @@ class ModelManager
             $this->model = get_class($model);
             $this->modelInstance = $model;
         } else {
-            throw new \InvalidArgumentException("The provided model must be a valid class name or an instance of " . Model::class);
+            throw new \InvalidArgumentException('The provided model must be a valid class name or an instance of '.Model::class);
         }
 
         $this->modelPrimaryKey = $this->modelInstance->getKeyName();
+
         return $this;
     }
 

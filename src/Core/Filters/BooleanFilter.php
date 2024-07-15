@@ -8,6 +8,7 @@ class BooleanFilter extends Filter
 {
     // TODO: this filter misbehaves when 0 is passed as value like admin and not admin
     protected $trueLabel;
+
     protected $falseLabel;
 
     public function __construct($name)
@@ -20,12 +21,14 @@ class BooleanFilter extends Filter
     public function trueLabel($label)
     {
         $this->trueLabel = $label;
+
         return $this;
     }
 
     public function falseLabel($label)
     {
         $this->falseLabel = $label;
+
         return $this;
     }
 
@@ -61,7 +64,7 @@ class BooleanFilter extends Filter
             $this->skip = false;
             $this->value = ($value === '1' || $value === true || $value === 1 || $value === 'true') ? true : false;
         }
-        
+
         return $this;
     }
 
@@ -69,7 +72,7 @@ class BooleanFilter extends Filter
     {
         if (isset($this->value)) {
             return $this->value === true ? 1 : 0;
-        }else{
+        } else {
             return '';
         }
     }

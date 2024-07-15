@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
@@ -9,59 +9,57 @@ class Navigation implements Renderable
     protected $items = [];
 
     public function add($item)
-{
-    if ($item instanceof NavigationItem) {
-        $slug = $item->getSlug();
-        $uniqueSlug = $this->generateUniqueSlug($slug);
-        $item->setSlug($uniqueSlug);
-        $this->items[$item->getClass()] = $item;
-    } else {
-        $group = $this->findGroup($item);
-        $this->items[$group->getName()] = $group;
-    }
-}
-
-
-    public function findGroup(NavigationGroup $group)
-{
-    foreach ($this->items as $item) {
-        if ($item instanceof NavigationGroup && $item->getName() === $group->getName()) {
-            $groupItems = $group->getItems();
-            $uniqueGroupItems = [];
-
-            foreach ($groupItems as $groupItem) {
-                $slug = $groupItem->getSlug();
-                $uniqueSlug = $this->generateUniqueSlug($slug);
-                $groupItem->setSlug($uniqueSlug);
-                $uniqueGroupItems[] = $groupItem;
-            }
-
-            $item->mergeItems($uniqueGroupItems);
-            $item->setOrder($group->order);
-
-            if ($group->hasIcon()) {
-                $item->setIcon($group->icon);
-            }
-
-            return $item;
+    {
+        if ($item instanceof NavigationItem) {
+            $slug = $item->getSlug();
+            $uniqueSlug = $this->generateUniqueSlug($slug);
+            $item->setSlug($uniqueSlug);
+            $this->items[$item->getClass()] = $item;
+        } else {
+            $group = $this->findGroup($item);
+            $this->items[$group->getName()] = $group;
         }
     }
 
-    $groupItems = $group->getItems();
-    $uniqueGroupItems = [];
+    public function findGroup(NavigationGroup $group)
+    {
+        foreach ($this->items as $item) {
+            if ($item instanceof NavigationGroup && $item->getName() === $group->getName()) {
+                $groupItems = $group->getItems();
+                $uniqueGroupItems = [];
 
-    foreach ($groupItems as $groupItem) {
-        $slug = $groupItem->getSlug();
-        $uniqueSlug = $this->generateUniqueSlug($slug);
-        $groupItem->setSlug($uniqueSlug);
-        $uniqueGroupItems[] = $groupItem;
+                foreach ($groupItems as $groupItem) {
+                    $slug = $groupItem->getSlug();
+                    $uniqueSlug = $this->generateUniqueSlug($slug);
+                    $groupItem->setSlug($uniqueSlug);
+                    $uniqueGroupItems[] = $groupItem;
+                }
+
+                $item->mergeItems($uniqueGroupItems);
+                $item->setOrder($group->order);
+
+                if ($group->hasIcon()) {
+                    $item->setIcon($group->icon);
+                }
+
+                return $item;
+            }
+        }
+
+        $groupItems = $group->getItems();
+        $uniqueGroupItems = [];
+
+        foreach ($groupItems as $groupItem) {
+            $slug = $groupItem->getSlug();
+            $uniqueSlug = $this->generateUniqueSlug($slug);
+            $groupItem->setSlug($uniqueSlug);
+            $uniqueGroupItems[] = $groupItem;
+        }
+
+        $group->setItems($uniqueGroupItems);
+
+        return $group;
     }
-
-    $group->setItems($uniqueGroupItems);
-
-    return $group;
-}
-
 
     public function generateUniqueSlug($slug)
     {
@@ -69,7 +67,7 @@ class Navigation implements Renderable
         $counter = 1;
 
         while ($this->hasSlug($slug)) {
-            $slug = $originalSlug . '-' . $counter;
+            $slug = $originalSlug.'-'.$counter;
             $counter++;
         }
 
@@ -109,7 +107,7 @@ class Navigation implements Renderable
         }
 
         $items = collect($items)->filter(function ($item) {
-            return !$item->isHidden();
+            return ! $item->isHidden();
         })->toArray();
 
         $items = $this->sortItems($items);
@@ -120,17 +118,17 @@ class Navigation implements Renderable
     public function getAllItems()
     {
         $items = collect($this->items);
-    
+
         $groupItems = $items->filter(function ($item) {
             return $item instanceof NavigationGroup;
         })->flatMap(function ($group) {
             return $group->getItems();
         });
-    
+
         $navigationItems = $items->filter(function ($item) {
             return $item instanceof NavigationItem;
         });
-    
+
         return $navigationItems->merge($groupItems);
     }
 
@@ -139,13 +137,14 @@ class Navigation implements Renderable
         usort($items, function ($a, $b) {
             return $a->order - $b->order;
         });
+
         return $items;
     }
 
     public function render()
     {
         return view('yali::navigation.navigation', [
-            'items' => $this->getItems()
+            'items' => $this->getItems(),
         ]);
     }
 
@@ -163,5 +162,4 @@ class Navigation implements Renderable
             }
         }
     }
-
 }

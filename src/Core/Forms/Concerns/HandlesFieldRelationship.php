@@ -7,9 +7,13 @@ use Illuminate\Support\Facades\Schema;
 trait HandlesFieldRelationship
 {
     public $relationshipName;
+
     public $relationshipClass;
+
     public $relationshipType;
+
     public $relationshipValueAttribute;
+
     public $relationshipLabelAttribute;
 
     public function relationship($name, $valueAttribute = 'id', $labelAttribute = 'name')
@@ -26,19 +30,19 @@ trait HandlesFieldRelationship
                 $field->relationshipName = $name;
                 $field->relationshipClass = get_class($relationshipClass);
                 $field->relationshipType = $relationType;
-                
+
                 $field->relationshipValueAttribute = $valueAttribute;
                 $field->relationshipLabelAttribute = $labelAttribute;
 
                 $columns = Schema::getColumnListing($modelTable);
-                if (!in_array($valueAttribute, $columns) || !in_array($labelAttribute, $columns)) {
+                if (! in_array($valueAttribute, $columns) || ! in_array($labelAttribute, $columns)) {
                     throw new \Exception("The attributes '{$valueAttribute}' or '{$labelAttribute}' do not exist on {$modelTable}");
                 }
-                
+
             } else {
                 throw new \Exception('Relationship not found');
             }
-            
+
         });
 
         return $this;
@@ -48,18 +52,18 @@ trait HandlesFieldRelationship
     {
         if ($this->relationshipType === 'BelongsTo') {
             $options = $this->relationshipClass::all()->pluck($this->relationshipLabelAttribute, $this->relationshipValueAttribute);
-            
+
             return $options;
         }
     }
 
     public function hasRelationship()
     {
-        if(!$this->model) {
+        if (! $this->model) {
             return false;
         }
 
-        if (!$this->relationshipName) {
+        if (! $this->relationshipName) {
             return false;
         }
 

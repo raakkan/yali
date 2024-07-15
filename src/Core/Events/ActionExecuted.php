@@ -2,19 +2,17 @@
 
 namespace Raakkan\Yali\Core\Events;
 
-use Illuminate\Queue\SerializesModels;
-use Raakkan\Yali\Core\Actions\YaliAction;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class ActionExecuted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $action;
+
     public $result;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 class CreatePage extends ResourcePage
 {
     protected static $view = 'yali::resources.pages.create-page';
+
     protected static $subtitle = 'Create a new resource';
 
     public function mount()
@@ -17,17 +18,17 @@ class CreatePage extends ResourcePage
 
     public static function getTitle(): string
     {
-        return static::$title ?: 'Create ' . Str::title(static::getResource()::getModelName());
+        return static::$title ?: 'Create '.Str::title(static::getResource()::getModelName());
     }
 
     public static function getRouteName()
     {
-        return static::getResource()::getRouteName() . '.create';
+        return static::getResource()::getRouteName().'.create';
     }
 
     public static function getSlug(): string
     {
-        return parent::getSlug(). '/create';
+        return parent::getSlug().'/create';
     }
 
     public static function getFormSubmitButtonLabel(): string

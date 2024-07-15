@@ -34,6 +34,6 @@ trait Encryptable
 
     public function isEncryptionDisabled()
     {
-        return !$this->encrypted;
+        return ! $this->encrypted;
     }
 }

@@ -9,6 +9,7 @@ trait HasSettingGroup
     public function group($group = null)
     {
         $this->group = $group;
+
         return $this;
     }
 
@@ -20,12 +21,14 @@ trait HasSettingGroup
     public function setGroup($group)
     {
         $this->group = $group;
+
         return $this;
     }
 
     public function unsetGroup()
     {
         $this->group = null;
+
         return $this;
     }
 

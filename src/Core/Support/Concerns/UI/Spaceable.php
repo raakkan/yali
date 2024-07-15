@@ -36,9 +36,9 @@ trait Spaceable
      */
     public function margin($margin)
     {
-       if ($margin instanceof \BackedEnum) {
+        if ($margin instanceof \BackedEnum) {
             $this->margin = $margin->value;
-        }else {
+        } else {
             $this->margin = $margin;
         }
 
@@ -65,7 +65,7 @@ trait Spaceable
     {
         if ($padding instanceof \BackedEnum) {
             $this->padding = $padding->value;
-        }else {
+        } else {
             $this->padding = $padding;
         }
 
@@ -79,7 +79,7 @@ trait Spaceable
      */
     public function hasMargin()
     {
-        return !empty($this->margin);
+        return ! empty($this->margin);
     }
 
     /**
@@ -89,7 +89,7 @@ trait Spaceable
      */
     public function hasPadding()
     {
-        return !empty($this->padding);
+        return ! empty($this->padding);
     }
 
     /**

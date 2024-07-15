@@ -17,7 +17,7 @@ trait Colorable
     {
         if ($color instanceof \BackedEnum) {
             $this->textColor = $color->value;
-        }else {
+        } else {
             $this->textColor = $color;
         }
 
@@ -33,7 +33,7 @@ trait Colorable
     {
         if ($color instanceof \BackedEnum) {
             $this->backgroundColor = $color->value;
-        }else {
+        } else {
             $this->backgroundColor = $color;
         }
 
@@ -42,12 +42,12 @@ trait Colorable
 
     public function hasTextColor()
     {
-        return !empty($this->textColor);
+        return ! empty($this->textColor);
     }
 
     public function hasBackgroundColor()
     {
-        return !empty($this->backgroundColor);
+        return ! empty($this->backgroundColor);
     }
 
     public function removeTextColor()

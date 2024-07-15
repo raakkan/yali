@@ -23,7 +23,7 @@ class Translation extends Model
     protected static function booted()
     {
         static::saved(function ($translation) {
-            app('translator')->flushTranslationCache($translation->group . '.' . $translation->key, $translation->language_code);
+            app('translator')->flushTranslationCache($translation->group.'.'.$translation->key, $translation->language_code);
         });
     }
 
@@ -42,7 +42,7 @@ class Translation extends Model
 
     public function language()
     {
-        return $this->belongsTo(Language::class, 'language_code' , 'code');
+        return $this->belongsTo(Language::class, 'language_code', 'code');
     }
 
     public function translationCategory()

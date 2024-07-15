@@ -3,8 +3,8 @@
 namespace Raakkan\Yali\Providers;
 
 use Illuminate\Translation\FileLoader;
-use Raakkan\Yali\Core\Translation\YaliTranslator;
 use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
+use Raakkan\Yali\Core\Translation\YaliTranslator;
 
 class TranslationServiceProvider extends BaseTranslationServiceProvider
 {
@@ -19,6 +19,7 @@ class TranslationServiceProvider extends BaseTranslationServiceProvider
             $locale = $app['config']['app.locale'];
             $translator = new YaliTranslator($loader, $locale);
             $translator->setFallback($app['config']['app.fallback_locale']);
+
             return $translator;
         });
     }

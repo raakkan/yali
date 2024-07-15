@@ -19,15 +19,15 @@ class BaseIconLoader implements IconLoaderInterface
                 $iconName = $file->getFilenameWithoutExtension();
                 $iconPath = $file->getPathname();
 
-                $prefix = $relativePath ? str_replace('/', '.', $relativePath) . '.' : '';
-                $iconKey = $prefix . $iconName;
+                $prefix = $relativePath ? str_replace('/', '.', $relativePath).'.' : '';
+                $iconKey = $prefix.$iconName;
 
                 $icons[$iconKey] = [
                     'path' => $iconPath,
                 ];
             }
         }
-        
+
         return $icons;
     }
 

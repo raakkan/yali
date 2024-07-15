@@ -2,25 +2,37 @@
 
 namespace Raakkan\Yali\Core\Plugin\Dtos;
 
-//TODO: remove all set methods 
+//TODO: remove all set methods
 class PluginDto
 {
     public $id;
+
     public $name;
+
     public $version;
+
     public $description;
+
     public $author;
+
     public $active;
+
     public $path;
+
     public $url;
+
     public $license;
+
     public $namespace;
+
     public $screenshot;
+
     public $logo;
+
     public $documentation_url;
 
     public $invalidFields;
-    
+
     public function __construct(
         $id = null,
         $name = null,
@@ -131,5 +143,4 @@ class PluginDto
             'documentation_url' => $this->documentation_url,
         ];
     }
-
 }

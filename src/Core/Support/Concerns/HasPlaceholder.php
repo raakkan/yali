@@ -2,8 +2,6 @@
 
 namespace Raakkan\Yali\Core\Support\Concerns;
 
-use Illuminate\Support\Js;
-
 trait HasPlaceholder
 {
     protected $placeholder;
@@ -11,6 +9,7 @@ trait HasPlaceholder
     public function placeholder($placeholder)
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
@@ -21,12 +20,13 @@ trait HasPlaceholder
 
     public function hasPlaceholder()
     {
-        return !empty($this->placeholder);
+        return ! empty($this->placeholder);
     }
 
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 }

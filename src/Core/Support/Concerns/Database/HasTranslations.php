@@ -2,19 +2,15 @@
 
 namespace Raakkan\Yali\Core\Support\Concerns\Database;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Eloquent\Model;
-use Raakkan\Yali\Core\Database\Migrations\YaliTable;
+use Illuminate\Support\Str;
 use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 trait HasTranslations
 {
-    public static function bootHasTranslations()
-    {
-    }
+    public static function bootHasTranslations() {}
 
     public function getAttribute($attributeName)
     {
@@ -29,8 +25,9 @@ trait HasTranslations
     {
         $yaliTable = static::getTranslationTable();
 
-        if (!Schema::hasTable($yaliTable->getTable())) {
-            YaliLog::warning('Translation table not found: ' . $yaliTable->getTable());
+        if (! Schema::hasTable($yaliTable->getTable())) {
+            YaliLog::warning('Translation table not found: '.$yaliTable->getTable());
+
             return null;
         }
 
@@ -38,7 +35,7 @@ trait HasTranslations
             ->where('locale', $locale)
             ->where($this->getParentKey(), $this->getKey())
             ->first();
-            
+
         return $translation ? $translation->$attributeName : null;
     }
 
@@ -46,8 +43,9 @@ trait HasTranslations
     {
         $yaliTable = static::getTranslationTable();
 
-        if (!Schema::hasTable($yaliTable->getTable())) {
-            YaliLog::warning('Translation table not found: ' . $yaliTable->getTable());
+        if (! Schema::hasTable($yaliTable->getTable())) {
+            YaliLog::warning('Translation table not found: '.$yaliTable->getTable());
+
             return;
         }
 
@@ -64,7 +62,7 @@ trait HasTranslations
             DB::table($yaliTable->getTable())->insert([
                 'locale' => $locale,
                 $this->getParentKey() => $this->getKey(),
-                ...$data
+                ...$data,
             ]);
         }
     }

@@ -4,18 +4,20 @@ namespace Raakkan\Yali\Core\Forms\Fields;
 
 use Illuminate\Validation\Rules\Password;
 
-
 class TextField extends Field
 {
     protected $view = 'yali::forms.fields.text-field';
+
     protected $type = 'text';
 
     protected $isConfirm = false;
+
     protected $confirmFieldName = '';
 
     /**
      * Add the "email" validation rule.
      *type = 'text';
+     *
      * @return $this
      */
     public function email()
@@ -25,7 +27,6 @@ class TextField extends Field
         return $this->addValidationRule('email');
     }
 
-
     public function password(
         int $minLength = 8,
         bool $letters = false,
@@ -33,13 +34,12 @@ class TextField extends Field
         bool $symbols = false,
         bool $mixed = false,
         bool $uncompromised = false
-    )
-    {
+    ) {
         $this->setType('password');
         $this->required();
-    
+
         $rule = Password::min($minLength);
-    
+
         if ($letters) {
             $rule->letters();
         }
@@ -55,21 +55,20 @@ class TextField extends Field
         if ($uncompromised) {
             $rule->uncompromised();
         }
-    
+
         $this->addValidationRule($rule);
-    
+
         return $this;
     }
 
     /**
      * Add password confirmation validation rule.
      *
-     * @param string $confirmField
      * @return $this
      */
     public function passwordConfirmation(string $confirmField)
     {
-        $this->addValidationRule('confirmed:' . $confirmField);
+        $this->addValidationRule('confirmed:'.$confirmField);
 
         $this->confirmFieldName = $confirmField;
 

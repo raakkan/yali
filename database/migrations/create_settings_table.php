@@ -23,7 +23,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        
+
     }
 
     public function down()

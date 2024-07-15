@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignId('translation_category_id')->references('id')->on('yali_translation_categories')->constrained();
-        
+
             $table->string('language_code');
             $table->foreign('language_code')->references('code')->on('yali_languages')->onDelete('cascade');
 

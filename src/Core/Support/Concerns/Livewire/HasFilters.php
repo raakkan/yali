@@ -2,8 +2,8 @@
 
 namespace Raakkan\Yali\Core\Support\Concerns\Livewire;
 
-use Livewire\Attributes\Computed;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Livewire\Attributes\Computed;
 
 trait HasFilters
 {
@@ -27,17 +27,18 @@ trait HasFilters
     public function hasFilters()
     {
         foreach ($this->filterInputs as $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 return true;
             }
         }
+
         return false;
     }
 
     public function clearAllFilters()
     {
         $this->setFilterInputs();
-        
+
         if (method_exists($this, 'resetPage')) {
             $this->resetPage();
         }
@@ -65,11 +66,11 @@ trait HasFilters
         if ($filter && array_key_exists($column, $this->filterInputs)) {
             if ($this->filterInputs[$column]) {
                 $this->filterInputs[$column] = $this->filterInputs[$column] === 'asc' ? 'desc' : 'asc';
-            }else{
+            } else {
                 $this->filterInputs[$column] = 'asc';
             }
         }
-        
+
         if (method_exists($this, 'resetPage')) {
             $this->resetPage();
         }

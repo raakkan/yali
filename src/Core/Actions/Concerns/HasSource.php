@@ -10,12 +10,12 @@ trait HasSource
     {
         $callerMeta = $this->getCallerMetadata();
         $callerSource = array_key_exists('class', $callerMeta) ? $callerMeta['class'] : null;
-        
+
         if ($this->source) {
             return $this->source;
         } elseif ($callerSource) {
             return $callerSource;
-        }else {
+        } else {
             return throw new \Exception('Source not set');
         }
     }
@@ -23,6 +23,7 @@ trait HasSource
     public function setSource($source)
     {
         $this->source = $source;
+
         return $this;
     }
 }

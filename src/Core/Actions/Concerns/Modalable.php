@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Actions\Concerns;
 
@@ -12,7 +12,7 @@ trait Modalable
         'slideUp' => false,
         'slideDown' => false,
         'closeOnOutsideClick' => false,
-        'closeOnEscape' => false
+        'closeOnEscape' => false,
     ];
 
     public function isModal()
@@ -27,11 +27,10 @@ trait Modalable
         bool $slideDown = false,
         bool $closeOnOutsideClick = false,
         bool $closeOnEscape = false
-    )
-    {
+    ) {
         $this->isModal = true;
         $this->buttonIsLink = false;
-        
+
         if ($slideLeft) {
             $this->modalData['slideLeft'] = true;
         }
@@ -46,12 +45,12 @@ trait Modalable
         // if ($slideDown) {
         //     $this->modalData['slideDown'] = true;
         // }
-        
+
         $this->modalData['closeOnOutsideClick'] = $closeOnOutsideClick;
         $this->modalData['closeOnEscape'] = $closeOnEscape;
-        
+
         return $this;
-    }    
+    }
 
     public function getModalPosition()
     {
@@ -64,7 +63,7 @@ trait Modalable
         } elseif ($this->modalData['slideDown']) {
             return 'top';
         }
-        
+
         return 'center';
     }
 
@@ -72,36 +71,40 @@ trait Modalable
     {
         return $this->modalData;
     }
-    
+
     public function slideLeft($slideLeft = true)
     {
         $this->modalData['slideLeft'] = $slideLeft;
+
         return $this;
     }
-    
+
     public function slideRight($slideRight = true)
     {
         $this->modalData['slideRight'] = $slideRight;
+
         return $this;
     }
-    
+
     public function slideUp($slideUp = true)
     {
         $this->modalData['slideUp'] = $slideUp;
+
         return $this;
     }
-    
+
     public function slideDown($slideDown = true)
     {
         $this->modalData['slideDown'] = $slideDown;
+
         return $this;
     }
-    
+
     public function isCloseOnOutsideClick()
     {
         return $this->modalData['closeOnOutsideClick'];
     }
-    
+
     public function isCloseOnEscape()
     {
         return $this->modalData['closeOnEscape'];
@@ -110,12 +113,14 @@ trait Modalable
     public function closeOnOutsideClick($closeOnOutsideClick = true)
     {
         $this->modalData['closeOnOutsideClick'] = $closeOnOutsideClick;
+
         return $this;
     }
-    
+
     public function closeOnEscape($closeOnEscape = true)
     {
         $this->modalData['closeOnEscape'] = $closeOnEscape;
+
         return $this;
     }
 }

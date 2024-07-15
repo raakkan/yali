@@ -2,11 +2,10 @@
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
-use Illuminate\Support\Str;
 use Raakkan\Yali\App\DashboardPage;
 use Raakkan\Yali\App\LanguagesPage;
-use Raakkan\Yali\Core\Settings\YaliSettingsPage;
 use Raakkan\Yali\Core\FileManager\FileManagerPage;
+use Raakkan\Yali\Core\Settings\YaliSettingsPage;
 
 class NavigationManager
 {
@@ -41,7 +40,6 @@ class NavigationManager
         } else {
             return $this->navigation->findBySlug($slug);
         }
-        
-    }
 
+    }
 }

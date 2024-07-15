@@ -1,24 +1,21 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Raakkan\Yali\Providers;
 
-use Raakkan\Yali\Core\Yali;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use Raakkan\Yali\Core\Pages\PageManager;
-use Raakkan\Yali\Core\Events\ActionExecuted;
-
 use Raakkan\Yali\Core\FileManager\FileManager;
+use Raakkan\Yali\Core\Pages\PageManager;
 use Raakkan\Yali\Core\Settings\SettingsManager;
-use Raakkan\Yali\Core\Support\Icon\IconManager;
-use Raakkan\Yali\Core\Translation\LocaleConfig;
-use Raakkan\Yali\Core\Support\Log\YaliLogManager;
 use Raakkan\Yali\Core\Support\Facades\YaliManager;
+use Raakkan\Yali\Core\Support\Icon\IconManager;
+use Raakkan\Yali\Core\Support\Log\YaliLogManager;
 use Raakkan\Yali\Core\Support\Navigation\NavigationManager;
+use Raakkan\Yali\Core\Translation\LocaleConfig;
+use Raakkan\Yali\Core\Yali;
 
 class YaliServiceProvider extends ServiceProvider
 {
@@ -60,7 +57,7 @@ class YaliServiceProvider extends ServiceProvider
         $this->app->bind(FileManager::class, function ($app) {
             return new FileManager(Storage::disk('public'));
         });
-        
+
         $this->registerCommands();
     }
 
@@ -70,7 +67,7 @@ class YaliServiceProvider extends ServiceProvider
     public function boot(): void
     {
         YaliManager::boot();
-        
+
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'yali');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
@@ -86,7 +83,7 @@ class YaliServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../../database/seeders' => database_path('seeders'),
+                __DIR__.'/../../database/seeders' => database_path('seeders'),
             ], 'yali-seeders');
         }
     }
@@ -100,5 +97,4 @@ class YaliServiceProvider extends ServiceProvider
             \Raakkan\Yali\Core\Database\Console\Commands\YaliMigrateCommand::class,
         ]);
     }
-
 }

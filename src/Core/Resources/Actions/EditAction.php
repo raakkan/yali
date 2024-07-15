@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Resources\Actions;
 
@@ -17,7 +17,7 @@ class EditAction extends YaliAction
             foreach ($fields as $field) {
                 $fieldName = $field->getName();
 
-                if (!$field->hasRelationship()) {
+                if (! $field->hasRelationship()) {
                     $model->$fieldName = $field->getValue();
                 }
             }
@@ -31,13 +31,14 @@ class EditAction extends YaliAction
     public function buttonClasses()
     {
         return [
-            ButtonClass::LINK
+            ButtonClass::LINK,
         ];
     }
 
     public function getButtonUrl()
     {
         $this->setRouteParameters(['record' => $this->getModelIdentifier()]);
+
         return $this->getRoute();
     }
 

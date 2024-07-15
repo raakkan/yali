@@ -5,8 +5,9 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 trait HandleAlreadyExistsField
 {
     protected $alreadyExists = false;
+
     protected $alreadyExistedField;
-    
+
     public function isAlreadyExists()
     {
         return $this->alreadyExists;

@@ -2,13 +2,13 @@
 
 namespace Raakkan\Yali\Core\Resources\Pages;
 
-use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Forms\Concerns\InteractsWithForms;
+use Raakkan\Yali\Core\Pages\BasePage;
 
 abstract class ResourcePage extends BasePage
 {
     use InteractsWithForms;
+
     protected static $resource;
 
     protected static $subtitle = '';
@@ -21,7 +21,7 @@ abstract class ResourcePage extends BasePage
     {
         return static::$subtitle;
     }
-    
+
     public static function getSlug(): string
     {
         return static::getResource()::getSlug();
@@ -39,8 +39,8 @@ abstract class ResourcePage extends BasePage
 
     public static function getResource()
     {
-        if (!class_exists(static::$resource)) {
-            throw new \InvalidArgumentException("Resource class '" . static::$resource . "' does not exist.");
+        if (! class_exists(static::$resource)) {
+            throw new \InvalidArgumentException("Resource class '".static::$resource."' does not exist.");
         }
 
         return static::$resource;
@@ -52,7 +52,8 @@ abstract class ResourcePage extends BasePage
 
         if (is_null($this->model->{static::getResource()::getModelPrimaryKey()})) {
             $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
-            return redirect()->route(static::getResource()::getRouteName() . '.edit', ['record' => $this->model->{static::getResource()::getModelPrimaryKey()}]);
+
+            return redirect()->route(static::getResource()::getRouteName().'.edit', ['record' => $this->model->{static::getResource()::getModelPrimaryKey()}]);
         } else {
             $this->model = $this->getForm()->formSubmit($validatedData, $this->model);
             $this->dispatch('toast', type: 'success', message: static::getFormUpdatedMessage());
@@ -62,7 +63,8 @@ abstract class ResourcePage extends BasePage
     public function getForm()
     {
         $form = $this->getResource()::getForm()->setSubmitButtonLabel($this->getFormSubmitButtonLabel())->setLivewire($this);
-        $form->setWireModel('form.'. $form->getId());
+        $form->setWireModel('form.'.$form->getId());
+
         return $form;
     }
 
@@ -73,6 +75,6 @@ abstract class ResourcePage extends BasePage
 
     public static function getFormUpdatedMessage(): string
     {
-        return static::$formUpdatedMessage ?? static::getResource()::getModelName() .' has been updated.';
+        return static::$formUpdatedMessage ?? static::getResource()::getModelName().' has been updated.';
     }
 }

@@ -2,14 +2,15 @@
 
 namespace Raakkan\Yali\Core\FileManager;
 
-use Intervention\Image\ImageManager;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\ImageManager;
 
 class ImageHelper
 {
-    private ImageManager | bool $imageManager;
+    private ImageManager|bool $imageManager;
+
     private Filesystem $storage;
 
     public function __construct(Filesystem $storage)
@@ -20,7 +21,7 @@ class ImageHelper
 
     public function processImage($file, ?string $folder = null, ?string $path = null): array
     {
-        if (!$this->imageManager) {
+        if (! $this->imageManager) {
             return [
                 'driver' => 'Driver not available',
             ];
@@ -39,11 +40,12 @@ class ImageHelper
 
     public function getImageDetails($file): array
     {
-        if (!$this->imageManager) {
+        if (! $this->imageManager) {
             return [];
         }
 
         $image = $this->imageManager->read($file);
+
         return [
             'width' => $image->width(),
             'height' => $image->height(),
@@ -52,7 +54,7 @@ class ImageHelper
         ];
     }
 
-    public function generateThumbnails($file, string $filename, string $folder = null, string $thumbnailFolder = 'images'): array
+    public function generateThumbnails($file, string $filename, ?string $folder = null, string $thumbnailFolder = 'images'): array
     {
         $filename = $this->removeFileExtension($filename);
         $image = $this->imageManager->read($file);
@@ -78,10 +80,10 @@ class ImageHelper
         foreach ($thumbnails as $key => &$thumbnail) {
             $thumbImage = $image->scale(width: $thumbnail['width'])
                 ->toWebp(quality: $thumbnail['quality']);
-            
-            $thumbFolder = 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder;
-            $thumbPath = $folder ? $thumbFolder . DIRECTORY_SEPARATOR . $filename . "_{$key}.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $filename . "_{$key}.webp";
-            
+
+            $thumbFolder = 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR.$folder;
+            $thumbPath = $folder ? $thumbFolder.DIRECTORY_SEPARATOR.$filename."_{$key}.webp" : 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR.$filename."_{$key}.webp";
+
             $this->storage->put($thumbPath, $thumbImage);
             $thumbnail['path'] = $thumbPath;
         }
@@ -89,13 +91,14 @@ class ImageHelper
         return $thumbnails;
     }
 
-    public function generateWebp($file, string $filename, string $folder = null): string
+    public function generateWebp($file, string $filename, ?string $folder = null): string
     {
         $filename = $this->removeFileExtension($filename);
-        $webpPath = $folder ? 'webp' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $filename . '.webp' : 'webp' . DIRECTORY_SEPARATOR . $filename . '.webp';
+        $webpPath = $folder ? 'webp'.DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR.$filename.'.webp' : 'webp'.DIRECTORY_SEPARATOR.$filename.'.webp';
         $image = $this->imageManager->read($file);
         $webpImage = $image->toWebp(quality: 100);
         $this->storage->put($webpPath, $webpImage);
+
         return $webpPath;
     }
 
@@ -105,15 +108,15 @@ class ImageHelper
         $folder = $folder ? ltrim($folder, DIRECTORY_SEPARATOR) : null;
         $thumbnails = [
             'thumb' => [
-                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_thumb.webp",
+                'path' => $folder ? 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR."{$filename}_thumb.webp" : 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR."{$filename}_thumb.webp",
                 'url' => null,
             ],
             'small_thumb' => [
-                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_small_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_small_thumb.webp",
+                'path' => $folder ? 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR."{$filename}_small_thumb.webp" : 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR."{$filename}_small_thumb.webp",
                 'url' => null,
             ],
             'very_small_thumb' => [
-                'path' => $folder ? 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$filename}_very_small_thumb.webp" : 'thumbnails' . DIRECTORY_SEPARATOR . $thumbnailFolder . DIRECTORY_SEPARATOR . "{$filename}_very_small_thumb.webp",
+                'path' => $folder ? 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR.$folder.DIRECTORY_SEPARATOR."{$filename}_very_small_thumb.webp" : 'thumbnails'.DIRECTORY_SEPARATOR.$thumbnailFolder.DIRECTORY_SEPARATOR."{$filename}_very_small_thumb.webp",
                 'url' => null,
             ],
         ];
@@ -131,13 +134,14 @@ class ImageHelper
         return $thumbnails;
     }
 
-    private function createImageManager(): ImageManager | bool
+    private function createImageManager(): ImageManager|bool
     {
         if (extension_loaded('imagick')) {
             return new ImageManager(new ImagickDriver());
         } elseif (extension_loaded('gd')) {
             return new ImageManager(new GdDriver());
         }
+
         return false;
     }
 

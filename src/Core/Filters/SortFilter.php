@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 class SortFilter extends Filter
 {
     protected $ascLabel;
+
     protected $descLabel;
 
     public function __construct($name)
@@ -19,12 +20,14 @@ class SortFilter extends Filter
     public function ascLabel($label)
     {
         $this->ascLabel = $label;
+
         return $this;
     }
 
     public function descLabel($label)
     {
         $this->descLabel = $label;
+
         return $this;
     }
 
@@ -54,14 +57,14 @@ class SortFilter extends Filter
 
     public function setValue($value)
     {
-       
+
         if ($value === '') {
             $this->skip = true;
         } else {
             $this->skip = false;
             $this->value = $value;
         }
-        
+
         return $this;
     }
 

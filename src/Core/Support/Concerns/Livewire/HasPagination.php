@@ -2,9 +2,8 @@
 
 namespace Raakkan\Yali\Core\Support\Concerns\Livewire;
 
-use Livewire\Attributes\On;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Livewire\Attributes\On;
 
 trait HasPagination
 {
@@ -24,6 +23,7 @@ trait HasPagination
     public function setPerPage($perPage)
     {
         $this->perPage = $perPage;
+
         return $this;
     }
 }

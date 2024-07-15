@@ -9,6 +9,7 @@ trait HasHeaderActions
     public function headerAction($headerAction = true)
     {
         $this->headerAction = $headerAction;
+
         return $this;
     }
 

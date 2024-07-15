@@ -8,6 +8,7 @@ use Raakkan\Yali\Core\Support\Concerns\Makable;
 abstract class TableColumn
 {
     use Makable;
+
     public $name;
 
     public $label;
@@ -32,12 +33,13 @@ abstract class TableColumn
     public function label($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function getLabel()
     {
-        return $this->label ?: Str::title(str_replace('_','', $this->name));
+        return $this->label ?: Str::title(str_replace('_', '', $this->name));
     }
 
     public function getName()
@@ -48,6 +50,7 @@ abstract class TableColumn
     public function searchable($searchable = true)
     {
         $this->searchable = $searchable;
+
         return $this;
     }
 
@@ -55,6 +58,7 @@ abstract class TableColumn
     {
         $this->sortDirection = $direction;
         $this->sortable = true;
+
         return $this;
     }
 
@@ -90,7 +94,7 @@ abstract class TableColumn
         if ($this->hasCustomRender()) {
             return call_user_func($this->renderCallback, $data);
         }
-        
+
         return $data[$this->getName()];
     }
 
@@ -99,6 +103,7 @@ abstract class TableColumn
     {
         $this->renderCallback = function ($data) use ($callback) {
             $text = $this->limitLength ? Str::limit($data[$this->getName()], $this->limitLength) : $data[$this->getName()];
+
             return $callback($text);
         };
 

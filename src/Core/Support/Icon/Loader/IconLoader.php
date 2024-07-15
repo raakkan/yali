@@ -8,7 +8,7 @@ class IconLoader extends BaseIconLoader
 
     public function __construct()
     {
-        $this->iconPath = __DIR__ . '/../../../../../resources/icons';
+        $this->iconPath = __DIR__.'/../../../../../resources/icons';
     }
 
     public function getIconPath()

@@ -24,10 +24,9 @@ trait HasValidation
     /**
      * Add the "required" validation rule.
      *
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function required(string $errorMessage = null)
+    public function required(?string $errorMessage = null)
     {
         return $this->addValidationRule('required', $errorMessage);
     }
@@ -35,10 +34,9 @@ trait HasValidation
     /**
      * Add the "url" validation rule.
      *
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function url(string $errorMessage = null)
+    public function url(?string $errorMessage = null)
     {
         return $this->addValidationRule('url', $errorMessage);
     }
@@ -46,10 +44,9 @@ trait HasValidation
     /**
      * Add the "date" validation rule.
      *
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function date(string $errorMessage = null)
+    public function date(?string $errorMessage = null)
     {
         return $this->addValidationRule('date', $errorMessage);
     }
@@ -57,126 +54,104 @@ trait HasValidation
     /**
      * Add the "date_format" validation rule.
      *
-     * @param string $format
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function dateFormat(string $format, string $errorMessage = null)
+    public function dateFormat(string $format, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('date_format:' . $format, $errorMessage);
+        return $this->addValidationRule('date_format:'.$format, $errorMessage);
     }
 
     /**
      * Add the "after" validation rule.
      *
-     * @param string $date
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function after(string $date, string $errorMessage = null)
+    public function after(string $date, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('after:' . $date, $errorMessage);
+        return $this->addValidationRule('after:'.$date, $errorMessage);
     }
 
     /**
      * Add the "before" validation rule.
      *
-     * @param string $date
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function before(string $date, string $errorMessage = null)
+    public function before(string $date, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('before:' . $date, $errorMessage);
+        return $this->addValidationRule('before:'.$date, $errorMessage);
     }
 
     /**
      * Add the "after_or_equal" validation rule.
      *
-     * @param string $date
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function afterOrEqual(string $date, string $errorMessage = null)
+    public function afterOrEqual(string $date, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('after_or_equal:' . $date, $errorMessage);
+        return $this->addValidationRule('after_or_equal:'.$date, $errorMessage);
     }
 
     /**
      * Add the "before_or_equal" validation rule.
      *
-     * @param string $date
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function beforeOrEqual(string $date, string $errorMessage = null)
+    public function beforeOrEqual(string $date, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('before_or_equal:' . $date, $errorMessage);
+        return $this->addValidationRule('before_or_equal:'.$date, $errorMessage);
     }
 
     /**
      * Add the "same" validation rule.
      *
-     * @param string $field
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function same(string $field, string $errorMessage = null)
+    public function same(string $field, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('same:' . $field, $errorMessage);
+        return $this->addValidationRule('same:'.$field, $errorMessage);
     }
 
     /**
      * Add the "min" validation rule.
      *
-     * @param int $value
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function min(int $value, string $errorMessage = null)
+    public function min(int $value, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('min:' . $value, $errorMessage);
+        return $this->addValidationRule('min:'.$value, $errorMessage);
     }
 
     /**
      * Add the "max" validation rule.
      *
-     * @param int $value
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function max(int $value, string $errorMessage = null)
+    public function max(int $value, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('max:' . $value, $errorMessage);
+        return $this->addValidationRule('max:'.$value, $errorMessage);
     }
 
     /**
      * Add the "regex" validation rule.
      *
-     * @param string $pattern
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function regex(string $pattern, string $errorMessage = null)
+    public function regex(string $pattern, ?string $errorMessage = null)
     {
-        return $this->addValidationRule('regex:' . $pattern, $errorMessage);
+        return $this->addValidationRule('regex:'.$pattern, $errorMessage);
     }
 
     /**
      * Add the "unique" validation rule.
      *
-     * @param string $table
-     * @param string $column
-     * @param int|null $exceptId
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function unique(string $table, string $column, int $exceptId = null, string $errorMessage = null)
+    public function unique(string $table, string $column, ?int $exceptId = null, ?string $errorMessage = null)
     {
-        $rule = 'unique:' . $table . ',' . $column;
+        $rule = 'unique:'.$table.','.$column;
 
         if ($exceptId !== null) {
-            $rule .= ',' . $exceptId;
+            $rule .= ','.$exceptId;
         }
 
         return $this->addValidationRule($rule, $errorMessage);
@@ -185,7 +160,6 @@ trait HasValidation
     /**
      * Add multiple validation rules.
      *
-     * @param array $rules
      * @return $this
      */
     public function rules(array $rules)
@@ -200,11 +174,9 @@ trait HasValidation
     /**
      * Add a custom validation rule.
      *
-     * @param string|Password $rule
-     * @param string|null $errorMessage
      * @return $this
      */
-    public function addValidationRule(string | Password $rule, string $errorMessage = null)
+    public function addValidationRule(string|Password $rule, ?string $errorMessage = null)
     {
         if ($rule instanceof Password) {
             $ruleName = 'password';

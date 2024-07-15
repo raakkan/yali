@@ -17,6 +17,8 @@
             @foreach ($generalSettings as $item)
                 {{ $item->render() }}
             @endforeach
+
+            <button class="btn btn-primary btn-sm" wire:click="submit('general')">Save</button>
         </div>
         <div x-show="activeTab === 'icon'" class="space-y-6" wire:key="icon">
             @php
@@ -26,6 +28,8 @@
             @foreach ($iconSettings as $item)
                 {{ $item->render() }}
             @endforeach
+
+            <button class="btn btn-primary btn-sm" wire:click="submit('icons')">Save</button>
         </div>
     </x-yali::tabs>
 </x-yali::card>

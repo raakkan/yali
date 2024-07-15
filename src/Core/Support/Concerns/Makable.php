@@ -5,19 +5,20 @@ namespace Raakkan\Yali\Core\Support\Concerns;
 trait Makable
 {
     protected $callerMetadata;
+
     protected static $componentInstanceCounts = [];
 
     public static function make(...$arguments)
     {
         $trace = debug_backtrace();
         $callerMetadata = $trace[1];
-        
+
         $instance = new static(...$arguments);
 
         if (method_exists($instance, 'initializeTraits')) {
             $instance->initializeTraits();
         }
-        
+
         if (method_exists($instance, 'generateUniqueKey')) {
             $instance->generateUniqueKey();
         }
@@ -35,7 +36,7 @@ trait Makable
     protected function incrementInstanceCount()
     {
         $componentName = get_class($this);
-        if (!isset(self::$componentInstanceCounts[$componentName])) {
+        if (! isset(self::$componentInstanceCounts[$componentName])) {
             self::$componentInstanceCounts[$componentName] = 0;
         }
         self::$componentInstanceCounts[$componentName]++;
@@ -44,6 +45,7 @@ trait Makable
     protected function getInstanceId()
     {
         $componentName = get_class($this);
+
         return self::$componentInstanceCounts[$componentName];
     }
 
@@ -61,7 +63,7 @@ trait Makable
     {
         if ($this->hasCallerClass()) {
             return $this->callerMetadata['class'];
-        }else {
+        } else {
             return null;
         }
     }

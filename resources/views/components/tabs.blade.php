@@ -10,7 +10,9 @@
                     <a href="#" @click.prevent="activeTab = '{{ $key }}'"
                         :class="{ 'border-blue-500': activeTab === '{{ $key }}' }"
                         class="px-4 py-4 text-sm font-medium border-b-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 flex items-center">
-                        <x-yali::icon :name="$tab['icon']" class="w-5 h-5 mr-2" />
+                        @if (array_key_exists('icon', $tab) && $tab['icon'])
+                            <x-yali::icon :name="$tab['icon']" class="w-5 h-5 mr-2" />
+                        @endif
                         <span>{{ $tab['label'] }}</span>
                     </a>
                 @endforeach
@@ -26,7 +28,9 @@
                     <a href="#" @click.prevent="activeTab = '{{ $key }}'"
                         :class="{ 'bg-gray-100': activeTab === '{{ $key }}' }"
                         class="px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors duration-200 flex items-center">
-                        <x-yali::icon :name="$tab['icon']" class="w-5 h-5 mr-2" />
+                        @if (array_key_exists('icon', $tab) && $tab['icon'])
+                            <x-yali::icon :name="$tab['icon']" class="w-5 h-5 mr-2" />
+                        @endif
                         <span :class="{ 'text-gray-800': activeTab === '{{ $key }}' }"
                             class="font-medium">{{ $tab['label'] }}</span>
                     </a>

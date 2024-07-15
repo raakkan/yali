@@ -7,14 +7,23 @@ use Illuminate\Support\HtmlString;
 abstract class YaliComponent
 {
     protected $view;
+
     protected $viewData = [];
+
     protected $uniqueKey;
+
     protected $componentName;
+
     protected $beforeRenderCallbacks = [];
+
     protected $disabled = false;
+
     protected $disableIfCallbacks = [];
+
     protected $dontRender = false;
+
     protected $dontRenderIfCallbacks = [];
+
     protected $id;
 
     public function render()
@@ -81,7 +90,7 @@ abstract class YaliComponent
     {
         return array_merge($this->viewData, [
             $this->getComponentName() => $this,
-            'id' => $this->getId()
+            'id' => $this->getId(),
         ]);
     }
 
@@ -92,8 +101,8 @@ abstract class YaliComponent
 
     protected function generateUniqueKey()
     {
-        if (!$this->uniqueKey) {
-            $this->uniqueKey = md5(get_class($this) . '_' . uniqid());
+        if (! $this->uniqueKey) {
+            $this->uniqueKey = md5(get_class($this).'_'.uniqid());
         }
     }
 
@@ -105,7 +114,7 @@ abstract class YaliComponent
     protected function initializeTraits()
     {
         foreach (class_uses_recursive($this) as $trait) {
-            if (method_exists($this, $method = 'initialize' . class_basename($trait))) {
+            if (method_exists($this, $method = 'initialize'.class_basename($trait))) {
                 $this->{$method}($this);
             }
         }
@@ -127,17 +136,17 @@ abstract class YaliComponent
 
     protected function generateComponentId()
     {
-        $componentName = $this->getComponentName() . '-';
+        $componentName = $this->getComponentName().'-';
         $instanceId = null;
 
         if (method_exists($this, 'getInstanceId')) {
             $instanceId = $this->getInstanceId();
         }
 
-        if (!is_null($instanceId)) {
-            $this->id = $componentName . 'component-' . $instanceId;
+        if (! is_null($instanceId)) {
+            $this->id = $componentName.'component-'.$instanceId;
         } else {
-            $this->id = $componentName . 'component-' . uniqid();
+            $this->id = $componentName.'component-'.uniqid();
         }
     }
 
@@ -154,6 +163,7 @@ abstract class YaliComponent
     public function disableIf($callback)
     {
         $this->disableIfCallbacks[] = $callback;
+
         return $this;
     }
 
@@ -174,12 +184,14 @@ abstract class YaliComponent
     public function disable()
     {
         $this->disabled = true;
+
         return $this;
     }
 
     public function dontRenderIf($callback)
     {
         $this->dontRenderIfCallbacks[] = $callback;
+
         return $this;
     }
 

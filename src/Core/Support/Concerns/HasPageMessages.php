@@ -5,12 +5,19 @@ namespace Raakkan\Yali\Core\Support\Concerns;
 trait HasPageMessages
 {
     protected static $tablePageMessage = '';
+
     protected static $updatePageMessage = '';
+
     protected static $createPageMessage = '';
+
     protected static $allPageMessage = '';
+
     protected static $tablePageMessageType = 'info';
+
     protected static $updatePageMessageType = 'info';
+
     protected static $createPageMessageType = 'info';
+
     protected static $allPageMessageType = 'info';
 
     public static function getTablePageMessage(): string
@@ -38,6 +45,7 @@ trait HasPageMessages
         if (static::getTablePageMessage() === static::getAllPageMessage()) {
             return static::getAllPageMessageType() ?: 'info';
         }
+
         return static::$tablePageMessageType ?: 'info';
     }
 
@@ -46,6 +54,7 @@ trait HasPageMessages
         if (static::getUpdatePageMessage() === static::getAllPageMessage()) {
             return static::getAllPageMessageType() ?: 'info';
         }
+
         return static::$updatePageMessageType ?: 'info';
     }
 
@@ -54,6 +63,7 @@ trait HasPageMessages
         if (static::getCreatePageMessage() === static::getAllPageMessage()) {
             return static::getAllPageMessageType() ?: 'info';
         }
+
         return static::$createPageMessageType ?: 'info';
     }
 

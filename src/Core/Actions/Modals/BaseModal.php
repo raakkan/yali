@@ -2,11 +2,10 @@
 
 namespace Raakkan\Yali\Core\Actions\Modals;
 
-use Livewire\Component;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Livewire\Component;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
 
 class BaseModal extends Component
@@ -18,6 +17,7 @@ class BaseModal extends Component
     public $sourceClass;
 
     public $actionClass;
+
     public $actionAdditionalData = [];
 
     public $recordId;
@@ -35,7 +35,7 @@ class BaseModal extends Component
     {
         if ($this->recordId) {
             return $this->getRecord($this->sourceClass::getModelQuery(), $this->sourceClass::getModelPrimaryKey(), $this->recordId);
-        }else{
+        } else {
             return $this->sourceClass::getModel();
         }
     }
@@ -52,11 +52,11 @@ class BaseModal extends Component
             $form = $this->getAction()->getForm();
         }
 
-        if(is_null($form) && method_exists($this,'getForm')) {
+        if (is_null($form) && method_exists($this, 'getForm')) {
             $form = $this->getForm();
         }
 
-        if(!is_null($form)) {
+        if (! is_null($form)) {
             $data = $this->form[$form->getId()]['inputs'];
             $formData = $this->validatedInputs($form, $data);
 
@@ -75,7 +75,7 @@ class BaseModal extends Component
             if ($this instanceof ActionConfirmationModal) {
                 $this->recordId = null;
             }
-            
+
             $this->dispatch('refresh-page');
             $this->closeModal();
             $this->dispatch('toast', type: 'success', message: $this->getAction()->getSuccessMassage());
@@ -117,7 +117,7 @@ class BaseModal extends Component
             $data,
             $form->getValidationRules(),
             $form->getValidationMessages()
-         )->validate();
+        )->validate();
 
         return $validated;
     }
@@ -126,7 +126,7 @@ class BaseModal extends Component
     {
         if ($this->getAction() instanceof EditAction) {
             return $this->sourceClass::getUpdateTitle();
-        }elseif ($this->getAction() instanceof CreateAction) {
+        } elseif ($this->getAction() instanceof CreateAction) {
             return $this->sourceClass::getCreateTitle();
         }
     }
@@ -135,7 +135,7 @@ class BaseModal extends Component
     {
         if ($this->getAction() instanceof EditAction) {
             return $this->sourceClass::getUpdateButtonLabel();
-        }elseif ($this->getAction() instanceof CreateAction) {
+        } elseif ($this->getAction() instanceof CreateAction) {
             return $this->sourceClass::getCreateButtonLabel();
         }
     }

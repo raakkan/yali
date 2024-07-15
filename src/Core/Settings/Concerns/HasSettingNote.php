@@ -14,6 +14,7 @@ trait HasSettingNote
     public function setNote($note)
     {
         $this->note = $note;
+
         return $this;
     }
 

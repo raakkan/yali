@@ -2,9 +2,8 @@
 
 namespace Raakkan\Yali\Core\Support\Notification\Livewire;
 
-use Livewire\Component;
 use Livewire\Attributes\On;
-use Illuminate\Support\Facades\Log;
+use Livewire\Component;
 
 class Notifications extends Component
 {

@@ -11,6 +11,7 @@ trait HasActions
     public function actions($actions)
     {
         $this->actions = $actions;
+
         return $this;
     }
 
@@ -19,11 +20,12 @@ trait HasActions
         $actions = [];
         foreach ($this->actions as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
-                if (!$action->isHeaderAction()) {
+                if (! $action->isHeaderAction()) {
                     $actions[get_class($action)] = $action->setSource($this->getSource());
                 }
             }
         }
+
         return $actions;
     }
 
@@ -37,6 +39,7 @@ trait HasActions
                 }
             }
         }
+
         return $actions;
     }
 
@@ -45,7 +48,7 @@ trait HasActions
         return count($this->getActions()) > 0;
     }
 
-    public function setActionModel($actionClass ,$model)
+    public function setActionModel($actionClass, $model)
     {
         $action = $this->getAction($actionClass);
 
@@ -59,16 +62,17 @@ trait HasActions
     public function getAction($class)
     {
         $action = $this->getActions()[$class] ?? null;
-        if (!$action) {
+        if (! $action) {
             $action = $this->getHeaderActions()[$class] ?? null;
         }
+
         return $action;
     }
 
     public function setAction($actionClass, $action)
     {
         $this->actions[$actionClass] = $action;
+
         return $this;
     }
-
 }

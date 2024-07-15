@@ -1,13 +1,14 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Resources\Actions;
 
-use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
 use Raakkan\Yali\Core\Actions\YaliAction;
+use Raakkan\Yali\Core\Support\Enums\Css\ButtonClass;
 
 class CreateAction extends YaliAction
 {
     protected $buttonIsLink = true;
+
     public $headerAction = true;
 
     public function __construct()
@@ -17,8 +18,8 @@ class CreateAction extends YaliAction
 
             foreach ($fields as $field) {
                 $fieldName = $field->getName();
-                
-                if (!$field->hasRelationship()) {
+
+                if (! $field->hasRelationship()) {
                     $model->$fieldName = $field->getValue();
                 }
             }
@@ -34,7 +35,7 @@ class CreateAction extends YaliAction
         return [
             ButtonClass::BTN,
             ButtonClass::PRIMARY,
-            ButtonClass::SMALL
+            ButtonClass::SMALL,
         ];
     }
 

@@ -4,7 +4,6 @@ namespace Raakkan\Yali\Core\Database\Migrations;
 
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 
-
 class YaliTable
 {
     use Makable;
@@ -12,12 +11,13 @@ class YaliTable
     protected $table = '';
 
     protected $columns = [];
+
     protected $additionalColumns = [];
 
     protected $primaryKey = 'id';
 
     protected $timestamps = true;
-    
+
     public function __construct($table)
     {
         $this->table = $table;
@@ -26,6 +26,7 @@ class YaliTable
     public function columns($columns)
     {
         $this->columns = $columns;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class YaliTable
         foreach ($this->getColumns() as $column) {
             $names[] = $column->name;
         }
+
         return $names;
     }
 
@@ -57,12 +59,14 @@ class YaliTable
     {
         return $this->table;
     }
+
     public function toSql()
     {
         $sql = $this->table;
         foreach ($this->getColumns() as $column) {
-            $sql .= ' ' . $column->toSql();
+            $sql .= ' '.$column->toSql();
         }
+
         return $sql;
     }
 }

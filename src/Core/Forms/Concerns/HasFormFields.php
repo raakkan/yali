@@ -9,6 +9,7 @@ trait HasFormFields
     public function fields($fields)
     {
         $this->fields = $fields;
+
         return $this;
     }
 
@@ -44,9 +45,9 @@ trait HasFormFields
 
         foreach ($this->fields as $field) {
             $fieldValidationMessages = $field->getValidationMessages();
-            
+
             foreach ($fieldValidationMessages as $key => $message) {
-                $validationMessages[$field->getName() . '.' . $key] = $message;
+                $validationMessages[$field->getName().'.'.$key] = $message;
             }
         }
 
@@ -110,7 +111,7 @@ trait HasFormFields
     {
         if ($this->hasField($name)) {
             return $this->getFieldByName($name);
-        }else{
+        } else {
             return null;
         }
     }
@@ -123,5 +124,4 @@ trait HasFormFields
             }
         }
     }
-
 }

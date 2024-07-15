@@ -42,21 +42,21 @@ trait HasFormMessages
 
     public function hasHeaderMessages()
     {
-        return !empty($this->headerMessages);
+        return ! empty($this->headerMessages);
     }
 
     public function hasFooterMessages()
     {
-        return !empty($this->footerMessages);
+        return ! empty($this->footerMessages);
     }
 
     public function getFirstHeaderMessage()
     {
-        return !empty($this->headerMessages) ? $this->headerMessages[0] : null;
+        return ! empty($this->headerMessages) ? $this->headerMessages[0] : null;
     }
 
     public function getFirstFooterMessage()
     {
-        return !empty($this->footerMessages) ? $this->footerMessages[0] : null;
+        return ! empty($this->footerMessages) ? $this->footerMessages[0] : null;
     }
 }

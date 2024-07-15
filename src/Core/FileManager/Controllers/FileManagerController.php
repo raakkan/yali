@@ -5,7 +5,6 @@ namespace Raakkan\Yali\Core\FileManager\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Raakkan\Yali\Core\FileManager\FileManager;
-use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 class FileManagerController extends Controller
 {
@@ -20,7 +19,7 @@ class FileManagerController extends Controller
     {
         $folder = $request->query('folder', '');
         $contents = $this->fileManager->getFolderContents($folder);
-        
+
         return response()->json($contents);
     }
 
@@ -33,6 +32,7 @@ class FileManagerController extends Controller
 
         try {
             $this->fileManager->createFolder($request->name, $request->parent);
+
             return response()->json(['message' => 'Folder created successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 422);
@@ -47,7 +47,7 @@ class FileManagerController extends Controller
         ]);
 
         $path = $this->fileManager->uploadFile($request->file('file'), $request->folder);
-        
+
         return response()->json(['message' => 'File uploaded successfully', 'path' => $path]);
     }
 
@@ -55,9 +55,10 @@ class FileManagerController extends Controller
     {
         $type = $request->query('type');
         $path = $request->query('path');
-        
+
         try {
             $this->fileManager->delete($type, $path);
+
             return response()->json(['message' => 'Item deleted successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);

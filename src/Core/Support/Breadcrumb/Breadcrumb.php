@@ -1,13 +1,12 @@
 <?php
 
 namespace Raakkan\Yali\Core\Support\Breadcrumb;
-use Illuminate\Http\Request;
 
-use Raakkan\Yali\Core\View\YaliComponent;
+use Illuminate\Http\Request;
 use Raakkan\Yali\Core\Facades\YaliManager;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Support\Navigation\NavigationItem;
-
+use Raakkan\Yali\Core\View\YaliComponent;
 
 class Breadcrumb extends YaliComponent
 {
@@ -37,9 +36,9 @@ class Breadcrumb extends YaliComponent
 
         foreach ($slugs as $index => $slug) {
             $navigation = $this->navigationManager->findBySlug($slug);
-                if ($navigation) {
-                    $this->items[] = $navigation;
-                }
+            if ($navigation) {
+                $this->items[] = $navigation;
+            }
         }
     }
 

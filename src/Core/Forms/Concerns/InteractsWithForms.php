@@ -2,10 +2,10 @@
 
 namespace Raakkan\Yali\Core\Forms\Concerns;
 
-use Illuminate\Support\Str;
-use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 
 trait InteractsWithForms
 {
@@ -17,7 +17,7 @@ trait InteractsWithForms
     public function fieldValueChanged($content, $formId, $fieldName)
     {
         if (array_key_exists($formId, $this->form) && array_key_exists($fieldName, $this->form[$formId]['inputs'])) {
-            $this->form[$formId]['inputs'][$fieldName] =  $content;
+            $this->form[$formId]['inputs'][$fieldName] = $content;
         }
     }
 
@@ -59,12 +59,12 @@ trait InteractsWithForms
                 }
             }
         }
-        
+
         $validated = Validator::make(
             $this->form[$this->getForm()->getId()]['inputs'],
             $rules,
             $this->getForm()->getValidationMessages()
-         )->validate();
+        )->validate();
 
         return $validated;
     }

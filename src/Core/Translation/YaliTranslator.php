@@ -2,19 +2,18 @@
 
 namespace Raakkan\Yali\Core\Translation;
 
-use Illuminate\Support\Facades\Log;
-use Raakkan\Yali\Models\Translation;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Translation\Translator;
+use Raakkan\Yali\Models\Translation;
 
 class YaliTranslator extends Translator
 {
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $locale = $locale ?: $this->locale;
-        
+
         $translation = $this->getTranslationFromDatabase($key, $locale);
-            
+
         if ($translation) {
             return $this->makeReplacements($translation->value, $replace);
         }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Support\Enums\Css;
 

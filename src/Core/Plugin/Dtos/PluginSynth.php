@@ -2,7 +2,6 @@
 
 namespace Raakkan\Yali\Core\Plugin\Dtos;
 
-use Raakkan\Yali\Core\Plugin\Dtos\PluginDto;
 use Livewire\Mechanisms\HandleComponents\Synthesizers\Synth;
 
 class PluginSynth extends Synth
@@ -30,7 +29,7 @@ class PluginSynth extends Synth
             'screenshot' => $target->screenshot,
             'logo' => $target->logo,
             'documentation_url' => $target->documentation_url,
-            'invalidFields' => $target->invalidFields
+            'invalidFields' => $target->invalidFields,
         ], []];
     }
 

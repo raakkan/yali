@@ -2,16 +2,18 @@
 
 namespace Raakkan\Yali\Core\FileManager;
 
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Filesystem\Filesystem;
 
 class FileManager
 {
     private const DEFAULT_DISK = 'local';
 
     private Filesystem $storage;
+
     private ImageHelper $imageHelper;
+
     private VideoHelper $videoHelper;
 
     public function __construct(Filesystem $storage)
@@ -23,9 +25,9 @@ class FileManager
 
     public function createFolder(string $name, ?string $parent = null): void
     {
-        $path = $parent ? $parent . DIRECTORY_SEPARATOR . $name : $name;
+        $path = $parent ? $parent.DIRECTORY_SEPARATOR.$name : $name;
         if ($this->storage->exists($path)) {
-            throw new \Exception("Folder already exists.");
+            throw new \Exception('Folder already exists.');
         }
         $this->storage->makeDirectory($path);
     }
@@ -35,13 +37,13 @@ class FileManager
         $originalName = $file->getClientOriginalName();
         $filename = pathinfo($originalName, PATHINFO_FILENAME);
         $extension = $file->getClientOriginalExtension();
-        
-        $path = $folder ? $folder . DIRECTORY_SEPARATOR . $originalName : $originalName;
+
+        $path = $folder ? $folder.DIRECTORY_SEPARATOR.$originalName : $originalName;
         $counter = 1;
 
         while ($this->storage->exists($path)) {
-            $newFilename = $filename . '_' . $counter . '.' . $extension;
-            $path = $folder ? $folder . DIRECTORY_SEPARATOR . $newFilename : $newFilename;
+            $newFilename = $filename.'_'.$counter.'.'.$extension;
+            $path = $folder ? $folder.DIRECTORY_SEPARATOR.$newFilename : $newFilename;
             $counter++;
         }
 
@@ -55,23 +57,24 @@ class FileManager
         }
 
         $this->storage->putFileAs($folder, $file, basename($path));
+
         return $path;
     }
 
     public function delete(string $type, string $path): void
     {
         if ($type === 'file') {
-            if (!$this->storage->exists($path)) {
-                throw new \Exception("File does not exist.");
+            if (! $this->storage->exists($path)) {
+                throw new \Exception('File does not exist.');
             }
             $this->storage->delete($path);
         } elseif ($type === 'folder') {
-            if (!$this->storage->exists($path)) {
-                throw new \Exception("Folder does not exist.");
+            if (! $this->storage->exists($path)) {
+                throw new \Exception('Folder does not exist.');
             }
             $this->storage->deleteDirectory($path);
         } else {
-            throw new \Exception("Invalid type specified.");
+            throw new \Exception('Invalid type specified.');
         }
     }
 
@@ -79,6 +82,7 @@ class FileManager
     {
         $files = $this->getFiles($folder, $disk);
         $folders = $this->getAllFolders($folder);
+
         return [
             'files' => $files->toArray(),
             'folders' => $folders->toArray(),
@@ -88,6 +92,7 @@ class FileManager
     public function getAllFolders(?string $folder = null): Collection
     {
         $folders = $folder ? $this->storage->directories($folder) : $this->storage->directories();
+
         return collect($folders)->map(function ($folderPath) {
             return [
                 'name' => basename($folderPath),
@@ -102,7 +107,7 @@ class FileManager
         $files = $folder ? $this->storage->files($folder) : $this->storage->files();
 
         return collect($files)->map(function ($file) use ($folder) {
-            $path = $folder ? $folder . DIRECTORY_SEPARATOR . $file : $file;
+            $path = $folder ? $folder.DIRECTORY_SEPARATOR.$file : $file;
             $fileInfo = $this->getFileInfo($file);
 
             $isImage = in_array($fileInfo['mime_type'], ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']);
@@ -121,7 +126,7 @@ class FileManager
             return $fileInfo;
         })->values();
     }
-    
+
     private function getFileInfo(string $path): array
     {
         return [
@@ -135,7 +140,7 @@ class FileManager
             'last_modified' => $this->formatDate($this->storage->lastModified($path)),
         ];
     }
-    
+
     private function formatFileSize(int $bytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -143,9 +148,10 @@ class FileManager
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
         $bytes /= (1 << (10 * $pow));
-        return round($bytes, 2) . ' ' . $units[$pow];
+
+        return round($bytes, 2).' '.$units[$pow];
     }
-    
+
     private function formatDate(int $timestamp): string
     {
         return Carbon::createFromTimestamp($timestamp)->format('Y-m-d H:i:s');

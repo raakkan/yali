@@ -36,12 +36,13 @@ class DateFilter extends Filter
             $this->skip = false;
             $this->value = $value;
         }
-        
+
     }
 
     public function operator($operator)
     {
         $this->operator = $operator;
+
         return $this;
     }
 }

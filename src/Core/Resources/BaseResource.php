@@ -3,24 +3,24 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Actions\YaliAction;
 use Raakkan\Yali\Core\Forms\Concerns\HasForm;
-use Raakkan\Yali\Core\Table\Concerns\HasTable;
-use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
-use Raakkan\Yali\Core\Support\Concerns\HasSuccessMessages;
+use Raakkan\Yali\Core\Pages\BasePage;
 use Raakkan\Yali\Core\Resources\Concerns\HasResourceTitles;
 use Raakkan\Yali\Core\Resources\Concerns\HasSubmitButtonLabels;
+use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\Support\Concerns\HasSuccessMessages;
+use Raakkan\Yali\Core\Table\Concerns\HasTable;
 
 abstract class BaseResource extends BasePage
 {
-    use HasTable;
     use HasForm;
     use HasModel;
     use HasResourceTitles;
     use HasSubmitButtonLabels;
     use HasSuccessMessages;
-    
+    use HasTable;
+
     public static function getSlug(): string
     {
         return static::$slug ?: Str::plural(Str::kebab(static::getModelName()));
@@ -58,21 +58,22 @@ abstract class BaseResource extends BasePage
 
         foreach (static::actions() as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
-                if (!$action->isHeaderAction()) {
+                if (! $action->isHeaderAction()) {
                     $actions[$action->getClassName()] = $action->setModel($model);
                 }
             }
         }
-        
+
         return $actions;
     }
 
     public static function getAction($actionClass, $model)
     {
         $action = static::getActions($model)[$actionClass] ?? null;
-        if (!$action) {
-          $action = static::getHeaderActions()[$actionClass] ?? null;
+        if (! $action) {
+            $action = static::getHeaderActions()[$actionClass] ?? null;
         }
+
         return $action;
     }
 
@@ -84,7 +85,7 @@ abstract class BaseResource extends BasePage
             $modelInstance = $this->getRecord(static::getModelQuery(), static::getModelPrimaryKey(), $modelKey);
         }
 
-        if (!$modelInstance) {
+        if (! $modelInstance) {
             $modelInstance = static::getModel();
         }
 

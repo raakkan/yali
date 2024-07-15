@@ -11,6 +11,7 @@ class SelectFilter extends Filter
     public function options(array $options)
     {
         $this->options = $options;
+
         return $this;
     }
 
@@ -42,7 +43,7 @@ class SelectFilter extends Filter
             $this->skip = false;
             $this->value = $value;
         }
-        
+
         return $this;
     }
 }

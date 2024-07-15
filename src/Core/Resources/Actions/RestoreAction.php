@@ -20,15 +20,15 @@ class RestoreAction extends YaliAction
     public function buttonClasses()
     {
         return [
-            ButtonClass::LINK
+            ButtonClass::LINK,
         ];
     }
 
     public function buttonAttributes()
     {
         return [
-            'wire:key' => 'action-button-'. $this->getUniqueKey(),
-            'wire:click' => 'excuteAction(' . Js::from($this->getClassName())->toHtml() . ', ' . $this->getModelIdentifier() . ')',
+            'wire:key' => 'action-button-'.$this->getUniqueKey(),
+            'wire:click' => 'excuteAction('.Js::from($this->getClassName())->toHtml().', '.$this->getModelIdentifier().')',
         ];
     }
 

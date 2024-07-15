@@ -18,7 +18,7 @@ class YaliLogManager
 
         $this->logger = new Logger('yali', [$handler]);
     }
-    
+
     public function log($level, $message, array $context = [])
     {
         return $this->logger->log($level, $message, $context);

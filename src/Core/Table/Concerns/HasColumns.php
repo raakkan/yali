@@ -16,6 +16,7 @@ trait HasColumns
     public function columns($columns)
     {
         $this->columns = $columns;
+
         return $this;
     }
 

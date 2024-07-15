@@ -4,13 +4,14 @@ namespace Raakkan\Yali\Core\Database\Migrations;
 
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 
-
 class YaliColumn
 {
     use Makable;
 
     public $name;
+
     public $isString;
+
     public $isRequired;
 
     public function __construct($name)
@@ -21,12 +22,14 @@ class YaliColumn
     public function string()
     {
         $this->isString = true;
+
         return $this;
     }
 
     public function required()
     {
         $this->isRequired = true;
+
         return $this;
     }
 
@@ -39,6 +42,7 @@ class YaliColumn
         if ($this->isRequired) {
             $sql .= ' NOT NULL';
         }
+
         return $sql;
     }
 }

@@ -2,9 +2,6 @@
 
 namespace Raakkan\Yali\Core\Actions\Modals;
 
-use Livewire\Livewire;
-use function Livewire\store;
-
 class ActionModal extends BaseModal
 {
     protected static $view = 'yali::actions.modals.action-modal';
@@ -29,7 +26,8 @@ class ActionModal extends BaseModal
     public function getForm()
     {
         $form = $this->sourceClass::form($this->sourceClass::getForm())->setLivewire($this)->setModel($this->getModel());
-        $form->setWireModel('form.' . $form->getId());
+        $form->setWireModel('form.'.$form->getId());
+
         return $form;
     }
 }

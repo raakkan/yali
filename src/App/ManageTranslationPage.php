@@ -3,34 +3,34 @@
 namespace Raakkan\Yali\App;
 
 use Livewire\WithPagination;
-use Raakkan\Yali\Models\Language;
-use Illuminate\Support\Facades\Http;
-use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Filters\DateFilter;
-use Raakkan\Yali\Core\Forms\Fields\TextField;
-use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Forms\Fields\SelectField;
 use Raakkan\Yali\Core\Forms\Fields\TextareaField;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Forms\Fields\TextField;
+use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
-use Raakkan\Yali\Core\Support\Notification\Notification;
-use Raakkan\Yali\Core\Support\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasFilters;
-use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasPagination;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
+use Raakkan\Yali\Models\Language;
 
 class ManageTranslationPage extends BaseResource
 {
-    use WithPagination;
+    use HasFilters;
     use HasPagination;
     use HasRecords;
     use HasSearch;
-    use HasFilters;
+    use WithPagination;
 
     public Language $language;
+
     protected static $model = \Raakkan\Yali\Models\Translation::class;
+
     protected static $view = 'yali::pages.manage-translation-page';
 
     public $searchColumns = ['key', 'group'];
@@ -66,7 +66,7 @@ class ManageTranslationPage extends BaseResource
                     $language = Language::where('code', $languageCode)->first();
 
                     if ($language) {
-                        foreach($data as $key => $value) {
+                        foreach ($data as $key => $value) {
                             $model->{$key} = $value;
                         }
 
@@ -74,11 +74,11 @@ class ManageTranslationPage extends BaseResource
                         $model->save();
 
                         return $model;
-                    }else {
+                    } else {
                         throw new \Exception('No language found');
                     }
 
-                }else {
+                } else {
                     throw new \Exception('No language code provided');
                 }
             }),
@@ -89,7 +89,7 @@ class ManageTranslationPage extends BaseResource
 
     public function getFilters()
     {
-        return [DateFilter::make('created_at')->label('Created At'),];
+        return [DateFilter::make('created_at')->label('Created At')];
     }
 
     public function getViewData()
@@ -101,11 +101,11 @@ class ManageTranslationPage extends BaseResource
 
     public static function getRouteName()
     {
-        return LanguagesPage::getRouteName() . '.translations';
+        return LanguagesPage::getRouteName().'.translations';
     }
 
     public static function getSlug(): string
     {
-        return LanguagesPage::getSlug() . '/{language}/translations';
+        return LanguagesPage::getSlug().'/{language}/translations';
     }
 }

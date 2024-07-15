@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Actions\Concerns;
+
 use Raakkan\Yali\Core\Forms\Wizard\Step;
 use Raakkan\Yali\Core\Forms\Wizard\Wizard;
 

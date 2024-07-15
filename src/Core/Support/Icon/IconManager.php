@@ -9,6 +9,7 @@ class IconManager
     protected $icons = [];
 
     protected $iconPacks = [];
+
     protected $invalidIconPacks = [];
 
     protected $iconLoader;
@@ -31,7 +32,7 @@ class IconManager
             $directories = File::directories($iconsPacksPath);
 
             foreach ($directories as $directory) {
-                $iconsJsonFile = $directory . '/icons.json';
+                $iconsJsonFile = $directory.'/icons.json';
 
                 if (File::exists($iconsJsonFile) && File::size($iconsJsonFile) > 0) {
                     $json = json_decode(File::get($iconsJsonFile), true);
@@ -44,7 +45,7 @@ class IconManager
                             'icon_json' => $iconsJsonFile,
                             'icons' => $json['icons'],
                         ];
-                    }else{
+                    } else {
                         $this->invalidIconPacks[] = $json;
                     }
                 }
@@ -62,7 +63,7 @@ class IconManager
 
         foreach ($icons as $icon) {
             $iconName = $icon['name'];
-            $iconPath = $directory . '/' . $icon['path'];
+            $iconPath = $directory.'/'.$icon['path'];
 
             $this->icons[$iconName] = [
                 'path' => $iconPath,
@@ -72,29 +73,29 @@ class IconManager
 
     public function getIcon($iconName)
     {
-        if (!isset($this->icons[$iconName])) {
+        if (! isset($this->icons[$iconName])) {
             return null;
         }
-    
+
         $iconPath = $this->icons[$iconName]['path'];
-        
-        if (!file_exists($iconPath)) {
+
+        if (! file_exists($iconPath)) {
             return null;
         }
-    
+
         $iconHtml = file_get_contents($iconPath);
-    
-        if (!$iconHtml) {
+
+        if (! $iconHtml) {
             return null;
         }
-    
+
         // Check if the SVG is valid
         $svgXml = simplexml_load_string($iconHtml);
         if ($svgXml === false) {
             // SVG is invalid
             return null;
         }
-    
+
         return $iconHtml;
     }
 }

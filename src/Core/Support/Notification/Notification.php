@@ -2,31 +2,34 @@
 
 namespace Raakkan\Yali\Core\Support\Notification;
 
-use Livewire\Component;
-use Raakkan\Yali\Core\View\YaliComponent;
-use Raakkan\Yali\Core\Facades\YaliManager;
 use Illuminate\Support\Traits\Conditionable;
+use Livewire\Component;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Support\Concerns\UI\Iconable;
+use Raakkan\Yali\Core\View\YaliComponent;
 
 class Notification extends YaliComponent
 {
-    use Makable;
     use Conditionable;
     use Iconable;
+    use Makable;
 
     protected $componentName = 'notification';
 
     protected $view = 'yali::notification.notification';
 
     public $title;
+
     public $message;
+
     public $timeout = 3000;
+
     public $type = 'success';
 
     public function title($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -38,12 +41,13 @@ class Notification extends YaliComponent
     public function message($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
     public function hasMessage()
     {
-        return !empty($this->message);
+        return ! empty($this->message);
     }
 
     public function getMessage()
@@ -54,6 +58,7 @@ class Notification extends YaliComponent
     public function timeout($timeout)
     {
         $this->timeout = $timeout;
+
         return $this;
     }
 
@@ -65,6 +70,7 @@ class Notification extends YaliComponent
     public function success()
     {
         $this->type = 'success';
+
         return $this;
     }
 
@@ -82,12 +88,13 @@ class Notification extends YaliComponent
     public function livewire($livewire)
     {
         $this->livewire = $livewire;
+
         return $this;
     }
 
     public function getLivewire()
     {
-        if (!$this->livewire) {
+        if (! $this->livewire) {
             $callerMeta = $this->getCallerMetadata();
             $callerObject = array_key_exists('object', $callerMeta) ? $callerMeta['object'] : null;
 

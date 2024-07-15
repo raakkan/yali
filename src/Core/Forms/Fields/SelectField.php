@@ -5,16 +5,19 @@ namespace Raakkan\Yali\Core\Forms\Fields;
 class SelectField extends Field
 {
     protected $view = 'yali::forms.fields.select-field';
+
     protected $options = [];
+
     public $createNewOption = false;
 
     public function options($options)
     {
-        if (!is_array($options) && !is_callable($options)) {
+        if (! is_array($options) && ! is_callable($options)) {
             throw new \InvalidArgumentException('Options must be an array or a callable');
         }
 
         $this->options = $options;
+
         return $this;
     }
 
@@ -23,15 +26,15 @@ class SelectField extends Field
         if ($this->hasRelationship()) {
             // return $this->livewire->form[$this->formId]['fields'][$this->getName()]['relationships'][$this->relationshipName];
             return $this->getRelationshipOptions();
-        }else{
+        } else {
             $options = [];
-            
+
             if (is_callable($this->options)) {
                 $options = call_user_func($this->options);
             } else {
                 $options = $this->options;
             }
-            
+
             return $options;
         }
     }
@@ -39,6 +42,7 @@ class SelectField extends Field
     public function createNewOption()
     {
         $this->createNewOption = true;
+
         return $this;
     }
 
@@ -46,5 +50,4 @@ class SelectField extends Field
     {
         return $this->createNewOption;
     }
-
 }

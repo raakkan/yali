@@ -26,7 +26,6 @@ trait PluginJsonTrait
     /**
      * Set the plugin's JSON configuration.
      *
-     * @param array $pluginJson
      * @return $this
      */
     public function setPluginJson(array $pluginJson)

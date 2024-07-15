@@ -2,15 +2,15 @@
 
 namespace Raakkan\Yali\Core\FileManager;
 
-use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\TimeCode;
-use Illuminate\Support\Facades\Log;
-use Raakkan\Yali\Core\Support\Facades\YaliLog;
+use FFMpeg\FFMpeg;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 class VideoHelper
 {
     private Filesystem $storage;
+
     private ImageHelper $imageHelper;
 
     public function __construct(Filesystem $storage)
@@ -27,14 +27,16 @@ class VideoHelper
         if ($isWindows) {
             $ffmpegBinary = 'C:\FFmpeg\bin\ffmpeg.exe';
 
-            if (!file_exists($ffmpegBinary) || !is_executable($ffmpegBinary)) {
+            if (! file_exists($ffmpegBinary) || ! is_executable($ffmpegBinary)) {
                 YaliLog::info('FFmpeg not installed or not accessible');
+
                 return null;
             }
         } else {
             $ffmpegBinary = trim(exec('which ffmpeg', $output, $status));
             if ($status !== 0) {
                 YaliLog::info('FFmpeg not installed or not accessible');
+
                 return null;
             }
         }
@@ -49,8 +51,8 @@ class VideoHelper
         $video = $ffmpeg->open($videoPath);
 
         $frame = $video->frame(TimeCode::fromSeconds(3));
-        
-        $thumbnailPath = $folder ? $folder . DIRECTORY_SEPARATOR . $filename . '.jpg' : $filename . '.jpg';
+
+        $thumbnailPath = $folder ? $folder.DIRECTORY_SEPARATOR.$filename.'.jpg' : $filename.'.jpg';
         $frame->save($this->storage->path($thumbnailPath));
 
         $thumb = $this->storage->get($thumbnailPath);

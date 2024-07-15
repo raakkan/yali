@@ -2,40 +2,40 @@
 
 namespace Raakkan\Yali\Core\Actions;
 
-use Raakkan\Yali\Core\View\YaliComponent;
-use Raakkan\Yali\Core\Actions\Concerns\HasLink;
-use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Actions\Concerns\HasActionForm;
+use Raakkan\Yali\Core\Actions\Concerns\HasActionSuccessMessages;
+use Raakkan\Yali\Core\Actions\Concerns\HasAdditionalData;
+use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
 use Raakkan\Yali\Core\Actions\Concerns\HasLabel;
+use Raakkan\Yali\Core\Actions\Concerns\HasLink;
 use Raakkan\Yali\Core\Actions\Concerns\HasSource;
 use Raakkan\Yali\Core\Actions\Concerns\HasWizard;
 use Raakkan\Yali\Core\Actions\Concerns\Modalable;
-use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
-use Raakkan\Yali\Core\Actions\Concerns\HasActionForm;
-use Raakkan\Yali\Core\Actions\Concerns\HasHeaderActions;
-use Raakkan\Yali\Core\Actions\Concerns\HasAdditionalData;
 use Raakkan\Yali\Core\Actions\Concerns\ModalConfirmation;
-use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Support\Concerns\Components\HasButton;
+use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasLivewire;
-use Raakkan\Yali\Core\Actions\Concerns\HasActionSuccessMessages;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
+use Raakkan\Yali\Core\View\YaliComponent;
 
 abstract class YaliAction extends YaliComponent
 {
-    use Makable;
-    use Stylable;
-    use Modalable;
+    use HasActionForm;
+    use HasActionSuccessMessages;
+    use HasAdditionalData;
+    use HasButton;
+    use HasHeaderActions;
     use HasLabel;
     use HasLink;
-    use HasButton;
+    use HasLivewire;
     use HasModel;
-    use HasHeaderActions;
     use HasSource;
     use HasWizard;
+    use Makable;
+    use Modalable;
     use ModalConfirmation;
-    use HasActionSuccessMessages;
-    use HasActionForm;
-    use HasLivewire;
-    use HasAdditionalData;
+    use Stylable;
 
     protected $componentName = 'action';
 
@@ -50,7 +50,7 @@ abstract class YaliAction extends YaliComponent
     public function buttonAttributes()
     {
         return [
-            'wire:key' => 'action-button-'. $this->getUniqueKey(),
+            'wire:key' => 'action-button-'.$this->getUniqueKey(),
         ];
     }
 
@@ -93,12 +93,14 @@ abstract class YaliAction extends YaliComponent
     public function beforeExecute(callable $callback)
     {
         $this->beforeExecuteCallback = $callback;
+
         return $this;
     }
 
     public function afterExecute(callable $callback)
     {
         $this->afterExecuteCallback = $callback;
+
         return $this;
     }
 }

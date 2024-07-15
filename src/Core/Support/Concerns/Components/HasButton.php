@@ -7,6 +7,7 @@ use Raakkan\Yali\Core\View\Button;
 trait HasButton
 {
     protected $button;
+
     protected $buttonCallback;
 
     protected $buttonIsLink = false;
@@ -16,7 +17,7 @@ trait HasButton
     public function initializeHasButton()
     {
         $this->button = Button::make();
-        
+
     }
 
     public function getButton()
@@ -36,7 +37,7 @@ trait HasButton
                 $this->button->styles($this->getStylesArray());
             }
         }
-        
+
         if ($this->buttonLabel()) {
             $this->button->setLabel($this->buttonLabel());
         } else {
@@ -48,7 +49,7 @@ trait HasButton
         if ($this->buttonHasAttributes()) {
             $this->button->setAttributes($this->buttonAttributes());
         }
-        
+
         if ($this->buttonIsLink()) {
             $this->button->setUrl($this->getButtonUrl());
 
@@ -67,6 +68,7 @@ trait HasButton
     public function onButtonCreation(callable $callback)
     {
         $this->buttonCallback = $callback;
+
         return $this;
     }
 

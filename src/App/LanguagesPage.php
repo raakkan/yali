@@ -1,39 +1,38 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\App;
 
-use Livewire\Attributes\On;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\App;
-use Raakkan\Yali\Core\Forms\YaliForm;
-use Raakkan\Yali\Core\View\InfoMessage;
 use Raakkan\Yali\Core\Actions\YaliAction;
-use Raakkan\Yali\App\ManageTranslationPage;
 use Raakkan\Yali\Core\Forms\Fields\TextField;
-use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Forms\Fields\ToggleField;
-use Raakkan\Yali\Core\Translation\LocaleConfig;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
+use Raakkan\Yali\Core\Forms\YaliForm;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Resources\Actions\RestoreAction;
-use Raakkan\Yali\Core\Support\Enums\Css\LayoutMaxWidth;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\ForceDeleteAction;
-use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Resources\Actions\RestoreAction;
+use Raakkan\Yali\Core\Resources\BaseResource;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasPagination;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Translation\Actions\ManageTranslationAction;
+use Raakkan\Yali\Core\Translation\LocaleConfig;
+use Raakkan\Yali\Core\View\InfoMessage;
 
 class LanguagesPage extends BaseResource
 {
-    use WithPagination;
     use HasPagination;
     use HasRecords;
+    use WithPagination;
 
     protected static $slug = 'languages';
+
     protected static $title = 'Languages';
 
     protected static $navigationOrder = 99;
+
     protected static $navigationIcon = 'language';
+
     protected static $navigationLabel = 'Languages';
 
     protected static $view = 'yali::pages.languages-page';
@@ -43,7 +42,7 @@ class LanguagesPage extends BaseResource
     public function getViewData()
     {
         return [
-            'languages' => $this->getRecords($this->getModelQuery())
+            'languages' => $this->getRecords($this->getModelQuery()),
         ];
     }
 
@@ -70,11 +69,11 @@ class LanguagesPage extends BaseResource
         return [
             CreateAction::make()->label('Create Language')->modal(slideRight: true)->afterExecute(function ($action, $model, $form, $result) {
                 $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
-            
-                if ($model->translations->count() <= 0) { 
-                    
+
+                if ($model->translations->count() <= 0) {
+
                     $englishTranslations = $englishLanguage->translations;
-                    
+
                     foreach ($englishTranslations as $translation) {
                         $newTranslation = $model->translations()->make($translation->toArray());
                         $newTranslation->save();
@@ -92,16 +91,16 @@ class LanguagesPage extends BaseResource
                         $language->save();
                     }
                 }
-            
+
                 return $result;
             }),
             EditAction::make()->modal(slideRight: true)->afterExecute(function ($action, $model, $form, $result) {
                 $defaultField = $form->getField('is_default');
                 $activeField = $form->getField('is_active');
-                
-                if($defaultField->getOldValue() === true && $defaultField->getValue() === false) {
+
+                if ($defaultField->getOldValue() === true && $defaultField->getValue() === false) {
                     $englishLanguage = \Raakkan\Yali\Models\Language::where('code', 'en')->first();
-                        
+
                     if ($englishLanguage) {
                         $englishLanguage->is_default = true;
                         $englishLanguage->is_active = true;
@@ -109,7 +108,7 @@ class LanguagesPage extends BaseResource
                     }
                 }
 
-                if($defaultField->getOldValue() === false && $defaultField->getValue() === true) {
+                if ($defaultField->getOldValue() === false && $defaultField->getValue() === true) {
                     // if ($activeField->getValue() === false) {
                     //     $this->dispatch('toast', type: 'error', message: 'Default language must be active');
                     //     return $result;
@@ -131,7 +130,7 @@ class LanguagesPage extends BaseResource
                     app(LocaleConfig::class)->setDefault($model->code);
                 }
 
-                if($activeField->getOldValue() === true) {
+                if ($activeField->getOldValue() === true) {
                     $model->is_active = true;
                     $model->save();
                 }
@@ -141,19 +140,19 @@ class LanguagesPage extends BaseResource
             DeleteAction::make()->afterExecute(function ($action, $model, $formData, $result) {
                 $model->is_active = false;
                 $model->save();
-            
+
                 return $result;
             }),
             RestoreAction::make()->afterExecute(function ($action, $model, $formData, $result) {
                 $model->is_active = true;
                 $model->save();
-            
+
                 return $result;
             }),
             ForceDeleteAction::make(),
             ManageTranslationAction::make()->link(ManageTranslationPage::getRouteName())->dontRenderIf(function ($action) {
                 return $action->getModel()->trashed();
-            })
+            }),
         ];
     }
 
@@ -163,7 +162,7 @@ class LanguagesPage extends BaseResource
 
         foreach (static::actions() as $action) {
             if (is_subclass_of($action, YaliAction::class)) {
-                if (!$action->isHeaderAction()) {
+                if (! $action->isHeaderAction()) {
                     if ($action instanceof DeleteAction) {
                         $actions[$action->getClassName()] = static::getDeleteAction($action, $model);
                     } elseif ($action instanceof ForceDeleteAction) {
@@ -174,7 +173,7 @@ class LanguagesPage extends BaseResource
                 }
             }
         }
-        
+
         return $actions;
     }
 
@@ -190,42 +189,42 @@ class LanguagesPage extends BaseResource
                 return $form->getModel()->is_default ? false : true;
             }, 'Default language cannot be deleted.')
             ->confirmationTitle('Delete Language')
-            ->confirmationMessage(fn ($form) => 'Are you sure you want to delete ' . $form->getModel()->name . ' language?')
+            ->confirmationMessage(fn ($form) => 'Are you sure you want to delete '.$form->getModel()->name.' language?')
             ->confirmationButtonLoadingLabel('Language deleting...');
     }
 
     public static function getForceDeleteAction($action, $model)
     {
         return $action
-        ->setModel($model)
-        ->confirmationTitle('Force Delete Language')
-            ->confirmationMessage(fn ($action) => 'Are you sure you want to permanently delete ' . $action->getModel()->name . ' language?')
+            ->setModel($model)
+            ->confirmationTitle('Force Delete Language')
+            ->confirmationMessage(fn ($action) => 'Are you sure you want to permanently delete '.$action->getModel()->name.' language?')
             ->confirmationButtonLoadingLabel('Force Language deleting...')
-        ->form(function ($form) {
-            return $form->fields([
-                TextField::make('name')->required()->placeholder('Type language name to confirm')->disableLabel(),
-            ])->customizeSubmitButton(function ($button) {
-                $button->setLabel('Delete')->addClass('btn-danger');
-            })->title('Delete Language')->addHeaderMessage(function ($form) {
-                return InfoMessage::make('If you delete this language, it will be permanently deleted and all translations will be lost')->icon('exclamation')->info();
-            })->addHeaderMessage(function ($form) {
-                return InfoMessage::make('<span>Type <b>' . $form->getModel()->name . '</b> to confirm deletion</span>')->danger();
+            ->form(function ($form) {
+                return $form->fields([
+                    TextField::make('name')->required()->placeholder('Type language name to confirm')->disableLabel(),
+                ])->customizeSubmitButton(function ($button) {
+                    $button->setLabel('Delete')->addClass('btn-danger');
+                })->title('Delete Language')->addHeaderMessage(function ($form) {
+                    return InfoMessage::make('If you delete this language, it will be permanently deleted and all translations will be lost')->icon('exclamation')->info();
+                })->addHeaderMessage(function ($form) {
+                    return InfoMessage::make('<span>Type <b>'.$form->getModel()->name.'</b> to confirm deletion</span>')->danger();
+                });
+            })->action(function ($action, $model, $form) {
+                $nameField = $form->getField('name');
+
+                throw_if($nameField->getValue() !== $model->name, new \Exception('Language name does not match'));
+
+                if ($model->name === $nameField->getValue()) {
+                    $model->forceDelete();
+                }
             });
-        })->action(function ($action, $model, $form) {
-            $nameField = $form->getField('name');
-
-            throw_if($nameField->getValue() !== $model->name, new \Exception('Language name does not match'));
-
-            if ($model->name === $nameField->getValue()) {
-                $model->forceDelete();
-            }
-        });
     }
 
     public static function getPages()
     {
         return [
-            ManageTranslationPage::class
+            ManageTranslationPage::class,
         ];
     }
 }

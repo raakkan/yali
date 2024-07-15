@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Actions\Concerns;
 
@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 trait HasLink
 {
     protected string $route;
+
     protected array $routeParameters = [];
 
     public function link($route, $parameters = [])
@@ -16,6 +17,7 @@ trait HasLink
             $this->route = $route;
             $this->routeParameters = $parameters;
             $this->buttonIsLink = true;
+
             return $this;
         }
 
@@ -43,6 +45,7 @@ trait HasLink
     public function setRouteParameters($parameters)
     {
         $this->routeParameters = $parameters;
+
         return $this;
     }
 
@@ -51,6 +54,7 @@ trait HasLink
         if ($this->isValidRoute($route)) {
             $this->route = $route;
             $this->routeParameters = $parameters;
+
             return $this;
         }
 

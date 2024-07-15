@@ -8,23 +8,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 trait HasModel
 {
     protected static $model;
+
     protected static $modelInstances = [];
+
     protected static $modelPrimaryKey;
 
     public static function getModel()
     {
         $class = static::class;
 
-        if (!class_exists(static::$model)) {
-            throw new \InvalidArgumentException("Model class '" . static::$model . "' does not exist.");
+        if (! class_exists(static::$model)) {
+            throw new \InvalidArgumentException("Model class '".static::$model."' does not exist.");
         }
 
-        if (!isset(static::$modelInstances[$class])) {
+        if (! isset(static::$modelInstances[$class])) {
             $modelClass = static::$model;
             static::$modelInstances[$class] = new $modelClass();
         }
 
-        if (!isset(static::$modelPrimaryKey)) {
+        if (! isset(static::$modelPrimaryKey)) {
             static::$modelPrimaryKey = static::$modelInstances[$class]->getKeyName();
         }
 
@@ -42,10 +44,10 @@ trait HasModel
             static::$model = get_class($model);
             static::$modelInstances[$class] = $model;
         } else {
-            throw new \InvalidArgumentException("The provided model must be a valid class name or an instance of " . Model::class);
+            throw new \InvalidArgumentException('The provided model must be a valid class name or an instance of '.Model::class);
         }
 
-        if (!isset(static::$modelPrimaryKey)) {
+        if (! isset(static::$modelPrimaryKey)) {
             static::$modelPrimaryKey = static::$modelInstances[$class]->getKeyName();
         }
 
@@ -81,5 +83,4 @@ trait HasModel
     {
         return class_exists(static::$model);
     }
-
 }

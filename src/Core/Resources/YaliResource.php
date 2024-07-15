@@ -3,23 +3,23 @@
 namespace Raakkan\Yali\Core\Resources;
 
 use Livewire\WithPagination;
-use Raakkan\Yali\Core\Table\YaliTable;
-use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Resources\Actions\CreateAction;
 use Raakkan\Yali\Core\Resources\Actions\DeleteAction;
-use Raakkan\Yali\Core\Support\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Resources\Actions\EditAction;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasFilters;
-use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasPagination;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasRecords;
+use Raakkan\Yali\Core\Support\Concerns\Livewire\HasSearch;
+use Raakkan\Yali\Core\Table\YaliTable;
 
 class YaliResource extends BaseResource
 {
-    use WithPagination;
     use HasFilters;
-    use HasSearch;
     use HasPagination;
     use HasRecords;
-    
+    use HasSearch;
+    use WithPagination;
+
     protected static $view = 'yali::pages.yali-resource-page';
 
     public function mount()
@@ -33,10 +33,10 @@ class YaliResource extends BaseResource
         $records = $this->getRecords($this->getModelQuery());
         $table->setRecords($records);
         $table->setModel(static::getModel());
-        
+
         return [
             'table' => $table,
-            'records'=> $records,
+            'records' => $records,
             'columns' => $table->getColumns(),
         ];
     }
@@ -45,7 +45,7 @@ class YaliResource extends BaseResource
     {
         $table = static::getTable();
 
-        if (!$table->hasActions()) {
+        if (! $table->hasActions()) {
             $table = static::getResourceTableActions($table);
         }
 

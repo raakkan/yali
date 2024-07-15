@@ -5,8 +5,11 @@ namespace Raakkan\Yali\Core\Forms\Concerns;
 trait HasFormSubmission
 {
     protected $formSubmitMethod = 'submit';
+
     protected $submitCallback;
+
     protected $beforeFormSubmitCallback;
+
     protected $afterFormSubmitCallback;
 
     public function getFormSubmitMethod()
@@ -17,6 +20,7 @@ trait HasFormSubmission
     public function setFormSubmitMethod($method)
     {
         $this->formSubmitMethod = $method;
+
         return $this;
     }
 
@@ -47,6 +51,7 @@ trait HasFormSubmission
     public function submit(callable $callback)
     {
         $this->submitCallback = $callback;
+
         return $this;
     }
 
@@ -58,12 +63,14 @@ trait HasFormSubmission
     public function beforeFormSubmit(callable $callback)
     {
         $this->beforeFormSubmitCallback = $callback;
+
         return $this;
     }
 
     public function afterFormSubmit(callable $callback)
     {
         $this->afterFormSubmitCallback = $callback;
+
         return $this;
     }
 }

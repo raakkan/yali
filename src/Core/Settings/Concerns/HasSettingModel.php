@@ -16,6 +16,7 @@ trait HasSettingModel
     public function getModel()
     {
         $model = $this->model;
+
         return new $model();
     }
 
@@ -44,10 +45,20 @@ trait HasSettingModel
     public function attachDbValueToField()
     {
         $model = $this->getModelQuery()->where('source', $this->getSource())->where('group', $this->getGroup())->where('name', $this->getName())->first();
-        
+
         if ($model) {
             $this->setValue(json_decode($model->value));
             $this->setOldValue(json_decode($model->value));
+
+            $this->inputField->setValue(json_decode($model->value));
+            $this->inputField->setOldValue(json_decode($model->value));
         }
+    }
+
+    public function save()
+    {
+        $model = $this->getModelQuery()->where('source', $this->getSource())->where('group', $this->getGroup())->where('name', $this->getName())->first();
+        $model->value = json_encode($this->getValue());
+        $model->save();
     }
 }

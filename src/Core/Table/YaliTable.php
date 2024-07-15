@@ -2,25 +2,25 @@
 
 namespace Raakkan\Yali\Core\Table;
 
+use Raakkan\Yali\Core\Actions\Concerns\HasActions;
+use Raakkan\Yali\Core\Actions\Concerns\HasSource;
+use Raakkan\Yali\Core\Filters\Concerns\HasFilters;
 use Raakkan\Yali\Core\Filters\SortFilter;
-use Raakkan\Yali\Core\View\YaliComponent;
+use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
 use Raakkan\Yali\Core\Support\Concerns\Makable;
 use Raakkan\Yali\Core\Table\Concerns\HasColumns;
-use Raakkan\Yali\Core\Actions\Concerns\HasSource;
-use Raakkan\Yali\Core\Actions\Concerns\HasActions;
-use Raakkan\Yali\Core\Filters\Concerns\HasFilters;
 use Raakkan\Yali\Core\Table\Concerns\HasModelRecords;
-use Raakkan\Yali\Core\Support\Concerns\Database\HasModel;
+use Raakkan\Yali\Core\View\YaliComponent;
 
 class YaliTable extends YaliComponent
 {
-    use Makable;
-    use HasFilters;
     use HasActions;
     use HasColumns;
-    use HasModelRecords;
+    use HasFilters;
     use HasModel;
+    use HasModelRecords;
     use HasSource;
+    use Makable;
 
     protected $componentName = 'table';
 
@@ -38,6 +38,7 @@ class YaliTable extends YaliComponent
     public function perPage($perPage)
     {
         $this->perPage = $perPage;
+
         return $this;
     }
 
@@ -49,10 +50,11 @@ class YaliTable extends YaliComponent
     public function getFilters()
     {
         $sortableColumns = $this->getSortableColumns();
-        
+
         foreach ($sortableColumns as $column) {
             $this->filters = array_merge($this->filters, [SortFilter::make($column->getName())->setValue($column->getSortDirection())->hidden()]);
         }
+
         return $this->filters;
     }
 
@@ -62,6 +64,7 @@ class YaliTable extends YaliComponent
             'enabled' => true,
             'maxWidth' => $maxWidth,
         ];
+
         return $this;
     }
 
@@ -70,6 +73,7 @@ class YaliTable extends YaliComponent
         $this->responsiveConfig = [
             'enabled' => false,
         ];
+
         return $this;
     }
 
@@ -77,5 +81,4 @@ class YaliTable extends YaliComponent
     {
         return $this->responsiveConfig;
     }
-
 }

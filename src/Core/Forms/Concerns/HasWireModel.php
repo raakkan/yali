@@ -13,18 +13,18 @@ trait HasWireModel
 
     public function getWireModelAttribute()
     {
-        return 'wire:model=' . $this->getWireModel();
+        return 'wire:model='.$this->getWireModel();
     }
 
     public function setWireModel($model)
     {
         $this->wireModel = $model;
+
         return $this;
     }
 
     public function hasWireModel()
     {
-        return !empty($this->wireModel);
+        return ! empty($this->wireModel);
     }
 }
-

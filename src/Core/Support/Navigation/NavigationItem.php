@@ -1,9 +1,8 @@
-<?php 
+<?php
 
 namespace Raakkan\Yali\Core\Support\Navigation;
 
 use Raakkan\Yali\Core\Support\Concerns\Makable;
-
 
 class NavigationItem
 {
@@ -57,6 +56,7 @@ class NavigationItem
     public function getSlug()
     {
         $slug = trim($this->slug, '/');
+
         return $slug;
     }
 
@@ -70,7 +70,7 @@ class NavigationItem
     public function isActive()
     {
         $currentUrl = request()->url();
-        
+
         $itemUrl = url($this->getPath());
 
         // if ($this->getLabel() === 'Users') {
@@ -80,7 +80,7 @@ class NavigationItem
         if ($currentUrl === $itemUrl) {
             return true;
         }
-        
+
         if ($this->hasChildrens()) {
             foreach ($this->childrens as $child) {
                 if ($child->isActive()) {
@@ -90,8 +90,8 @@ class NavigationItem
                 $childPath = $child->getPath();
                 $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $childPath);
                 $pattern = str_replace('/', '\/', $pattern);
-                
-                if (preg_match('/^' . $pattern . '$/', parse_url($currentUrl, PHP_URL_PATH), $matches)) {
+
+                if (preg_match('/^'.$pattern.'$/', parse_url($currentUrl, PHP_URL_PATH), $matches)) {
                     // Extract the model key from the URL
                     $modelKey = $matches[1] ?? null;
 
@@ -138,7 +138,7 @@ class NavigationItem
 
     public function getPath()
     {
-        return $this->path ?? '/admin/' . $this->slug;
+        return $this->path ?? '/admin/'.$this->slug;
     }
 
     public function isHidden()

@@ -29,7 +29,7 @@ trait Cacheable
 
     public function isCacheDisabled()
     {
-        return !$this->cache;
+        return ! $this->cache;
     }
 
     public function isCacheEnabled()

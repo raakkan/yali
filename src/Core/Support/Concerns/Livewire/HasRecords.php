@@ -2,9 +2,9 @@
 
 namespace Raakkan\Yali\Core\Support\Concerns\Livewire;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 trait HasRecords
 {
@@ -20,7 +20,7 @@ trait HasRecords
 
         return $query->where($key, $value)->firstOrFail();
     }
-    
+
     public function getRecords(Builder $query, $dynamicScope = null)
     {
         $model = $query->getModel();
@@ -39,7 +39,7 @@ trait HasRecords
             $query = $this->applyFilters($query);
         }
 
-        if (property_exists($this, 'search') && !empty($this->search)) {
+        if (property_exists($this, 'search') && ! empty($this->search)) {
             $query = $this->applySearch($query);
         }
 
@@ -62,6 +62,7 @@ trait HasRecords
         foreach ($this->dynamicScopes as $scope) {
             $query = $scope($query);
         }
+
         return $query;
     }
 

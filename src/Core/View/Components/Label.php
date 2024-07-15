@@ -15,24 +15,25 @@ class Label extends BaseComponent
     public function setFor($for)
     {
         $this->for = $for;
+
         return $this;
     }
 
     public function render()
     {
         $classString = $this->getClasses() !== '' ? $this->getClasses() : 'label';
-        $styleString = $this->getStyles() !== '' ? 'style="' . $this->getStyles() . '"' : '';
+        $styleString = $this->getStyles() !== '' ? 'style="'.$this->getStyles().'"' : '';
 
         $html = '<label';
 
         if ($this->for !== null) {
-            $html .= ' for="' . $this->for . '"';
+            $html .= ' for="'.$this->for.'"';
         }
 
-        $html .= ' class="' . $classString . '" ' . $styleString;
+        $html .= ' class="'.$classString.'" '.$styleString;
 
         foreach ($this->attributes as $attribute => $value) {
-            $html .= ' ' . $attribute . '="' . $value . '"';
+            $html .= ' '.$attribute.'="'.$value.'"';
         }
 
         $html .= '>';

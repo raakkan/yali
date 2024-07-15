@@ -2,17 +2,19 @@
 
 namespace Raakkan\Yali\Core\View;
 
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use Raakkan\Yali\Core\Support\Concerns\UI\Iconable;
 use Raakkan\Yali\Core\View\Components\BaseComponent;
 
 class InfoMessage extends BaseComponent
 {
     use Iconable;
-    
+
     private $type = 'info';
+
     private $dismissible = false;
+
     private $message;
 
     public function __construct($message = '', $type = 'info', $dismissible = false)
@@ -25,62 +27,70 @@ class InfoMessage extends BaseComponent
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
     public function setDismissible($dismissible)
     {
         $this->dismissible = $dismissible;
+
         return $this;
     }
 
     public function setMessage($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
     public function message($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
     public function danger()
     {
         $this->type = 'danger';
-        return $this; 
+
+        return $this;
     }
 
     public function success()
     {
         $this->type = 'success';
-        return $this; 
+
+        return $this;
     }
 
     public function info()
     {
         $this->type = 'info';
-        return $this; 
+
+        return $this;
     }
 
     public function warning()
     {
         $this->type = 'warning';
-        return $this; 
+
+        return $this;
     }
 
     // TODO: need to improve message render styling
     public function render()
     {
-        $classString = 'alert alert-' . $this->type;
+        $classString = 'alert alert-'.$this->type;
         $classString .= $this->dismissible ? ' alert-dismissible' : '';
-        $styleString = $this->getStyles() !== '' ? 'style="' . $this->getStyles() . '"' : '';
+        $styleString = $this->getStyles() !== '' ? 'style="'.$this->getStyles().'"' : '';
 
-        $html = '<div class="' . $classString . '" ' . $styleString;
+        $html = '<div class="'.$classString.'" '.$styleString;
 
         foreach ($this->attributes as $attribute => $value) {
-            $html .= ' ' . $attribute . '="' . $value . '"';
+            $html .= ' '.$attribute.'="'.$value.'"';
         }
 
         $html .= '>';
@@ -90,11 +100,11 @@ class InfoMessage extends BaseComponent
         }
 
         if ($this->icon !== null) {
-            $html .= Blade::render('<x-yali::icon name="' . $this->icon . '" />');
+            $html .= Blade::render('<x-yali::icon name="'.$this->icon.'" />');
         }
 
         if ($this->label !== null) {
-            $html .= '<strong>' . $this->label . '</strong> ';
+            $html .= '<strong>'.$this->label.'</strong> ';
         }
 
         if ($this->message !== null) {

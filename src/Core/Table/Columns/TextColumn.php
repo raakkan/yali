@@ -12,7 +12,8 @@ class TextColumn extends TableColumn
     {
         $this->renderCallback = function ($data) use ($prefix) {
             $text = $this->limitLength ? Str::limit($data[$this->getName()], $this->limitLength) : $data[$this->getName()];
-            return $prefix . $text;
+
+            return $prefix.$text;
         };
 
         return $this;
@@ -22,7 +23,8 @@ class TextColumn extends TableColumn
     {
         $this->renderCallback = function ($data) use ($suffix) {
             $text = $this->limitLength ? Str::limit($data[$this->getName()], $this->limitLength) : $data[$this->getName()];
-            return $text . $suffix;
+
+            return $text.$suffix;
         };
 
         return $this;

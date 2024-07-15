@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('source_name')->nullable();
             $table->timestamps();
         });
-        
+
     }
 
     public function down()

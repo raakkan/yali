@@ -3,40 +3,42 @@
 namespace Raakkan\Yali\Core\Forms\Fields;
 
 use Illuminate\Support\Str;
-use Raakkan\Yali\Core\View\YaliComponent;
-use Raakkan\Yali\Core\Support\Concerns\HasName;
-use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Forms\Concerns\HandlesFieldRelationship;
 use Raakkan\Yali\Core\Forms\Concerns\HasColSpan;
-use Raakkan\Yali\Core\Forms\Concerns\HasWireModel;
 use Raakkan\Yali\Core\Forms\Concerns\HasFieldValue;
 use Raakkan\Yali\Core\Forms\Concerns\HasValidation;
-use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
-use Raakkan\Yali\Core\Support\Concerns\HasPlaceholder;
+use Raakkan\Yali\Core\Forms\Concerns\HasWireModel;
 use Raakkan\Yali\Core\Support\Concerns\Components\HasLabel;
+use Raakkan\Yali\Core\Support\Concerns\HasName;
+use Raakkan\Yali\Core\Support\Concerns\HasPlaceholder;
 use Raakkan\Yali\Core\Support\Concerns\Livewire\HasLivewire;
-use Raakkan\Yali\Core\Forms\Concerns\HandlesFieldRelationship;
+use Raakkan\Yali\Core\Support\Concerns\Makable;
+use Raakkan\Yali\Core\Support\Concerns\UI\Stylable;
+use Raakkan\Yali\Core\View\YaliComponent;
 
 // encrypt and decrypt
 abstract class Field extends YaliComponent
 {
-    use Makable;
-    use HasName;
+    use HandlesFieldRelationship;
+    use HasColSpan;
+    use HasFieldValue;
     use HasLabel { getLabel as getLabelMethod; }
+    use HasLivewire;
+    use HasName;
     use HasPlaceholder { getPlaceholder as getPlaceholderMethod; }
     use HasValidation;
-    use Stylable;
-    use HasLivewire;
-    use HasColSpan;
-    use HandlesFieldRelationship;
-    use HasFieldValue;
     use HasWireModel;
+    use Makable;
+    use Stylable;
 
     protected $componentName = 'field';
 
     protected $type = '';
 
     public $infoMessage;
+
     public $formId;
+
     protected $model;
 
     public function __construct($name)
@@ -46,10 +48,10 @@ abstract class Field extends YaliComponent
 
     public function getLabel()
     {
-        if($this->disableLabel) {
+        if ($this->disableLabel) {
             return '';
         }
-        
+
         return $this->label ?? Str::of($this->name)->replace('_', ' ')->title();
     }
 
@@ -58,11 +60,11 @@ abstract class Field extends YaliComponent
         $placeholder = $this->placeholder;
 
         if (empty($placeholder)) {
-            $placeholder = isset($this->label) ?? 'Enter ' . Str::of($this->label)->replace('_', ' ')->title();
+            $placeholder = isset($this->label) ?? 'Enter '.Str::of($this->label)->replace('_', ' ')->title();
         }
 
         if (empty($placeholder)) {
-            $placeholder = 'Enter ' . Str::of($this->name)->replace('_', ' ')->title();
+            $placeholder = 'Enter '.Str::of($this->name)->replace('_', ' ')->title();
         }
 
         if (empty($placeholder)) {
@@ -87,6 +89,7 @@ abstract class Field extends YaliComponent
     public function infoMessage($message)
     {
         $this->infoMessage = $message;
+
         return $this;
     }
 
@@ -95,16 +98,17 @@ abstract class Field extends YaliComponent
         return $this->infoMessage;
     }
 
-     public function getFormId()
-     {
-         return $this->formId;
-     }
+    public function getFormId()
+    {
+        return $this->formId;
+    }
 
-      public function setFormId($formId)
-      {
-         $this->formId = $formId;
-         return $this;
-      }
+    public function setFormId($formId)
+    {
+        $this->formId = $formId;
+
+        return $this;
+    }
 
     public function getLivewireData()
     {
@@ -118,6 +122,7 @@ abstract class Field extends YaliComponent
     public function setModel($model)
     {
         $this->model = $model;
+
         return $this;
     }
 

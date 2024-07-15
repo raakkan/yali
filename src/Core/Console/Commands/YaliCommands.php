@@ -3,8 +3,6 @@
 namespace Raakkan\Yali\Core\Console\Commands;
 
 use Illuminate\Console\Command;
-use Raakkan\Yali\Core\Console\Commands\MakeResourceCommand;
-use Raakkan\Yali\Core\Console\Commands\LoadTranslationsCommand;
 
 class YaliCommands extends Command
 {

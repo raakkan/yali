@@ -50,7 +50,7 @@ trait Borderable
      */
     public function borderWidth($width)
     {
-        $this->borderWidth = 'border-' . $width;
+        $this->borderWidth = 'border-'.$width;
 
         return $this;
     }
@@ -73,7 +73,7 @@ trait Borderable
      */
     public function borderStyle($style)
     {
-        $this->borderStyle = 'border-' . $style;
+        $this->borderStyle = 'border-'.$style;
 
         return $this;
     }
@@ -97,9 +97,9 @@ trait Borderable
     public function borderColor($color)
     {
         if ($color instanceof \BackedEnum) {
-            $this->borderColor = 'border-' . $color->value;
+            $this->borderColor = 'border-'.$color->value;
         } else {
-            $this->borderColor = 'border-' . $color;
+            $this->borderColor = 'border-'.$color;
         }
 
         return $this;
@@ -129,7 +129,7 @@ trait Borderable
             } elseif (str_contains($radius, 'rounded')) {
                 $this->rounded = $radius;
             } else {
-                $this->rounded = 'rounded-' . $radius;
+                $this->rounded = 'rounded-'.$radius;
             }
         } else {
             $this->rounded = null;
@@ -145,7 +145,7 @@ trait Borderable
      */
     public function hasBorderWidth()
     {
-        return !empty($this->borderWidth);
+        return ! empty($this->borderWidth);
     }
 
     /**
@@ -155,7 +155,7 @@ trait Borderable
      */
     public function hasBorderStyle()
     {
-        return !empty($this->borderStyle);
+        return ! empty($this->borderStyle);
     }
 
     /**
@@ -165,7 +165,7 @@ trait Borderable
      */
     public function hasBorderColor()
     {
-        return !empty($this->borderColor);
+        return ! empty($this->borderColor);
     }
 
     /**
@@ -175,7 +175,7 @@ trait Borderable
      */
     public function hasRounded()
     {
-        return !empty($this->rounded);
+        return ! empty($this->rounded);
     }
 
     /**

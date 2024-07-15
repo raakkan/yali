@@ -4,19 +4,19 @@ namespace Raakkan\Yali\Core\Plugin;
 
 use Illuminate\Support\ServiceProvider;
 use Raakkan\Yali\Core\Pages\Concerns\HasPages;
-use Raakkan\Yali\Core\Widgets\Traits\HasWidgets;
-use Raakkan\Yali\Core\Settings\Traits\HasSettings;
+use Raakkan\Yali\Core\Plugin\Interfaces\PluginInterface;
 use Raakkan\Yali\Core\Plugin\Traits\PluginJsonTrait;
 use Raakkan\Yali\Core\Resources\Concerns\HasResources;
-use Raakkan\Yali\Core\Plugin\Interfaces\PluginInterface;
+use Raakkan\Yali\Core\Settings\Traits\HasSettings;
+use Raakkan\Yali\Core\Widgets\Traits\HasWidgets;
 
 abstract class YaliPlugin extends ServiceProvider implements PluginInterface
 {
-    use PluginJsonTrait;
-    use HasResources;
     use HasPages;
+    use HasResources;
     use HasSettings;
     use HasWidgets;
+    use PluginJsonTrait;
 
     /**
      * Register the plugin's services.
@@ -79,7 +79,7 @@ abstract class YaliPlugin extends ServiceProvider implements PluginInterface
     public function loadAssets()
     {
         $this->publishes([
-            $this->getPluginPath('resources/assets') => public_path('vendor/' . strtolower($this->getName())),
+            $this->getPluginPath('resources/assets') => public_path('vendor/'.strtolower($this->getName())),
         ], 'assets');
     }
 
@@ -96,19 +96,18 @@ abstract class YaliPlugin extends ServiceProvider implements PluginInterface
     /**
      * Get the full path to a specific directory within the plugin.
      *
-     * @param string $path
+     * @param  string  $path
      * @return string
      */
     protected function getPluginPath($path)
     {
-        return plugin_path(strtolower($this->getName())) . DIRECTORY_SEPARATOR . $path;
+        return plugin_path(strtolower($this->getName())).DIRECTORY_SEPARATOR.$path;
     }
 
     public function generatePluginId()
     {
         return md5(static::class);
     }
-
 }
 
 // $migrationFiles = glob(database_path('migrations/*.php'));

@@ -8,11 +8,12 @@ trait HasColSpan
 
     public function colSpan($span)
     {
-        if (!$this->isValidColSpan($span)) {
+        if (! $this->isValidColSpan($span)) {
             throw new \InvalidArgumentException("Invalid col span value: {$span}. It should be between 1 and 12.");
         }
 
         $this->colSpan = $span;
+
         return $this;
     }
 

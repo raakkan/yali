@@ -22,12 +22,12 @@ class YaliMigrateCommand extends Command
         $migrator = new YaliMigrator();
         $models = $migrator->collectModels();
 
-        $this->info('Collected models: ' . $models->map(function ($model) {
+        $this->info('Collected models: '.$models->map(function ($model) {
             return basename($model->getFilename(), '.php');
         })->implode(', '));
 
         foreach ($models as $model) {
-            $modelClass = 'App\\Models\\' . basename($model->getFilename(), '.php');
+            $modelClass = 'App\\Models\\'.basename($model->getFilename(), '.php');
             if (method_exists($modelClass, 'getTranslationTable')) {
                 $table = $modelClass::getTranslationTable();
                 $this->info("Creating translation table for model: {$modelClass} (Table: {$table->getTable()})");

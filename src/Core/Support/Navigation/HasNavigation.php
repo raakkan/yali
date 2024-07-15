@@ -10,12 +10,16 @@ trait HasNavigation
 
     // Navigation Item
     protected static $navigationLabel = '';
+
     protected static $navigationIcon = '';
+
     protected static $navigationOrder = 0;
 
     // Navigation Group
     protected static $navigationGroup = '';
+
     protected static $navigationGroupIcon = '';
+
     protected static $navigationGroupOrder = 0;
 
     public static function getNavigationLabel(): string
@@ -32,7 +36,7 @@ trait HasNavigation
     {
         return static::$navigationOrder;
     }
- 
+
     public static function getSlug()
     {
         return static::$slug;
@@ -58,7 +62,7 @@ trait HasNavigation
         return static::$navigationGroupOrder;
     }
 
-    public static function createNavigationItem(): NavigationItem | NavigationGroup
+    public static function createNavigationItem(): NavigationItem|NavigationGroup
     {
         $navigationItem = NavigationItem::make(
             label: static::getNavigationLabel(),
@@ -96,7 +100,7 @@ trait HasNavigation
             }
         }
 
-        if(static::getNavigationGroup()) {
+        if (static::getNavigationGroup()) {
             $navigationGroup = NavigationGroup::make(static::getNavigationGroup());
             $navigationGroup->setIcon(static::getNavigationGroupIcon());
             $navigationGroup->setOrder(static::getNavigationGroupOrder());
@@ -108,5 +112,4 @@ trait HasNavigation
 
         return $navigationItem;
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Raakkan\Yali\Core\Settings;
+
 use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 class SettingsManager
@@ -21,13 +22,13 @@ class SettingsManager
                     $setting = $setting->setAlreadyExistedField($this->settings[$id]);
                     $id = $this->generateUniqueId($id);
 
-                    YaliLog::warning('Setting field ' . $setting->getName() . ' already exists. A new id will be generated: ' . $id, ['setting' => $setting->toArray()]);
+                    YaliLog::warning('Setting field '.$setting->getName().' already exists. A new id will be generated: '.$id, ['setting' => $setting->toArray()]);
                 }
-                
+
                 $this->settings[$id] = $setting;
             }
         }
-        
+
         return $this;
     }
 
@@ -45,7 +46,7 @@ class SettingsManager
     {
         foreach ($this->settings as $setting) {
             if ($setting->getName() === $name) {
-                return $setting;
+                return $this->attachDb($setting);
             }
         }
     }
@@ -57,9 +58,9 @@ class SettingsManager
         foreach ($this->settings as $setting) {
             if ($setting->getSource() === $source) {
                 if ($includeHidden) {
-                    $settings[] = $setting;
-                }elseif (!$setting->isHidden()) {
-                    $settings[] = $setting;
+                    $settings[] = $this->attachDb($setting);
+                } elseif (! $setting->isHidden()) {
+                    $settings[] = $this->attachDb($setting);
                 }
             }
         }
@@ -74,9 +75,9 @@ class SettingsManager
         foreach ($this->settings as $setting) {
             if ($setting->getGroup() === $group) {
                 if ($includeHidden) {
-                    $settings[] = $setting;
-                }elseif (!$setting->isHidden()) {
-                    $settings[] = $setting;
+                    $settings[] = $this->attachDb($setting);
+                } elseif (! $setting->isHidden()) {
+                    $settings[] = $this->attachDb($setting);
                 }
             }
         }
@@ -91,14 +92,27 @@ class SettingsManager
         foreach ($this->settings as $setting) {
             if ($setting->getSource() === $source && $setting->getGroup() === $group) {
                 if ($includeHidden) {
-                    $settings[] = $setting;
-                }elseif (!$setting->isHidden()) {
-                    $settings[] = $setting;
+                    $settings[] = $this->attachDb($setting);
+                } elseif (! $setting->isHidden()) {
+                    $settings[] = $this->attachDb($setting);
                 }
             }
         }
 
         return $settings;
+    }
+
+    public function attachDb(SettingField $field): SettingField
+    {
+        if ($field->isStoreTypeDatabase()) {
+            if (! $field->checkSettingExistsInDb()) {
+                $field->createSettingInDb();
+            }
+
+            $field->attachDbValueToField();
+        }
+
+        return $field;
     }
 
     protected function idExists($id)
@@ -112,7 +126,7 @@ class SettingsManager
         $uniqueId = $id;
 
         while ($this->idExists($uniqueId)) {
-            $uniqueId = $id . '_' . $counter;
+            $uniqueId = $id.'_'.$counter;
             $counter++;
         }
 

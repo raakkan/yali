@@ -7,13 +7,19 @@ use Raakkan\Yali\Core\View\Button;
 trait ModalConfirmation
 {
     public $confirmation = false;
+
     public $simpleConfirmation = false;
+
     public $confirmationTitle;
+
     public $confirmationMessage;
 
     public $confirmationButton;
+
     public $confirmationButtonLabel;
+
     public $confirmationButtonLoadingLabel;
+
     public $confirmationButtonCustomizeCallback;
 
     // Adding array for multiple before confirmation open callbacks
@@ -44,7 +50,7 @@ trait ModalConfirmation
         if (property_exists($this, 'isModal') && $this->isModal) {
             $this->isModal = false;
         }
-        
+
         return $this;
     }
 
@@ -60,6 +66,7 @@ trait ModalConfirmation
         } elseif (is_string($title)) {
             $this->confirmationTitle = $callback ? $callback($title, $this) : $title;
         }
+
         return $this;
     }
 
@@ -75,6 +82,7 @@ trait ModalConfirmation
         } elseif (is_string($message)) {
             $this->confirmationMessage = $callback ? $callback($message, $this) : $message;
         }
+
         return $this;
     }
 
@@ -86,6 +94,7 @@ trait ModalConfirmation
     public function confirmationButtonLoadingLabel($loadingLabel)
     {
         $this->confirmationButtonLoadingLabel = $loadingLabel;
+
         return $this;
     }
 
@@ -98,11 +107,11 @@ trait ModalConfirmation
     {
         $button = $this->confirmationButton;
 
-        if (!$button) {
+        if (! $button) {
             $button = Button::make()
-            ->classes(['btn', 'btn-danger', 'btn-sm', 'btn-full-width'])
-            ->label($this->getConfirmationButtonLabel())
-            ->setLoadingLabel($this->getConfirmationButtonLoadingLabel());
+                ->classes(['btn', 'btn-danger', 'btn-sm', 'btn-full-width'])
+                ->label($this->getConfirmationButtonLabel())
+                ->setLoadingLabel($this->getConfirmationButtonLoadingLabel());
         }
 
         if (is_callable($this->confirmationButtonCustomizeCallback)) {
@@ -122,12 +131,14 @@ trait ModalConfirmation
     public function confirmationButtonLabel($label)
     {
         $this->confirmationButtonLabel = $label;
+
         return $this;
     }
 
     public function cunstomizeSubmitButton($callback)
     {
         $this->confirmationButtonCustomizeCallback = $callback;
+
         return $this;
     }
 
@@ -137,6 +148,7 @@ trait ModalConfirmation
             'callback' => $callback,
             'message' => $failureMessage,
         ];
+
         return $this;
     }
 
@@ -144,10 +156,11 @@ trait ModalConfirmation
     {
         foreach ($this->beforeConfirmationOpenCallbacks as $item) {
             $callback = $item['callback'];
-            if (!call_user_func($callback, $this)) {
+            if (! call_user_func($callback, $this)) {
                 return $item['message'];
             }
         }
+
         return true;
     }
 }
