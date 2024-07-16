@@ -52,4 +52,14 @@ class Language extends Model
     {
         return self::where('is_default', true)->first();
     }
+
+    public static function setDefaultLanguage($code)
+    {
+        self::where('is_default', true)->update(['is_default' => false]);
+
+        $language = self::where('code', $code)->first();
+        $language->is_default = true;
+        $language->is_active = true;
+        $language->save();
+    }
 }

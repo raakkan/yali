@@ -76,7 +76,6 @@
         <div class="mt-16 md:mt-14">
             {{-- TODO: Breadcrumbs not finished yet --}}
             {{-- {{ Raakkan\Yali\Core\Support\Breadcrumb\Breadcrumb::make(request())->render() }} --}}
-
             {{ $slot }}
         </div>
     </div>

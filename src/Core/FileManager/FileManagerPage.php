@@ -11,6 +11,7 @@ class FileManagerPage extends YaliPage
     protected static $slug = 'file-manager';
 
     protected static $navigationLabel = 'File Manager';
+    protected static $navigationIcon = 'file-manager';
 
     protected static $navigationOrder = 98;
 

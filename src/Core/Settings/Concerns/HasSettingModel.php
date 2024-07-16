@@ -8,6 +8,9 @@ trait HasSettingModel
 {
     protected $model = YaliSettingsModel::class;
 
+    protected $beforeSaveCallback;
+    protected $afterSaveCallback;
+
     public function getModelQuery()
     {
         return $this->getModel()->newQuery();
@@ -57,8 +60,28 @@ trait HasSettingModel
 
     public function save()
     {
+        if ($this->beforeSaveCallback) {
+            call_user_func($this->beforeSaveCallback, $this);
+        }
+
         $model = $this->getModelQuery()->where('source', $this->getSource())->where('group', $this->getGroup())->where('name', $this->getName())->first();
         $model->value = json_encode($this->getValue());
         $model->save();
+
+        if ($this->afterSaveCallback) {
+            call_user_func($this->afterSaveCallback, $this);
+        }
+    }
+
+    public function beforeSave(callable $callback)
+    {
+        $this->beforeSaveCallback = $callback;
+        return $this;
+    }
+
+    public function afterSave(callable $callback)
+    {
+        $this->afterSaveCallback = $callback;
+        return $this;
     }
 }

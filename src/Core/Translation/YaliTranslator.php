@@ -11,6 +11,7 @@ class YaliTranslator extends Translator
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $locale = $locale ?: $this->locale;
+        // dd($locale, $key);
 
         $translation = $this->getTranslationFromDatabase($key, $locale);
 
@@ -52,7 +53,7 @@ class YaliTranslator extends Translator
     protected function getTranslationFromDatabase($key, $locale)
     {
         [$namespace, $group, $item] = $this->parseKey($key);
-
+        
         return Cache::rememberForever("translation_{$locale}_{$group}_{$item}", function () use ($item, $group, $locale) {
             return Translation::where('key', $item)
                 ->where('group', $group)

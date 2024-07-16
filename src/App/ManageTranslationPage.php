@@ -60,14 +60,16 @@ class ManageTranslationPage extends BaseResource
     public static function actions()
     {
         return [
-            CreateAction::make()->modal()->action(function ($action, $model, $data) {
+            CreateAction::make()->modal()->action(function ($action, $model, $form) {
                 if ($action->hasAdditionalData()) {
                     $languageCode = $action->getAdditionalData()['language_code'];
                     $language = Language::where('code', $languageCode)->first();
 
                     if ($language) {
-                        foreach ($data as $key => $value) {
-                            $model->{$key} = $value;
+                        $fields = $form->getFields();
+
+                        foreach ($fields as $field) {
+                            $model->{$field->getName()} = $field->getValue();
                         }
 
                         $model->language()->associate($language);

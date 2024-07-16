@@ -2,10 +2,12 @@
 
 namespace Raakkan\Yali\Core\Settings;
 
-use Raakkan\Yali\Core\Pages\BasePage;
-use Raakkan\Yali\Core\Support\Facades\YaliSetting;
-use Raakkan\Yali\Core\Support\Icon\IconManager;
 use Raakkan\Yali\Models\Language;
+use Raakkan\Yali\Core\Pages\BasePage;
+use Illuminate\Support\Facades\Artisan;
+use Raakkan\Yali\Core\Support\Icon\IconManager;
+use Raakkan\Yali\Core\Translation\LocaleConfig;
+use Raakkan\Yali\Core\Support\Facades\YaliSetting;
 
 class YaliSettingsPage extends BasePage
 {
@@ -51,7 +53,10 @@ class YaliSettingsPage extends BasePage
         return [
             SettingField::make('default_language')->group('general')->select()->customizeInputField(function ($inputField) {
                 $inputField->placeholder('Select Default Language');
-            })->options($languages)->default('en'),
+            })->options($languages)->default('en')->afterSave(function ($field) {
+                Language::setDefaultLanguage($field->getValue());
+            }),
+
             SettingField::make('icon_pack')->select()->group('icons')->customizeInputField(function ($inputField) {
                 $inputField->placeholder('Select Icon Pack');
             })->options($iconSelectData),
@@ -71,5 +76,7 @@ class YaliSettingsPage extends BasePage
             $field->setValue($this->settings[$field->getSource()][$field->getGroup()][$field->getName()]);
             $field->save();
         }
+
+        $this->dispatch('toast', type: 'success', message: 'Settings saved successfully.');
     }
 }

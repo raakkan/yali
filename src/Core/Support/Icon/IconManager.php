@@ -3,6 +3,7 @@
 namespace Raakkan\Yali\Core\Support\Icon;
 
 use Illuminate\Support\Facades\File;
+use Raakkan\Yali\Core\Support\Facades\YaliLog;
 
 class IconManager
 {
@@ -56,10 +57,12 @@ class IconManager
     public function loadIcons()
     {
         $this->loadIconPacks();
+        
+        $activeIconPack = yali_setting('icon_pack', 'icons');
+        
+        $icons = $this->getIconPack($activeIconPack)['icons'];
 
-        $icons = $this->getIconPacks()[0]['icons'];
-
-        $directory = $this->getIconPacks()[0]['path'];
+        $directory = $this->getIconPack($activeIconPack)['path'];
 
         foreach ($icons as $icon) {
             $iconName = $icon['name'];
@@ -69,6 +72,16 @@ class IconManager
                 'path' => $iconPath,
             ];
         }
+    }
+
+    public function getIconPack($iconPackName)
+    {
+        foreach ($this->iconPacks as $iconPack) {
+            if ($iconPack['name'] == $iconPackName) {
+                return $iconPack;
+            }
+        }
+        return null;
     }
 
     public function getIcon($iconName)
@@ -86,13 +99,14 @@ class IconManager
         $iconHtml = file_get_contents($iconPath);
 
         if (! $iconHtml) {
+            YaliLog::error('IconManager: Invalid SVG icon: '. $iconName);
             return null;
         }
 
         // Check if the SVG is valid
         $svgXml = simplexml_load_string($iconHtml);
         if ($svgXml === false) {
-            // SVG is invalid
+            YaliLog::error('IconManager: Invalid SVG icon: '. $iconName);
             return null;
         }
 

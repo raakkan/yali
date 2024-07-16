@@ -6,7 +6,7 @@
         ],
         'icon' => [
             'label' => 'Icon Settings',
-            'icon' => '',
+            'icon' => 'icon',
         ],
     ]">
         <div x-show="activeTab === 'general'" class="space-y-6" wire:key="general">

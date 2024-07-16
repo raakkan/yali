@@ -62,7 +62,7 @@
                                 @if (!$hideCloseButton)
                                     <button type="button" class="btn btn-transparent btn-sm btn-icon "
                                         {{ $attributes->whereStartsWith('x-on:click') }}>
-                                        <x-yali::icon name="x" class="h-5 w-5" />
+                                        <x-yali::icon name="close" class="h-5 w-5" />
                                     </button>
                                 @endif
                             </div>

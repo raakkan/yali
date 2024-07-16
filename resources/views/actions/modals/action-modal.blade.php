@@ -28,7 +28,7 @@
             $closeIconButton->setAttributes([
                 'wire:click' => 'cancelAction',
             ]);
-            $closeIconButton->icon('x');
+            $closeIconButton->icon('close');
         @endphp
 
         <x-slot name="button">

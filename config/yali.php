@@ -2,7 +2,7 @@
 
 return [
     'locales' => [
-        'default' => 'ar',
+        'default' => 'en',
         'locales' => ['en', 'ar'],
     ],
 ];

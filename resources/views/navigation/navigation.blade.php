@@ -19,8 +19,8 @@
                             <x-yali::navigation-icon :icon="$item->getIcon()" />
                         @endif
                         <span>{{ $item->getName() }}</span>
-                        <x-yali::icon x-show="dropdownOpen" name="chevron-up" class="w-5 h-5" x-cloak />
-                        <x-yali::icon x-show="!dropdownOpen" name="chevron-down" class="w-5 h-5" x-cloak />
+                        <x-yali::icon x-show="dropdownOpen" name="arrow-up" class="w-5 h-5" x-cloak />
+                        <x-yali::icon x-show="!dropdownOpen" name="arrow-down" class="w-5 h-5" x-cloak />
                     </button>
                     <ul class="yali-sidebar-link-dropdown-list" x-show="dropdownOpen">
                         @foreach ($item->getItems() as $groupItem)

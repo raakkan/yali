@@ -17,3 +17,10 @@ if (! function_exists('yali_trans')) {
         return $default !== null ? $default : $key;
     }
 }
+
+if (! function_exists('yali_setting')) {
+    function yali_setting($key, $group = 'default')
+    {
+        return app('setting-loader')->group($group)->get($key);
+    }
+}

@@ -4,7 +4,7 @@ namespace Raakkan\Yali\Core\Settings\Concerns;
 
 trait HasSettingSource
 {
-    protected $source;
+    protected $source = 'yali';
 
     public function getSource()
     {
@@ -26,5 +26,10 @@ trait HasSettingSource
     public function isSource($source)
     {
         return $this->hasSource($source);
+    }
+
+    public function source($source)
+    {
+        return $this->setSource($source);
     }
 }

@@ -31,7 +31,7 @@ class LanguagesPage extends BaseResource
 
     protected static $navigationOrder = 99;
 
-    protected static $navigationIcon = 'language';
+    protected static $navigationIcon = 'languages';
 
     protected static $navigationLabel = 'Languages';
 
